@@ -1,10 +1,24 @@
 import Link from "next/link";
+import moment from "moment";
 
 import React from "react";
 import { SmallBaseIcon } from "@/public/icons";
 import LBClickAnimation from "../click-animation";
-import useTimeAgo from "@/hooks/useTimeAgo";
 import { ILBTokenCard } from "./types";
+
+const timeAgo = (date: string) => {
+  const now = moment();
+  const createdMoment = moment(date);
+  const daysThreshold = 7;
+
+  const diffInDays = now.diff(createdMoment, "days");
+
+  if (diffInDays >= daysThreshold) {
+    return createdMoment.format("DD/MM/YY");
+  } else {
+    return createdMoment.fromNow();
+  }
+};
 
 const LBTokenCard = ({
   createdAt,
@@ -13,7 +27,8 @@ const LBTokenCard = ({
   id,
   network,
 }: ILBTokenCard) => {
-  const timeAgo = useTimeAgo();
+  const date = timeAgo(createdAt);
+
   return (
     <Link href={`/${network}/tokens/new?id=${id}`}>
       <LBClickAnimation className="p-5 bg-white rounded-lg border border-primary-50 flex flex-col gap-4 w-full h-[275px]">
@@ -30,7 +45,7 @@ const LBTokenCard = ({
             </span>
           </div>
           <p className="text-primary-850 text-[14px] leading-[24px]">
-            Deployed {timeAgo(createdAt)}
+            Deployed {date}
           </p>
         </div>
       </LBClickAnimation>
