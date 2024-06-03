@@ -7,8 +7,8 @@ import { LBButton, LBLoaderAlt } from "@/components";
 import { SuccessIcon } from "@/public/icons";
 
 const Step2 = ({ network, tokenSymbol, tokenName }: StepProps) => {
-  const [step, setStep] = useState(1);
-  const [deployStep, setDeployStep] = useState(1);
+  const [step, setStep] = useState(0);
+  const [deployStep, setDeployStep] = useState(0);
 
   let stepText;
   switch (deployStep) {
