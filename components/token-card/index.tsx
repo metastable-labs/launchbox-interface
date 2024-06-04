@@ -13,11 +13,11 @@ const timeAgo = (date: string) => {
 
   const diffInDays = now.diff(createdMoment, "days");
 
-  if (diffInDays >= daysThreshold) {
+if (diffInDays >= daysThreshold) {
     return createdMoment.format("DD/MM/YY");
-  } else {
-    return createdMoment.fromNow();
-  }
+  } 
+
+   return createdMoment.fromNow();
 };
 
 const LBTokenCard = ({
