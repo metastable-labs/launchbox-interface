@@ -25,7 +25,13 @@ import ModePrimaryMobileIcon from "./mode-primary-mobile-icon.svg";
 import SearchIcon from "./search-icon.svg";
 import SecondarySelectIcon from "./secondary-select-icon.svg";
 import SuccessIcon from "./success-icon";
-import Flashicon from "./flash-icon.svg";
+import Flashicon from "./flash-icon";
+import CloseAltIcon from "./close-alt-icon.svg";
+import BackIcon from "./back-icon.svg";
+import DesktopIcon from "./desktop-icon.svg";
+import PhoneIcon from "./phone-icon.svg";
+import BrowserTopIcon from "./Browser top.svg";
+import TwitterIcon from "./twitter-icon.svg";
 
 export {
   TokenIcon,
@@ -56,4 +62,10 @@ export {
   SecondarySelectIcon,
   SuccessIcon,
   Flashicon,
+  CloseAltIcon,
+  BackIcon,
+  DesktopIcon,
+  PhoneIcon,
+  BrowserTopIcon,
+  TwitterIcon,
 };
