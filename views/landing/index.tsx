@@ -4,7 +4,7 @@ import { useState } from "react";
 import { LBLandingPageComponent } from "@/components";
 import { ILBLandingPageComponent } from "@/components/landing/types";
 
-const defaultData: ILBLandingPageComponent = {
+export const defaultData: ILBLandingPageComponent = {
   logoURL:
     "https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717454050/lb-logo_npdu7q.jpg",
   navButtonText: "Lorem ipsum",

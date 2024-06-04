@@ -33,18 +33,60 @@ interface ILandingLink {
   variant?: "primary" | "secondary";
   color?: string;
   isNavigation?: boolean;
+  isBuilder?: boolean;
 }
 
 interface ITokenomics {
   tokenTotalSupply: number;
   tokenDistributions: TokenDistribution[];
   tokenSymbol: string;
+  isBuilder?: boolean;
+  isMobile?: boolean;
+  isDesktop?: boolean;
 }
 
 interface IDistributionCard {
   title: string;
   color: string;
   percentage: number;
+  isBuilder?: boolean;
+  isMobile?: boolean;
+  isDesktop?: boolean;
+}
+
+interface IPoweredBy {
+  isBuilder?: boolean;
+  isMobile?: boolean;
+  isDesktop?: boolean;
+}
+
+type FooterLink = {
+  title: string;
+  links: { title: string; link: string }[];
+  hidden?: boolean;
+};
+
+interface IFooter {
+  isBuilder?: boolean;
+  isMobile?: boolean;
+  isDesktop?: boolean;
+  footerLinks: FooterLink[];
+  logoURL: string;
+}
+
+interface IHero {
+  isBuilder?: boolean;
+  isMobile?: boolean;
+  isDesktop?: boolean;
+  heroTitle: string;
+  heroDescription: string;
+  buyLink: string;
+  heroPrimaryButtonText: string;
+  primaryColor: string;
+  chainExplorerLink: string;
+  heroSecondaryButtonText: string;
+  secondaryColor: string;
+  heroImageURL: string;
 }
 
 export type {
@@ -52,4 +94,7 @@ export type {
   ILandingLink,
   ITokenomics,
   IDistributionCard,
+  IPoweredBy,
+  IFooter,
+  IHero,
 };
