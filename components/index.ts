@@ -10,6 +10,7 @@ import LBTiles from "./tiles";
 import LBInput from "./input";
 import LBSelect from "./select";
 import LBLoaderAlt from "./loader-alt";
+import LBLandingPageComponent from "./landing";
 
 export {
   LBButton,
@@ -24,4 +25,5 @@ export {
   LBInput,
   LBSelect,
   LBLoaderAlt,
+  LBLandingPageComponent,
 };

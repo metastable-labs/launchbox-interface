@@ -11,11 +11,13 @@
   "dependencies": {
     "@hookform/resolvers": "^3.4.2",
     "axios": "^1.7.2",
+    "chart.js": "^4.4.3",
     "classnames": "^2.5.1",
     "framer-motion": "^11.2.10",
     "moment": "^2.30.1",
     "next": "14.2.3",
     "react": "^18",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
     "react-hook-form": "^7.51.5",
     "yup": "^1.4.0"

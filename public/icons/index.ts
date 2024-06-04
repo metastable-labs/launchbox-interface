@@ -25,6 +25,7 @@ import ModePrimaryMobileIcon from "./mode-primary-mobile-icon.svg";
 import SearchIcon from "./search-icon.svg";
 import SecondarySelectIcon from "./secondary-select-icon.svg";
 import SuccessIcon from "./success-icon";
+import Flashicon from "./flash-icon.svg";
 
 export {
   TokenIcon,
@@ -54,4 +55,5 @@ export {
   SearchIcon,
   SecondarySelectIcon,
   SuccessIcon,
+  Flashicon,
 };

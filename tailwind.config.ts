@@ -59,6 +59,17 @@ const config: Config = {
           1250: "#162664",
           1300: "#CDFF00",
           1350: "#D9D9D9",
+          1400: "#F5F5F5",
+          1450: "#163300",
+          1500: "#9FE870",
+          1550: "#E5E5E5",
+          1600: "#ECFAE2",
+          1650: "#0A0A0A",
+          1700: "#737373",
+          1750: "#FAFAFA",
+          1800: "#20232D",
+          1850: "#666D80",
+          1900: "#0D0D12",
         },
         grey: {
           50: "#717184",
@@ -93,6 +104,9 @@ const config: Config = {
           "0px 1px 2px 0px rgba(0, 33, 50, 0.48), 0px 0px 0px 1px #002132",
         "link-button":
           "0px 1px 2px 0px rgba(27, 28, 29, 0.48), 0px 0px 0px 1px #242628",
+        "tokenomics-shadow": "0px 4px 11px -1px rgba(10, 10, 10, 0.04)",
+        "distribution-card-shadow":
+          "0px 1.062px 2.123px 0px rgba(27, 28, 29, 0.04)",
       },
       borderRadius: {
         base: "5px",
