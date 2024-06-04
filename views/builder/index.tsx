@@ -43,9 +43,14 @@ const BuilderView = () => {
         })}
       >
         <motion.div
-          animate={{ width: shouldHideCustomize ? 0 : "30%" }}
-          className="h-screen bg-slate-500 pt-[112px]"
-        ></motion.div>
+          animate={{
+            width: shouldHideCustomize ? 0 : "30%",
+            opacity: shouldHideCustomize ? 0 : 1,
+          }}
+          className="h-screen bg-primary-300 pt-[112px] flex items-center justify-center"
+        >
+          Editing Interface goes here
+        </motion.div>
 
         <motion.div
           animate={{
