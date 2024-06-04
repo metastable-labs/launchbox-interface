@@ -70,6 +70,11 @@ const config: Config = {
           1800: "#20232D",
           1850: "#666D80",
           1900: "#0D0D12",
+          1950: "#D0D5DD",
+          2000: "#344054",
+          2050: "#98A2B3",
+          2100: "#155EEF",
+          2150: "#F2F4F7",
         },
         grey: {
           50: "#717184",
@@ -107,6 +112,9 @@ const config: Config = {
         "tokenomics-shadow": "0px 4px 11px -1px rgba(10, 10, 10, 0.04)",
         "distribution-card-shadow":
           "0px 1.062px 2.123px 0px rgba(27, 28, 29, 0.04)",
+        "preview-shadow": "0px 4px 24px 0px rgba(211, 211, 211, 0.15)",
+        "preview-distribution-card-shadow":
+          "0px 0.665px 1.33px 0px rgba(27, 28, 29, 0.04)",
       },
       borderRadius: {
         base: "5px",
