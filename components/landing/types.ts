@@ -27,6 +27,26 @@ interface ILBLandingPageComponent {
   isDesktop?: boolean;
 }
 
+type CustomizeChange =
+  | "logoURL"
+  | "navButtonText"
+  | "primaryColor"
+  | "secondaryColor"
+  | "heroTitle"
+  | "heroDescription"
+  | "heroPrimaryButtonText"
+  | "heroSecondaryButtonText"
+  | "heroImageURL"
+  | "tokenomicsSummary"
+  | "tokenTotalSupply"
+  | "tokenDistributions"
+  | "tokenSymbol"
+  | "buyLink"
+  | "xLink"
+  | "farcasterLink"
+  | "telegramLink"
+  | "chainExplorerLink";
+
 interface ILandingLink {
   link: string;
   text: string;
@@ -90,6 +110,7 @@ interface IHero {
 }
 
 export type {
+  TokenDistribution,
   ILBLandingPageComponent,
   ILandingLink,
   ITokenomics,
@@ -97,4 +118,5 @@ export type {
   IPoweredBy,
   IFooter,
   IHero,
+  CustomizeChange,
 };

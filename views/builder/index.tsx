@@ -4,9 +4,13 @@ import { motion } from "framer-motion";
 import classNames from "classnames";
 
 import Header from "./header";
-import { ILBLandingPageComponent } from "@/components/landing/types";
+import {
+  CustomizeChange,
+  ILBLandingPageComponent,
+} from "@/components/landing/types";
 import { defaultData } from "../landing";
 import { LBLandingPageComponent } from "@/components";
+import CustomizingInterface from "./customizing";
 
 const externalLink = "#";
 
@@ -15,6 +19,8 @@ const BuilderView = () => {
     useState<ILBLandingPageComponent>(defaultData);
   const [displayType, setDisplayType] = useState<DisplayType>("desktop");
   const [shouldHideCustomize, setShouldHideCustomize] = useState(false);
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [heroImageFile, setHeroImageFile] = useState<File | null>(null);
 
   const publishActive = false;
   const saveActive = false;
@@ -22,6 +28,13 @@ const BuilderView = () => {
   const hideCoustomize = () => setShouldHideCustomize((prev) => !prev);
   const publish = () => {};
   const save = () => {};
+
+  const handleChange = (name: CustomizeChange, value: any) => {
+    setBuildData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   return (
     <>
@@ -47,9 +60,14 @@ const BuilderView = () => {
             width: shouldHideCustomize ? 0 : "30%",
             opacity: shouldHideCustomize ? 0 : 1,
           }}
-          className="h-screen bg-primary-300 pt-[112px] flex items-center justify-center"
+          className="h-screen pt-[112px] flex"
         >
-          Editing Interface goes here
+          <CustomizingInterface
+            setLogoFile={setLogoFile}
+            data={buildData}
+            handleChange={handleChange}
+            setHeroImageFile={setHeroImageFile}
+          />
         </motion.div>
 
         <motion.div

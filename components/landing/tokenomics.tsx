@@ -108,8 +108,8 @@ const Tokenomics = ({
   isDesktop: isParentDesktop,
   isMobile: isParentMobile,
 }: ITokenomics) => {
-  const colors = generateRandomColors(tokenDistributions.length);
   const { isMobile, isTablet } = useScreenDetect();
+  const colors = generateRandomColors(tokenDistributions.length);
 
   const data = {
     labels: tokenDistributions.map((d) => d.title),
