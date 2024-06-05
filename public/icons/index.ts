@@ -19,7 +19,7 @@ import SmallBaseIcon from "./small-base-icon.svg";
 import HomeIcon from "./home-icon.svg";
 import RightCarretLightIcon from "./right-carret-light-icon.svg";
 import CheckIcon from "./check-icon.svg";
-import RightCarretDarkIcon from "./right-carret-dark-icon.svg";
+import RightCarretDarkIcon from "./right-carret-dark-icon";
 import OptimismPrimaryMobileIcon from "./optimism-primary-mobile-icon.svg";
 import ModePrimaryMobileIcon from "./mode-primary-mobile-icon.svg";
 import SearchIcon from "./search-icon.svg";
@@ -32,6 +32,13 @@ import DesktopIcon from "./desktop-icon.svg";
 import PhoneIcon from "./phone-icon.svg";
 import BrowserTopIcon from "./Browser top.svg";
 import TwitterIcon from "./twitter-icon.svg";
+import RightArrowIcon from "./right-arrow-icon.svg";
+import ApperanceIcon from "./appearance-icon.svg";
+import NavigationIcon from "./navigation-icon.svg";
+import HeroIcon from "./hero-icon.svg";
+import TokenomicsIcon from "./tokenomics-icon.svg";
+import FooterIcon from "./footer-icon.svg";
+import PlusAltIcon from "./plus-alt-icon";
 
 export {
   TokenIcon,
@@ -68,4 +75,11 @@ export {
   PhoneIcon,
   BrowserTopIcon,
   TwitterIcon,
+  RightArrowIcon,
+  ApperanceIcon,
+  NavigationIcon,
+  HeroIcon,
+  TokenomicsIcon,
+  FooterIcon,
+  PlusAltIcon,
 };
