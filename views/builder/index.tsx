@@ -36,19 +36,28 @@ const BuilderView = () => {
     }));
   };
 
+  const headerData = {
+    externalLink,
+    shouldHideCustomize,
+    hideCoustomize,
+    publish,
+    publishActive,
+    save,
+    saveActive,
+    setDisplay: setDisplayType,
+    displayType,
+  };
+
+  const customisingInterfaceData = {
+    setLogoFile,
+    data: buildData,
+    handleChange,
+    setHeroImageFile,
+  };
+
   return (
     <>
-      <Header
-        externalLink={externalLink}
-        shouldHideCustomize={shouldHideCustomize}
-        hideCoustomize={hideCoustomize}
-        publish={publish}
-        publishActive={publishActive}
-        save={save}
-        saveActive={saveActive}
-        setDisplay={setDisplayType}
-        displayType={displayType}
-      />
+      <Header {...headerData} />
 
       <main
         className={classNames("flex h-full px-10", {
@@ -62,12 +71,7 @@ const BuilderView = () => {
           }}
           className="h-screen pt-[112px] flex"
         >
-          <CustomizingInterface
-            setLogoFile={setLogoFile}
-            data={buildData}
-            handleChange={handleChange}
-            setHeroImageFile={setHeroImageFile}
-          />
+          <CustomizingInterface {...customisingInterfaceData} />
         </motion.div>
 
         <motion.div

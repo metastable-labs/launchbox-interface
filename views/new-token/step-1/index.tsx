@@ -81,6 +81,16 @@ const Step1 = ({
     },
   ];
 
+  const confirmationModalData = {
+    close: () => setShowConfirmationModal(false),
+    network: tokenNetwork as Network,
+    show: showConfirmationModal,
+    tokenDecimal,
+    tokenName,
+    tokenSupply,
+    tokenSymbol,
+  };
+
   const onSubmit = (data: FormProp) => {
     const formData = {
       ...data,
@@ -168,15 +178,7 @@ const Step1 = ({
         disabled={disbleButton}
       />
 
-      <ConfirmationModal
-        close={() => setShowConfirmationModal(false)}
-        network={tokenNetwork as Network}
-        show={showConfirmationModal}
-        tokenDecimal={tokenDecimal}
-        tokenName={tokenName}
-        tokenSupply={tokenSupply}
-        tokenSymbol={tokenSymbol}
-      />
+      <ConfirmationModal {...confirmationModalData} />
     </form>
   );
 };

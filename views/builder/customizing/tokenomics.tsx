@@ -54,6 +54,23 @@ const Tokenomics = ({
       { title: "", percentage: 0 },
     ]);
   };
+
+  const handleTitleChange = (index: number, title: string) => {
+    handleChange("tokenDistributions", [
+      ...tokenDistributions.slice(0, index),
+      { ...tokenDistributions[index], title },
+      ...tokenDistributions.slice(index + 1),
+    ]);
+  };
+
+  const handlePercentageChange = (index: number, percentage: number) => {
+    handleChange("tokenDistributions", [
+      ...tokenDistributions.slice(0, index),
+      { ...tokenDistributions[index], percentage },
+      ...tokenDistributions.slice(index + 1),
+    ]);
+  };
+
   return (
     <div className="px-4 rounded-lg border border-primary-50 bg-white flex flex-col self-stretch gap-2">
       <CustomizingPaper
@@ -94,19 +111,9 @@ const Tokenomics = ({
               key={index}
               title={distribution.title}
               percentage={distribution.percentage}
-              handleTitleChange={(title) =>
-                handleChange("tokenDistributions", [
-                  ...tokenDistributions.slice(0, index),
-                  { ...distribution, title },
-                  ...tokenDistributions.slice(index + 1),
-                ])
-              }
+              handleTitleChange={(title) => handleTitleChange(index, title)}
               handlePercentageChange={(percentage) =>
-                handleChange("tokenDistributions", [
-                  ...tokenDistributions.slice(0, index),
-                  { ...distribution, percentage },
-                  ...tokenDistributions.slice(index + 1),
-                ])
+                handlePercentageChange(index, percentage)
               }
             />
           ))}

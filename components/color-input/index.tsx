@@ -2,13 +2,6 @@ import { ChangeEvent, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SketchPicker, ColorResult } from "react-color";
 
-interface ILBColorInput {
-  color: string;
-  handleChange: (color: string) => void;
-  instruction?: string;
-  label?: string;
-}
-
 const LBColorInput: React.FC<ILBColorInput> = ({
   color: defaultColor,
   handleChange,

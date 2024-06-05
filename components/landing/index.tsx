@@ -32,6 +32,7 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
     tokenomicsSummary,
     xLink,
   } = props;
+
   const footerLinks = [
     {
       title: "Social",
@@ -51,6 +52,40 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
       hidden: isBuilder,
     },
   ];
+
+  const heroData = {
+    buyLink,
+    chainExplorerLink,
+    heroDescription,
+    heroImageURL,
+    heroPrimaryButtonText,
+    heroSecondaryButtonText,
+    heroTitle,
+    primaryColor,
+    secondaryColor,
+    isBuilder,
+    isDesktop,
+    isMobile,
+  };
+
+  const tokenomicsData = {
+    tokenDistributions,
+    tokenSymbol,
+    tokenTotalSupply,
+    tokenomicsSummary,
+    isBuilder,
+    isMobile,
+    isDesktop,
+  };
+
+  const footerData = {
+    footerLinks,
+    isBuilder,
+    isDesktop,
+    isMobile,
+    logoURL,
+  };
+
   return (
     <main
       className={classNames("transition-all ease-in-out duration-500", {
@@ -104,20 +139,7 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
         />
       </header>
 
-      <Hero
-        buyLink={buyLink}
-        chainExplorerLink={chainExplorerLink}
-        heroDescription={heroDescription}
-        heroImageURL={heroImageURL}
-        heroPrimaryButtonText={heroPrimaryButtonText}
-        heroSecondaryButtonText={heroSecondaryButtonText}
-        heroTitle={heroTitle}
-        primaryColor={primaryColor}
-        secondaryColor={secondaryColor}
-        isBuilder={isBuilder}
-        isDesktop={isDesktop}
-        isMobile={isMobile}
-      />
+      <Hero {...heroData} />
 
       <section className="bg-primary-1750">
         <LBContainer>
@@ -164,25 +186,12 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
               </p>
             </div>
 
-            <Tokenomics
-              tokenDistributions={tokenDistributions}
-              tokenSymbol={tokenSymbol}
-              tokenTotalSupply={tokenTotalSupply}
-              isBuilder={isBuilder}
-              isMobile={isMobile}
-              isDesktop={isDesktop}
-            />
+            <Tokenomics {...tokenomicsData} />
           </div>
         </LBContainer>
       </section>
 
-      <Footer
-        footerLinks={footerLinks}
-        isBuilder={isBuilder}
-        isDesktop={isDesktop}
-        isMobile={isMobile}
-        logoURL={logoURL}
-      />
+      <Footer {...footerData} />
     </main>
   );
 };

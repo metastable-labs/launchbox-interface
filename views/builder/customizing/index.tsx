@@ -26,54 +26,59 @@ const CustomizingInterface = ({
     return setActiveTab(tab);
   };
 
+  const appearanceData = {
+    handleChange,
+    onClick: handleTabChange,
+    isActive: activeTab === "appearance",
+    primaryColor: data.primaryColor,
+    secondaryColor: data.secondaryColor,
+  };
+
+  const navigationData = {
+    handleChange,
+    onClick: handleTabChange,
+    isActive: activeTab === "navigation",
+    handleLogoFile: setLogoFile,
+    buyLink: data.buyLink,
+    logoURL: data.logoURL,
+    navButtonText: data.navButtonText,
+  };
+
+  const heroData = {
+    handleChange,
+    onClick: handleTabChange,
+    isActive: activeTab === "hero",
+    heroTitle: data.heroTitle,
+    heroDescription: data.heroDescription,
+    heroImageURL: data.heroImageURL,
+    handleHeroImageFile: setHeroImageFile,
+  };
+
+  const tokenomicsData = {
+    handleChange,
+    onClick: handleTabChange,
+    isActive: activeTab === "tokenomics",
+    tokenDistributions: data.tokenDistributions,
+    tokenTotalSupply: data.tokenTotalSupply,
+  };
+
+  const footerData = {
+    handleChange,
+    onClick: handleTabChange,
+    isActive: activeTab === "footer",
+    chainExplorerLink: data.chainExplorerLink,
+    farcasterLink: data.farcasterLink,
+    telegramLink: data.telegramLink,
+    xLink: data.xLink,
+  };
+
   const items = [
     <InactiveTabs key="undefined" onClick={handleTabChange} />,
-    <Appearance
-      key="appearance"
-      handleChange={handleChange}
-      onClick={handleTabChange}
-      isActive={activeTab === "appearance"}
-      primaryColor={data.primaryColor}
-      secondaryColor={data.secondaryColor}
-    />,
-    <Navigation
-      key="navigation"
-      handleChange={handleChange}
-      onClick={handleTabChange}
-      isActive={activeTab === "navigation"}
-      handleLogoFile={setLogoFile}
-      logoURL={data.logoURL}
-      buyLink={data.buyLink}
-      navButtonText={data.navButtonText}
-    />,
-    <Hero
-      key="hero"
-      handleChange={handleChange}
-      onClick={handleTabChange}
-      isActive={activeTab === "hero"}
-      heroTitle={data.heroTitle}
-      heroDescription={data.heroDescription}
-      heroImageURL={data.heroImageURL}
-      handleHeroImageFile={setHeroImageFile}
-    />,
-    <Tokenomics
-      key="tokenomics"
-      handleChange={handleChange}
-      onClick={handleTabChange}
-      isActive={activeTab === "tokenomics"}
-      tokenDistributions={data.tokenDistributions}
-      tokenTotalSupply={data.tokenTotalSupply}
-    />,
-    <Footer
-      key="footer"
-      handleChange={handleChange}
-      onClick={handleTabChange}
-      isActive={activeTab === "footer"}
-      chainExplorerLink={data.chainExplorerLink}
-      farcasterLink={data.farcasterLink}
-      telegramLink={data.telegramLink}
-      xLink={data.xLink}
-    />,
+    <Appearance key="appearance" {...appearanceData} />,
+    <Navigation key="navigation" {...navigationData} />,
+    <Hero key="hero" {...heroData} />,
+    <Tokenomics key="tokenomics" {...tokenomicsData} />,
+    <Footer key="footer" {...footerData} />,
   ];
 
   return (
