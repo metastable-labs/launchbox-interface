@@ -43,6 +43,8 @@ import BaseBadgeicon from "./base-badge-icon.svg";
 import ConfigSiteIcon from "./config-site-icon.svg";
 import ShareIcon from "./share-icon.svg";
 import TimerIcon from "./timer-icon.svg";
+import SelectArrowIcon from "./select-arrow-icon.svg";
+import ChangeIndicatorIcon from "./change-indicator-icon";
 
 export {
   TokenIcon,
@@ -90,4 +92,6 @@ export {
   ConfigSiteIcon,
   ShareIcon,
   TimerIcon,
+  SelectArrowIcon,
+  ChangeIndicatorIcon,
 };
