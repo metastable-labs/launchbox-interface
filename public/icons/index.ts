@@ -39,6 +39,10 @@ import HeroIcon from "./hero-icon.svg";
 import TokenomicsIcon from "./tokenomics-icon.svg";
 import FooterIcon from "./footer-icon.svg";
 import PlusAltIcon from "./plus-alt-icon";
+import BaseBadgeicon from "./base-badge-icon.svg";
+import ConfigSiteIcon from "./config-site-icon.svg";
+import ShareIcon from "./share-icon.svg";
+import TimerIcon from "./timer-icon.svg";
 
 export {
   TokenIcon,
@@ -82,4 +86,8 @@ export {
   TokenomicsIcon,
   FooterIcon,
   PlusAltIcon,
+  BaseBadgeicon,
+  ConfigSiteIcon,
+  ShareIcon,
+  TimerIcon,
 };
