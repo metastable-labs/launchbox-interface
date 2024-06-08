@@ -11,6 +11,7 @@ import LBInput from "./input";
 import LBSelect from "./select";
 import LBLoaderAlt from "./loader-alt";
 import LBLandingPageComponent from "./landing";
+import LBSecondarySelect from "./secondary-select";
 
 export {
   LBButton,
@@ -26,4 +27,5 @@ export {
   LBSelect,
   LBLoaderAlt,
   LBLandingPageComponent,
+  LBSecondarySelect,
 };
