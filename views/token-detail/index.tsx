@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import classNames from "classnames";
 
 import { Network } from "@/components/button/types";
-import { LBClickAnimation, LBContainer } from "@/components";
+import { LBClickAnimation, LBContainer, LBTable } from "@/components";
 import PrimaryHeader from "./primary-header";
 import {
   BaseBadgeicon,
@@ -13,7 +13,7 @@ import {
   CopyIcon,
   ShareIcon,
 } from "@/public/icons";
-import { tokenDetailData } from "./dummy";
+import { holdingsData, tokenDetailData, transactionsData } from "./dummy";
 import useCopy from "@/hooks/useCopy";
 import Overview from "./overview";
 import Leaderboard from "./leaderboard";
@@ -59,6 +59,17 @@ const TokenDetailsView = ({
   const tabs = [
     <Overview tokenDetailData={tokenDetailData} key={0} />,
     <Leaderboard key={1} />,
+  ];
+
+  const secondaryTabs = [
+    <LBTable
+      data={transactionsData}
+      loading={false}
+      variant="primary"
+      key={0}
+      tokenSymbol="SAT"
+    />,
+    <LBTable data={holdingsData} loading={false} variant="secondary" key={1} />,
   ];
 
   return (
@@ -183,6 +194,18 @@ const TokenDetailsView = ({
             />
           </div>
         </div>
+
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            key={secondaryTab}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {secondaryTabs[secondaryTab === "transactions" ? 0 : 1]}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </LBContainer>
   );
