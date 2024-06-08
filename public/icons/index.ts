@@ -45,6 +45,7 @@ import ShareIcon from "./share-icon.svg";
 import TimerIcon from "./timer-icon.svg";
 import SelectArrowIcon from "./select-arrow-icon.svg";
 import ChangeIndicatorIcon from "./change-indicator-icon";
+import UpandDownIcon from "./up-and-down-icon.svg";
 
 export {
   TokenIcon,
@@ -94,4 +95,5 @@ export {
   TimerIcon,
   SelectArrowIcon,
   ChangeIndicatorIcon,
+  UpandDownIcon,
 };
