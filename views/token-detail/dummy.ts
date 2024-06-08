@@ -7,6 +7,8 @@ const tokenDetailData = {
   siteConfigLink: "https://satoshis.com",
   networkBadgeURL:
     "https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717743095/Badge_1.0_issdfx.jpg",
+  amount: 456.86,
+  change: -12.34,
 };
 
 export { tokenDetailData };

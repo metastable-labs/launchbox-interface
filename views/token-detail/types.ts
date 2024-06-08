@@ -1,3 +1,4 @@
 type Tabs = "overview" | "leaderboard";
+type SecondaryTabs = "transactions" | "holders";
 
-export type { Tabs };
+export type { Tabs, SecondaryTabs };

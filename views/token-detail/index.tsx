@@ -17,9 +17,10 @@ import { tokenDetailData } from "./dummy";
 import useCopy from "@/hooks/useCopy";
 import Overview from "./overview";
 import Leaderboard from "./leaderboard";
-import { Tabs } from "./types";
+import { Tabs, SecondaryTabs } from "./types";
 
 const tabTexts = ["overview", "leaderboard"];
+const secondaryTabTexts = ["transactions", "holders"];
 
 const TokenDetailsView = ({
   tokenId,
@@ -29,6 +30,8 @@ const TokenDetailsView = ({
   network: Network;
 }) => {
   const [tab, setTab] = useState<Tabs>("overview");
+  const [secondaryTab, setSecondaryTab] =
+    useState<SecondaryTabs>("transactions");
   const copy = useCopy();
   const {
     name,
@@ -53,7 +56,10 @@ const TokenDetailsView = ({
     },
   ];
 
-  const tabs = [<Overview key={0} />, <Leaderboard key={1} />];
+  const tabs = [
+    <Overview tokenDetailData={tokenDetailData} key={0} />,
+    <Leaderboard key={1} />,
+  ];
 
   return (
     <LBContainer>
@@ -147,6 +153,36 @@ const TokenDetailsView = ({
             {tabs[tab === "overview" ? 0 : 1]}
           </motion.div>
         </AnimatePresence>
+
+        <div className="w-full pt-8 border-b border-primary-50">
+          <div className="flex items-center justify-start relative max-w-fit gap-2">
+            {secondaryTabTexts.map((text, index) => (
+              <div
+                key={index}
+                className={classNames(
+                  "px-3.5 pt-2.5 pb-[13px] flex items-center justify-center cursor-pointer text-sm font-semibold transition-colors duration-300 capitalize",
+                  {
+                    "text-primary-2300": text === tab,
+                    "text-primary-700": text !== tab,
+                  }
+                )}
+                onClick={() => setSecondaryTab(text as SecondaryTabs)}
+              >
+                {text}
+              </div>
+            ))}
+
+            <motion.div
+              initial={{ width: "0%" }}
+              animate={{
+                width: secondaryTab === "transactions" ? "56%" : "40%",
+                left: secondaryTab === "transactions" ? "0%" : "60%",
+              }}
+              transition={{ duration: 0.3 }}
+              className="absolute bottom-0 left-0 h-[3px] bg-primary-1000"
+            />
+          </div>
+        </div>
       </div>
     </LBContainer>
   );
