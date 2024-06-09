@@ -21,7 +21,7 @@ const transactionsData: TableItem[] = [
     type: "buy",
     usdAmount: 13456.09,
     tokenAmount: 1430109,
-    date: "2021-10-01T00:00:00Z",
+    date: "2024-06-08T00:00:00Z",
   },
   {
     wallet: "0x123456789012345678901234567890",
@@ -30,7 +30,7 @@ const transactionsData: TableItem[] = [
     type: "sell",
     usdAmount: 120,
     tokenAmount: 50005,
-    date: "2021-10-01T00:00:00Z",
+    date: "2023-06-01T00:00:00Z",
   },
   {
     wallet: "0x123456789012345678901234567890",

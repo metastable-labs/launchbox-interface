@@ -161,7 +161,7 @@ const LBTable = ({
               <td className="min-h-[71px] px-4 md:px-6 py-4 whitespace-nowrap text-sm font-medium">
                 {variant === "primary" && (
                   <p className="text-primary-250 min-w-full text-right">
-                    {item.date ? moment(item.date).format("MMM DD, YYYY") : "-"}
+                    {item.date ? moment(item.date).fromNow() : "-"}
                   </p>
                 )}
 
