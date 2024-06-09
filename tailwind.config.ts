@@ -85,6 +85,10 @@ const config: Config = {
           2550: "#253EA7",
           2600: "#2D9F75",
           2650: "#AF1D38",
+          2700: "#F4F4F4",
+          2750: "#6F767E",
+          2800: "#1A1D1F",
+          2850: "#FCFCFC",
         },
         grey: {
           50: "#717184",
@@ -125,6 +129,7 @@ const config: Config = {
         "preview-shadow": "0px 4px 24px 0px rgba(211, 211, 211, 0.15)",
         "preview-distribution-card-shadow":
           "0px 0.665px 1.33px 0px rgba(27, 28, 29, 0.04)",
+        "trade-tab": "0px 2px 4px -4px rgba(0, 0, 0, 0.15);",
       },
       borderRadius: {
         base: "5px",
