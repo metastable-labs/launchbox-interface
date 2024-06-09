@@ -11,6 +11,8 @@ const tokenDetailData = {
     "https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717743095/Badge_1.0_issdfx.jpg",
   amount: 456.86,
   change: -12.34,
+  farcasterLink: "https://satoshis.com",
+  websiteLink: "https://satoshis.com",
 };
 
 const transactionsData: TableItem[] = [

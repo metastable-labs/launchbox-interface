@@ -1,4 +1,4 @@
-type ButtonVariants = "link" | "new" | "plain";
+type ButtonVariants = "link" | "new" | "plain" | "plainAlt";
 
 type Network = "base" | "optimism" | "mode" | "scroll";
 

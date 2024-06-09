@@ -26,11 +26,11 @@ const LBButton = ({
   return (
     <motion.button
       type={type}
-      whileHover={{ scale: 1.04 }}
-      whileTap={{ scale: 0.9 }}
+      whileHover={{ scale: 1.01 }}
+      whileTap={{ scale: 0.99 }}
       disabled={disabled || loading}
       className={classNames(
-        "px-3 py-2.5 flex items-center justify-center gap-1 rounded-base",
+        "flex items-center justify-center gap-1 rounded-base transition-colors duration-300",
         {
           "border-[0.5px] border-primary-600": !disabled,
           "bg-primary-200 pointer-events-none": disabled || loading,
@@ -44,6 +44,8 @@ const LBButton = ({
             network === "scroll" && !disabled && variant !== "link",
           "bg-link-button shadow-link-button": variant === "link" && !disabled,
           "w-full": fullWidth,
+          "px-2 py-2.5": variant === "plainAlt",
+          "px-3 py-2.5": variant === "plain",
         }
       )}
       onClick={onClick}
@@ -52,7 +54,7 @@ const LBButton = ({
 
       <div
         className={classNames(
-          "font-medium tracking-[-0.084px] text-sm text-center transition-all duration-300 whitespace-nowrap",
+          "tracking-[-0.084px] text-sm text-center transition-all duration-300 whitespace-nowrap",
           {
             "text-white":
               (network === "base" ||
@@ -62,6 +64,8 @@ const LBButton = ({
             "text-primary-500":
               (network === "mode" || network === "scroll") && !disabled,
             "text-primary-550": disabled,
+            "font-medium": variant !== "plainAlt",
+            "capitalize font-Biform": variant === "plainAlt",
           }
         )}
       >
