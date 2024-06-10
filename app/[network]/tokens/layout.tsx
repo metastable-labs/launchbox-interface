@@ -1,11 +1,6 @@
-import { Network } from "@/components/button/types";
 import App from "./app";
+import { PageProps } from "@/app/type";
 
-interface RootProps {
-  params: { network: Network };
-  children: React.ReactNode;
-}
-
-export default function RootLayout({ params, children }: Readonly<RootProps>) {
+export default function RootLayout({ params, children }: Readonly<PageProps>) {
   return <App params={params}>{children}</App>;
 }

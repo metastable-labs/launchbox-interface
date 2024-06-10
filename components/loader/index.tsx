@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 
 import { LoadingIcon } from "@/public/icons";
-import { ISMLoader } from "./types";
 
 const LBLoader = ({ variant = "small", color }: ISMLoader) => {
   let width, height;

@@ -1,9 +1,5 @@
 import { NewTokenView } from "@/views";
-import { Network } from "@/components/button/types";
-
-interface PageProps {
-  params: { network: Network };
-}
+import { PageProps } from "@/app/type";
 
 const NewTokens = ({ params }: PageProps) => {
   return <NewTokenView network={params.network} />;

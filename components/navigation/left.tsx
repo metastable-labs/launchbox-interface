@@ -15,14 +15,7 @@ const Left = ({ links }: { links: INavLinks }) => {
 
       <div className="gap-1 md:flex items-center justify-center hidden">
         {links?.map((link) => (
-          <NavLink
-            key={link?.title}
-            title={link?.title}
-            href={link?.href}
-            isActive={link?.isActive}
-            icon={link?.icon}
-            comingSoon={link?.comingSoon}
-          />
+          <NavLink key={link?.title} {...link} />
         ))}
       </div>
     </div>

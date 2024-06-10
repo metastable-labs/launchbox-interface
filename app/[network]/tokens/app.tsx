@@ -25,8 +25,13 @@ const App = ({ children, params }: PageProps) => {
   // Regex to match the path of the token detail page
   const tokenDetailPageRegex = /\/tokens\/[a-zA-Z0-9]+$/;
   const isTokenDetailPage = tokenDetailPageRegex.test(pathname);
+
   return (
     <main>
+      <motion.div
+        animate={{ backgroundImage: networkBackgrounds[params.network] }}
+        className="fixed top-0 left-0 w-screen h-screen bg-cover bg-center -z-10 opacity-10 transition-all duration-300 ease-in-out pointer-events-none"
+      />
       <LBNavigation network={params.network} />
       {children}
       {!isTokenDetailPage && (
