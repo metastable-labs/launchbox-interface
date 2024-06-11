@@ -1,7 +1,7 @@
-import CustomizingPaper from "./paper";
-import { ITokenomics } from "./types";
-import { PlusAltIcon, TokenomicsIcon } from "@/public/icons";
-import { LBClickAnimation } from "@/components";
+import CustomizingPaper from './paper';
+import { ITokenomics } from './types';
+import { PlusAltIcon, TokenomicsIcon } from '@/public/icons';
+import { LBClickAnimation } from '@/components';
 
 interface IDistributionInput {
   title: string;
@@ -10,12 +10,7 @@ interface IDistributionInput {
   handlePercentageChange: (percentage: number) => void;
 }
 
-const DistributionInput = ({
-  percentage,
-  title,
-  handlePercentageChange,
-  handleTitleChange,
-}: IDistributionInput) => (
+const DistributionInput = ({ percentage, title, handlePercentageChange, handleTitleChange }: IDistributionInput) => (
   <div className="flex items-center justify-center gap-2 self-stretch">
     <input
       type="text"
@@ -34,58 +29,31 @@ const DistributionInput = ({
         onChange={(e) => handlePercentageChange(Number(e.target.value))}
       />
 
-      <div className="px-3.5 flex items-center justify-center h-full w-11 text-sm text-primary-2000 font-semibold border-l border-primary-1950">
-        %
-      </div>
+      <div className="px-3.5 flex items-center justify-center h-full w-11 text-sm text-primary-2000 font-semibold border-l border-primary-1950">%</div>
     </div>
   </div>
 );
 
-const Tokenomics = ({
-  onClick,
-  handleChange,
-  isActive,
-  tokenDistributions,
-  tokenTotalSupply,
-}: ITokenomics) => {
+const Tokenomics = ({ onClick, handleChange, isActive, tokenDistributions, tokenTotalSupply }: ITokenomics) => {
   const handleNewDistribution = () => {
-    handleChange("tokenDistributions", [
-      ...tokenDistributions,
-      { title: "", percentage: 0 },
-    ]);
+    handleChange('tokenDistributions', [...tokenDistributions, { title: '', percentage: 0 }]);
   };
 
   const handleTitleChange = (index: number, title: string) => {
-    handleChange("tokenDistributions", [
-      ...tokenDistributions.slice(0, index),
-      { ...tokenDistributions[index], title },
-      ...tokenDistributions.slice(index + 1),
-    ]);
+    handleChange('tokenDistributions', [...tokenDistributions.slice(0, index), { ...tokenDistributions[index], title }, ...tokenDistributions.slice(index + 1)]);
   };
 
   const handlePercentageChange = (index: number, percentage: number) => {
-    handleChange("tokenDistributions", [
-      ...tokenDistributions.slice(0, index),
-      { ...tokenDistributions[index], percentage },
-      ...tokenDistributions.slice(index + 1),
-    ]);
+    handleChange('tokenDistributions', [...tokenDistributions.slice(0, index), { ...tokenDistributions[index], percentage }, ...tokenDistributions.slice(index + 1)]);
   };
 
   return (
     <div className="px-4 rounded-lg border border-primary-50 bg-white flex flex-col self-stretch gap-2">
-      <CustomizingPaper
-        icon={<TokenomicsIcon />}
-        isActive={isActive}
-        title="Tokenomics"
-        onClick={() => onClick("tokenomics")}
-      />
+      <CustomizingPaper icon={<TokenomicsIcon />} isActive={isActive} title="Tokenomics" onClick={() => onClick('tokenomics')} />
 
       <div className="flex flex-col items-stretch justify-center gap-5 self-stretch pb-8">
         <div className="flex flex-col gap-1.5">
-          <label
-            htmlFor="token-supply"
-            className="text-primary-2000 text-sm font-medium"
-          >
+          <label htmlFor="token-supply" className="text-primary-2000 text-sm font-medium">
             Total token supply
           </label>
 
@@ -94,16 +62,12 @@ const Tokenomics = ({
             type="number"
             className="self-stretch rounded-lg border border-primary-1950 shadow-table-cta bg-primary-2250 px-3 py-2 outline-none"
             placeholder="10,000,000"
-            onChange={(e) =>
-              handleChange("tokenTotalSupply", Number(e.target.value))
-            }
+            onChange={(e) => handleChange('tokenTotalSupply', Number(e.target.value))}
             value={tokenTotalSupply}
           />
         </div>
 
-        <h1 className="pb-4 border-b-[0.5px] border-b-primary-50 text-primary-2000 text-sm font-semibold">
-          Token distribution
-        </h1>
+        <h1 className="pb-4 border-b-[0.5px] border-b-primary-50 text-primary-2000 text-sm font-semibold">Token distribution</h1>
 
         <div className="flex flex-col items-stretch gap-4">
           {tokenDistributions?.map((distribution, index) => (
@@ -112,21 +76,14 @@ const Tokenomics = ({
               title={distribution.title}
               percentage={distribution.percentage}
               handleTitleChange={(title) => handleTitleChange(index, title)}
-              handlePercentageChange={(percentage) =>
-                handlePercentageChange(index, percentage)
-              }
+              handlePercentageChange={(percentage) => handlePercentageChange(index, percentage)}
             />
           ))}
 
           <div className="flex items-center justify-start">
-            <LBClickAnimation
-              onClick={handleNewDistribution}
-              className="flex items-center justify-center gap-1"
-            >
+            <LBClickAnimation onClick={handleNewDistribution} className="flex items-center justify-center gap-1">
               <PlusAltIcon />
-              <span className="text-sm font-semibold text-primary-2300">
-                Add distribution unit
-              </span>
+              <span className="text-sm font-semibold text-primary-2300">Add distribution unit</span>
             </LBClickAnimation>
           </div>
         </div>

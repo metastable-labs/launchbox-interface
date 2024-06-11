@@ -1,11 +1,7 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
-import { Network } from "@/components/button/types";
-import {
-  BasePrimaryMobileIcon,
-  ModePrimaryMobileIcon,
-  OptimismPrimaryMobileIcon,
-} from "@/public/icons";
+import { Network } from '@/components/button/types';
+import { BasePrimaryMobileIcon, ModePrimaryMobileIcon, OptimismPrimaryMobileIcon } from '@/public/icons';
 
 export interface NetworkProps {
   title: string;
@@ -18,20 +14,20 @@ export interface NetworkProps {
 
 export const networks: NetworkProps[] = [
   {
-    title: "Base",
-    variant: "base",
+    title: 'Base',
+    variant: 'base',
     chainId: 1,
     icon: <BasePrimaryMobileIcon />,
   },
   {
-    title: "Optimism",
-    variant: "optimism",
+    title: 'Optimism',
+    variant: 'optimism',
     chainId: 2,
     icon: <OptimismPrimaryMobileIcon />,
   },
   {
-    title: "Mode",
-    variant: "mode",
+    title: 'Mode',
+    variant: 'mode',
     chainId: 3,
     icon: <ModePrimaryMobileIcon />,
   },

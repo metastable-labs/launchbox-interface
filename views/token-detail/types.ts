@@ -1,4 +1,4 @@
-type Tabs = "overview" | "leaderboard";
-type SecondaryTabs = "transactions" | "holders";
+type Tabs = 'overview' | 'leaderboard';
+type SecondaryTabs = 'transactions' | 'holders';
 
 export type { Tabs, SecondaryTabs };

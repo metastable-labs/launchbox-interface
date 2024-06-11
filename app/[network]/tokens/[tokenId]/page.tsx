@@ -1,5 +1,5 @@
-import { Network } from "@/components/button/types";
-import TokenDetailsView from "@/views/token-detail";
+import { Network } from '@/components/button/types';
+import TokenDetailsView from '@/views/token-detail';
 
 interface TokenDetailsProps {
   params: { tokenId: string; network: Network };

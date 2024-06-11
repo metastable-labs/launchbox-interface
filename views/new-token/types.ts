@@ -1,11 +1,6 @@
-import { Network } from "@/components/button/types";
-import { SetStateAction, Dispatch } from "react";
-import {
-  FieldErrors,
-  UseFormRegister,
-  UseFormSetValue,
-  UseFormWatch,
-} from "react-hook-form";
+import { Network } from '@/components/button/types';
+import { SetStateAction, Dispatch } from 'react';
+import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form';
 
 interface FormProp {
   tokenName: string;

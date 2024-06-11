@@ -1,9 +1,9 @@
-type TableVariant = "primary" | "secondary";
+type TableVariant = 'primary' | 'secondary';
 
 interface TableItem {
   wallet?: string;
   walletAvatarURL?: string;
-  type?: "buy" | "sell";
+  type?: 'buy' | 'sell';
   usdAmount?: number;
   tokenAmount?: number;
   tokenSymbol?: string;

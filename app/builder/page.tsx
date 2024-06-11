@@ -1,4 +1,4 @@
-import { BuilderView } from "@/views";
+import { BuilderView } from '@/views';
 
 const Builder = () => {
   return <BuilderView />;
