@@ -8,25 +8,23 @@ import Step1 from "./step-1";
 import Step2 from "./step-2";
 import PrimaryHeader from "./primary-header";
 import SecondaryHeader from "./secondary-header";
+import { NewTokenData } from "./types";
 
 const NewTokenView = ({ network }: { network: Network }) => {
-  const [step, setStep] = useState(0);
-  const [tokenSymbol, setTokenSymbol] = useState("");
-  const [tokenName, setTokenName] = useState("");
+  const [step, setStep] = useState(1);
+  const [newTokenData, setNewTokenData] = useState<NewTokenData>();
 
   const steps = [
     <Step1
       network={network}
       setStep={setStep}
       key={0}
-      setTokenSymbol={setTokenSymbol}
-      setTokenName={setTokenName}
+      setNewTokenData={setNewTokenData}
     />,
     <Step2
       network={network}
       key={1}
-      tokenSymbol={tokenSymbol}
-      tokenName={tokenName}
+      tokenData={newTokenData}
       setStep={setStep}
     />,
   ];
