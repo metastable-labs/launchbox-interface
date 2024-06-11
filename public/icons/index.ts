@@ -48,6 +48,13 @@ import ChangeIndicatorIcon from "./change-indicator-icon";
 import UpandDownIcon from "./up-and-down-icon.svg";
 import FarcasterIcon from "./farcaster-icon.svg";
 import WebIcon from "./web-icon.svg";
+import UploadIcon from "./upload-icon.svg";
+import DeleteIcon from "./delete-icon.svg";
+import CheckSmallIcon from "./check-small-icon.svg";
+import SVGIcon from "./svg-icon.svg";
+import ETHIcon from "./eth-icon.svg";
+import ExchangeIcon from "./exchange-icon.svg";
+import AlternatingArrowIcon from "./alternating-arrow-icon.svg";
 
 export {
   TokenIcon,
@@ -100,4 +107,11 @@ export {
   UpandDownIcon,
   FarcasterIcon,
   WebIcon,
+  UploadIcon,
+  DeleteIcon,
+  CheckSmallIcon,
+  SVGIcon,
+  ETHIcon,
+  ExchangeIcon,
+  AlternatingArrowIcon,
 };
