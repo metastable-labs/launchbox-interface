@@ -44,9 +44,11 @@ const LBModal = ({ children, close, show, variant = 'primary', title }: ILBModal
                 })}>
                 <h1 className="text-primary-150 text-lg md:text-[24px] md:leading-[37.2px]">{title}</h1>
 
-                <LBClickAnimation onClick={close}>
-                  <RoundedCloseIcon />
-                </LBClickAnimation>
+                {hasClose && (
+                  <LBClickAnimation onClick={close}>
+                    <RoundedCloseIcon />
+                  </LBClickAnimation>
+                )}
               </div>
 
               {children}
