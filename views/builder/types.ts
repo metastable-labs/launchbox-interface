@@ -1,4 +1,4 @@
-type DisplayType = "mobile" | "desktop";
+type DisplayType = 'mobile' | 'desktop';
 
 interface HeaderProps {
   setDisplay: (display: DisplayType) => void;

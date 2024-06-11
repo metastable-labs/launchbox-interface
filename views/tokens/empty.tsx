@@ -1,8 +1,8 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import { LBButton } from "@/components";
-import { TokenIcon } from "@/public/icons";
-import { EmptyProps } from "./types";
+import { LBButton } from '@/components';
+import { TokenIcon } from '@/public/icons';
+import { EmptyProps } from './types';
 
 const EmptyState = ({ network }: EmptyProps) => {
   return (
@@ -14,12 +14,8 @@ const EmptyState = ({ network }: EmptyProps) => {
           </div>
         </div>
 
-        <h1 className="text-primary-400 text-[20px] leading-[30px] text-center">
-          No tokens yet
-        </h1>
-        <span className="text-primary-700 text-[14px] leading-[24px] text-center">
-          You haven’t launched a new token yet, new tokens will show here
-        </span>
+        <h1 className="text-primary-400 text-[20px] leading-[30px] text-center">No tokens yet</h1>
+        <span className="text-primary-700 text-[14px] leading-[24px] text-center">You haven’t launched a new token yet, new tokens will show here</span>
       </div>
 
       <Link href="/tokens/new">

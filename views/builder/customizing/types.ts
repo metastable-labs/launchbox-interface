@@ -1,9 +1,5 @@
-import {
-  CustomizeChange,
-  ILBLandingPageComponent,
-  TokenDistribution,
-} from "@/components/landing/types";
-import { ReactElement } from "react";
+import { CustomizeChange, ILBLandingPageComponent, TokenDistribution } from '@/components/landing/types';
+import { ReactElement } from 'react';
 
 interface ICustomizingPaper {
   icon: ReactElement;
@@ -19,13 +15,7 @@ interface ICustomizeInterface {
   setHeroImageFile: (file: File) => void;
 }
 
-type Tabs =
-  | "appearance"
-  | "navigation"
-  | "hero"
-  | "tokenomics"
-  | "footer"
-  | "undefined";
+type Tabs = 'appearance' | 'navigation' | 'hero' | 'tokenomics' | 'footer' | 'undefined';
 
 interface ICustomizeTab {
   isActive: boolean;
@@ -72,7 +62,7 @@ interface ICustomizeInput {
   value?: string;
   type?: string;
   disabled?: boolean;
-  variant?: "primary" | "secondary";
+  variant?: 'primary' | 'secondary';
   rows?: number;
 }
 
@@ -80,16 +70,4 @@ interface IInactiveTabs {
   onClick: (tab: Tabs) => void;
 }
 
-export type {
-  ICustomizingPaper,
-  ICustomizeInterface,
-  Tabs,
-  ICustomizeTab,
-  IAppearance,
-  INavigation,
-  IHero,
-  ITokenomics,
-  IFooter,
-  ICustomizeInput,
-  IInactiveTabs,
-};
+export type { ICustomizingPaper, ICustomizeInterface, Tabs, ICustomizeTab, IAppearance, INavigation, IHero, ITokenomics, IFooter, ICustomizeInput, IInactiveTabs };

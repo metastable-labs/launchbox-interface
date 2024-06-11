@@ -1,13 +1,13 @@
-"use client";
-import { ReactNode } from "react";
-import { CookiesProvider } from "react-cookie";
+'use client';
+import { ReactNode } from 'react';
+import { CookiesProvider } from 'react-cookie';
 
-import RainbowProvider from "@/config/rainbow/rainbowkit";
-import useConnect from "@/hooks/useConnect";
+import RainbowProvider from '@/config/rainbow/rainbowkit';
+import useConnect from '@/hooks/useConnect';
 
 const App = ({ children }: { children: ReactNode }) => {
   const cookieOptions = {
-    path: "/",
+    path: '/',
     expires: new Date(new Date().getTime() + 8 * 60 * 60 * 1000),
   };
 

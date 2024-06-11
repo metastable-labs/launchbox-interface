@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { usePathname } from "next/navigation";
-import classNames from "classnames";
-import { useAccount } from "wagmi";
+import { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import classNames from 'classnames';
+import { useAccount } from 'wagmi';
 
-import Left from "./left";
-import Right from "./right";
-import Menu from "./menu";
-import { TokenIcon } from "@/public/icons";
-import { INavLinks, INavActions, ILBNavigation } from "./types";
-import LBModal from "../modal";
-import { ModalType } from "./modals/types";
-import WalletModal from "./modals/wallet";
-import NetworkModal from "./modals/network";
+import Left from './left';
+import Right from './right';
+import Menu from './menu';
+import { TokenIcon } from '@/public/icons';
+import { INavLinks, INavActions, ILBNavigation } from './types';
+import LBModal from '../modal';
+import { ModalType } from './modals/types';
+import WalletModal from './modals/wallet';
+import NetworkModal from './modals/network';
 
 const LBNavigation = ({ network }: ILBNavigation) => {
   const { address } = useAccount();
@@ -23,15 +23,15 @@ const LBNavigation = ({ network }: ILBNavigation) => {
 
   const links: INavLinks = [
     {
-      title: "Tokens",
+      title: 'Tokens',
       icon: <TokenIcon />,
-      href: "/tokens",
+      href: '/tokens',
       isActive: false,
     },
     {
-      title: "Launch",
+      title: 'Launch',
       icon: <TokenIcon />,
-      href: "/tokens/new",
+      href: '/tokens/new',
       isActive: false,
     },
   ];
@@ -55,41 +55,27 @@ const LBNavigation = ({ network }: ILBNavigation) => {
 
   const actionItems: INavActions = [
     {
-      variant: "network",
+      variant: 'network',
     },
     {
-      text: address || "Connect",
-      variant: "wallet",
+      text: address || 'Connect',
+      variant: 'wallet',
     },
   ];
 
   return (
     <>
-      <div
-        className={classNames(
-          "fixed w-screen z-10 flex justify-center items-center md:pt-0 bg-white border-b border-primary-50"
-        )}
-      >
+      <div className={classNames('fixed w-screen z-10 flex justify-center items-center md:pt-0 bg-white border-b border-primary-50')}>
         <nav className="flex-1 flex bg-white px-4 py-[14px] md:px-11 md:py-5 items-center justify-between relative">
           <Left links={updatedLinks} />
-          <Right
-            menuOpen={menuOpen}
-            toggleMenu={toggleMenu}
-            actionItems={actionItems}
-            handleModal={handleModal}
-          />
+          <Right menuOpen={menuOpen} toggleMenu={toggleMenu} actionItems={actionItems} handleModal={handleModal} />
 
-          <Menu
-            menuOpen={menuOpen}
-            links={updatedLinks}
-            actionItems={actionItems}
-            handleModal={handleModal}
-          />
+          <Menu menuOpen={menuOpen} links={updatedLinks} actionItems={actionItems} handleModal={handleModal} />
         </nav>
 
         <LBModal show={Boolean(modalType)} close={closeModal}>
-          {modalType === "wallet" && <WalletModal close={closeModal} />}
-          {modalType === "network" && <NetworkModal close={closeModal} />}
+          {modalType === 'wallet' && <WalletModal close={closeModal} />}
+          {modalType === 'network' && <NetworkModal close={closeModal} />}
         </LBModal>
       </div>
       <div className="h-[123px] md:h-[82px]" />

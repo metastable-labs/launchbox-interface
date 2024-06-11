@@ -1,8 +1,8 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import { Network } from "@/components/button/types";
-import { LBClickAnimation } from "@/components";
-import { HomeIcon, RightCarretLightIcon } from "@/public/icons";
+import { Network } from '@/components/button/types';
+import { LBClickAnimation } from '@/components';
+import { HomeIcon, RightCarretLightIcon } from '@/public/icons';
 
 const PrimaryHeader = ({ network }: { network: Network }) => (
   <div className="pb-5 self-stretch items-center border-b border-primary-950">

@@ -1,11 +1,11 @@
-import "@rainbow-me/rainbowkit/styles.css";
+import '@rainbow-me/rainbowkit/styles.css';
 
-import { ReactNode } from "react";
-import { base, optimism, mode } from "wagmi/chains";
-import { WagmiProvider } from "wagmi";
+import { ReactNode } from 'react';
+import { base, optimism, mode } from 'wagmi/chains';
+import { WagmiProvider } from 'wagmi';
 
-import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 export const wagmiConfig = getDefaultConfig({
   appName: process.env.NEXT_PUBLIC_APP_NAME!,

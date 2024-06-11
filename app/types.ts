@@ -1,4 +1,4 @@
-import { Network } from "@/components/button/types";
+import { Network } from '@/components/button/types';
 
 interface PageProps {
   params: { network: Network };

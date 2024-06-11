@@ -1,8 +1,8 @@
 const periodOptions = [
-  { text: "Last year", value: "last-year" },
-  { text: "Last month", value: "last-month" },
-  { text: "Last week", value: "last-week" },
-  { text: "Last 24 hours", value: "last-24-hours" },
+  { text: 'Last year', value: 'last-year' },
+  { text: 'Last month', value: 'last-month' },
+  { text: 'Last week', value: 'last-week' },
+  { text: 'Last 24 hours', value: 'last-24-hours' },
 ];
 
 const generateData = () => {
@@ -18,9 +18,7 @@ const generateData = () => {
 
   const smoothingFactor = 0.3;
   for (let i = 1; i < data.length - 1; i++) {
-    data[i].value =
-      data[i].value * smoothingFactor +
-      ((data[i - 1].value + data[i + 1].value) / 2) * (1 - smoothingFactor);
+    data[i].value = data[i].value * smoothingFactor + ((data[i - 1].value + data[i + 1].value) / 2) * (1 - smoothingFactor);
   }
 
   return data;

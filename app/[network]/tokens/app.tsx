@@ -1,11 +1,11 @@
-"use client";
-import { ReactNode } from "react";
-import { motion } from "framer-motion";
-import { usePathname } from "next/navigation";
+'use client';
+import { ReactNode } from 'react';
+import { motion } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 
-import LBNavigation from "@/components/navigation";
-import { Network } from "@/components/button/types";
-import { LBTiles } from "@/components";
+import LBNavigation from '@/components/navigation';
+import { Network } from '@/components/button/types';
+import { LBTiles } from '@/components';
 
 interface PageProps {
   params: { network: Network };
@@ -13,10 +13,10 @@ interface PageProps {
 }
 
 const networkBackgrounds: Record<Network, string> = {
-  base: "linear-gradient(180deg, #FFF 0%, #FCFCFC 43%, #0052FF 100%)",
-  optimism: "linear-gradient(180deg, #FFF 0%, #FCFCFC 43%, #FF1636 100%)",
-  mode: "linear-gradient(180deg, #FFF 0%, #FCFCFC 43%, #CDFF00 100%)",
-  scroll: "linear-gradient(180deg, #FFF 0%, #FCFCFC 43%, #F1C087 100%)",
+  base: 'linear-gradient(180deg, #FFF 0%, #FCFCFC 43%, #0052FF 100%)',
+  optimism: 'linear-gradient(180deg, #FFF 0%, #FCFCFC 43%, #FF1636 100%)',
+  mode: 'linear-gradient(180deg, #FFF 0%, #FCFCFC 43%, #CDFF00 100%)',
+  scroll: 'linear-gradient(180deg, #FFF 0%, #FCFCFC 43%, #F1C087 100%)',
 };
 
 const App = ({ children, params }: PageProps) => {
