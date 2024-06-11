@@ -7,13 +7,15 @@ const LBInput = ({
   className,
   disabled,
   error,
+  instruction,
+  isOptional,
+  isRequired,
   label,
   placeholder,
   register,
-  rows = 3,
+  rows,
   type,
   variant = "primary",
-  instruction,
 }: ILBInput) => {
   return (
     <div
@@ -22,7 +24,23 @@ const LBInput = ({
         { "text-primary-1050": error }
       )}
     >
-      <label htmlFor={name}>{label}</label>
+      <label
+        htmlFor={name}
+        className={classNames("", {
+          "flex items-center justify-center gap-2 font-medium":
+            isRequired || isOptional,
+        })}
+      >
+        {label}
+        {(isRequired || isOptional) && (
+          <span
+            className={classNames("font-normal", {
+              "text-primary-1050": isRequired,
+              "text-primary-1000": isOptional,
+            })}
+          >{`(${isRequired ? "required" : "optional"})`}</span>
+        )}
+      </label>
 
       {variant === "primary" && (
         <input

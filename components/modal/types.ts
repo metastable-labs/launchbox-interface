@@ -6,6 +6,7 @@ interface ILBModal {
   close?: () => void;
   variant?: "primary";
   title?: string | ReactNode;
+  hasClose?: boolean;
 }
 
 export type { ILBModal };

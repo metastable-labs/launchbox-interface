@@ -14,6 +14,7 @@ const LBModal = ({
   show,
   variant = "primary",
   title,
+  hasClose = true,
 }: ILBModal) => {
   useEffect(() => {
     if (show) {
@@ -58,9 +59,11 @@ const LBModal = ({
                   {title}
                 </h1>
 
-                <LBClickAnimation onClick={close}>
-                  <RoundedCloseIcon />
-                </LBClickAnimation>
+                {hasClose && (
+                  <LBClickAnimation onClick={close}>
+                    <RoundedCloseIcon />
+                  </LBClickAnimation>
+                )}
               </div>
 
               {children}
