@@ -25,7 +25,7 @@ const SwitchIcon = ({ switched, onClick, network }: ISwitchIcon) => {
         }}
         className="bg-white rounded-full p-[1px] absolute w-[10px] h-[10px]"
       >
-        <div className="p-[2px] rounded-full bg-primary-2200">
+        <div className="p-[2px] rounded-full bg-primary-1750">
           <div
             className={classNames("w-1 h-1 rounded-full", {
               "bg-primary-550": !switched,
