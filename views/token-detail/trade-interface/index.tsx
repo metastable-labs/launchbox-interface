@@ -1,6 +1,8 @@
 import { useState } from "react";
 import classNames from "classnames";
 import Image from "next/image";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 
 import { LBButton, LBClickAnimation } from "@/components";
 
@@ -11,6 +13,8 @@ const TradeInterface: React.FC<ITradeInterface> = ({
   tokenImageURL,
   tokenSymbol,
 }) => {
+  const { openConnectModal } = useConnectModal();
+  const { isConnected, address } = useAccount();
   const [tab, setTab] = useState<"buy" | "sell">("buy");
   const [amount, setAmount] = useState<number>(0);
 
@@ -31,6 +35,8 @@ const TradeInterface: React.FC<ITradeInterface> = ({
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!isConnected && !address && openConnectModal) return openConnectModal();
     console.log(tab, amount);
   };
 

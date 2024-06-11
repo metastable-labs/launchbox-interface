@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { CookiesProvider } from "react-cookie";
 
 import RainbowProvider from "@/config/rainbow/rainbowkit";
+import useConnect from "@/hooks/useConnect";
 
 const App = ({ children }: { children: ReactNode }) => {
   const cookieOptions = {
@@ -12,9 +13,16 @@ const App = ({ children }: { children: ReactNode }) => {
 
   return (
     <CookiesProvider defaultSetOptions={cookieOptions}>
-      <RainbowProvider>{children}</RainbowProvider>
+      <RainbowProvider>
+        <Wrapper>{children}</Wrapper>
+      </RainbowProvider>
     </CookiesProvider>
   );
+};
+
+const Wrapper = ({ children }: { children: ReactNode }) => {
+  const {} = useConnect();
+  return <main>{children}</main>;
 };
 
 export default App;
