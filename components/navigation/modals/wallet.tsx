@@ -1,19 +1,13 @@
 "use client";
 
+import { useAccount } from "wagmi";
 import SMClickAnimation from "@/components/click-animation";
 import useCopy from "@/hooks/useCopy";
 import useTruncateText from "@/hooks/useTruncateText";
 import { DisconnectIcon, CopyIcon, WalletIcon } from "@/public/icons";
 
-const address = "0x1234567890123456789012345678901234567890";
-
-const WalletModal = ({
-  close,
-  network,
-}: {
-  close: () => void;
-  network: string;
-}) => {
+const WalletModal = ({ close }: { close: () => void }) => {
+  const { address } = useAccount();
   const copy = useCopy();
   const { truncatedText } = useTruncateText((address as string) || "", 6, 6);
 
@@ -38,7 +32,7 @@ const WalletModal = ({
 
         <SMClickAnimation
           className="flex-1 bg-primary-200 flex items-center justify-center p-3 rounded-base"
-          onClick={() => {}}
+          onClick={close}
         >
           <div className="flex flex-col items-center justify-center gap-2">
             <DisconnectIcon />

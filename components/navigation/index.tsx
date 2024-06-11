@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import classNames from "classnames";
+import { useAccount } from "wagmi";
 
 import Left from "./left";
 import Right from "./right";
@@ -15,6 +16,7 @@ import WalletModal from "./modals/wallet";
 import NetworkModal from "./modals/network";
 
 const LBNavigation = ({ network }: ILBNavigation) => {
+  const { address } = useAccount();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalType, setModalType] = useState<ModalType>();
@@ -56,7 +58,7 @@ const LBNavigation = ({ network }: ILBNavigation) => {
       variant: "network",
     },
     {
-      text: "0x123455299820nccweuref02ief0iedfq0uie2ee2e24jnc",
+      text: address || "Connect",
       variant: "wallet",
     },
   ];
@@ -86,9 +88,7 @@ const LBNavigation = ({ network }: ILBNavigation) => {
         </nav>
 
         <LBModal show={Boolean(modalType)} close={closeModal}>
-          {modalType === "wallet" && (
-            <WalletModal close={closeModal} network="base" />
-          )}
+          {modalType === "wallet" && <WalletModal close={closeModal} />}
           {modalType === "network" && <NetworkModal close={closeModal} />}
         </LBModal>
       </div>

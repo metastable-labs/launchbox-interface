@@ -1,31 +1,32 @@
 import { useEffect, useState } from "react";
 import classNames from "classnames";
+import { useChainId } from "wagmi";
 
 import useTruncateText from "@/hooks/useTruncateText";
 import LBClickAnimation from "../click-animation";
 import {
   SelectIcon,
-  GitHubMobileIcon,
   VerifiedIcon,
   SelectSecondaryIcon,
   WalletIcon,
-  BasePrimaryMobileIcon,
 } from "@/public/icons";
 import { NavActionProps } from "./types";
+import { networks } from "@/config/rainbow/config";
 
 const NavAction = ({ text, onClick, variant = "network" }: NavActionProps) => {
   const { truncatedText } = useTruncateText(text || "", 4, 4);
+  const chainId = useChainId();
 
-  const [icon, setIcon] = useState(<BasePrimaryMobileIcon />);
+  const [icon, setIcon] = useState<JSX.Element>();
+
+  const connectedNetwork = networks.find(
+    (network) => network.chainId === chainId
+  );
 
   const handleIcon = () => {
-    if (variant === "account") {
-      return setIcon(<GitHubMobileIcon />);
-    }
+    if (variant !== "wallet") return;
 
-    if (variant === "wallet") {
-      return setIcon(<WalletIcon />);
-    }
+    setIcon(<WalletIcon />);
   };
 
   useEffect(() => {
@@ -41,7 +42,7 @@ const NavAction = ({ text, onClick, variant = "network" }: NavActionProps) => {
     <LBClickAnimation onClick={onClick}>
       <div className="max-w-[200px] md:max-w-[240px] bg-white rounded-base border border-primary-50 shadow-nav-select-shadow py-1 pl-1 pr-2 flex items-center justify-center gap-[6px] relative">
         <div className={classNames("flex items-center justify-center", {})}>
-          {icon}
+          {icon || connectedNetwork?.icon}
 
           <div className="flex items-center justify-center gap-[2px]">
             {truncatedText && (
