@@ -5,6 +5,7 @@ import React from 'react';
 import { SmallBaseIcon } from '@/public/icons';
 import LBClickAnimation from '../click-animation';
 import { ILBTokenCard } from './types';
+import Image from 'next/image';
 
 const timeAgo = (date: string) => {
   const now = moment();
@@ -20,14 +21,14 @@ const timeAgo = (date: string) => {
   return createdMoment.fromNow();
 };
 
-const LBTokenCard = ({ createdAt, name, tokenSymbol, id, network }: ILBTokenCard) => {
+const LBTokenCard = ({ createdAt, name, tokenSymbol, id, network, walletAvatarURL }: ILBTokenCard) => {
   const date = timeAgo(createdAt);
 
   return (
     <Link href={`/${id}`}>
       <LBClickAnimation className="p-5 bg-white rounded-lg border border-primary-50 flex flex-col gap-4 w-full h-[275px]">
         <div className="flex items-center justify-between self-stretch">
-          <div className="w-12 h-12 rounded bg-primary-300" />
+          <Image src={walletAvatarURL!} alt={`${name} logo`} width={500} height={500} className="w-12 h-12" />
           <SmallBaseIcon />
         </div>
 
