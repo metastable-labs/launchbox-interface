@@ -4,7 +4,6 @@ import moment from 'moment';
 import React from 'react';
 import { SmallBaseIcon } from '@/public/icons';
 import LBClickAnimation from '../click-animation';
-import { ILBTokenCard } from './types';
 
 const timeAgo = (date: string) => {
   const now = moment();
@@ -20,7 +19,7 @@ const timeAgo = (date: string) => {
   return createdMoment.fromNow();
 };
 
-const LBTokenCard = ({ createdAt, name, tokenSymbol, id, network }: ILBTokenCard) => {
+const LBTokenCard = ({ createdAt, name, tokenSymbol, id }: ILBTokenCard) => {
   const date = timeAgo(createdAt);
 
   return (

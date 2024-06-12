@@ -6,9 +6,8 @@ import { LBClickAnimation, LBContainer, LBTokenCard } from '@/components';
 import EmptyState from './empty';
 import { tokens } from '../home/dummy';
 import { PlusIconAlt } from '@/public/icons';
-import { Network } from '@/components/button/types';
 
-const TokenView = ({ network }: { network: Network }) => {
+const TokenView = () => {
   return (
     <LBContainer>
       <div className="pt-12 flex flex-col gap-[86px] lg:px-8 items-center pb-14">
@@ -20,7 +19,7 @@ const TokenView = ({ network }: { network: Network }) => {
         <AnimatePresence mode="popLayout">
           {!Boolean(tokens.length) && (
             <motion.div key="empty-state" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <EmptyState network={network} />
+              <EmptyState />
             </motion.div>
           )}
 
@@ -32,7 +31,7 @@ const TokenView = ({ network }: { network: Network }) => {
               key="tokens-list"
               className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 items-center justify-start gap-6 flex-1 self-stretch">
               {tokens.map((token) => (
-                <LBTokenCard key={token?.id} {...token} network={network} />
+                <LBTokenCard key={token?.id} {...token} />
               ))}
 
               <Link href={'/token/new'}>
