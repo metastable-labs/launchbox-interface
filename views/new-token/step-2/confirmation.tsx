@@ -1,17 +1,18 @@
-import { useEffect } from 'react';
 import classNames from 'classnames';
+import { useChainId } from 'wagmi';
 
 import { IConfirmation } from '../types';
-import { LBButton, LBModal } from '@/components';
-import { networks } from '@/views/dummy';
+import { LBButton } from '@/components';
+import { networks } from '@/config/rainbow/config';
 
-const Confirmation = ({ tokenData, network }: IConfirmation) => {
-  const networkInfo = networks.find((item) => item.variant === String(network));
+const Confirmation = ({ tokenData }: IConfirmation) => {
+  const chainId = useChainId();
+  const networkInfo = networks.find((item) => item.chainId === chainId);
 
   const info = [
     { title: 'Token Name', value: tokenData?.tokenName },
     { title: 'Token Symbol', value: `$${tokenData?.tokenSymbol}` },
-    { title: 'Network', value: networkInfo?.title, icon: networkInfo?.icon },
+    { title: 'Network', value: networkInfo?.variant, icon: networkInfo?.icon },
     {
       title: 'Supply',
       value: Number(tokenData?.tokenSupply)?.toLocaleString(),
@@ -48,7 +49,7 @@ const Confirmation = ({ tokenData, network }: IConfirmation) => {
         ))}
       </div>
 
-      <LBButton text={`Confirm and deploy $${tokenData?.tokenSymbol}`} fullWidth network={network} variant="plain" type="submit" />
+      <LBButton text={`Confirm and deploy $${tokenData?.tokenSymbol}`} fullWidth variant="plain" type="submit" />
     </div>
   );
 };

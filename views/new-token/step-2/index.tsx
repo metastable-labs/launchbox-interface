@@ -1,15 +1,20 @@
 import { useState } from 'react';
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useChainId } from 'wagmi';
 
 import { StepProps } from '../types';
 import { LBButton, LBLoaderAlt } from '@/components';
 import { SuccessIcon } from '@/public/icons';
 import Confirmation from './confirmation';
+import { networks } from '@/config/rainbow/config';
 
-const Step2 = ({ network, tokenData }: StepProps) => {
+const Step2 = ({ tokenData }: StepProps) => {
+  const chainId = useChainId();
   const [step, setStep] = useState(0);
   const [deployStep, setDeployStep] = useState(0);
+
+  const connectedNetwork = networks.find((network) => network.chainId === chainId);
 
   let stepText;
   switch (deployStep) {
@@ -25,7 +30,7 @@ const Step2 = ({ network, tokenData }: StepProps) => {
       <AnimatePresence mode="popLayout">
         {step === 0 && (
           <motion.div key="zero" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <Confirmation tokenData={tokenData!} network={network} />
+            <Confirmation tokenData={tokenData!} />
           </motion.div>
         )}
 
@@ -35,7 +40,7 @@ const Step2 = ({ network, tokenData }: StepProps) => {
               Upon confirmation, <span className="font-medium text-primary-250">${tokenData?.tokenSymbol}</span> contract will be deployed on selected network
             </p>
 
-            <LBLoaderAlt text={`$${tokenData?.tokenSymbol}`} network={network} />
+            <LBLoaderAlt text={`$${tokenData?.tokenSymbol}`} />
 
             <div
               className={classNames('', {
@@ -60,11 +65,11 @@ const Step2 = ({ network, tokenData }: StepProps) => {
 
             <div className="flex flex-col gap-3 w-full">
               <a href="#" className="text-primary-150 text-sm font-medium">
-                <LBButton text="View token details" network={network} fullWidth variant="plain" />
+                <LBButton text="View token details" fullWidth variant="plain" />
               </a>
 
               <a href="#" target="_blank">
-                <LBButton text={`View on ${network}scan`} fullWidth variant="link" />
+                <LBButton text={`View on ${connectedNetwork?.variant}scan`} fullWidth variant="link" />
               </a>
             </div>
           </motion.div>

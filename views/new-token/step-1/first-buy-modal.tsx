@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Image from 'next/image';
 
 import { LBModal, LBClickAnimation, LBButton } from '@/components';
@@ -7,7 +6,7 @@ import { AlternatingArrowIcon, ETHIcon, ExchangeIcon } from '@/public/icons';
 
 const balance = 24.64;
 
-const FirstBuyModal: React.FC<IFirstBuyModal> = ({ network, show, tokenLogo, tokenSymbol, firstBuyAmount, setFirstBuyAmount, firstBuyTokenAmount, setFirstBuyTokenAmount }) => {
+const FirstBuyModal: React.FC<IFirstBuyModal> = ({ show, tokenLogo, tokenSymbol, firstBuyAmount, setFirstBuyAmount, firstBuyTokenAmount, setFirstBuyTokenAmount }) => {
   const rateValue = 40000;
 
   const balancePartitions = [
@@ -83,7 +82,7 @@ const FirstBuyModal: React.FC<IFirstBuyModal> = ({ network, show, tokenLogo, tok
           </div>
         </div>
 
-        <LBButton network="base" text="Continue" fullWidth onClick={() => {}} type="submit" variant="plain" />
+        <LBButton text="Continue" fullWidth onClick={() => {}} type="submit" variant="plain" />
 
         <p className="px-6 py-3 self-stretch rounded-xl bg-primary-300 text-primary-1250 text-[14px] leading-[24px]">Helpful informative text here</p>
       </div>

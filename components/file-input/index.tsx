@@ -3,12 +3,14 @@
 import { DragEvent, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useChainId } from 'wagmi';
+import { base, optimism, mode } from 'wagmi/chains';
 
-import { ILBFileInput } from './types';
 import { UploadIcon } from '@/public/icons';
 import LBClickAnimation from '../click-animation';
 
-const LBFileInput = ({ name, handleFileChange, disabled, label, network = 'base', show }: ILBFileInput) => {
+const LBFileInput = ({ name, handleFileChange, disabled, label, show }: ILBFileInput) => {
+  const chainId = useChainId();
   const documentInputRef = useRef<HTMLInputElement>(null);
   const [isDragOver, setIsDragOver] = useState(false);
 
@@ -48,10 +50,9 @@ const LBFileInput = ({ name, handleFileChange, disabled, label, network = 'base'
           <div
             className={classNames('w-full p-8 flex flex-col gap-5 items-center bg-white rounded-xl border border-dashed transition-colors duration-300', {
               'border-primary-550': !isDragOver,
-              'border-primary-1000': network === 'base' && isDragOver,
-              'border-primary-1050': network === 'optimism' && isDragOver,
-              'border-primary-1300': network === 'mode' && isDragOver,
-              'border-primary-1150': network === 'scroll' && isDragOver,
+              'border-primary-1000': chainId === base.id && isDragOver,
+              'border-primary-1050': chainId === optimism.id && isDragOver,
+              'border-primary-1300': chainId === mode.id && isDragOver,
             })}
             onDrop={handleDocumentDrop}
             onDragOver={handleDragOver}
