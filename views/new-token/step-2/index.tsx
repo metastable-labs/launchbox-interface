@@ -8,7 +8,7 @@ import { SuccessIcon } from '@/public/icons';
 import Confirmation from './confirmation';
 
 const Step2 = ({ network, tokenData }: StepProps) => {
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(0);
   const [deployStep, setDeployStep] = useState(0);
 
   let stepText;

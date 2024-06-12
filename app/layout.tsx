@@ -1,7 +1,6 @@
-import { ReactNode } from 'react';
 import type { Metadata } from 'next';
-import App from './app';
 import './globals.css';
+import App from './app';
 
 export const metadata: Metadata = {
   title: 'Launchbox',

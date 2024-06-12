@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import LBClickAnimation from '../click-animation';
 import { ILBModal } from './types';
 
-const LBModal = ({ children, close, show, variant = 'primary', title }: ILBModal) => {
+const LBModal = ({ children, close, show, variant = 'primary', title, hasClose = true }: ILBModal) => {
   useEffect(() => {
     if (show) {
       document.body.classList.add('overflow-hidden');

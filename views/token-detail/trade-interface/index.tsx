@@ -1,16 +1,22 @@
 import { useState } from 'react';
 import classNames from 'classnames';
 import Image from 'next/image';
+<<<<<<< HEAD
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
+=======
+>>>>>>> 9351ba2 (refactor: prettier formatting)
 
 import { LBButton, LBClickAnimation } from '@/components';
 
 const tabs = ['buy', 'sell'];
 
 const TradeInterface: React.FC<ITradeInterface> = ({ balance, tokenImageURL, tokenSymbol }) => {
+<<<<<<< HEAD
   const { openConnectModal } = useConnectModal();
   const { isConnected, address } = useAccount();
+=======
+>>>>>>> 9351ba2 (refactor: prettier formatting)
   const [tab, setTab] = useState<'buy' | 'sell'>('buy');
   const [amount, setAmount] = useState<number>(0);
 

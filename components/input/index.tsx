@@ -2,10 +2,23 @@ import classNames from 'classnames';
 
 import { ILBInput } from './types';
 
-const LBInput = ({ name, className, disabled, error, label, placeholder, register, rows = 3, type, variant = 'primary', instruction }: ILBInput) => {
+const LBInput = ({ name, className, disabled, error, instruction, isOptional, isRequired, label, placeholder, register, rows, type, variant = 'primary' }: ILBInput) => {
   return (
     <div className={classNames('w-full text-sm tracking-[-0.084px] text-primary-150 flex flex-col items-start gap-1', { 'text-primary-1050': error })}>
-      <label htmlFor={name}>{label}</label>
+      <label
+        htmlFor={name}
+        className={classNames('', {
+          'flex items-center justify-center gap-2 font-medium': isRequired || isOptional,
+        })}>
+        {label}
+        {(isRequired || isOptional) && (
+          <span
+            className={classNames('font-normal', {
+              'text-primary-1050': isRequired,
+              'text-primary-1000': isOptional,
+            })}>{`(${isRequired ? 'required' : 'optional'})`}</span>
+        )}
+      </label>
 
       {variant === 'primary' && (
         <input

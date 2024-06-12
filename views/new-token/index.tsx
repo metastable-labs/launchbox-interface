@@ -11,7 +11,7 @@ import SecondaryHeader from './secondary-header';
 import { NewTokenData } from './types';
 
 const NewTokenView = ({ network }: { network: Network }) => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [newTokenData, setNewTokenData] = useState<NewTokenData>();
 
   const steps = [<Step1 network={network} setStep={setStep} key={0} setNewTokenData={setNewTokenData} />, <Step2 network={network} key={1} tokenData={newTokenData} setStep={setStep} />];
