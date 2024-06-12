@@ -1,4 +1,4 @@
-import TokenIcon from './token-icon';
+import LaunchIcon from './launch-icon';
 import Logo from './logo.svg';
 import GitHubMobileIcon from './github-mobile-icon.svg';
 import VerifiedIcon from './verified-icon.svg';
@@ -50,14 +50,20 @@ import FarcasterIcon from './farcaster-icon.svg';
 import WebIcon from './web-icon.svg';
 import UploadIcon from './upload-icon.svg';
 import DeleteIcon from './delete-icon.svg';
-import CheckSmallIcon from './check-small-icon.svg';
+import CheckAltIcon from './check-alt-icon';
 import SVGIcon from './svg-icon.svg';
-import ETHIcon from './eth-icon.svg';
+import ETHIcon from './eth-icon';
 import ExchangeIcon from './exchange-icon.svg';
 import AlternatingArrowIcon from './alternating-arrow-icon.svg';
+import TokenIcon from './token-icon.svg';
+import QuestionIcon from './question-icon.svg';
+import BuyAndSellIcon from './buy-and-sell-icon';
+import SearchAltIcon from './search-alt-icon.svg';
+import InfoIcon from './info-icon.svg';
+import TimerAltIcon from './timer-alt-icon.svg';
 
 export {
-  TokenIcon,
+  LaunchIcon,
   Logo,
   GitHubMobileIcon,
   VerifiedIcon,
@@ -109,9 +115,15 @@ export {
   WebIcon,
   UploadIcon,
   DeleteIcon,
-  CheckSmallIcon,
+  CheckAltIcon,
   SVGIcon,
   ETHIcon,
   ExchangeIcon,
   AlternatingArrowIcon,
+  TokenIcon,
+  QuestionIcon,
+  BuyAndSellIcon,
+  SearchAltIcon,
+  InfoIcon,
+  TimerAltIcon,
 };
