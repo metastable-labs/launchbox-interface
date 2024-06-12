@@ -1,22 +1,18 @@
 import { useState } from 'react';
 import classNames from 'classnames';
 import Image from 'next/image';
-<<<<<<< HEAD
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
-=======
->>>>>>> 9351ba2 (refactor: prettier formatting)
 
 import { LBButton, LBClickAnimation } from '@/components';
+import { ILBTradeInterface } from './types';
 
 const tabs = ['buy', 'sell'];
 
-const TradeInterface: React.FC<ITradeInterface> = ({ balance, tokenImageURL, tokenSymbol }) => {
-<<<<<<< HEAD
+const LBTradeInterface = ({ balance, token: { tokenSymbol, walletAvatarURL }, standAlone = true }: ILBTradeInterface) => {
   const { openConnectModal } = useConnectModal();
   const { isConnected, address } = useAccount();
-=======
->>>>>>> 9351ba2 (refactor: prettier formatting)
+
   const [tab, setTab] = useState<'buy' | 'sell'>('buy');
   const [amount, setAmount] = useState<number>(0);
 
@@ -42,7 +38,7 @@ const TradeInterface: React.FC<ITradeInterface> = ({ balance, tokenImageURL, tok
   };
 
   return (
-    <form onSubmit={onSubmit} className="min-w-[335px] h-fit p-6 flex flex-col gap-6 rounded-base border border-primary-50 bg-white">
+    <form onSubmit={onSubmit} className={classNames('min-w-[335px] h-fit flex flex-col gap-6', { 'p-6 rounded-base border border-primary-50 bg-white': standAlone })}>
       <div className="p-1 self-stretch flex gap-1 bg-primary-2700 rounded-xl">
         {tabs.map((text) => (
           <div
@@ -72,7 +68,7 @@ const TradeInterface: React.FC<ITradeInterface> = ({ balance, tokenImageURL, tok
 
           <div className="flex flex-col items-end justify-center gap-1.5">
             <div className="px-3 py-1.5 bg-white flex items-center justify-between gap-3 rounded-base">
-              <Image src={tokenImageURL} alt="token" width={500} height={500} className="w-5 h-5 object-cover" />
+              <Image src={walletAvatarURL || ''} alt="token" width={500} height={500} className="w-5 h-5 object-cover" />
               <span className="text-primary-2800 font-semibold text-[15px] leading-[24px] tracking-[-0.075px]">{tokenSymbol}</span>
             </div>
 
@@ -114,4 +110,4 @@ const TradeInterface: React.FC<ITradeInterface> = ({ balance, tokenImageURL, tok
   );
 };
 
-export default TradeInterface;
+export default LBTradeInterface;
