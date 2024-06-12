@@ -1,6 +1,9 @@
 import NewTokenView from './new-token';
-import TokensView from './tokens';
+import TokenView from './token';
 import LandingView from './landing';
 import BuilderView from './builder';
+import TokenDetailsView from './token-detail';
+import FAQView from './faq';
+import HomeView from './home';
 
-export { NewTokenView, TokensView, LandingView, BuilderView };
+export { NewTokenView, TokenView, LandingView, BuilderView, TokenDetailsView, FAQView, HomeView };
