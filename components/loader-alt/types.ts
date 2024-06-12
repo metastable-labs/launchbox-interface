@@ -1,4 +1,4 @@
-import { Network } from "../button/types";
+import { Network } from '../button/types';
 
 interface ILBLoaderAlt {
   text: string;

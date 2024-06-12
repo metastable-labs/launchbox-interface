@@ -1,61 +1,39 @@
-import classNames from "classnames";
+import classNames from 'classnames';
 
-import { ILBInput } from "./types";
+import { ILBInput } from './types';
 
-const LBInput = ({
-  name,
-  className,
-  disabled,
-  error,
-  instruction,
-  isOptional,
-  isRequired,
-  label,
-  placeholder,
-  register,
-  rows,
-  type,
-  variant = "primary",
-}: ILBInput) => {
+const LBInput = ({ name, className, disabled, error, instruction, isOptional, isRequired, label, placeholder, register, rows, type, variant = 'primary' }: ILBInput) => {
   return (
-    <div
-      className={classNames(
-        "w-full text-sm tracking-[-0.084px] text-primary-150 flex flex-col items-start gap-1",
-        { "text-primary-1050": error }
-      )}
-    >
+    <div className={classNames('w-full text-sm tracking-[-0.084px] text-primary-150 flex flex-col items-start gap-1', { 'text-primary-1050': error })}>
       <label
         htmlFor={name}
-        className={classNames("", {
-          "flex items-center justify-center gap-2 font-medium":
-            isRequired || isOptional,
-        })}
-      >
+        className={classNames('', {
+          'flex items-center justify-center gap-2 font-medium': isRequired || isOptional,
+        })}>
         {label}
         {(isRequired || isOptional) && (
           <span
-            className={classNames("font-normal", {
-              "text-primary-1050": isRequired,
-              "text-primary-1000": isOptional,
-            })}
-          >{`(${isRequired ? "required" : "optional"})`}</span>
+            className={classNames('font-normal', {
+              'text-primary-1050': isRequired,
+              'text-primary-1000': isOptional,
+            })}>{`(${isRequired ? 'required' : 'optional'})`}</span>
         )}
       </label>
 
-      {variant === "primary" && (
+      {variant === 'primary' && (
         <input
           name={name}
           disabled={disabled}
           {...register}
           className={classNames(
-            `px-[10px] pl-3 py-[10px] self-stretch w-full rounded-base border border-primary-50 bg-white shadow-nav-select-shadow placeholder-primary-750 font-normal focus:outline-none ${className}`
+            `px-[10px] pl-3 py-[10px] self-stretch w-full rounded-base border border-primary-50 bg-white shadow-nav-select-shadow placeholder-primary-750 font-normal focus:outline-none ${className}`,
           )}
           placeholder={placeholder}
           type={type}
         />
       )}
 
-      {variant === "secondary" && (
+      {variant === 'secondary' && (
         <textarea
           name={name}
           disabled={disabled}
@@ -66,9 +44,7 @@ const LBInput = ({
         />
       )}
 
-      {instruction && (
-        <span className="text-primary-250 text-xs">{instruction}</span>
-      )}
+      {instruction && <span className="text-primary-250 text-xs">{instruction}</span>}
     </div>
   );
 };

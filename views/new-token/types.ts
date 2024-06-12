@@ -1,11 +1,5 @@
-import { Network } from "@/components/button/types";
-import { SetStateAction, Dispatch } from "react";
-import {
-  FieldErrors,
-  UseFormRegister,
-  UseFormSetValue,
-  UseFormWatch,
-} from "react-hook-form";
+import { Network } from '@/components/button/types';
+import { SetStateAction, Dispatch } from 'react';
 
 interface FormProp {
   tokenName: string;
@@ -68,12 +62,4 @@ type NewTokenData = {
   tokenWarpcastChannelLink?: string | undefined;
 };
 
-export type {
-  StepProps,
-  FormProp,
-  ISwitchIcon,
-  ISwitch,
-  IConfirmation,
-  IFirstBuyModal,
-  NewTokenData,
-};
+export type { StepProps, FormProp, ISwitchIcon, ISwitch, IConfirmation, IFirstBuyModal, NewTokenData };

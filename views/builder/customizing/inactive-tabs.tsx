@@ -1,45 +1,39 @@
-import { title } from "process";
-import CustomizingPaper from "./paper";
-import {
-  ApperanceIcon,
-  FooterIcon,
-  HeroIcon,
-  TokenomicsIcon,
-  NavigationIcon,
-} from "@/public/icons";
-import { IInactiveTabs } from "./types";
+import { title } from 'process';
+import CustomizingPaper from './paper';
+import { ApperanceIcon, FooterIcon, HeroIcon, TokenomicsIcon, NavigationIcon } from '@/public/icons';
+import { IInactiveTabs } from './types';
 
 const InactiveTabs = ({ onClick }: IInactiveTabs) => {
   const tabs = [
     {
-      title: "Appearance",
+      title: 'Appearance',
       icon: <ApperanceIcon />,
       isActive: false,
-      onClick: () => onClick("appearance"),
+      onClick: () => onClick('appearance'),
     },
     {
-      title: "Navigation",
+      title: 'Navigation',
       icon: <NavigationIcon />,
       isActive: false,
-      onClick: () => onClick("navigation"),
+      onClick: () => onClick('navigation'),
     },
     {
-      title: "Hero section",
+      title: 'Hero section',
       icon: <HeroIcon />,
       isActive: false,
-      onClick: () => onClick("hero"),
+      onClick: () => onClick('hero'),
     },
     {
-      title: "Tokenomics",
+      title: 'Tokenomics',
       icon: <TokenomicsIcon />,
       isActive: false,
-      onClick: () => onClick("tokenomics"),
+      onClick: () => onClick('tokenomics'),
     },
     {
-      title: "Footer",
+      title: 'Footer',
       icon: <FooterIcon />,
       isActive: false,
-      onClick: () => onClick("footer"),
+      onClick: () => onClick('footer'),
     },
   ];
   return (

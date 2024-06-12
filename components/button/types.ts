@@ -1,6 +1,6 @@
-type ButtonVariants = "link" | "new" | "plain" | "plainAlt";
+type ButtonVariants = 'link' | 'new' | 'plain' | 'plainAlt';
 
-type Network = "base" | "optimism" | "mode" | "scroll";
+type Network = 'base' | 'optimism' | 'mode' | 'scroll';
 
 interface ILBButton {
   variant?: ButtonVariants;
@@ -9,7 +9,7 @@ interface ILBButton {
   network?: string;
   fullWidth?: boolean;
   disabled?: boolean;
-  type?: "button" | "submit" | "reset";
+  type?: 'button' | 'submit' | 'reset';
   loading?: boolean;
 }
 

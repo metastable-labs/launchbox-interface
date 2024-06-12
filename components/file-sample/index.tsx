@@ -1,19 +1,19 @@
-"use client";
-import { AnimatePresence, motion } from "framer-motion";
+'use client';
+import { AnimatePresence, motion } from 'framer-motion';
 
-import { DeleteIcon, CheckSmallIcon, SVGIcon } from "@/public/icons";
+import { DeleteIcon, CheckAltIcon, SVGIcon } from '@/public/icons';
 
 const formatFileSize = (bytes: number, decimals = 2) => {
-  if (bytes === 0) return "0 Bytes";
+  if (bytes === 0) return '0 Bytes';
   const k = 1024;
   const dm = decimals < 0 ? 0 : decimals;
-  const sizes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + sizes[i];
 };
 
 const LBFileSample = ({ file, deleteFile }: ILBFileSmaple) => {
-  const fileSize = file ? formatFileSize(file.size) : "";
+  const fileSize = file ? formatFileSize(file.size) : '';
 
   return (
     <AnimatePresence>
@@ -23,14 +23,11 @@ const LBFileSample = ({ file, deleteFile }: ILBFileSmaple) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="flex self-stretch justify-start items-start md:justify-between md:items-center gap-3 py-4 pl-[14px] pr-4 rounded-xl bg-white border border-primary-50"
-        >
+          className="flex self-stretch justify-start items-start md:justify-between md:items-center gap-3 py-4 pl-[14px] pr-4 rounded-xl bg-white border border-primary-50">
           <div className="flex items-center justify-center gap-3">
             <SVGIcon />
             <div className="flex flex-col items-start justify-center gap-1">
-              <span className="text-primary-150 tracking-[-0.084px] font-medium text-sm">
-                {file.name}
-              </span>
+              <span className="text-primary-150 tracking-[-0.084px] font-medium text-sm">{file.name}</span>
               <div className="flex items-center gap-1 text-xs font-normal">
                 <span className="text-primary-250 uppercase whitespace-nowrap">
                   {fileSize} <span className="lowercase">of</span> {fileSize}
@@ -38,17 +35,14 @@ const LBFileSample = ({ file, deleteFile }: ILBFileSmaple) => {
 
                 <span className="w-[2px] h-[2px] bg-primary-250 rounded-full" />
 
-                <CheckSmallIcon />
+                <CheckAltIcon />
 
                 <span className="text-primary-150">Completed</span>
               </div>
             </div>
           </div>
 
-          <div
-            onClick={deleteFile}
-            className="flex items-center justify-center p-[2px] cursor-pointer"
-          >
+          <div onClick={deleteFile} className="flex items-center justify-center p-[2px] cursor-pointer">
             <DeleteIcon />
           </div>
         </motion.div>

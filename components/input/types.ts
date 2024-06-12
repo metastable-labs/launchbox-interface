@@ -1,7 +1,7 @@
-import { UseFormRegisterReturn } from "react-hook-form";
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface ILBInput {
-  variant?: "primary" | "secondary";
+  variant?: 'primary' | 'secondary';
   placeholder?: string;
   error?: any;
   type?: string;

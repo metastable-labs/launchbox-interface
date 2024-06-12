@@ -3,15 +3,15 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Biform";
-  src: url("../fonts/Biform/biform_regular.otf");
+  font-family: 'Biform';
+  src: url('../fonts/Biform/biform_regular.otf');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
-  font-family: "Aeonik";
-  src: url("../fonts/Aeonik/AeonikTRIAL-Regular.otf");
+  font-family: 'Aeonik';
+  src: url('../fonts/Aeonik/AeonikTRIAL-Regular.otf');
   font-weight: 400;
   font-style: normal;
 }
@@ -26,8 +26,8 @@ html {
   scroll-behavior: smooth;
 }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }

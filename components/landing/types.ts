@@ -28,29 +28,29 @@ interface ILBLandingPageComponent {
 }
 
 type CustomizeChange =
-  | "logoURL"
-  | "navButtonText"
-  | "primaryColor"
-  | "secondaryColor"
-  | "heroTitle"
-  | "heroDescription"
-  | "heroPrimaryButtonText"
-  | "heroSecondaryButtonText"
-  | "heroImageURL"
-  | "tokenomicsSummary"
-  | "tokenTotalSupply"
-  | "tokenDistributions"
-  | "tokenSymbol"
-  | "buyLink"
-  | "xLink"
-  | "farcasterLink"
-  | "telegramLink"
-  | "chainExplorerLink";
+  | 'logoURL'
+  | 'navButtonText'
+  | 'primaryColor'
+  | 'secondaryColor'
+  | 'heroTitle'
+  | 'heroDescription'
+  | 'heroPrimaryButtonText'
+  | 'heroSecondaryButtonText'
+  | 'heroImageURL'
+  | 'tokenomicsSummary'
+  | 'tokenTotalSupply'
+  | 'tokenDistributions'
+  | 'tokenSymbol'
+  | 'buyLink'
+  | 'xLink'
+  | 'farcasterLink'
+  | 'telegramLink'
+  | 'chainExplorerLink';
 
 interface ILandingLink {
   link: string;
   text: string;
-  variant?: "primary" | "secondary";
+  variant?: 'primary' | 'secondary';
   color?: string;
   isNavigation?: boolean;
   isBuilder?: boolean;
@@ -109,14 +109,4 @@ interface IHero {
   heroImageURL: string;
 }
 
-export type {
-  TokenDistribution,
-  ILBLandingPageComponent,
-  ILandingLink,
-  ITokenomics,
-  IDistributionCard,
-  IPoweredBy,
-  IFooter,
-  IHero,
-  CustomizeChange,
-};
+export type { TokenDistribution, ILBLandingPageComponent, ILandingLink, ITokenomics, IDistributionCard, IPoweredBy, IFooter, IHero, CustomizeChange };

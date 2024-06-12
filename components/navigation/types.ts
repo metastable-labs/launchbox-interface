@@ -1,6 +1,6 @@
-import { ReactElement, ReactNode } from "react";
-import { ModalType } from "./modals/types";
-import { Network } from "../button/types";
+import { ReactElement, ReactNode } from 'react';
+import { ModalType } from './modals/types';
+import { Network } from '../button/types';
 
 interface INavLink {
   title: string;
@@ -24,7 +24,7 @@ interface MenuProps {
   menuOpen: boolean;
   links: INavLinks;
   actionItems: INavActions;
-  handleModal: (type: "account" | "wallet" | "network") => void;
+  handleModal: (type: 'account' | 'wallet' | 'network') => void;
 }
 
 interface NavLinkProps {
@@ -40,20 +40,11 @@ interface NavActionProps {
   text?: string;
   onClick: () => void;
   isMobile?: boolean;
-  variant?: "network" | "account" | "wallet";
+  variant?: 'network' | 'account' | 'wallet';
 }
 
 interface ILBNavigation {
   network: Network;
 }
 
-export type {
-  INavLinks,
-  INavLink,
-  INavActions,
-  INavAction,
-  MenuProps,
-  NavLinkProps,
-  NavActionProps,
-  ILBNavigation,
-};
+export type { INavLinks, INavLink, INavActions, INavAction, MenuProps, NavLinkProps, NavActionProps, ILBNavigation };
