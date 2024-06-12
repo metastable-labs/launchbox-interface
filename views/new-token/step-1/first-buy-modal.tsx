@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import Image from 'next/image';
+import { NumericFormat, OnValueChange } from 'react-number-format';
 
 import { LBModal, LBClickAnimation, LBButton } from '@/components';
 import { IFirstBuyModal } from '../types';
@@ -17,23 +17,23 @@ const FirstBuyModal: React.FC<IFirstBuyModal> = ({ network, show, tokenLogo, tok
     { text: '100%', onClick: () => setFirstBuyAmount(balance) },
   ];
 
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => setFirstBuyAmount(Number(e.target.value));
+  const handleAmountChange: OnValueChange = ({ floatValue }) => setFirstBuyAmount(floatValue || 0);
 
-  const handleTokenAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => setFirstBuyTokenAmount(Number(e.target.value));
+  const handleTokenAmountChange: OnValueChange = ({ floatValue }) => setFirstBuyTokenAmount(floatValue || 0);
 
   return (
     <LBModal show={show} hasClose={false} title="First Buy">
       <div className="flex flex-col gap-6">
         <div className="self-stretch flex flex-col gap-3.5">
           <div className="p-4 self-stretch flex items-center justify-between bg-primary-2500 rounded-base border border-primary-1200">
-            <input
-              type="number"
+            <NumericFormat
+              value={firstBuyAmount}
               className="bg-transparent outline-none text-primary-150 text-[24px] leading-[34.8px] max-w-[50%] font-medium"
               placeholder="Amount"
-              value={firstBuyAmount}
-              onChange={handleAmountChange}
+              thousandSeparator=","
+              allowNegative={false}
+              onValueChange={handleAmountChange}
             />
-
             <div className="flex flex-col items-end justify-center gap-1.5">
               <div className="px-3 py-1.5 bg-white flex items-center justify-between gap-3 rounded-base">
                 <ETHIcon />
@@ -59,12 +59,13 @@ const FirstBuyModal: React.FC<IFirstBuyModal> = ({ network, show, tokenLogo, tok
 
         <div className="self-stretch flex flex-col gap-3.5">
           <div className="p-4 self-stretch flex items-center justify-between bg-primary-2500 rounded-base border border-primary-1200">
-            <input
-              type="number"
+            <NumericFormat
+              value={firstBuyTokenAmount}
               className="bg-transparent outline-none text-primary-150 text-[24px] leading-[34.8px] max-w-[50%] font-medium"
               placeholder="Amount"
-              value={firstBuyTokenAmount}
-              onChange={handleTokenAmountChange}
+              thousandSeparator=","
+              allowNegative={false}
+              onValueChange={handleTokenAmountChange}
             />
 
             <div className="px-3 py-1.5 bg-white flex items-center justify-between gap-3 rounded-base">

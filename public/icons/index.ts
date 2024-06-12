@@ -61,6 +61,7 @@ import BuyAndSellIcon from './buy-and-sell-icon';
 import SearchAltIcon from './search-alt-icon.svg';
 import InfoIcon from './info-icon.svg';
 import TimerAltIcon from './timer-alt-icon.svg';
+import ExclaimIcon from './exclaim-icon.svg';
 
 export {
   LaunchIcon,
@@ -126,4 +127,5 @@ export {
   SearchAltIcon,
   InfoIcon,
   TimerAltIcon,
+  ExclaimIcon,
 };

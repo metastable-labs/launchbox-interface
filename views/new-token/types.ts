@@ -57,7 +57,7 @@ type NewTokenData = {
   tokenSymbol: string;
   tokenNetwork: string;
   tokenDecimal: string;
-  tokenSupply: string;
+  tokenSupply: number;
   tokenWebsiteURL?: string | undefined;
   tokenWarpcastChannelLink?: string | undefined;
 };
