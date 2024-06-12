@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -167,6 +167,7 @@ const Step1 = ({ network, setStep, setNewTokenData }: StepProps) => {
   const onSubmit = (data: FormProp) => {
     const formData = {
       ...data,
+      tokenSupply: Number(data.tokenSupply.replace(/,/g, '')),
       createTokenPage,
       // revokeMintAuthority,
       tokenLogo: file,
@@ -179,6 +180,15 @@ const Step1 = ({ network, setStep, setNewTokenData }: StepProps) => {
     setStep(1);
   };
 
+  useEffect(() => {
+    if (tokenSupply) {
+      const formatedTokenSupply = tokenSupply.replace(/[^0-9]/g, '');
+      const numberTokenSupply = Number(formatedTokenSupply);
+      const thousandSeparator = numberTokenSupply.toLocaleString();
+      setValue('tokenSupply', thousandSeparator);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tokenSupply]);
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center justify-center gap-4 rounded-base border border-primary-1200 bg-white p-6 min-w-[343px] md:min-w-[448px]">
       <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full">
