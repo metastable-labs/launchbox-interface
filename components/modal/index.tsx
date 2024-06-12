@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import LBClickAnimation from '../click-animation';
 import { ILBModal } from './types';
 
-const LBModal = ({ children, close, show, variant = 'primary', title }: ILBModal) => {
+const LBModal = ({ children, close, show, variant = 'primary', title, hasClose = true }: ILBModal) => {
   useEffect(() => {
     if (show) {
       document.body.classList.add('overflow-hidden');
@@ -44,9 +44,11 @@ const LBModal = ({ children, close, show, variant = 'primary', title }: ILBModal
                 })}>
                 <h1 className="text-primary-150 text-lg md:text-[24px] md:leading-[37.2px]">{title}</h1>
 
-                <LBClickAnimation onClick={close}>
-                  <RoundedCloseIcon />
-                </LBClickAnimation>
+                {hasClose && (
+                  <LBClickAnimation onClick={close}>
+                    <RoundedCloseIcon />
+                  </LBClickAnimation>
+                )}
               </div>
 
               {children}

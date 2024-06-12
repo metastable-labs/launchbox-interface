@@ -1,6 +1,6 @@
 type TokenDetailData = {
   name: string;
-  symbol: string;
+  tokenSymbol: string;
   tokenAddress: string;
   tokenImageURL: string;
   siteConfigLink: string;

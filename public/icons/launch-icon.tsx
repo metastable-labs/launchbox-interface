@@ -1,4 +1,4 @@
-const TokenIcon = ({ width = 20, height = 20, color = '#525866' }: { width?: number; height?: number; color?: string }) => {
+const LaunchIcon = ({ width = 20, height = 20, color = '#525866' }: { width?: number; height?: number; color?: string }) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 20 20" fill="none">
       <path
@@ -9,4 +9,4 @@ const TokenIcon = ({ width = 20, height = 20, color = '#525866' }: { width?: num
   );
 };
 
-export default TokenIcon;
+export default LaunchIcon;

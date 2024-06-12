@@ -1,5 +1,7 @@
-import { LandingView } from '@/views';
+'use client';
 
-export default function Home() {
-  return <LandingView />;
-}
+import { HomeView } from '@/views';
+
+const Home = () => <HomeView />;
+
+export default Home;

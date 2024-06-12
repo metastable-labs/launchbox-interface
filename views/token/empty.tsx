@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { LBButton } from '@/components';
-import { TokenIcon } from '@/public/icons';
+import { LaunchIcon } from '@/public/icons';
 import { EmptyProps } from './types';
 
 const EmptyState = ({ network }: EmptyProps) => {
@@ -10,7 +10,7 @@ const EmptyState = ({ network }: EmptyProps) => {
       <div className="flex flex-col items-center justify-center gap-1">
         <div className="flex items-center justify-center bg-very-light-gray rounded-full border-t border-primary-900 p-4">
           <div className="flex items-center justify-center rounded-full border border-primary-50 bg-white p-[14px] shadow-fade-light">
-            <TokenIcon width={28} height={28} />
+            <LaunchIcon width={28} height={28} />
           </div>
         </div>
 

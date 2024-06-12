@@ -1,6 +1,5 @@
 import { Network } from '@/components/button/types';
 import { SetStateAction, Dispatch } from 'react';
-import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form';
 
 interface FormProp {
   tokenName: string;
@@ -8,15 +7,15 @@ interface FormProp {
   tokenNetwork: string;
   tokenDecimal: string;
   tokenSupply: string;
+  tokenWebsiteURL?: string;
+  tokenWarpcastChannelLink?: string;
 }
 
 interface StepProps {
   network: Network;
   setStep: Dispatch<SetStateAction<number>>;
-  tokenSymbol?: string;
-  tokenName?: string;
-  setTokenSymbol?: Dispatch<SetStateAction<string>>;
-  setTokenName?: Dispatch<SetStateAction<string>>;
+  setNewTokenData?: Dispatch<SetStateAction<NewTokenData | undefined>>;
+  tokenData?: NewTokenData;
 }
 
 interface ISwitchIcon {
@@ -33,14 +32,34 @@ interface ISwitch {
   instruction: string;
 }
 
-interface IConfirmationModal {
-  tokenSymbol: string;
-  tokenName: string;
+interface IConfirmation {
+  tokenData: NewTokenData;
   network: Network;
-  tokenSupply: string;
-  tokenDecimal: string;
-  show: boolean;
-  close: () => void;
 }
 
-export type { StepProps, FormProp, ISwitchIcon, ISwitch, IConfirmationModal };
+interface IFirstBuyModal {
+  show: boolean;
+  network: Network;
+  tokenSymbol: string;
+  tokenLogo: string;
+  firstBuyAmount: number;
+  setFirstBuyAmount: Dispatch<SetStateAction<number>>;
+  firstBuyTokenAmount: number;
+  setFirstBuyTokenAmount: Dispatch<SetStateAction<number>>;
+}
+
+type NewTokenData = {
+  createTokenPage: boolean;
+  tokenLogo: File | null;
+  firstBuyAmount: number;
+  firstBuyTokenAmount: number;
+  tokenName: string;
+  tokenSymbol: string;
+  tokenNetwork: string;
+  tokenDecimal: string;
+  tokenSupply: string;
+  tokenWebsiteURL?: string | undefined;
+  tokenWarpcastChannelLink?: string | undefined;
+};
+
+export type { StepProps, FormProp, ISwitchIcon, ISwitch, IConfirmation, IFirstBuyModal, NewTokenData };

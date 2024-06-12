@@ -8,7 +8,7 @@ import { useAccount } from 'wagmi';
 import Left from './left';
 import Right from './right';
 import Menu from './menu';
-import { TokenIcon } from '@/public/icons';
+import { BuyAndSellIcon, LaunchIcon, PlusIcon, QuestionIcon, TokenIcon } from '@/public/icons';
 import { INavLinks, INavActions, ILBNavigation } from './types';
 import LBModal from '../modal';
 import { ModalType } from './modals/types';
@@ -23,25 +23,36 @@ const LBNavigation = ({ network }: ILBNavigation) => {
 
   const links: INavLinks = [
     {
-      title: 'Tokens',
+      title: 'My Tokens',
       icon: <TokenIcon />,
-      href: '/tokens',
+      href: '/token',
       isActive: false,
     },
     {
-      title: 'Launch',
-      icon: <TokenIcon />,
-      href: '/tokens/new',
+      title: 'Create',
+      icon: <PlusIcon color="#0A0D14" />,
+      href: '/token/new',
+      isActive: false,
+    },
+    {
+      title: 'Buy/Sell',
+      icon: <BuyAndSellIcon />,
+      href: '/',
+      isActive: false,
+    },
+    {
+      title: 'How it works',
+      icon: <QuestionIcon />,
+      href: '/faq',
       isActive: false,
     },
   ];
 
-  const updatedLinks = links?.map((link) => {
-    const updatedHref = `/${network}${link.href}`;
+  const updatedLinks = links.map((link) => {
+    const isHomeOrTokenId = link.href === '/' && (pathname === '/' || /^\/[a-zA-Z0-9]+$/.test(pathname));
     return {
       ...link,
-      href: updatedHref,
-      isActive: updatedHref === pathname,
+      isActive: link.href === pathname || isHomeOrTokenId,
     };
   });
 

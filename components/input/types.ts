@@ -12,6 +12,8 @@ interface ILBInput {
   className?: string;
   label?: string;
   instruction?: string;
+  isOptional?: boolean;
+  isRequired?: boolean;
 }
 
 export type { ILBInput };

@@ -1,8 +1,11 @@
+import moment from 'moment';
+
 import { TableItem } from '@/components/table/types';
 
 const tokenDetailData = {
+  id: '0cnswi32',
   name: 'Satosh',
-  symbol: 'SAT',
+  tokenSymbol: 'SAT',
   tokenAddress: '0x1234567890123456789012345678901234567890',
   tokenImageURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717743095/crypto-icon-instance_ygqnhb.jpg',
   siteConfigLink: 'https://satoshis.com',
@@ -11,6 +14,14 @@ const tokenDetailData = {
   change: -12.34,
   farcasterLink: 'https://satoshis.com',
   websiteLink: 'https://satoshis.com',
+  createdAt: moment().subtract(2, 'minutes').toISOString(),
+  updatedAt: moment().subtract(2, 'minutes').toISOString(),
+  liquidity: { numerator: 3, denominator: 3450.3 },
+  marketCap: { numerator: 400000, denominator: 0.000056 },
+  txns: { numerator: 706, denominator: { numerator: 406, denominator: 300 } },
+  volume: 1430000,
+  walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717743095/crypto-icon-instance_ygqnhb.jpg',
+  network: 'base',
 };
 
 const transactionsData: TableItem[] = [
@@ -20,7 +31,7 @@ const transactionsData: TableItem[] = [
     type: 'buy',
     usdAmount: 13456.09,
     tokenAmount: 1430109,
-    date: '2024-06-08T00:00:00Z',
+    createdAt: '2024-06-08T00:00:00Z',
   },
   {
     wallet: '0x123456789012345678901234567890',
@@ -28,7 +39,7 @@ const transactionsData: TableItem[] = [
     type: 'sell',
     usdAmount: 120,
     tokenAmount: 50005,
-    date: '2023-06-01T00:00:00Z',
+    createdAt: '2023-06-01T00:00:00Z',
   },
   {
     wallet: '0x123456789012345678901234567890',
@@ -36,7 +47,7 @@ const transactionsData: TableItem[] = [
     type: 'buy',
     usdAmount: 3450.3,
     tokenAmount: 20090,
-    date: '2021-10-01T00:00:00Z',
+    createdAt: '2021-10-01T00:00:00Z',
   },
   {
     wallet: '0x123456789012345678901234567890',
@@ -44,7 +55,7 @@ const transactionsData: TableItem[] = [
     type: 'sell',
     usdAmount: 10,
     tokenAmount: 200,
-    date: '2021-10-01T00:00:00Z',
+    createdAt: '2021-10-01T00:00:00Z',
   },
 ];
 

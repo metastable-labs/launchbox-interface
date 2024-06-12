@@ -4,11 +4,11 @@ import Link from 'next/link';
 
 import { LBClickAnimation, LBContainer, LBTokenCard } from '@/components';
 import EmptyState from './empty';
-import { tokens } from './dummy';
+import { tokens } from '../home/dummy';
 import { PlusIconAlt } from '@/public/icons';
 import { Network } from '@/components/button/types';
 
-const TokensView = ({ network }: { network: Network }) => {
+const TokenView = ({ network }: { network: Network }) => {
   return (
     <LBContainer>
       <div className="pt-12 flex flex-col gap-[86px] lg:px-8 items-center pb-14">
@@ -35,7 +35,7 @@ const TokensView = ({ network }: { network: Network }) => {
                 <LBTokenCard key={token?.id} {...token} network={network} />
               ))}
 
-              <Link href={`/${network}/tokens/new`}>
+              <Link href={'/token/new'}>
                 <LBClickAnimation className="p-5 bg-white rounded-lg border border-primary-50 flex flex-col gap-2 h-[275px] justify-center items-center">
                   <PlusIconAlt />
 
@@ -50,4 +50,4 @@ const TokensView = ({ network }: { network: Network }) => {
   );
 };
 
-export default TokensView;
+export default TokenView;

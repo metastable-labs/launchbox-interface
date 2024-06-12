@@ -13,5 +13,27 @@ import LBLoaderAlt from './loader-alt';
 import LBLandingPageComponent from './landing';
 import LBSecondarySelect from './secondary-select';
 import LBTable from './table';
+import LBFileInput from './file-input';
+import LBFileSample from './file-sample';
+import LBTradeInterface from './trade-interface';
 
-export { LBButton, LBClickAnimation, LBHam, LBLoader, LBModal, LBNavigation, LBTokenCard, LBContainer, LBTiles, LBInput, LBSelect, LBLoaderAlt, LBLandingPageComponent, LBSecondarySelect, LBTable };
+export {
+  LBButton,
+  LBClickAnimation,
+  LBHam,
+  LBLoader,
+  LBModal,
+  LBNavigation,
+  LBTokenCard,
+  LBContainer,
+  LBTiles,
+  LBInput,
+  LBSelect,
+  LBLoaderAlt,
+  LBLandingPageComponent,
+  LBSecondarySelect,
+  LBTable,
+  LBFileInput,
+  LBFileSample,
+  LBTradeInterface,
+};

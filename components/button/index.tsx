@@ -30,7 +30,7 @@ const LBButton = ({ network = 'base', onClick, text, variant = 'plain', fullWidt
         'bg-link-button shadow-link-button': variant === 'link' && !disabled,
         'w-full': fullWidth,
         'px-2 py-2.5': variant === 'plainAlt',
-        'px-3 py-2.5': variant === 'plain',
+        'px-3 py-2.5': variant !== 'plainAlt',
       })}
       onClick={onClick}>
       {!loading && variant === 'new' && <PlusIcon color={iconColor} />}
