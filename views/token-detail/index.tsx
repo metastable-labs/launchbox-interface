@@ -13,7 +13,7 @@ import useCopy from '@/hooks/useCopy';
 import Overview from './overview';
 import Leaderboard from './leaderboard';
 import { Tabs, SecondaryTabs } from './types';
-import TradeInterface from './trade-interface';
+import { LBTradeInterface } from '@/components';
 
 const tabTexts = ['overview', 'leaderboard'];
 const secondaryTabTexts = ['transactions', 'holders'];
@@ -24,7 +24,42 @@ const TokenDetailsView = ({ tokenId, network }: { tokenId: string; network: Netw
   const [userRole, setUserRole] = useState<'admin' | 'user'>('user');
   const copy = useCopy();
 
-  const { name, siteConfigLink, symbol, tokenAddress, tokenImageURL, networkBadgeURL, farcasterLink, websiteLink } = tokenDetailData;
+  const {
+    amount,
+    change,
+    createdAt,
+    farcasterLink,
+    id,
+    liquidity,
+    marketCap,
+    name,
+    network: tokenNetwork,
+    networkBadgeURL,
+    siteConfigLink,
+    tokenAddress,
+    tokenImageURL,
+    tokenSymbol,
+    txns,
+    updatedAt,
+    volume,
+    walletAvatarURL,
+    websiteLink,
+  } = tokenDetailData;
+
+  const tradingToken = {
+    id,
+    name,
+    tokenSymbol,
+    updatedAt,
+    createdAt,
+    network,
+    liquidity,
+    marketCap,
+    txns,
+    volume,
+    walletAvatarURL,
+    tokenAddress,
+  };
 
   const actions = [
     {
@@ -72,7 +107,7 @@ const TokenDetailsView = ({ tokenId, network }: { tokenId: string; network: Netw
               <div className="flex flex-col gap-3 mt-1">
                 <h1 className="text-primary-650 text-[32px] leading-[28px] font-medium">{name}</h1>
 
-                <span className="text-primary-700 text-[14px] leading-[16px]">${symbol}</span>
+                <span className="text-primary-700 text-[14px] leading-[16px]">${tokenSymbol}</span>
               </div>
 
               <BaseBadgeicon />
@@ -135,7 +170,7 @@ const TokenDetailsView = ({ tokenId, network }: { tokenId: string; network: Netw
             </motion.div>
           </AnimatePresence>
 
-          {showTradingInterface && <TradeInterface balance={120330} tokenImageURL={tokenImageURL} tokenSymbol={symbol} />}
+          {showTradingInterface && <LBTradeInterface balance={120330} token={tradingToken} />}
         </div>
 
         {tab === 'overview' && (

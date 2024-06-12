@@ -25,7 +25,7 @@ const infoData = [
 const Overview = ({ tokenDetailData }: IOverview) => {
   const [period, setPeriod] = useState('last-year');
 
-  const { amount, name, networkBadgeURL, siteConfigLink, symbol, tokenAddress, tokenImageURL, change } = tokenDetailData;
+  const { amount, name, networkBadgeURL, siteConfigLink, tokenSymbol, tokenAddress, tokenImageURL, change } = tokenDetailData;
 
   const { whole, decimal } = formatCurrency(amount);
 
