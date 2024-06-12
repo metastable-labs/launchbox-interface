@@ -20,7 +20,7 @@ const timeAgo = (date: string) => {
   return createdMoment.fromNow();
 };
 
-const LBTokenCard = ({ createdAt, name, symbol, id, network }: ILBTokenCard) => {
+const LBTokenCard = ({ createdAt, name, tokenSymbol, id, network }: ILBTokenCard) => {
   const date = timeAgo(createdAt);
 
   return (
@@ -33,7 +33,7 @@ const LBTokenCard = ({ createdAt, name, symbol, id, network }: ILBTokenCard) => 
 
         <div className="flex flex-col items-start gap-0.5">
           <div className="flex items-center justify-center gap-1 text-primary-700 text-[20px] leading-[24px]">
-            {name} <span className="border-[0.5px] border-primary-50 rounded-lg bg-primary-800 px-2 text-primary-750 text-[12px] leading-[24px] font-medium">{symbol}</span>
+            {name} <span className="border-[0.5px] border-primary-50 rounded-lg bg-primary-800 px-2 text-primary-750 text-[12px] leading-[24px] font-medium">{tokenSymbol}</span>
           </div>
           <p className="text-primary-850 text-[14px] leading-[24px]">Deployed {date}</p>
         </div>
