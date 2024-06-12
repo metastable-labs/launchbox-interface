@@ -6,9 +6,8 @@ import { LBButton, LBClickAnimation, LBContainer, LBTokenCard } from '@/componen
 import EmptyState from './empty';
 import { tokens } from '../home/dummy';
 import { ExclaimIcon, PlusIconAlt } from '@/public/icons';
-import { Network } from '@/components/button/types';
 
-const TokenView = ({ network }: { network: Network }) => {
+const TokenView = () => {
   const isConnected = true;
 
   const showEmptyState = isConnected && !Boolean(tokens.length);

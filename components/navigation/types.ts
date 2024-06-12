@@ -15,7 +15,8 @@ type INavLinks = INavLink[];
 interface INavAction {
   text?: string;
   variant: ModalType;
-  onClick?: () => void;
+  onClick: () => void;
+  isVisibile?: boolean;
 }
 
 type INavActions = INavAction[];
@@ -24,7 +25,6 @@ interface MenuProps {
   menuOpen: boolean;
   links: INavLinks;
   actionItems: INavActions;
-  handleModal: (type: 'account' | 'wallet' | 'network') => void;
 }
 
 interface NavLinkProps {
@@ -41,6 +41,7 @@ interface NavActionProps {
   onClick: () => void;
   isMobile?: boolean;
   variant?: 'network' | 'account' | 'wallet';
+  isVisibile?: boolean;
 }
 
 interface ILBNavigation {
