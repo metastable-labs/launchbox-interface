@@ -6,8 +6,10 @@ import { LBContainer, LBModal, LBTable, LBTradeInterface } from '@/components';
 import { BaseBadgeicon, SearchAltIcon } from '@/public/icons';
 import { tokens } from './dummy';
 import { ILBTokenCard } from '@/components/token-card/types';
+import useSystemFunctions from '@/hooks/useSystemFunctions';
 
 const HomeView = () => {
+  const { navigate } = useSystemFunctions();
   const [searchTerm, setSearchTerm] = useState('');
   const [activeToken, setActiveToken] = useState<ILBTokenCard>();
 
@@ -26,11 +28,7 @@ const HomeView = () => {
     console.log('CTA', token);
   };
 
-  const rowClick = (id: string) => {
-    const token = tokens.find((token) => token.id === id);
-    setActiveToken(token);
-    console.log('Row clicked', token);
-  };
+  const rowClick = (id: string) => navigate.push(`/${id}`);
 
   const closeModal = () => setActiveToken(undefined);
 

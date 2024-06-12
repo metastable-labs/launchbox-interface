@@ -4,6 +4,7 @@ import { CookiesProvider } from 'react-cookie';
 
 import RainbowProvider from '@/config/rainbow/rainbowkit';
 import useConnect from '@/hooks/useConnect';
+import { LBNavigation } from '@/components';
 
 const App = ({ children }: { children: ReactNode }) => {
   const cookieOptions = {
@@ -22,7 +23,12 @@ const App = ({ children }: { children: ReactNode }) => {
 
 const Wrapper = ({ children }: { children: ReactNode }) => {
   const {} = useConnect();
-  return <main>{children}</main>;
+  return (
+    <main>
+      <LBNavigation network="base" />
+      {children}
+    </main>
+  );
 };
 
 export default App;

@@ -48,10 +48,11 @@ const LBNavigation = ({ network }: ILBNavigation) => {
     },
   ];
 
-  const updatedLinks = links?.map((link) => {
+  const updatedLinks = links.map((link) => {
+    const isHomeOrTokenId = link.href === '/' && (pathname === '/' || /^\/[a-zA-Z0-9]+$/.test(pathname));
     return {
       ...link,
-      isActive: link.href === pathname,
+      isActive: link.href === pathname || isHomeOrTokenId,
     };
   });
 
