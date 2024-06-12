@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import classNames from 'classnames';
 
-import { Network } from '@/components/button/types';
 import { LBClickAnimation, LBContainer, LBTable } from '@/components';
 import PrimaryHeader from './primary-header';
 import { BaseBadgeicon, ConfigSiteIcon, CopyIcon, FarcasterIcon, ShareIcon, WebIcon } from '@/public/icons';
@@ -18,7 +17,7 @@ import { LBTradeInterface } from '@/components';
 const tabTexts = ['overview', 'leaderboard'];
 const secondaryTabTexts = ['transactions', 'holders'];
 
-const TokenDetailsView = ({ tokenId, network }: { tokenId: string; network: Network }) => {
+const TokenDetailsView = ({ tokenId }: { tokenId: string }) => {
   const [tab, setTab] = useState<Tabs>('overview');
   const [secondaryTab, setSecondaryTab] = useState<SecondaryTabs>('transactions');
   const [userRole, setUserRole] = useState<'admin' | 'user'>('user');
@@ -52,7 +51,6 @@ const TokenDetailsView = ({ tokenId, network }: { tokenId: string; network: Netw
     tokenSymbol,
     updatedAt,
     createdAt,
-    network,
     liquidity,
     marketCap,
     txns,
@@ -97,7 +95,7 @@ const TokenDetailsView = ({ tokenId, network }: { tokenId: string; network: Netw
   return (
     <LBContainer>
       <div className={classNames('pt-12 flex flex-col gap-9 lg:px-8 items-stretch', { 'pb-14': tab === 'overview', 'pb-72': tab === 'leaderboard' })}>
-        <PrimaryHeader network={network} />
+        <PrimaryHeader />
 
         <div className="flex flex-col gap-8 items-stretch border-b border-primary-50">
           <div className="w-full flex items-center justify-between">

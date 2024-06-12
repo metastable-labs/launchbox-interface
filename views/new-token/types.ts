@@ -1,4 +1,3 @@
-import { Network } from '@/components/button/types';
 import { SetStateAction, Dispatch } from 'react';
 
 interface FormProp {
@@ -12,7 +11,6 @@ interface FormProp {
 }
 
 interface StepProps {
-  network: Network;
   setStep: Dispatch<SetStateAction<number>>;
   setNewTokenData?: Dispatch<SetStateAction<NewTokenData | undefined>>;
   tokenData?: NewTokenData;
@@ -21,25 +19,21 @@ interface StepProps {
 interface ISwitchIcon {
   switched: boolean;
   onClick?: () => void;
-  network: Network;
 }
 
 interface ISwitch {
   handleOverride: () => void;
   switched: boolean;
-  network: Network;
   title: string;
   instruction: string;
 }
 
 interface IConfirmation {
   tokenData: NewTokenData;
-  network: Network;
 }
 
 interface IFirstBuyModal {
   show: boolean;
-  network: Network;
   tokenSymbol: string;
   tokenLogo: string;
   firstBuyAmount: number;

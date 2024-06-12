@@ -6,9 +6,8 @@ import { LBButton, LBClickAnimation, LBContainer, LBTokenCard } from '@/componen
 import EmptyState from './empty';
 import { tokens } from '../home/dummy';
 import { ExclaimIcon, PlusIconAlt } from '@/public/icons';
-import { Network } from '@/components/button/types';
 
-const TokenView = ({ network }: { network: Network }) => {
+const TokenView = () => {
   const isConnected = true;
 
   const showEmptyState = isConnected && !Boolean(tokens.length);
@@ -24,7 +23,7 @@ const TokenView = ({ network }: { network: Network }) => {
         <AnimatePresence mode="popLayout">
           {showEmptyState && (
             <motion.div key="empty-state" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <EmptyState network={network} />
+              <EmptyState />
             </motion.div>
           )}
 
@@ -36,7 +35,7 @@ const TokenView = ({ network }: { network: Network }) => {
               key="tokens-list"
               className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 items-center justify-start gap-6 flex-1 self-stretch">
               {tokens.map((token) => (
-                <LBTokenCard key={token?.id} {...token} network={network} />
+                <LBTokenCard key={token?.id} {...token} />
               ))}
 
               <Link href={'/token/new'}>
@@ -63,7 +62,7 @@ const TokenView = ({ network }: { network: Network }) => {
                   <span className="text-primary-700 text-[14px] leading-[24px] text-center">Please connect your wallet to continue</span>
                 </div>
 
-                <LBButton text="Connect wallet" network="base" onClick={() => {}} variant="plain" />
+                <LBButton text="Connect wallet" onClick={() => {}} variant="plain" />
               </div>
             </div>
           )}

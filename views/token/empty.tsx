@@ -2,9 +2,8 @@ import Link from 'next/link';
 
 import { LBButton } from '@/components';
 import { LaunchIcon } from '@/public/icons';
-import { EmptyProps } from './types';
 
-const EmptyState = ({ network }: EmptyProps) => {
+const EmptyState = () => {
   return (
     <div className="flex flex-col gap-3.5 items-center justify-center">
       <div className="flex flex-col items-center justify-center gap-1">
@@ -19,7 +18,7 @@ const EmptyState = ({ network }: EmptyProps) => {
       </div>
 
       <Link href="/tokens/new">
-        <LBButton text="Create token" network={network} variant="new" />
+        <LBButton text="Create token" variant="new" />
       </Link>
     </div>
   );

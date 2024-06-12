@@ -19,7 +19,7 @@ const schema = yup.object().shape({
   tokenWarpcastChannelLink: yup.string(),
 });
 
-const Step1 = ({ network, setStep, setNewTokenData }: StepProps) => {
+const Step1 = ({ setStep, setNewTokenData }: StepProps) => {
   const [createTokenPage, setCreateTokenPage] = useState(false);
   // const [revokeMintAuthority, setRevokeMintAuthority] = useState(false);
   const [showFirstBuyModal, setShowFirstBuyModal] = useState(false);
@@ -139,7 +139,6 @@ const Step1 = ({ network, setStep, setNewTokenData }: StepProps) => {
 
   const firstBuyModalData = {
     show: showFirstBuyModal,
-    network,
     tokenSymbol,
     tokenLogo: fileURL!,
     firstBuyAmount,
@@ -203,7 +202,7 @@ const Step1 = ({ network, setStep, setNewTokenData }: StepProps) => {
         <LBInput key={index} {...input} />
       ))}
 
-      <LBFileInput handleFileChange={handleFile} name="token-logo" label="Upload logo" network={network} show={!file} />
+      <LBFileInput handleFileChange={handleFile} name="token-logo" label="Upload logo" show={!file} />
 
       <LBFileSample file={file} deleteFile={deleteFile} />
 
@@ -212,10 +211,10 @@ const Step1 = ({ network, setStep, setNewTokenData }: StepProps) => {
       ))}
 
       {switches.map((switchData, index) => (
-        <Switch key={index} {...switchData} network={network} />
+        <Switch key={index} {...switchData} />
       ))}
 
-      <LBButton onClick={() => setShowFirstBuyModal(true)} text={buttonText} fullWidth network={network} variant="plain" disabled={disbleButton} />
+      <LBButton onClick={() => setShowFirstBuyModal(true)} text={buttonText} fullWidth variant="plain" disabled={disbleButton} />
 
       <FirstBuyModal {...firstBuyModalData} />
     </form>

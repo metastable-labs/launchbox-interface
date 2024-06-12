@@ -3,7 +3,7 @@ import { MenuProps } from './types';
 import NavLink from './nav-link';
 import NavAction from './nav-action';
 
-const Menu = ({ menuOpen, links, actionItems, handleModal }: MenuProps) => {
+const Menu = ({ menuOpen, links, actionItems }: MenuProps) => {
   return (
     <AnimatePresence>
       {menuOpen && (
@@ -20,7 +20,7 @@ const Menu = ({ menuOpen, links, actionItems, handleModal }: MenuProps) => {
 
           <div className="flex items-center justify-start gap-4">
             {actionItems.map((item, index) => (
-              <NavAction key={index} {...item} isMobile onClick={() => handleModal(item.variant)} />
+              <NavAction key={index} {...item} isMobile />
             ))}
           </div>
         </motion.div>

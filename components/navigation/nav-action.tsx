@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { useChainId } from 'wagmi';
+import { useChainId, useAccount } from 'wagmi';
 
 import useTruncateText from '@/hooks/useTruncateText';
 import LBClickAnimation from '../click-animation';
@@ -8,9 +8,10 @@ import { SelectIcon, VerifiedIcon, SelectSecondaryIcon, WalletIcon } from '@/pub
 import { NavActionProps } from './types';
 import { networks } from '@/config/rainbow/config';
 
-const NavAction = ({ text, onClick, variant = 'network' }: NavActionProps) => {
+const NavAction = ({ text, onClick, variant = 'network', isVisibile }: NavActionProps) => {
   const { truncatedText } = useTruncateText(text || '', 4, 4);
   const chainId = useChainId();
+  const { isConnected } = useAccount();
 
   const [icon, setIcon] = useState<JSX.Element>();
 
@@ -27,7 +28,7 @@ const NavAction = ({ text, onClick, variant = 'network' }: NavActionProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [variant]);
 
-  if (!text && variant !== 'network') {
+  if (!isVisibile) {
     return null;
   }
 
@@ -35,7 +36,7 @@ const NavAction = ({ text, onClick, variant = 'network' }: NavActionProps) => {
     <LBClickAnimation onClick={onClick}>
       <div className="max-w-[200px] md:max-w-[240px] bg-white rounded-base border border-primary-50 shadow-nav-select-shadow py-1 pl-1 pr-2 flex items-center justify-center gap-[6px] relative">
         <div className={classNames('flex items-center justify-center', {})}>
-          {icon || connectedNetwork?.icon}
+          {isConnected && (icon || connectedNetwork?.icon)}
 
           <div className="flex items-center justify-center gap-[2px]">
             {truncatedText && (
@@ -43,19 +44,19 @@ const NavAction = ({ text, onClick, variant = 'network' }: NavActionProps) => {
                 className={classNames('tracking-[-0.084px] text-sm font-medium ml-2', {
                   'hidden lg:block': variant !== 'wallet',
                 })}>
-                {variant === 'account' ? text : truncatedText}
+                {variant === 'account' || !isConnected ? text : truncatedText}
               </span>
             )}
 
-            {variant === 'wallet' && <VerifiedIcon />}
+            {isConnected && variant === 'wallet' && <VerifiedIcon />}
           </div>
         </div>
-        {variant === 'network' && (
+        {isConnected && variant === 'network' && (
           <div className="absolute right-[3px] bottom-[5px] flex items-center justify-center bg-primary-300 rounded-full border-[0.171px] border-primary-350">
             <SelectSecondaryIcon />
           </div>
         )}
-        {variant !== 'network' && <SelectIcon />}
+        {isConnected && variant !== 'network' && <SelectIcon />}
       </div>
     </LBClickAnimation>
   );

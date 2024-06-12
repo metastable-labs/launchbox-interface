@@ -1,8 +1,7 @@
 import { TokenView } from '@/views';
-import { PageProps } from '@/app/types';
 
-const Token = ({ params }: PageProps) => {
-  return <TokenView network="base" />;
+const Token = () => {
+  return <TokenView />;
 };
 
 export default Token;

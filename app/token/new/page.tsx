@@ -1,8 +1,7 @@
 import { NewTokenView } from '@/views';
-import { PageProps } from '@/app/types';
 
-const NewTokens = ({ params }: PageProps) => {
-  return <NewTokenView network="base" />;
+const NewTokens = () => {
+  return <NewTokenView />;
 };
 
 export default NewTokens;
