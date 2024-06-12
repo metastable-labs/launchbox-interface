@@ -24,7 +24,7 @@ const LBTokenCard = ({ createdAt, name, symbol, id, network }: ILBTokenCard) => 
   const date = timeAgo(createdAt);
 
   return (
-    <Link href={`/${network}/tokens/${id}`}>
+    <Link href={`/${id}`}>
       <LBClickAnimation className="p-5 bg-white rounded-lg border border-primary-50 flex flex-col gap-4 w-full h-[275px]">
         <div className="flex items-center justify-between self-stretch">
           <div className="w-12 h-12 rounded bg-primary-300" />
