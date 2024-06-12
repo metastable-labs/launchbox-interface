@@ -28,6 +28,7 @@
     "react-cookie": "^7.1.4",
     "react-dom": "^18",
     "react-hook-form": "^7.51.5",
+    "react-number-format": "^5.4.0",
     "viem": "2.x",
     "wagmi": "^2.9.11",
     "yup": "^1.4.0"

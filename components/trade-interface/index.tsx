@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import Image from 'next/image';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
+import { NumericFormat, OnValueChange } from 'react-number-format';
 
 import { LBButton, LBClickAnimation } from '@/components';
 import { ILBTradeInterface } from './types';
@@ -28,7 +29,7 @@ const LBTradeInterface = ({ balance, token: { tokenSymbol, walletAvatarURL }, st
     { title: 'Network fee', value: `0.0046 ETH`, secondaryValue: `$0.03` },
   ];
 
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => setAmount(Number(e.target.value));
+  const handleAmountChange: OnValueChange = ({ floatValue }) => setAmount(floatValue || 0);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -58,12 +59,13 @@ const LBTradeInterface = ({ balance, token: { tokenSymbol, walletAvatarURL }, st
 
       <div className="self-stretch flex flex-col gap-3.5">
         <div className="p-4 self-stretch flex items-center justify-between bg-primary-2500 rounded-base border border-primary-1200">
-          <input
-            type="number"
+          <NumericFormat
+            value={amount}
             className="bg-transparent outline-none text-primary-150 text-[24px] leading-[34.8px] max-w-[50%] font-medium"
             placeholder="Amount"
-            value={amount}
-            onChange={handleAmountChange}
+            thousandSeparator=","
+            allowNegative={false}
+            onValueChange={handleAmountChange}
           />
 
           <div className="flex flex-col items-end justify-center gap-1.5">

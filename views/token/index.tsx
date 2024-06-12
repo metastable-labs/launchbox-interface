@@ -2,12 +2,17 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 
-import { LBClickAnimation, LBContainer, LBTokenCard } from '@/components';
+import { LBButton, LBClickAnimation, LBContainer, LBTokenCard } from '@/components';
 import EmptyState from './empty';
 import { tokens } from '../home/dummy';
-import { PlusIconAlt } from '@/public/icons';
+import { ExclaimIcon, PlusIconAlt } from '@/public/icons';
+import { Network } from '@/components/button/types';
 
-const TokenView = () => {
+const TokenView = ({ network }: { network: Network }) => {
+  const isConnected = true;
+
+  const showEmptyState = isConnected && !Boolean(tokens.length);
+  const showTokens = isConnected && Boolean(tokens.length);
   return (
     <LBContainer>
       <div className="pt-12 flex flex-col gap-[86px] lg:px-8 items-center pb-14">
@@ -17,13 +22,13 @@ const TokenView = () => {
         </div>
 
         <AnimatePresence mode="popLayout">
-          {!Boolean(tokens.length) && (
+          {showEmptyState && (
             <motion.div key="empty-state" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <EmptyState />
             </motion.div>
           )}
 
-          {Boolean(tokens.length) && (
+          {showTokens && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -42,6 +47,25 @@ const TokenView = () => {
                 </LBClickAnimation>
               </Link>
             </motion.div>
+          )}
+
+          {!isConnected && (
+            <div className="py-20 flex items-center justify-center bg-white rounded-[5px] border border-primary-950 shadow-table-cta w-[343px] md:w-[448px]">
+              <div className="flex flex-col gap-3.5 items-center justify-center">
+                <div className="flex flex-col items-center justify-center gap-1">
+                  <div className="flex items-center justify-center bg-very-light-gray rounded-full border-t border-primary-900 p-4">
+                    <div className="flex items-center justify-center rounded-full border border-primary-50 bg-white p-[14px] shadow-fade-light">
+                      <ExclaimIcon />
+                    </div>
+                  </div>
+
+                  <h1 className="text-primary-400 text-[20px] leading-[30px] text-center">Connect wallet</h1>
+                  <span className="text-primary-700 text-[14px] leading-[24px] text-center">Please connect your wallet to continue</span>
+                </div>
+
+                <LBButton text="Connect wallet" onClick={() => {}} variant="plain" />
+              </div>
+            </div>
           )}
         </AnimatePresence>
       </div>
