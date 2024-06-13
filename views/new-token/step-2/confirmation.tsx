@@ -5,7 +5,7 @@ import { IConfirmation } from '../types';
 import { LBButton } from '@/components';
 import { networks } from '@/config/rainbow/config';
 
-const Confirmation = ({ tokenData }: IConfirmation) => {
+const Confirmation = ({ tokenData, handleTokenDeployment }: IConfirmation) => {
   const chainId = useChainId();
   const networkInfo = networks.find((item) => item.chainId === chainId);
 
@@ -49,7 +49,7 @@ const Confirmation = ({ tokenData }: IConfirmation) => {
         ))}
       </div>
 
-      <LBButton text={`Confirm and deploy $${tokenData?.tokenSymbol}`} fullWidth variant="plain" type="submit" />
+      <LBButton onClick={handleTokenDeployment} text={`Confirm and deploy $${tokenData?.tokenSymbol}`} fullWidth variant="plain" type="submit" />
     </div>
   );
 };

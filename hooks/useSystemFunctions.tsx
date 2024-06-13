@@ -1,5 +1,6 @@
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
+import { useAppDispatch, useAppSelector } from './useRedux';
 
 /**
  *
@@ -9,12 +10,20 @@ import { usePathname } from 'next/navigation';
  */
 
 const useSystemFunctions = () => {
+  const dispatch = useAppDispatch();
   const navigate = useRouter();
   const pathname = usePathname();
+
+  // states
+  const tokenState = useAppSelector((state) => state.token);
 
   return {
     navigate,
     pathname,
+    dispatch,
+
+    // states
+    tokenState,
   };
 };
 
