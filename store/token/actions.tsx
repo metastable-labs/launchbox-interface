@@ -7,7 +7,7 @@ import { mode } from 'wagmi/chains';
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useContract from '@/hooks/useContract';
-import { setLoading, setToken, setTokens } from '.';
+import { setLoading, setLoadingCreate, setToken, setTokens } from '.';
 import { CallbackProps } from '..';
 import api from './api';
 import { TokenData } from './types';
@@ -15,7 +15,7 @@ import { networks } from '@/config/rainbow/config';
 import { trim } from 'viem';
 
 const useTokenActions = () => {
-  const { dispatch } = useSystemFunctions();
+  const { dispatch, tokenState } = useSystemFunctions();
   const { deployToken, isPending, isConfirmed, getTransactionData, error } = useContract();
   const chainId = useChainId();
   const { address } = useAccount();
@@ -52,11 +52,9 @@ const useTokenActions = () => {
 
   const createToken = async (data: TokenData, callback?: CallbackProps) => {
     try {
-      dispatch(setLoading(true));
+      dispatch(setLoadingCreate(true));
       dispatch(setToken(undefined));
       setDeployData(data);
-
-      console.log('clicked', data.token_name, data.token_symbol, data.token_decimals, data.token_total_supply);
 
       deployToken(data.token_name, data.token_symbol, data.token_decimals, data.token_total_supply);
     } catch (error: any) {
@@ -69,9 +67,8 @@ const useTokenActions = () => {
 
   const _submitData = async () => {
     try {
-      if (!error && (isPending || !isConfirmed)) return;
+      if (isPending || !isConfirmed) return;
 
-      dispatch(setLoading(true));
       const txData = await getTransactionData();
 
       const formData = new FormData();
@@ -108,14 +105,14 @@ const useTokenActions = () => {
 
       getTokens();
     } finally {
-      dispatch(setLoading(false));
+      dispatch(setLoadingCreate(false));
     }
   };
 
   useEffect(() => {
     _submitData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPending, isConfirmed, error]);
+  }, [isPending, isConfirmed, error, tokenState.loadingCreate]);
 
   return {
     getTokens,
