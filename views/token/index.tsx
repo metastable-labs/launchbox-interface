@@ -20,7 +20,7 @@ const TokenView = () => {
           <p className="text-base text-primary-700">Generate and deploy your own L2 tokens without coding</p>
         </div>
 
-        <AnimatePresence mode="popLayout">
+        <AnimatePresence mode="popLayout" initial={false}>
           {showEmptyState && (
             <motion.div key="empty-state" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <EmptyState />
