@@ -1,5 +1,4 @@
 import { Token } from '@/store/token/types';
-import moment from 'moment';
 
 const tokens: Token[] = [
   {
