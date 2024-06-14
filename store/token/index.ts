@@ -7,12 +7,14 @@ export interface TokenState {
   tokens: Token[] | undefined;
   token: Token | undefined;
   loading: boolean;
+  loadingCreate: boolean;
 }
 
 const initialState: TokenState = {
   tokens: undefined,
   token: undefined,
   loading: false,
+  loadingCreate: false,
 };
 
 export const tokenReducer = createSlice({
@@ -21,6 +23,10 @@ export const tokenReducer = createSlice({
   reducers: {
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
+    },
+
+    setLoadingCreate: (state, action: PayloadAction<boolean>) => {
+      state.loadingCreate = action.payload;
     },
 
     setTokens: (state, action: PayloadAction<Token[] | undefined>) => {
@@ -41,6 +47,6 @@ export const tokenReducer = createSlice({
   },
 });
 
-export const { setLoading, setTokens, setToken } = tokenReducer.actions;
+export const { setLoading, setTokens, setToken, setLoadingCreate } = tokenReducer.actions;
 
 export default tokenReducer.reducer;

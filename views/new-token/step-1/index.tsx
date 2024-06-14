@@ -174,7 +174,6 @@ const Step1 = ({ setStep, setNewTokenData }: StepProps) => {
       firstBuyTokenAmount,
     };
     setNewTokenData?.(formData);
-    console.log(formData);
 
     setStep(1);
   };
