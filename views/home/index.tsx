@@ -1,11 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { debounce, set } from 'lodash';
+import { debounce } from 'lodash';
 
 import { LBContainer, LBModal, LBTable, LBTradeInterface } from '@/components';
 import { BaseBadgeicon, SearchAltIcon } from '@/public/icons';
 import { tokens } from './dummy';
-import { ILBTokenCard } from '@/components/token-card/types';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 
 const HomeView = () => {
@@ -40,7 +39,7 @@ const HomeView = () => {
     <div className="py-[50px] flex flex-col gap-9 w-full">
       <div className="w-full pb-9 border-b border-b-primary-50">
         <LBContainer>
-          <div className="w-full flex items-center justify-between">
+          <div className="w-full flex flex-wrap gap-8 items-center justify-between">
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-3">
                 <h1 className="text-primary-650 text-[32px] leading-[38px] font-medium">Tokens</h1>
