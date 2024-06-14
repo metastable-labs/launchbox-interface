@@ -16,7 +16,7 @@ import ClickTabs from './tabs';
 
 const TokenDetailsView = ({ tokenId }: { tokenId: string }) => {
   const [tab, setTab] = useState<Tabs>('overview');
-  const [userRole, setUserRole] = useState<'admin' | 'user'>('admin');
+  const [userRole, setUserRole] = useState<'admin' | 'user'>('user');
   const copy = useCopy();
 
   const tabTexts = [{ text: 'overview' }, { text: 'leaderboard', hide: userRole === 'user' }, { text: 'channel' }];
