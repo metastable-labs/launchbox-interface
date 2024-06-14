@@ -4,60 +4,25 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import classNames from 'classnames';
 
-import { LBClickAnimation, LBContainer, LBTable } from '@/components';
+import { LBClickAnimation } from '@/components';
 import PrimaryHeader from './primary-header';
 import { BaseBadgeicon, ConfigSiteIcon, CopyIcon, FarcasterIcon, ShareIcon, WebIcon } from '@/public/icons';
-import { holdingsData, tokenDetailData, transactionsData } from './dummy';
+import { tokenDetailData } from './dummy';
 import useCopy from '@/hooks/useCopy';
 import Overview from './overview';
 import Leaderboard from './leaderboard';
-import { Tabs, SecondaryTabs } from './types';
-import { LBTradeInterface } from '@/components';
-
-const tabTexts = ['overview', 'leaderboard'];
-const secondaryTabTexts = ['transactions', 'holders'];
+import { Tabs } from './types';
+import ClickTabs from './tabs';
 
 const TokenDetailsView = ({ tokenId }: { tokenId: string }) => {
   const [tab, setTab] = useState<Tabs>('overview');
-  const [secondaryTab, setSecondaryTab] = useState<SecondaryTabs>('transactions');
-  const [userRole, setUserRole] = useState<'admin' | 'user'>('user');
+  const [userRole, setUserRole] = useState<'admin' | 'user'>('admin');
   const copy = useCopy();
 
-  const {
-    amount,
-    change,
-    createdAt,
-    farcasterLink,
-    id,
-    liquidity,
-    marketCap,
-    name,
-    network: tokenNetwork,
-    networkBadgeURL,
-    siteConfigLink,
-    tokenAddress,
-    tokenImageURL,
-    tokenSymbol,
-    txns,
-    updatedAt,
-    volume,
-    walletAvatarURL,
-    websiteLink,
-  } = tokenDetailData;
+  const tabTexts = [{ text: 'overview' }, { text: 'leaderboard', hide: userRole === 'user' }, { text: 'channel' }];
+  const tabsToShow = tabTexts.filter(({ hide }) => !hide).map(({ text }) => text);
 
-  const tradingToken = {
-    id,
-    name,
-    tokenSymbol,
-    updatedAt,
-    createdAt,
-    liquidity,
-    marketCap,
-    txns,
-    volume,
-    walletAvatarURL,
-    tokenAddress,
-  };
+  const { farcasterLink, name, siteConfigLink, tokenAddress, tokenImageURL, tokenSymbol, websiteLink } = tokenDetailData;
 
   const actions = [
     {
@@ -86,19 +51,17 @@ const TokenDetailsView = ({ tokenId }: { tokenId: string }) => {
     },
   ];
 
-  const tabs = [<Overview tokenDetailData={tokenDetailData} key={0} />, <Leaderboard key={1} />];
-
-  const secondaryTabs = [<LBTable data={transactionsData} loading={false} variant="primary" key={0} tokenSymbol="SAT" />, <LBTable data={holdingsData} loading={false} variant="secondary" key={1} />];
+  const tabs = [<Overview key="overview" userRole={userRole} tokenDetailData={tokenDetailData} />, <Leaderboard key="leaderboard" />, <div key="channel">Channel</div>];
 
   const showTradingInterface = tab === 'overview' && userRole === 'user';
 
   return (
-    <LBContainer>
-      <div className={classNames('pt-12 flex flex-col gap-9 lg:px-8 items-stretch', { 'pb-14': tab === 'overview', 'pb-72': tab === 'leaderboard' })}>
-        <PrimaryHeader />
+    <div className={classNames('pt-12 flex flex-col gap-9 px-5 items-stretch relative overflow-y-scroll', { 'pb-14': tab === 'overview', 'pb-72': tab === 'leaderboard' })}>
+      <PrimaryHeader userRole={userRole} />
 
-        <div className="flex flex-col gap-8 items-stretch border-b border-primary-50">
-          <div className="w-full flex items-center justify-between">
+      <div className={classNames('flex flex-col gap-8 items-stretch', { 'border-b border-primary-50': userRole === 'admin' })}>
+        {userRole === 'admin' && (
+          <div className="w-full hidden md:flex items-center justify-between">
             <div className="flex items-start justify-center gap-4">
               <Image src={tokenImageURL} alt="token-logo" width={500} height={500} className="w-[72px] h-[72px] object-cover" />
 
@@ -130,84 +93,24 @@ const TokenDetailsView = ({ tokenId }: { tokenId: string }) => {
               </LBClickAnimation>
             </div>
           </div>
-
-          <div className="w-full">
-            <div className="flex items-center justify-start relative max-w-fit gap-2">
-              {tabTexts.map((text, index) => (
-                <div
-                  key={index}
-                  className={classNames('px-3.5 pt-2.5 pb-[13px] flex items-center justify-center cursor-pointer text-sm font-semibold transition-colors duration-300 capitalize', {
-                    'text-primary-2300': text === tab,
-                    'text-primary-700': text !== tab,
-                  })}
-                  onClick={() => setTab(text as Tabs)}>
-                  {text}
-                </div>
-              ))}
-
-              <motion.div
-                initial={{ width: '0%' }}
-                animate={{
-                  width: tab === 'overview' ? '44%' : '50%',
-                  left: tab === 'overview' ? '0%' : '48.5%',
-                }}
-                transition={{ duration: 0.3 }}
-                className="absolute bottom-0 left-0 h-[3px] bg-primary-1000"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div
-          className={classNames('', {
-            'flex justify-between gap-24': showTradingInterface,
-          })}>
-          <AnimatePresence mode="popLayout">
-            <motion.div key={tab} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
-              {tabs[tab === 'overview' ? 0 : 1]}
-            </motion.div>
-          </AnimatePresence>
-
-          {showTradingInterface && <LBTradeInterface balance={120330} token={tradingToken} />}
-        </div>
-
-        {tab === 'overview' && (
-          <>
-            <div className="w-full pt-8 border-b border-primary-50">
-              <div className="flex items-center justify-start relative max-w-fit gap-2">
-                {secondaryTabTexts.map((text, index) => (
-                  <div
-                    key={index}
-                    className={classNames('px-3.5 pt-2.5 pb-[13px] flex items-center justify-center cursor-pointer text-sm font-semibold transition-colors duration-300 capitalize', {
-                      'text-primary-2300': text === tab,
-                      'text-primary-700': text !== tab,
-                    })}
-                    onClick={() => setSecondaryTab(text as SecondaryTabs)}>
-                    {text}
-                  </div>
-                ))}
-
-                <motion.div
-                  initial={{ width: '0%' }}
-                  animate={{
-                    width: secondaryTab === 'transactions' ? '56%' : '40%',
-                    left: secondaryTab === 'transactions' ? '0%' : '60%',
-                  }}
-                  transition={{ duration: 0.3 }}
-                  className="absolute bottom-0 left-0 h-[3px] bg-primary-1000"
-                />
-              </div>
-            </div>
-
-            <AnimatePresence mode="popLayout">
-              <motion.div key={secondaryTab} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
-                {secondaryTabs[secondaryTab === 'transactions' ? 0 : 1]}
-              </motion.div>
-            </AnimatePresence>
-          </>
         )}
+
+        <div className="w-full">
+          <ClickTabs tabTexts={tabsToShow} tab={tab} setTab={setTab} />
+        </div>
       </div>
-    </LBContainer>
+
+      <div
+        className={classNames('', {
+          'flex justify-between gap-24': showTradingInterface,
+        })}>
+        <AnimatePresence mode="popLayout">
+          <motion.div key={tab} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
+            {tabs.find((item) => item.key === tab)}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </div>
   );
 };
 
