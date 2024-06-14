@@ -10,7 +10,7 @@ import useCopy from '@/hooks/useCopy';
 import { CheckAltIcon, CopyIcon, ETHIcon, TimerAltIcon } from '@/public/icons';
 import LBClickAnimation from '../click-animation';
 
-const formatNumber = (num: number): string => {
+export const formatNumber = (num: number): string => {
   const formatWithPrecision = (value: number) => {
     return value % 1 === 0 ? value.toFixed(0) : value.toFixed(2);
   };
@@ -27,19 +27,40 @@ const formatNumber = (num: number): string => {
   return num.toString();
 };
 
-const Address = ({ wallet, walletAvatarURL }: IAddress) => {
+const Address = ({ wallet, walletAvatarURL, isTransaction = false, variant }: IAddress) => {
   const { truncatedText } = useTruncateText(wallet, 5, 5);
   return (
-    <div className="flex items-center gap-2">
-      <Image
-        src={walletAvatarURL || 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_npmw4c.jpg'}
-        alt={`${walletAvatarURL} icon`}
-        width={20}
-        height={20}
-        className="w-[10.7px] h-[10.9px] object-cover"
-      />
+    <div className={classNames('flex', { 'items-center gap-2': !isTransaction, 'flex-col gap-1 items-start': isTransaction })}>
+      <div className="flex items-center justify-center gap-2">
+        {!isTransaction && (
+          <Image
+            src={walletAvatarURL || 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_npmw4c.jpg'}
+            alt={`${walletAvatarURL} icon`}
+            width={20}
+            height={20}
+            className="w-[10.7px] h-[10.9px] object-cover"
+          />
+        )}
+        {isTransaction && (
+          <div
+            className={classNames('w-[11px] h-[11px] rounded-full', {
+              'bg-primary-450': variant === 'buy',
+              'bg-primary-1050': variant === 'sell',
+            })}
+          />
+        )}
+        <span className="text-primary-650 text-sm font-medium">{truncatedText}</span>
+      </div>
 
-      <span className="text-primary-650 text-sm font-medium">{truncatedText}</span>
+      {isTransaction && (
+        <span
+          className={classNames('text-sm font-medium capitalize', {
+            'text-primary-2600': variant === 'buy',
+            'text-primary-2650': variant === 'sell',
+          })}>
+          {variant}
+        </span>
+      )}
     </div>
   );
 };
@@ -143,38 +164,33 @@ const Row = ({ item, variant, index, tokenSymbol, cta, rowClick }: IRow) => {
         className={classNames('min-h-[71px] px-4 md:px-6 py-4', {
           'w-[83px]': variant === 'secondary',
         })}>
-        {variant === 'primary' && <Address wallet={item.wallet || '-'} walletAvatarURL={item.walletAvatarURL} />}
+        {variant === 'primary' && <Address isTransaction variant={item.transactionType} wallet={item.wallet || '-'} walletAvatarURL={item.walletAvatarURL} />}
 
         {variant === 'secondary' && <div className="w-full flex items-center justify-center text-primary-650">{index + 1}</div>}
 
         {variant === 'tertiary' && <TokenSample tokenAddress={item.wallet} tokenLogoURL={item.walletAvatarURL} tokenSymbol={item.tokenSymbol} />}
       </td>
 
-      <td className={classNames('min-h-[71px] px-4 md:px-6 py-4 whitespace-nowrap text-gray-500', { 'w-4/6': variant === 'secondary' })}>
-        {variant === 'primary' && (
-          <span
-            className={classNames('capitalize', {
-              'text-primary-2600': item.type === 'buy',
-              'text-primary-2650': item.type === 'sell',
-            })}>
-            {item.type || '-'}
-          </span>
-        )}
-
+      <td
+        className={classNames('min-h-[71px] px-4 md:px-6 py-4 whitespace-nowrap text-gray-500', {
+          'w-4/6': variant === 'secondary',
+          hidden: variant === 'primary',
+          'hidden sm:table-cell': variant === 'tertiary',
+        })}>
         {variant === 'secondary' && <Address wallet={item.wallet || '-'} walletAvatarURL={item.walletAvatarURL} />}
 
         {variant === 'tertiary' && <CreatedAt createdAt={item.createdAt || ''} />}
       </td>
 
       {variant !== 'secondary' && (
-        <td className="min-h-[71px] px-4 md:px-6 py-4 whitespace-nowrap text-gray-500">
+        <td className={classNames('min-h-[71px] px-4 md:px-6 py-4 whitespace-nowrap text-gray-500', { 'hidden md:table-cell': variant === 'primary', 'hidden lg:table-cell': variant === 'tertiary' })}>
           {variant === 'primary' && <span className="text-primary-650">{item.usdAmount ? '$' + formatNumber(item.usdAmount) : '-'}</span>}
           {variant === 'tertiary' && <Liquidity numerator={item.liquidity?.numerator || 0} denominator={item.liquidity?.denominator || 0} />}
         </td>
       )}
 
       {variant !== 'secondary' && (
-        <td className="min-h-[71px] px-4 md:px-6 py-4 whitespace-nowrap text-gray-500">
+        <td className={classNames('min-h-[71px] px-4 md:px-6 py-4 whitespace-nowrap text-gray-500', { 'hidden lg:table-cell': variant === 'tertiary' })}>
           {variant === 'primary' && (
             <span className="text-primary-650">
               {item.tokenAmount && formatNumber(item.tokenAmount || 0) + ' ' + tokenSymbol}
@@ -186,7 +202,11 @@ const Row = ({ item, variant, index, tokenSymbol, cta, rowClick }: IRow) => {
         </td>
       )}
 
-      <td className="min-h-[71px] px-4 md:px-6 py-4 whitespace-nowrap text-sm font-medium">
+      <td
+        className={classNames('min-h-[71px] px-4 md:px-6 py-4 whitespace-nowrap text-sm font-medium', {
+          'hidden md:table-cell': variant === 'primary',
+          'hidden lg:table-cell': variant === 'tertiary',
+        })}>
         {variant === 'primary' && <p className="text-primary-250 min-w-full text-right">{item.createdAt ? moment(item.createdAt).fromNow() : '-'}</p>}
 
         {variant === 'secondary' && <span className="text-primary-650">{`${item.holding?.toLocaleString() + '%' || '-'}`}</span>}
@@ -195,7 +215,7 @@ const Row = ({ item, variant, index, tokenSymbol, cta, rowClick }: IRow) => {
       </td>
 
       {variant === 'tertiary' && (
-        <td className="min-h-[71px] px-4 md:px-6 py-4 whitespace-nowrap">
+        <td className={classNames('min-h-[71px] px-4 md:px-6 py-4 whitespace-nowrap', { 'hidden sm:table-cell': variant === 'tertiary' })}>
           <span className="text-primary-650">{item.volume ? '$' + formatNumber(item.volume) : '-'}</span>
         </td>
       )}

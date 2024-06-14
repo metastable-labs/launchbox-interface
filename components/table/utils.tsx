@@ -3,11 +3,6 @@ import { BuyAndSellIcon, InfoIcon, UpandDownIcon } from '@/public/icons';
 const headers = [
   { primary: 'Wallet', secondary: '#', tertiary: 'Token', key: 0 },
   {
-    primary: (
-      <div className="flex items-center gap-1">
-        Type <UpandDownIcon />
-      </div>
-    ),
     secondary: 'Address',
     tertiary: (
       <div className="flex items-center gap-1">

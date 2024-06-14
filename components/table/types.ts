@@ -27,11 +27,14 @@ interface TableItem {
     };
   };
   volume?: number;
+  transactionType?: 'buy' | 'sell';
 }
 
 interface IAddress {
   wallet?: string;
   walletAvatarURL?: string;
+  isTransaction?: boolean;
+  variant?: 'buy' | 'sell';
 }
 
 interface ILBTable {
