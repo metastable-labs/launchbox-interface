@@ -100,6 +100,7 @@ const Tokenomics = ({ tokenDistributions, tokenSymbol, tokenTotalSupply, isBuild
       legend: {
         display: false,
       },
+      crosshair: false,
     },
   };
 
