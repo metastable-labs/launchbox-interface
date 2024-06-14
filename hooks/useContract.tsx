@@ -6,7 +6,7 @@ import { networks } from '@/config/rainbow/config';
 const useContract = () => {
   const chainId: any = useChainId();
   const { data: hash, isPending, writeContract, error } = useWriteContract();
-  console.log('ddndndjkdj', error?.message);
+
   const { isSuccess: isConfirmed } = useWaitForTransactionReceipt({
     hash,
   });
