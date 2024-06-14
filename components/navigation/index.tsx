@@ -51,7 +51,7 @@ const LBNavigation = ({ network }: ILBNavigation) => {
   ];
 
   const updatedLinks = links.map((link) => {
-    const isHomeOrTokenId = link.href === '/' && (pathname === '/' || /^\/[a-zA-Z0-9]+$/.test(pathname));
+    const isHomeOrTokenId = link.href === '/' && (pathname === '/' || (/^\/[a-zA-Z0-9]+$/.test(pathname) && pathname !== '/token'));
     return {
       ...link,
       isActive: link.href === pathname || isHomeOrTokenId,
@@ -104,7 +104,7 @@ const LBNavigation = ({ network }: ILBNavigation) => {
           {modalType === 'network' && <NetworkModal close={closeModal} />}
         </LBModal>
       </div>
-      <div className="h-[123px] md:h-[82px]" />
+      <div className="h-[68.54px] md:h-[82px]" />
     </>
   );
 };
