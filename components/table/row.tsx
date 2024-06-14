@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
 import Image from 'next/image';
@@ -96,30 +96,32 @@ const TokenSample = ({ tokenAddress, tokenLogoURL, tokenSymbol }: ITokenSample) 
         className="w-6 h-6 object-cover"
       />
 
-      <span className="text-primary-650 text-sm font-medium">${tokenSymbol}</span>
+      <span className="text-primary-650 text-sm font-medium">{tokenSymbol ? `$${tokenSymbol}` : '-'}</span>
 
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={+hasCopied}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.1 }}
-          exit={{ opacity: 0 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className={classNames('cursor-pointer', { 'pointer-events-none': hasCopied })}
-          onClick={handleCopy}>
-          {icons[+hasCopied]}
-        </motion.div>
-      </AnimatePresence>
+      {tokenAddress && (
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={+hasCopied}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.1 }}
+            exit={{ opacity: 0 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className={classNames('cursor-pointer', { 'pointer-events-none': hasCopied })}
+            onClick={handleCopy}>
+            {icons[+hasCopied]}
+          </motion.div>
+        </AnimatePresence>
+      )}
     </div>
   );
 };
 
-const CreatedAt = ({ createdAt }: { createdAt: string }) => (
+const CreatedAt = ({ createdAt }: { createdAt?: string }) => (
   <div className="flex items-center gap-1">
     <TimerAltIcon />
-    <span className="text-primary-250 text-sm font-medium">{moment(createdAt).fromNow()}</span>
+    <span className="text-primary-250 text-sm font-medium">{createdAt ? moment(createdAt).fromNow() : '-'}</span>
   </div>
 );
 
@@ -150,16 +152,42 @@ const TXNS = ({ denominator, numerator }: ITXNS) => (
   </div>
 );
 
-const Row = ({ item, variant, index, tokenSymbol, cta, rowClick }: IRow) => {
+const Row = ({ item, variant, index, tokenSymbol, cta, rowClick, items, setShouldFetchMore, take, total }: IRow) => {
+  const rowRef = useRef<HTMLTableRowElement>(null);
+
   const handleRowClick = () => {
     if (rowClick) {
-      rowClick(item.id!);
+      rowClick(item.wallet!);
     }
     return;
   };
 
+  useEffect(() => {
+    const currentRowRef = rowRef.current;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && index === items.length - 2 && take! < total!) {
+          setShouldFetchMore?.(true);
+        }
+      },
+      { threshold: 1.0 },
+    );
+
+    if (currentRowRef) {
+      observer.observe(currentRowRef);
+    }
+
+    return () => {
+      if (currentRowRef) {
+        observer.unobserve(currentRowRef);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, items, take, total]);
+
   return (
-    <tr onClick={handleRowClick} className={classNames('', { 'hover:bg-primary-200 cursor-pointer transition-colors duration-300': variant === 'tertiary' })}>
+    <tr ref={rowRef} onClick={handleRowClick} className={classNames('', { 'hover:bg-primary-200 cursor-pointer transition-colors duration-300': variant === 'tertiary' })}>
       <td
         className={classNames('min-h-[71px] px-4 md:px-6 py-4', {
           'w-[83px]': variant === 'secondary',
@@ -179,7 +207,7 @@ const Row = ({ item, variant, index, tokenSymbol, cta, rowClick }: IRow) => {
         })}>
         {variant === 'secondary' && <Address wallet={item.wallet || '-'} walletAvatarURL={item.walletAvatarURL} />}
 
-        {variant === 'tertiary' && <CreatedAt createdAt={item.createdAt || ''} />}
+        {variant === 'tertiary' && <CreatedAt createdAt={item.createdAt} />}
       </td>
 
       {variant !== 'secondary' && (
@@ -223,7 +251,9 @@ const Row = ({ item, variant, index, tokenSymbol, cta, rowClick }: IRow) => {
       {variant === 'tertiary' && (
         <td className="min-h-[71px] px-4 md:px-6 py-4 whitespace-nowrap">
           <LBClickAnimation
-            className="flex items-center justify-center text-white font-medium text-sm tracking-[-0.084px] px-1.5 py-2 w-full shadow-link-button rounded-lg bg-link-button"
+            className={classNames('flex items-center justify-center text-white font-medium text-sm tracking-[-0.084px] px-1.5 py-2 w-full shadow-link-button rounded-lg bg-link-button', {
+              'opacity-50': !Boolean(item.id),
+            })}
             onClick={() => cta?.(item.id!)}
             stopPropagation>
             Quick buy

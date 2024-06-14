@@ -1,7 +1,9 @@
+import { Address } from 'viem';
+
 type TableVariant = 'primary' | 'secondary' | 'tertiary';
 
 interface TableItem {
-  wallet?: string;
+  wallet?: Address;
   walletAvatarURL?: string;
   type?: 'buy' | 'sell';
   usdAmount?: number;
@@ -44,15 +46,23 @@ interface ILBTable {
   tokenSymbol?: string;
   cta?: (id: string) => void;
   rowClick?: (id: string) => void;
+  total?: number;
+  take?: number;
+  shouldFetchMore?: boolean;
+  setShouldFetchMore?: (value: boolean) => void;
 }
 
 interface IRow {
   variant: TableVariant;
   item: TableItem;
+  items: TableItem[];
   index: number;
   tokenSymbol?: string;
   cta?: (id: string) => void;
   rowClick?: (id: string) => void;
+  setShouldFetchMore?: (value: boolean) => void;
+  total?: number;
+  take?: number;
 }
 
 interface ITokenSample {

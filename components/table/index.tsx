@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { ILBTable } from './types';
 import { headers } from './utils';
 import Row from './row';
+import SkeletonRows from './skeleton';
 
 const placeholder = {
   wallet: undefined,
@@ -14,7 +15,7 @@ const placeholder = {
   holding: undefined,
 };
 
-const LBTable = ({ data, loading, variant = 'primary', tokenSymbol, cta, rowClick }: ILBTable) => {
+const LBTable = ({ data, loading, variant = 'primary', tokenSymbol, cta, rowClick, setShouldFetchMore, shouldFetchMore, total, take }: ILBTable) => {
   if (!data.length) {
     data = [placeholder];
   }
@@ -44,9 +45,23 @@ const LBTable = ({ data, loading, variant = 'primary', tokenSymbol, cta, rowClic
 
         <tbody className="bg-white divide-y divide-gray-200 text-sm font-medium">
           {data.map((item, index) => (
-            <Row index={index} variant={variant} tokenSymbol={tokenSymbol} key={index} item={item} cta={cta} rowClick={rowClick} />
+            <Row
+              items={data}
+              index={index}
+              variant={variant}
+              tokenSymbol={tokenSymbol}
+              key={index}
+              item={item}
+              cta={cta}
+              rowClick={rowClick}
+              setShouldFetchMore={setShouldFetchMore}
+              take={take}
+              total={total}
+            />
           ))}
         </tbody>
+
+        {shouldFetchMore && <SkeletonRows variant={variant} />}
       </table>
     </div>
   );
