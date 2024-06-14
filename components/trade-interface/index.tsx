@@ -10,7 +10,7 @@ import { ILBTradeInterface } from './types';
 
 const tabs = ['buy', 'sell'];
 
-const LBTradeInterface = ({ balance, token: { tokenSymbol, walletAvatarURL }, standAlone = true }: ILBTradeInterface) => {
+const LBTradeInterface = ({ balance, token: { token_symbol, token_logo_url }, standAlone = true }: ILBTradeInterface) => {
   const { openConnectModal } = useConnectModal();
   const { isConnected, address } = useAccount();
 
@@ -39,7 +39,7 @@ const LBTradeInterface = ({ balance, token: { tokenSymbol, walletAvatarURL }, st
   };
 
   return (
-    <form onSubmit={onSubmit} className={classNames('min-w-[300px] h-fit flex flex-col gap-6', { 'p-6 rounded-base border border-primary-50 bg-white': standAlone })}>
+    <form onSubmit={onSubmit} className={classNames('h-fit flex flex-col gap-6', { 'p-6 rounded-base border border-primary-50 bg-white': standAlone, 'max-w-80 md:max-w-[343px]': !standAlone })}>
       <div className="p-1 self-stretch flex gap-1 bg-primary-2700 rounded-xl">
         {tabs.map((text) => (
           <div
@@ -70,12 +70,12 @@ const LBTradeInterface = ({ balance, token: { tokenSymbol, walletAvatarURL }, st
 
           <div className="flex flex-col items-end justify-center gap-1.5">
             <div className="px-3 py-1.5 bg-white flex items-center justify-between gap-3 rounded-base">
-              <Image src={walletAvatarURL || ''} alt="token" width={500} height={500} className="w-5 h-5 object-cover" />
-              <span className="text-primary-2800 font-semibold text-[15px] leading-[24px] tracking-[-0.075px]">{tokenSymbol}</span>
+              <Image src={token_logo_url || ''} alt="token" width={500} height={500} className="w-5 h-5 object-cover" />
+              <span className="text-primary-2800 font-semibold text-[15px] leading-[24px] tracking-[-0.075px]">{token_symbol}</span>
             </div>
 
             <p className="text-primary-250 text-[12px] leading-[17.4px] font-medium whitespace-nowrap">
-              Balance: {balance.toLocaleString()} {tokenSymbol}
+              Balance: {balance.toLocaleString()} {token_symbol}
             </p>
           </div>
         </div>
