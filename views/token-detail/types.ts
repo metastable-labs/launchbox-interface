@@ -1,4 +1,10 @@
-type Tabs = 'overview' | 'leaderboard';
+type Tabs = 'overview' | 'leaderboard' | 'channel';
 type SecondaryTabs = 'transactions' | 'holders';
 
-export type { Tabs, SecondaryTabs };
+interface IClickTabs {
+  tabTexts: string[];
+  tab: any;
+  setTab: (tab: any) => void;
+}
+
+export type { Tabs, SecondaryTabs, IClickTabs };
