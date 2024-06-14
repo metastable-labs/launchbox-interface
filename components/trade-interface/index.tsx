@@ -39,7 +39,7 @@ const LBTradeInterface = ({ balance, token: { tokenSymbol, walletAvatarURL }, st
   };
 
   return (
-    <form onSubmit={onSubmit} className={classNames('min-w-[335px] h-fit flex flex-col gap-6', { 'p-6 rounded-base border border-primary-50 bg-white': standAlone })}>
+    <form onSubmit={onSubmit} className={classNames('min-w-[300px] h-fit flex flex-col gap-6', { 'p-6 rounded-base border border-primary-50 bg-white': standAlone })}>
       <div className="p-1 self-stretch flex gap-1 bg-primary-2700 rounded-xl">
         {tabs.map((text) => (
           <div
@@ -107,7 +107,7 @@ const LBTradeInterface = ({ balance, token: { tokenSymbol, walletAvatarURL }, st
         ))}
       </div>
 
-      <LBButton variant="plainAlt" text={tab} type="submit" network={tab === 'buy' ? 'base' : 'optimism'} />
+      <LBButton variant="plainAlt" text={tab} type="submit" />
     </form>
   );
 };
