@@ -1,18 +1,29 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useChainId } from 'wagmi';
+import { useChainId, useAccount, useSwitchChain } from 'wagmi';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 
 import { StepProps } from '../types';
 import { LBButton, LBLoaderAlt } from '@/components';
 import { SuccessIcon } from '@/public/icons';
 import Confirmation from './confirmation';
 import { networks } from '@/config/rainbow/config';
+import useSystemFunctions from '@/hooks/useSystemFunctions';
+import useTokenActions from '@/store/token/actions';
 
 const Step2 = ({ tokenData }: StepProps) => {
+  const { address, isConnected } = useAccount();
+  const { openConnectModal } = useConnectModal();
   const chainId = useChainId();
+  const { switchChain } = useSwitchChain();
+
+  const { tokenState } = useSystemFunctions();
+  const { createToken } = useTokenActions();
   const [step, setStep] = useState(0);
   const [deployStep, setDeployStep] = useState(0);
+
+  const { loading, token } = tokenState;
 
   const connectedNetwork = networks.find((network) => network.chainId === chainId);
 
@@ -25,12 +36,52 @@ const Step2 = ({ tokenData }: StepProps) => {
       stepText = 'Deploying contract...';
   }
 
+  const handleTokenDeployment = () => {
+    if (!isConnected && openConnectModal) {
+      return openConnectModal();
+    }
+
+    const tokenNetwork = networks.find((network) => network.variant === tokenData?.tokenNetwork);
+
+    if (!tokenNetwork) return;
+
+    if (chainId !== tokenNetwork.chainId) {
+      return switchChain({ chainId: tokenNetwork.chainId });
+    }
+
+    createToken(
+      {
+        create_token_page: tokenData?.createTokenPage!,
+        token_name: tokenData?.tokenName!,
+        token_symbol: tokenData?.tokenSymbol!,
+        token_decimals: tokenData?.tokenDecimal!,
+        token_total_supply: tokenData?.tokenSupply!,
+        logo: tokenData?.tokenLogo!,
+        website_url: tokenData?.tokenWebsiteURL!,
+        warpcast_channel_link: tokenData?.tokenWarpcastChannelLink!,
+      },
+      {
+        onError: () => {
+          setStep(0);
+        },
+      },
+    );
+
+    setStep(1);
+  };
+
+  useEffect(() => {
+    if (loading && token) {
+      setStep(2);
+    }
+  }, [loading, token]);
+
   return (
     <div className={classNames('flex flex-col rounded-base border border-primary-1200 bg-white p-6 min-w-[343px] md:min-w-[448px]', { 'h-[488px] items-center justify-center': step !== 0 })}>
       <AnimatePresence mode="popLayout">
         {step === 0 && (
           <motion.div key="zero" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <Confirmation tokenData={tokenData!} />
+            <Confirmation handleTokenDeployment={handleTokenDeployment} tokenData={tokenData!} />
           </motion.div>
         )}
 

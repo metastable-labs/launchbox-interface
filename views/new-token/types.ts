@@ -30,6 +30,7 @@ interface ISwitch {
 
 interface IConfirmation {
   tokenData: NewTokenData;
+  handleTokenDeployment: () => void;
 }
 
 interface IFirstBuyModal {

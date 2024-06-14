@@ -6,9 +6,12 @@ import { LBContainer, LBModal, LBTable, LBTradeInterface } from '@/components';
 import { BaseBadgeicon, SearchAltIcon } from '@/public/icons';
 import { tokens } from './dummy';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
+import useTokenActions from '@/store/token/actions';
 
 const HomeView = () => {
-  const { navigate } = useSystemFunctions();
+  const { navigate, tokenState } = useSystemFunctions();
+  const { getTokens } = useTokenActions();
+
   const [searchTerm, setSearchTerm] = useState('');
   const [activeToken, setActiveToken] = useState<ILBTokenCard>();
 
@@ -30,11 +33,17 @@ const HomeView = () => {
   const rowClick = (id: string) => navigate.push(`/${id}`);
 
   const closeModal = () => setActiveToken(undefined);
+  console.log(tokenState.tokens);
 
   useEffect(() => {
     console.log('Searching...', searchTerm);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setSearchTerm]);
+
+  useEffect(() => {
+    getTokens();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className="py-[50px] flex flex-col gap-9 w-full">
       <div className="w-full pb-9 border-b border-b-primary-50">
