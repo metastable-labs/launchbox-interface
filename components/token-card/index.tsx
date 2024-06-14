@@ -5,6 +5,7 @@ import React from 'react';
 import { SmallBaseIcon } from '@/public/icons';
 import LBClickAnimation from '../click-animation';
 import Image from 'next/image';
+import { ILBTokenCard } from './types';
 
 const timeAgo = (date: string) => {
   const now = moment();

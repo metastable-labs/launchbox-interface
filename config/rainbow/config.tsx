@@ -36,7 +36,7 @@ export const networks: NetworkProps[] = [
     icon: <OptimismPrimaryMobileIcon />,
     rpcUrl: 'https://mainnet.optimism.io',
     launchboxERC20Factory: '0xd94ec8ab4789c0cd88b61e1bda846459668ed920',
-    abi: SuperERC20Factory.abi,
+    abi: LaunchBoxErc20Factory.abi,
   },
   {
     variant: 'mode',
@@ -44,6 +44,6 @@ export const networks: NetworkProps[] = [
     icon: <ModePrimaryMobileIcon />,
     rpcUrl: 'https://mainnet.mode.network/',
     launchboxERC20Factory: '0xd94ec8ab4789c0cd88b61e1bda846459668ed920',
-    abi: SuperERC20Factory.abi,
+    abi: LaunchBoxErc20Factory.abi,
   },
 ];

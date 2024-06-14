@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useChainId } from 'wagmi';
+import { useChainId, useAccount, useSwitchChain } from 'wagmi';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 
 import { StepProps } from '../types';
 import { LBButton, LBLoaderAlt } from '@/components';
@@ -12,9 +13,13 @@ import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useTokenActions from '@/store/token/actions';
 
 const Step2 = ({ tokenData }: StepProps) => {
+  const { address, isConnected } = useAccount();
+  const { openConnectModal } = useConnectModal();
+  const chainId = useChainId();
+  const { switchChain } = useSwitchChain();
+
   const { tokenState } = useSystemFunctions();
   const { createToken } = useTokenActions();
-  const chainId = useChainId();
   const [step, setStep] = useState(0);
   const [deployStep, setDeployStep] = useState(0);
 
@@ -32,8 +37,17 @@ const Step2 = ({ tokenData }: StepProps) => {
   }
 
   const handleTokenDeployment = () => {
-    console.log(tokenData);
-    setStep(1);
+    if (!isConnected && openConnectModal) {
+      return openConnectModal();
+    }
+
+    const tokenNetwork = networks.find((network) => network.variant === tokenData?.tokenNetwork);
+
+    if (!tokenNetwork) return;
+
+    if (chainId !== tokenNetwork.chainId) {
+      return switchChain({ chainId: tokenNetwork.chainId });
+    }
 
     createToken(
       {
@@ -52,6 +66,8 @@ const Step2 = ({ tokenData }: StepProps) => {
         },
       },
     );
+
+    setStep(1);
   };
 
   useEffect(() => {

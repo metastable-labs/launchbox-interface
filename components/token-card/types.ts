@@ -1,4 +1,4 @@
-interface ILBTokenCard {
+export interface ILBTokenCard {
   id: string;
   name: string;
   tokenSymbol: string;

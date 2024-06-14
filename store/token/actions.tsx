@@ -16,7 +16,7 @@ import { trim } from 'viem';
 
 const useTokenActions = () => {
   const { dispatch } = useSystemFunctions();
-  const { deployToken, isPending, isConfirmed, getTransactionData } = useContract();
+  const { deployToken, isPending, isConfirmed, getTransactionData, error } = useContract();
   const chainId = useChainId();
   const { address } = useAccount();
 
@@ -56,8 +56,11 @@ const useTokenActions = () => {
       dispatch(setToken(undefined));
       setDeployData(data);
 
+      console.log('clicked', data.token_name, data.token_symbol, data.token_decimals, data.token_total_supply);
+
       deployToken(data.token_name, data.token_symbol, data.token_decimals, data.token_total_supply);
     } catch (error: any) {
+      console.log(error);
       callback?.onError?.(error);
     } finally {
       //
@@ -66,7 +69,7 @@ const useTokenActions = () => {
 
   const _submitData = async () => {
     try {
-      if (isPending || !isConfirmed) return;
+      if (!error && (isPending || !isConfirmed)) return;
 
       dispatch(setLoading(true));
       const txData = await getTransactionData();
@@ -112,7 +115,7 @@ const useTokenActions = () => {
   useEffect(() => {
     _submitData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPending, isConfirmed]);
+  }, [isPending, isConfirmed, error]);
 
   return {
     getTokens,

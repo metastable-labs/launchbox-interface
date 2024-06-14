@@ -6,7 +6,7 @@ import { networks } from '@/config/rainbow/config';
 const useContract = () => {
   const chainId: any = useChainId();
   const { data: hash, isPending, writeContract, error } = useWriteContract();
-
+  console.log('ddndndjkdj', error?.message);
   const { isSuccess: isConfirmed } = useWaitForTransactionReceipt({
     hash,
   });
@@ -17,12 +17,16 @@ const useContract = () => {
   const abi = currentNetwork?.abi;
 
   const deployToken = (tokenName: string, tokenSymbol: string, tokenDecimals: string, tokenTotalSupply: number) => {
-    writeContract({
-      address: factory!,
-      abi,
-      functionName: 'createToken',
-      args: [tokenName, tokenSymbol, tokenDecimals, tokenTotalSupply],
-    });
+    try {
+      writeContract({
+        address: factory!,
+        abi,
+        functionName: 'createToken',
+        args: [tokenName, tokenSymbol, tokenDecimals, tokenTotalSupply],
+      });
+    } catch (error: any) {
+      console.log('error occured while deploying token', error);
+    }
   };
 
   const getTransactionData = () => {
