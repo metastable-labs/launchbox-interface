@@ -1,17 +1,24 @@
 import { axiosInstance } from '@/utils/axios';
-import { Token } from './types';
+import { Token, Tokens } from './types';
 
 type IToken = {
-  fetchTokens: () => Promise<Token[]>;
+  fetchTokens: (query: string) => Promise<Tokens>;
   fetchToken: (id: string) => Promise<Token>;
   createToken: (data: FormData) => Promise<Token>;
 };
 
 const token: IToken = {
-  fetchTokens: async (): Promise<Token[]> => {
-    const response = await axiosInstance.get(`launchbox/tokens`);
+  fetchTokens: async (query: string): Promise<Tokens> => {
+    const response = await axiosInstance.get(`launchbox/tokens?${query}`);
 
-    return response.data?.data;
+    const data = {
+      tokens: response.data?.data,
+      meta: response.data?.meta,
+    };
+
+    console.log('here', data);
+
+    return data;
   },
 
   fetchToken: async (id: string): Promise<Token> => {

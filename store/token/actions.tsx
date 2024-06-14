@@ -7,7 +7,7 @@ import { mode } from 'wagmi/chains';
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useContract from '@/hooks/useContract';
-import { setLoading, setLoadingCreate, setToken, setTokens } from '.';
+import { setLoading, setLoadingCreate, setToken, setTokens, setMeta } from '.';
 import { CallbackProps } from '..';
 import api from './api';
 import { TokenData } from './types';
@@ -22,11 +22,12 @@ const useTokenActions = () => {
 
   const [deployData, setDeployData] = useState<TokenData>();
 
-  const getTokens = async (callback?: CallbackProps) => {
+  const getTokens = async (query: string, callback?: CallbackProps) => {
     try {
       dispatch(setLoading(true));
-      const tokens = await api.fetchTokens();
+      const { meta, tokens } = await api.fetchTokens(query);
 
+      dispatch(setMeta(meta));
       dispatch(setTokens(tokens));
       return callback?.onSuccess?.(tokens);
     } catch (error: any) {
@@ -103,7 +104,7 @@ const useTokenActions = () => {
 
       dispatch(setToken(response));
 
-      getTokens();
+      getTokens('take=50');
     } finally {
       dispatch(setLoadingCreate(false));
     }

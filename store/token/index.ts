@@ -1,13 +1,14 @@
 'use client';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { Token } from './types';
+import { Meta, Token } from './types';
 
 export interface TokenState {
   tokens: Token[] | undefined;
   token: Token | undefined;
   loading: boolean;
   loadingCreate: boolean;
+  meta?: Meta;
 }
 
 const initialState: TokenState = {
@@ -15,6 +16,7 @@ const initialState: TokenState = {
   token: undefined,
   loading: false,
   loadingCreate: false,
+  meta: undefined,
 };
 
 export const tokenReducer = createSlice({
@@ -31,7 +33,11 @@ export const tokenReducer = createSlice({
 
     setTokens: (state, action: PayloadAction<Token[] | undefined>) => {
       if (action.payload) {
-        state.tokens = [...action.payload];
+        if (state.tokens) {
+          state.tokens = [...state.tokens, ...action.payload];
+        } else {
+          state.tokens = [...action.payload];
+        }
       } else {
         state.tokens = undefined;
       }
@@ -44,9 +50,17 @@ export const tokenReducer = createSlice({
         state.token = undefined;
       }
     },
+
+    setMeta: (state, action: PayloadAction<Meta | undefined>) => {
+      if (action.payload) {
+        state.meta = { ...action.payload };
+      } else {
+        state.meta = undefined;
+      }
+    },
   },
 });
 
-export const { setLoading, setTokens, setToken, setLoadingCreate } = tokenReducer.actions;
+export const { setLoading, setTokens, setToken, setLoadingCreate, setMeta } = tokenReducer.actions;
 
 export default tokenReducer.reducer;
