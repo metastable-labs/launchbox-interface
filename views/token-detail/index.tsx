@@ -100,10 +100,7 @@ const TokenDetailsView = ({ tokenId }: { tokenId: string }) => {
         </div>
       </div>
 
-      <div
-        className={classNames('', {
-          'flex justify-between gap-24': showTradingInterface,
-        })}>
+      <div className={classNames('', {})}>
         <AnimatePresence mode="popLayout">
           <motion.div key={tab} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
             {tabs.find((item) => item.key === tab)}
