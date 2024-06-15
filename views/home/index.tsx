@@ -48,7 +48,7 @@ const HomeView = () => {
   };
 
   const rowClick = (id: string) => {
-    const token = tokens?.find((token) => token.id === id);
+    const token = tokens?.find((token) => token.token_address === id);
     dispatch(setToken(token!));
     navigate.push(`/${id}`);
   };
