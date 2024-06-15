@@ -1,24 +1,37 @@
 import Image from 'next/image';
 import classNames from 'classnames';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import { formatNumber } from '@/components/table/row';
 import useCopy from '@/hooks/useCopy';
-import { BaseBadgeicon, ConfigSiteIcon, CopyIcon, FarcasterIcon, ShareIcon, WebIcon } from '@/public/icons';
-import { LBClickAnimation } from '@/components';
+import { BaseBadgeicon, CheckAltIcon, ConfigSiteIcon, CopyIcon, FarcasterIcon, ShareIcon, WebIcon } from '@/public/icons';
+import { LBClickAnimation, LBShare } from '@/components';
 import { IOverview } from './types';
 import useScreenDetect from '@/hooks/useScreenDetect';
+import { useEffect, useState } from 'react';
 
-const TokenInfo = ({ tokenDetailData, userRole }: IOverview) => {
+const TokenInfo = ({ token, userRole }: IOverview) => {
   const copy = useCopy();
   const { isDesktop } = useScreenDetect();
+  const [hasCopiedAddress, setHasCopiedAddress] = useState(false);
 
-  const { name, tokenSymbol, tokenAddress, tokenImageURL, liquidity, marketCap, websiteLink, farcasterLink, siteConfigLink, fdv, txns, tokenSupply, holders, volume } = tokenDetailData;
+  const siteConfigLink = 'https://satoshis.com';
+  const liquidity = { numerator: 3, denominator: 3450.3 };
+  const marketCap = { numerator: 400000, denominator: 0.000056 };
+  const txns = { numerator: 706, denominator: { numerator: 406, denominator: 300 } };
+  const volume = 1430000;
+  const holders = 20000;
+  const fdv = 20000000;
 
   const actions = [
     {
-      icon: <CopyIcon />,
-      onClick: () => copy(tokenAddress),
+      icons: [<CopyIcon key="copy" width={16} height={16} />, <CheckAltIcon key="check" width={16} height={16} />],
+      onClick: () => {
+        copy(token?.token_address!);
+        setHasCopiedAddress(true);
+      },
       show: true,
+      hasCopiedAddress,
     },
     {
       icon: <ConfigSiteIcon />,
@@ -27,12 +40,12 @@ const TokenInfo = ({ tokenDetailData, userRole }: IOverview) => {
     },
     {
       icon: <WebIcon />,
-      onClick: () => window.open(websiteLink, '_blank'),
+      onClick: () => window.open(token?.website_url, '_blank'),
       show: userRole === 'user',
     },
     {
       icon: <FarcasterIcon />,
-      onClick: () => window.open(farcasterLink, '_blank'),
+      onClick: () => window.open(token?.warpcast_channel_link, '_blank'),
       show: userRole === 'user',
     },
   ];
@@ -57,44 +70,75 @@ const TokenInfo = ({ tokenDetailData, userRole }: IOverview) => {
         </div>
       ),
     },
-    { text: 'Total supply', value: `${tokenSupply.toLocaleString()} ${tokenSymbol}` },
+    { text: 'Total supply', value: `${token?.token_total_supply.toLocaleString()} ${token?.token_symbol}` },
     { text: 'Holders', value: holders.toLocaleString() },
     { text: 'Volume', value: formatNumber(volume) },
   ];
 
   const show = (userRole === 'admin' && !isDesktop) || userRole === 'user';
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setHasCopiedAddress(false);
+    }, 5000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [hasCopiedAddress]);
+
   return (
     <div className="flex flex-col self-stretch w-full gap-6">
       {show && (
         <>
           <div className="flex items-start gap-4">
-            <Image src={tokenImageURL} alt="token-logo" width={500} height={500} className="w-[50px] h-[50px] object-cover" />
+            <Image src={token?.token_logo_url || ''} alt="token-logo" width={500} height={500} className="w-[50px] h-[50px] object-cover" />
 
             <div className="flex flex-col gap-3 mt-1">
-              <h1 className="text-primary-650 text-[30px] lg:text-[32px] leading-[28px] font-medium">{name}</h1>
+              <h1
+                className={classNames(
+                  'text-primary-650 font-medium break-words',
+                  { 'text-[30px] lg:text-[32px] leading-[28px]': token?.token_name?.length! <= 6 },
+                  { 'text-xl': token?.token_name?.length! > 6 },
+                )}>
+                {token?.token_name}
+              </h1>
 
-              <span className="text-primary-700 text-[14px] leading-[16px]">${tokenSymbol}</span>
+              <span className="text-primary-700 text-[14px] leading-[16px]">${token?.token_symbol}</span>
             </div>
 
-            <BaseBadgeicon />
+            <div className="min-w-fit">
+              <BaseBadgeicon />
+            </div>
           </div>
 
           <div className="flex items-stretch gap-2 w-full pb-[30px] border-b border-b-primary-50">
-            {actions.map(({ icon, onClick, show }, index) => (
+            {actions.map(({ icon, onClick, show, hasCopiedAddress, icons }, index) => (
               <LBClickAnimation
                 key={index}
                 className={classNames('w-full flex items-center justify-center px-3 py-2 bg-white border border-primary-1950 rounded-lg shadow-table-cta', {
                   hidden: !show,
                 })}
                 onClick={onClick}>
-                {icon}
+                {icons && (
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.div
+                      key={+hasCopiedAddress}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.1 }}
+                      exit={{ opacity: 0 }}
+                      className={classNames('', { 'pointer-events-none': hasCopiedAddress })}>
+                      {icons[+hasCopiedAddress]}
+                    </motion.div>
+                  </AnimatePresence>
+                )}
+
+                {icon && icon}
               </LBClickAnimation>
             ))}
 
-            <LBClickAnimation className="flex items-center justify-center gap-1 cursor-pointer px-3.5 py-2.5 bg-white border border-primary-1950 rounded-lg shadow-table-cta w-full">
-              <ShareIcon />
-            </LBClickAnimation>
+            <LBShare token_address={token?.token_address} />
           </div>
         </>
       )}

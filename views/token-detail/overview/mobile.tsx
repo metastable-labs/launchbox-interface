@@ -14,29 +14,16 @@ import { IView } from './types';
 type MobileTabs = 'info' | 'chart+txns' | 'buy/sell';
 const mobileTabs: MobileTabs[] = ['info', 'chart+txns', 'buy/sell'];
 
-const MobileView = ({ tokenDetailData, userRole, holdingsData, tabTexts, transactionsData, liquidityData, period, setPeriod, periods }: IView) => {
+const MobileView = ({ token, userRole, holdingsData, tabTexts, transactionsData, liquidityData, period, setPeriod, periods }: IView) => {
   const [tab, setTab] = useState<SecondaryTabs>('transactions');
   const [mobileTab, setMobileTab] = useState<MobileTabs>('info');
 
-  const { amount, name, tokenSymbol, tokenAddress, tokenImageURL, change, createdAt, id, liquidity, marketCap, txns, updatedAt, volume, walletAvatarURL } = tokenDetailData;
+  const amount = 456.86;
+  const change = -12.34;
 
   const { whole, decimal } = formatCurrency(amount);
 
   const noLiquidityData = liquidityData.every((dataPoint) => dataPoint.value === 0);
-
-  const tradingToken = {
-    id,
-    name,
-    tokenSymbol,
-    updatedAt,
-    createdAt,
-    liquidity,
-    marketCap,
-    txns,
-    volume,
-    walletAvatarURL,
-    tokenAddress,
-  };
 
   const tabs = [
     <LBTable data={transactionsData} loading={false} variant="primary" key="transactions" tokenSymbol="SAT" />,
@@ -45,7 +32,7 @@ const MobileView = ({ tokenDetailData, userRole, holdingsData, tabTexts, transac
 
   const items = [
     <div key="info" className="self-stretch p-6 rounded-lg border border-primary-50 h-fit">
-      <TokenInfo tokenDetailData={tokenDetailData} userRole={userRole} />
+      <TokenInfo token={token} userRole={userRole} />
     </div>,
     <div key="chart+txns" className="w-full self-stretch flex flex-col items-stretch justify-center gap-6 rounded-lg border border-primary-50 p-6">
       <div className="flex items-center justify-center self-stretch">
@@ -111,7 +98,7 @@ const MobileView = ({ tokenDetailData, userRole, holdingsData, tabTexts, transac
       </AnimatePresence>
     </div>,
     <div key="buy/sell" className="max-w-full">
-      <LBTradeInterface balance={120330} token={tradingToken} />
+      <LBTradeInterface balance={120330} token={token!} />
     </div>,
   ];
 

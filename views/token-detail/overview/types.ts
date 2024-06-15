@@ -1,4 +1,5 @@
 import { TableItem } from '@/components/table/types';
+import { Token } from '@/store/token/types';
 
 type TokenDetailData = {
   id: string;
@@ -32,7 +33,7 @@ interface ILiquidityChart {
 }
 
 interface IOverview {
-  tokenDetailData: TokenDetailData;
+  token?: Token;
   userRole: 'admin' | 'user';
 }
 
