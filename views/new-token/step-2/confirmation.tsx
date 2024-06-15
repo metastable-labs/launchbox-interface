@@ -17,12 +17,11 @@ const Confirmation = ({ tokenData, handleTokenDeployment }: IConfirmation) => {
       title: 'Supply',
       value: Number(tokenData?.tokenSupply)?.toLocaleString(),
     },
-    { title: 'Decimal', value: tokenData?.tokenDecimal },
+    { title: 'Decimal', value: '18' },
     {
       title: "You'll get",
       value: `${tokenData?.firstBuyTokenAmount} ${tokenData?.tokenSymbol}`,
     },
-    { title: 'Network fee', value: `0.02 ETH` },
   ];
 
   return (

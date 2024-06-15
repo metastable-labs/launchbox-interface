@@ -24,10 +24,7 @@ const LBTradeInterface = ({ balance, token, standAlone = true }: ILBTradeInterfa
     { text: '100%', onClick: () => setAmount(balance) },
   ];
 
-  const info = [
-    { title: "You'll get", value: `12 ETH` },
-    { title: 'Network fee', value: `0.0046 ETH`, secondaryValue: `$0.03` },
-  ];
+  const info = [{ title: "You'll get", value: `12 ETH` }];
 
   const handleAmountChange: OnValueChange = ({ floatValue }) => setAmount(floatValue || 0);
 

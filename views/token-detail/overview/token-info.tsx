@@ -8,12 +8,13 @@ import { BaseBadgeicon, CheckAltIcon, ConfigSiteIcon, CopyIcon, FarcasterIcon, S
 import { LBClickAnimation, LBShare } from '@/components';
 import { IOverview } from './types';
 import useScreenDetect from '@/hooks/useScreenDetect';
+import useSystemFunctions from '@/hooks/useSystemFunctions';
 
 const TokenInfo = ({ token, userRole }: IOverview) => {
+  const { navigate } = useSystemFunctions();
   const { handleCopy, hasCopied } = useCopy();
   const { isDesktop } = useScreenDetect();
 
-  const siteConfigLink = 'https://satoshis.com';
   const liquidity = { numerator: 3, denominator: 3450.3 };
   const marketCap = { numerator: 400000, denominator: 0.000056 };
   const txns = { numerator: 706, denominator: { numerator: 406, denominator: 300 } };
@@ -30,7 +31,7 @@ const TokenInfo = ({ token, userRole }: IOverview) => {
     },
     {
       icon: <ConfigSiteIcon />,
-      onClick: () => window.open(siteConfigLink, '_blank'),
+      onClick: () => navigate.push('/builder'),
       show: userRole === 'admin',
     },
     {
