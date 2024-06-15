@@ -16,6 +16,7 @@ import LBTable from './table';
 import LBFileInput from './file-input';
 import LBFileSample from './file-sample';
 import LBTradeInterface from './trade-interface';
+import LBShare from './share';
 
 export {
   LBButton,
@@ -36,4 +37,5 @@ export {
   LBFileInput,
   LBFileSample,
   LBTradeInterface,
+  LBShare,
 };
