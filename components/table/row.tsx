@@ -167,7 +167,7 @@ const Row = ({ item, variant, index, tokenSymbol, cta, rowClick, items, setShoul
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && index === items.length - 2 && take! < total!) {
+        if (entries[0].isIntersecting && index === items.length - 2 && items.length < total!) {
           setShouldFetchMore?.(true);
         }
       },
