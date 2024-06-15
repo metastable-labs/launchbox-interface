@@ -5,16 +5,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import classNames from 'classnames';
 
 import { LBClickAnimation } from '@/components';
-import PrimaryHeader from './primary-header';
-import { BaseBadgeicon, ConfigSiteIcon, CopyIcon, FarcasterIcon, ShareIcon, WebIcon } from '@/public/icons';
-import { tokenDetailData } from './dummy';
 import useCopy from '@/hooks/useCopy';
+import { BaseBadgeicon, ConfigSiteIcon, CopyIcon, FarcasterIcon, ShareIcon, WebIcon } from '@/public/icons';
+import PrimaryHeader from './primary-header';
+import { tokenDetailData } from './dummy';
 import Overview from './overview';
 import Leaderboard from './leaderboard';
 import { Tabs } from './types';
 import ClickTabs from './tabs';
 
-const TokenDetailsView = ({ tokenId }: { tokenId: string }) => {
+const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: string }) => {
   const [tab, setTab] = useState<Tabs>('overview');
   const [userRole, setUserRole] = useState<'admin' | 'user'>('user');
   const copy = useCopy();
@@ -52,8 +52,6 @@ const TokenDetailsView = ({ tokenId }: { tokenId: string }) => {
   ];
 
   const tabs = [<Overview key="overview" userRole={userRole} tokenDetailData={tokenDetailData} />, <Leaderboard key="leaderboard" />, <div key="channel">Channel</div>];
-
-  const showTradingInterface = tab === 'overview' && userRole === 'user';
 
   return (
     <div className={classNames('pt-12 flex flex-col gap-9 px-5 items-stretch relative overflow-y-scroll', { 'pb-14': tab === 'overview', 'pb-72': tab === 'leaderboard' })}>

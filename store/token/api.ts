@@ -16,8 +16,6 @@ const token: IToken = {
       meta: response.data?.meta,
     };
 
-    console.log('here', data);
-
     return data;
   },
 

@@ -35,7 +35,6 @@ const LBTradeInterface = ({ balance, token: { token_symbol, token_logo_url }, st
     e.preventDefault();
 
     if (!isConnected && !address && openConnectModal) return openConnectModal();
-    console.log(tab, amount);
   };
 
   return (

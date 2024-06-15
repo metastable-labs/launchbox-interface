@@ -45,7 +45,6 @@ const HomeView = () => {
   const cta = (id: string) => {
     const token = tokens?.find((token) => token.id === id);
     setActiveToken(token!);
-    console.log('CTA', token);
   };
 
   const rowClick = (id: string) => {
@@ -71,8 +70,6 @@ const HomeView = () => {
     if (!tokens?.length) getTokens('take=50');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  console.log('tokens', tokens, tableData);
 
   return (
     <div className="py-[50px] flex flex-col gap-9 w-full">
