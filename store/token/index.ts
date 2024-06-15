@@ -14,7 +14,7 @@ export interface TokenState {
 const initialState: TokenState = {
   tokens: undefined,
   token: undefined,
-  loading: false,
+  loading: true,
   loadingCreate: false,
   meta: undefined,
 };

@@ -17,7 +17,7 @@ const HomeView = () => {
   const [activeToken, setActiveToken] = useState<Token>();
   const [shouldFetchMore, setShouldFetchMore] = useState(false);
 
-  const { tokens, meta } = tokenState;
+  const { tokens, meta, loading } = tokenState;
 
   const tableData = tokens?.map((token) => ({
     name: token.token_name,
@@ -70,6 +70,8 @@ const HomeView = () => {
     if (!tokens?.length) getTokens('take=50');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (loading) return <div>Loading... put loading animation here</div>;
 
   return (
     <div className="py-[50px] flex flex-col gap-9 w-full">
