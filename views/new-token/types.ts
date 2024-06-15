@@ -4,7 +4,6 @@ interface FormProp {
   tokenName: string;
   tokenSymbol: string;
   tokenNetwork: string;
-  tokenDecimal: string;
   tokenSupply: string;
   tokenWebsiteURL?: string;
   tokenWarpcastChannelLink?: string;
@@ -51,7 +50,6 @@ type NewTokenData = {
   tokenName: string;
   tokenSymbol: string;
   tokenNetwork: string;
-  tokenDecimal: string;
   tokenSupply: number;
   tokenWebsiteURL?: string | undefined;
   tokenWarpcastChannelLink?: string | undefined;

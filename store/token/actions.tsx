@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { Address, decodeEventLog } from 'viem';
 import { useCookies } from 'react-cookie';
 import { toast } from 'react-toastify';
 import { useChainId, useAccount } from 'wagmi';
@@ -57,7 +58,7 @@ const useTokenActions = () => {
       dispatch(setToken(undefined));
       setDeployData(data);
 
-      deployToken(data.token_name, data.token_symbol, data.token_decimals, data.token_total_supply);
+      deployToken(data.token_name, data.token_symbol, '18', data.token_total_supply * 10 ** 18);
     } catch (error: any) {
       console.log(error);
       callback?.onError?.(error);
@@ -70,16 +71,28 @@ const useTokenActions = () => {
     try {
       if (isPending || !isConfirmed) return;
 
+      const currentNetwork = networks.find((network) => network.chainId === chainId);
+
       const txData = await getTransactionData();
+      console.log('txData', txData);
+
+      const topicIndex = chainId !== 34443 ? 1 : 2;
+
+      const topics = txData?.logs?.[4]?.topics;
+      const data = txData?.logs?.[4]?.data;
+      const decodedEvent: any = await decodeEventLog({ abi: currentNetwork?.factoryAbi!, topics: topics!, data: data });
+
+      const tokenAddress = decodedEvent?.args?.tokenAddress;
+      const exchangeAddress = decodedEvent?.args?.launchboxExchangeAddress;
 
       const formData = new FormData();
       formData.append('logo', deployData?.logo as File);
       formData.append('token_name', deployData?.token_name!);
       formData.append('token_symbol', deployData?.token_symbol!);
-      formData.append('token_decimals', deployData?.token_decimals!);
-      formData.append('token_address', deployData?.token_address!);
+      formData.append('token_address', trim(tokenAddress as Address));
       formData.append('token_total_supply', deployData?.token_total_supply! as unknown as string);
       formData.append('create_token_page', deployData?.create_token_page! as any);
+      formData.append('token_decimals', '18');
 
       if (deployData?.warpcast_channel_link) {
         formData.append('warpcast_channel_link', deployData?.warpcast_channel_link!);

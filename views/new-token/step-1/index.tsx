@@ -7,13 +7,12 @@ import { LBButton, LBFileInput, LBFileSample, LBInput, LBSelect } from '@/compon
 import { FormProp, StepProps } from '../types';
 import { networks } from '@/views/dummy';
 import Switch from './switch';
-import FirstBuyModal from './first-buy-modal';
 
 const schema = yup.object().shape({
   tokenName: yup.string().required('Token Name is required'),
   tokenSymbol: yup.string().required('Token Symbol is required'),
   tokenNetwork: yup.string().required('Blockchain Network is required'),
-  tokenDecimal: yup.string().required('Token Decimal is required'),
+  // tokenDecimal: yup.string().required('Token Decimal is required'),
   tokenSupply: yup.string().required('Token Supply is Required'),
   tokenWebsiteURL: yup.string(),
   tokenWarpcastChannelLink: yup.string(),
@@ -51,13 +50,12 @@ const Step1 = ({ setStep, setNewTokenData }: StepProps) => {
   const tokenName = watch('tokenName');
   const tokenSymbol = watch('tokenSymbol');
   const tokenNetwork = watch('tokenNetwork');
-  const tokenDecimal = watch('tokenDecimal');
   const tokenSupply = watch('tokenSupply');
 
-  const disbleButton = !tokenDecimal || !tokenName || !tokenNetwork || !tokenSupply || !tokenSymbol || !file;
+  const disbleButton = !tokenName || !tokenNetwork || !tokenSupply || !tokenSymbol || !file;
 
   let buttonText = 'Deploy';
-  if (tokenDecimal && tokenName && tokenNetwork && tokenSupply && tokenSymbol) buttonText = `Deploy $${tokenSymbol} token`;
+  if (tokenName && tokenNetwork && tokenSupply && tokenSymbol) buttonText = `Deploy $${tokenSymbol} token`;
 
   const primaryInputs = [
     {
@@ -81,15 +79,15 @@ const Step1 = ({ setStep, setNewTokenData }: StepProps) => {
   ];
 
   const secondaryInputs = [
-    {
-      name: 'tokenDecimal',
-      placeholder: '5',
-      register: register?.('tokenDecimal'),
-      error: errors?.tokenDecimal,
-      type: 'number',
-      label: 'Decimals',
-      instruction: 'The number of decimals for your token',
-    },
+    // {
+    //   name: 'tokenDecimal',
+    //   placeholder: '5',
+    //   register: register?.('tokenDecimal'),
+    //   error: errors?.tokenDecimal,
+    //   type: 'number',
+    //   label: 'Decimals',
+    //   instruction: 'The number of decimals for your token',
+    // },
     {
       name: 'tokenSupply',
       register: register?.('tokenSupply'),
@@ -136,16 +134,6 @@ const Step1 = ({ setStep, setNewTokenData }: StepProps) => {
     //   handleOverride: () => setRevokeMintAuthority((prev) => !prev),
     // },
   ];
-
-  const firstBuyModalData = {
-    show: showFirstBuyModal,
-    tokenSymbol,
-    tokenLogo: fileURL!,
-    firstBuyAmount,
-    setFirstBuyAmount,
-    firstBuyTokenAmount,
-    setFirstBuyTokenAmount,
-  };
 
   const handleFile = (e: any) => {
     const file = e.target?.files?.[0];
@@ -213,9 +201,7 @@ const Step1 = ({ setStep, setNewTokenData }: StepProps) => {
         <Switch key={index} {...switchData} />
       ))}
 
-      <LBButton onClick={() => setShowFirstBuyModal(true)} text={buttonText} fullWidth variant="plain" disabled={disbleButton} />
-
-      <FirstBuyModal {...firstBuyModalData} />
+      <LBButton text={buttonText} fullWidth variant="plain" disabled={disbleButton} type="submit" />
     </form>
   );
 };

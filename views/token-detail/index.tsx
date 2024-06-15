@@ -17,7 +17,7 @@ import ClickTabs from './tabs';
 import useTokenActions from '@/store/token/actions';
 
 const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: string }) => {
-  const { tokenState } = useSystemFunctions();
+  const { tokenState, navigate } = useSystemFunctions();
   const { getToken } = useTokenActions();
   const copy = useCopy();
 
@@ -43,7 +43,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
     {
       text: 'Configure site',
       icon: <ConfigSiteIcon />,
-      onClick: () => window.open(token?.website_url, '_blank'),
+      onClick: () => navigate.push('/builder'),
       show: userRole === 'admin',
     },
     {

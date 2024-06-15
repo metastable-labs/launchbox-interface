@@ -4,7 +4,6 @@ type Token = {
   id: string;
   token_name: string;
   token_symbol: string;
-  token_decimals: number;
   token_address: Address;
   token_total_supply: number;
   token_logo_url: string;
@@ -26,7 +25,6 @@ type TokenData = {
   logo: File;
   token_name: string;
   token_symbol: string;
-  token_decimals: string;
   create_token_page: boolean;
   token_total_supply: number;
   token_address?: Address;

@@ -7,6 +7,7 @@ import LaunchBoxFactory from './abis/LaunchBoxFactory.json';
 import LaunchBoxExchange from './abis/LaunchBoxExchange.json';
 
 import { BasePrimaryMobileIcon, ModePrimaryMobileIcon, OptimismPrimaryMobileIcon } from '@/public/icons';
+import { Address } from 'viem';
 
 export type Network = 'base' | 'optimism' | 'mode';
 
@@ -17,7 +18,8 @@ export interface NetworkProps {
   icon?: ReactNode;
   comingSoon?: boolean;
   rpcUrl?: string;
-  launchboxERC20Factory: `0x${string}`;
+  launchboxFactory: Address;
+  launchboxExchange: Address;
   factoryAbi?: any;
   exchangeAbi?: any;
 }
@@ -28,7 +30,8 @@ export const networks: NetworkProps[] = [
     chainId: base.id,
     icon: <BasePrimaryMobileIcon />,
     rpcUrl: 'https://mainnet.gateway.tenderly.co',
-    launchboxERC20Factory: '0xd94ec8ab4789c0cd88b61e1bda846459668ed920',
+    launchboxFactory: '0x1f7c7BAf64FbfD9eB8a0Aa9ad52c85f70f2297A4',
+    launchboxExchange: '0xD1012738d8e2f20681C09E5941D9D97B441232c7',
     factoryAbi: LaunchBoxFactory.abi,
     exchangeAbi: LaunchBoxExchange.abi,
   },
@@ -37,7 +40,8 @@ export const networks: NetworkProps[] = [
     chainId: optimism.id,
     icon: <OptimismPrimaryMobileIcon />,
     rpcUrl: 'https://mainnet.optimism.io',
-    launchboxERC20Factory: '0xd94ec8ab4789c0cd88b61e1bda846459668ed920',
+    launchboxFactory: '0x1f7c7BAf64FbfD9eB8a0Aa9ad52c85f70f2297A4',
+    launchboxExchange: '0xD1012738d8e2f20681C09E5941D9D97B441232c7',
     factoryAbi: LaunchBoxFactory.abi,
     exchangeAbi: LaunchBoxExchange.abi,
   },
@@ -46,7 +50,8 @@ export const networks: NetworkProps[] = [
     chainId: mode.id,
     icon: <ModePrimaryMobileIcon />,
     rpcUrl: 'https://mainnet.mode.network/',
-    launchboxERC20Factory: '0xd94ec8ab4789c0cd88b61e1bda846459668ed920',
+    launchboxFactory: '0x1f7c7BAf64FbfD9eB8a0Aa9ad52c85f70f2297A4',
+    launchboxExchange: '0xD1012738d8e2f20681C09E5941D9D97B441232c7',
     factoryAbi: LaunchBoxFactory.abi,
     exchangeAbi: LaunchBoxExchange.abi,
   },

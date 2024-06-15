@@ -11,9 +11,11 @@ import Confirmation from './confirmation';
 import { networks } from '@/config/rainbow/config';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useTokenActions from '@/store/token/actions';
+import Link from 'next/link';
+import { getTokenLink } from '@/utils/helpers';
 
 const Step2 = ({ tokenData }: StepProps) => {
-  const { address, isConnected } = useAccount();
+  const { isConnected } = useAccount();
   const { openConnectModal } = useConnectModal();
   const chainId = useChainId();
   const { switchChain } = useSwitchChain();
@@ -24,8 +26,6 @@ const Step2 = ({ tokenData }: StepProps) => {
   const [deployStep, setDeployStep] = useState(0);
 
   const { loading, token } = tokenState;
-
-  const connectedNetwork = networks.find((network) => network.chainId === chainId);
 
   let stepText;
   switch (deployStep) {
@@ -54,7 +54,6 @@ const Step2 = ({ tokenData }: StepProps) => {
         create_token_page: tokenData?.createTokenPage!,
         token_name: tokenData?.tokenName!,
         token_symbol: tokenData?.tokenSymbol!,
-        token_decimals: tokenData?.tokenDecimal!,
         token_total_supply: tokenData?.tokenSupply!,
         logo: tokenData?.tokenLogo!,
         website_url: tokenData?.tokenWebsiteURL!,
@@ -69,6 +68,8 @@ const Step2 = ({ tokenData }: StepProps) => {
 
     setStep(1);
   };
+
+  const { title, url } = getTokenLink(chainId, token?.chain.transaction_hash);
 
   useEffect(() => {
     if (loading && token) {
@@ -110,17 +111,17 @@ const Step2 = ({ tokenData }: StepProps) => {
 
               <div className="flex flex-col items-center justify-center max-w-[365px] gap-2">
                 <span className="text-primary-150 text-[20px] leading-[20px] font-medium tracking-[-0.12px]">Contract created successfullly</span>
-                <p className="text-primary-750 text-base text-center">{`Congratulations! Your ${tokenData?.tokenName}($${tokenData?.tokenSymbol}) token has been successfully created!`}</p>
+                <p className="text-primary-750 text-base text-center">{`Congratulations! Your ${token?.token_name}($${token?.token_symbol}) token has been successfully created!`}</p>
               </div>
             </div>
 
             <div className="flex flex-col gap-3 w-full">
-              <a href="#" className="text-primary-150 text-sm font-medium">
+              <Link href={`/${token?.token_address}`} className="text-primary-150 text-sm font-medium">
                 <LBButton text="View token details" fullWidth variant="plain" />
-              </a>
+              </Link>
 
-              <a href="#" target="_blank">
-                <LBButton text={`View on ${connectedNetwork?.variant}scan`} fullWidth variant="link" />
+              <a href={`${url}`} target="_blank">
+                <LBButton text={`View on ${title}`} fullWidth variant="link" />
               </a>
             </div>
           </motion.div>

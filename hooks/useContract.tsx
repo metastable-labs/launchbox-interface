@@ -6,6 +6,7 @@ import { networks } from '@/config/rainbow/config';
 const useContract = () => {
   const chainId: any = useChainId();
   const { data: hash, isPending, writeContract, error } = useWriteContract();
+  console.log('an error happened', error?.message);
 
   const { isSuccess: isConfirmed } = useWaitForTransactionReceipt({
     hash,
@@ -13,18 +14,20 @@ const useContract = () => {
 
   const currentNetwork = networks.find((network) => network.chainId === chainId);
 
-  const factory = currentNetwork?.launchboxERC20Factory;
+  const factory = currentNetwork?.launchboxFactory;
   const factoryAbi = currentNetwork?.factoryAbi;
   const exchangeAbi = currentNetwork?.exchangeAbi;
 
-  const deployToken = (tokenName: string, tokenSymbol: string, tokenDecimals: string, tokenTotalSupply: number) => {
+  const deployToken = async (tokenName: string, tokenSymbol: string, metadataURI: string, tokenTotalSupply: number) => {
     try {
-      writeContract({
+      const response = await writeContract({
         address: factory!,
         abi: factoryAbi,
-        functionName: 'createToken',
-        args: [tokenName, tokenSymbol, tokenDecimals, tokenTotalSupply],
+        functionName: 'deployToken',
+        args: [tokenName, tokenSymbol, metadataURI, tokenTotalSupply],
       });
+
+      console.log('response', response);
     } catch (error: any) {
       console.log('error occured while deploying token', error);
     }
