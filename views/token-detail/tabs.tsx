@@ -25,7 +25,7 @@ const ClickTabs = ({ tabTexts, tab, setTab }: IClickTabs) => {
       {tabTexts.map((text, index) => (
         <div
           key={index}
-          className={classNames('px-3.5 pt-2.5 pb-[13px] flex items-center justify-center cursor-pointer text-sm font-semibold transition-colors duration-300 capitalize w-1/2', {
+          className={classNames('px-3.5 pt-2.5 pb-[13px] flex items-center justify-center cursor-pointer text-sm font-medium transition-colors duration-300 capitalize w-1/2', {
             'text-primary-2300': text === tab,
             'text-primary-700': text !== tab,
           })}

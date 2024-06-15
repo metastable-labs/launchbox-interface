@@ -3,8 +3,8 @@ import '@rainbow-me/rainbowkit/styles.css';
 import { ReactNode } from 'react';
 import { base, optimism, mode } from 'wagmi/chains';
 
-import SuperERC20Factory from './abis/SuperERC20Factory.json';
-import LaunchBoxErc20Factory from './abis/LaunchBoxErc20Factory.json';
+import LaunchBoxFactory from './abis/LaunchBoxFactory.json';
+import LaunchBoxExchange from './abis/LaunchBoxExchange.json';
 
 import { BasePrimaryMobileIcon, ModePrimaryMobileIcon, OptimismPrimaryMobileIcon } from '@/public/icons';
 
@@ -18,7 +18,8 @@ export interface NetworkProps {
   comingSoon?: boolean;
   rpcUrl?: string;
   launchboxERC20Factory: `0x${string}`;
-  abi?: any;
+  factoryAbi?: any;
+  exchangeAbi?: any;
 }
 
 export const networks: NetworkProps[] = [
@@ -28,7 +29,8 @@ export const networks: NetworkProps[] = [
     icon: <BasePrimaryMobileIcon />,
     rpcUrl: 'https://mainnet.gateway.tenderly.co',
     launchboxERC20Factory: '0xd94ec8ab4789c0cd88b61e1bda846459668ed920',
-    abi: LaunchBoxErc20Factory.abi,
+    factoryAbi: LaunchBoxFactory.abi,
+    exchangeAbi: LaunchBoxExchange.abi,
   },
   {
     variant: 'optimism',
@@ -36,7 +38,8 @@ export const networks: NetworkProps[] = [
     icon: <OptimismPrimaryMobileIcon />,
     rpcUrl: 'https://mainnet.optimism.io',
     launchboxERC20Factory: '0xd94ec8ab4789c0cd88b61e1bda846459668ed920',
-    abi: LaunchBoxErc20Factory.abi,
+    factoryAbi: LaunchBoxFactory.abi,
+    exchangeAbi: LaunchBoxExchange.abi,
   },
   {
     variant: 'mode',
@@ -44,6 +47,7 @@ export const networks: NetworkProps[] = [
     icon: <ModePrimaryMobileIcon />,
     rpcUrl: 'https://mainnet.mode.network/',
     launchboxERC20Factory: '0xd94ec8ab4789c0cd88b61e1bda846459668ed920',
-    abi: LaunchBoxErc20Factory.abi,
+    factoryAbi: LaunchBoxFactory.abi,
+    exchangeAbi: LaunchBoxExchange.abi,
   },
 ];

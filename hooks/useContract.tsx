@@ -14,13 +14,14 @@ const useContract = () => {
   const currentNetwork = networks.find((network) => network.chainId === chainId);
 
   const factory = currentNetwork?.launchboxERC20Factory;
-  const abi = currentNetwork?.abi;
+  const factoryAbi = currentNetwork?.factoryAbi;
+  const exchangeAbi = currentNetwork?.exchangeAbi;
 
   const deployToken = (tokenName: string, tokenSymbol: string, tokenDecimals: string, tokenTotalSupply: number) => {
     try {
       writeContract({
         address: factory!,
-        abi,
+        abi: factoryAbi,
         functionName: 'createToken',
         args: [tokenName, tokenSymbol, tokenDecimals, tokenTotalSupply],
       });

@@ -27,7 +27,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
 
   const { token } = tokenState;
 
-  const tabTexts = [{ text: 'overview' }, { text: 'leaderboard', hide: userRole === 'user' }, { text: 'channel' }];
+  const tabTexts = [{ text: 'overview' }, { text: 'incentive', hide: userRole === 'user' }, { text: 'channel' }];
   const tabsToShow = tabTexts.filter(({ hide }) => !hide).map(({ text }) => text);
 
   const actions = [
@@ -60,9 +60,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
     },
   ];
 
-  const tabs = [<Overview key="overview" userRole={userRole} token={token} />, <Leaderboard key="leaderboard" />, <div key="channel">Channel</div>];
-
-  console.log(token);
+  const tabs = [<Overview key="overview" userRole={userRole} token={token} />, <Leaderboard key="incentive" />, <div key="channel">Channel</div>];
 
   useEffect(() => {
     if (!token) getToken(tokenAddressURL);

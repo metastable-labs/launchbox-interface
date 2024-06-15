@@ -34,14 +34,14 @@ const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, 
         </div>
       )}
 
-      <div className="self-stretch flex flex-col items-stretch justify-center gap-6 rounded-lg border border-primary-50 p-6">
+      <div className="xl:max-w-[73%] self-stretch flex flex-col items-stretch justify-center gap-6 rounded-lg border border-primary-50 p-6">
         <div className="flex items-center justify-end self-stretch">
           <div className="flex items-center justify-center gap-8 px-3.5 py-2.5 rounded border border-primary-1950 shadow-table-cta bg-white">
             {periods.map(({ text, value }) => (
               <span
                 onClick={() => setPeriod(value)}
                 key={value}
-                className={classNames('text-sm flex items-center justify-center px-1.5 py-0.5 text-primary-2000 cursor-pointer transition-colors duration-300', {
+                className={classNames('text-sm flex items-center justify-center px-1.5 py-0.5 text-primary-2000 cursor-pointer transition-colors duration-300 font-Aeonik', {
                   'bg-primary-200 rounded-base': value === period,
                 })}>
                 {text}
@@ -50,7 +50,7 @@ const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, 
           </div>
         </div>
 
-        <div className="px-6 flex flex-col gap-3 self-stretch">
+        <div className="px-6 flex flex-col gap-3 self-stretch font-Aeonik">
           <div className="flex flex-col self-stretch gap-2 items-start">
             <div className="text-primary-150 text-[48px] leading-[56px] font-semibold tracking-[-1.44px]">
               $<span>{whole}</span>.<span className="text-primary-750">{decimal}</span>
@@ -92,7 +92,7 @@ const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, 
         </AnimatePresence>
       </div>
 
-      <div className={classNames('max-w-[300px]', { 'flex flex-col gap-8 items-stretch': userRole === 'admin' })}>
+      <div className={classNames('max-w-[27%]', { 'flex flex-col gap-8 items-stretch': userRole === 'admin' })}>
         <LBTradeInterface balance={120330} token={token!} />
 
         {userRole === 'admin' && (
