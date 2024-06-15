@@ -14,29 +14,16 @@ import { IView } from './types';
 type MobileTabs = 'info' | 'chart+txns' | 'buy/sell';
 const mobileTabs: MobileTabs[] = ['info', 'chart+txns', 'buy/sell'];
 
-const MobileView = ({ tokenDetailData, userRole, holdingsData, tabTexts, transactionsData, liquidityData, period, setPeriod, periods }: IView) => {
+const MobileView = ({ token, userRole, holdingsData, tabTexts, transactionsData, liquidityData, period, setPeriod, periods }: IView) => {
   const [tab, setTab] = useState<SecondaryTabs>('transactions');
   const [mobileTab, setMobileTab] = useState<MobileTabs>('info');
 
-  const { amount, name, tokenSymbol, tokenAddress, tokenImageURL, change, createdAt, id, liquidity, marketCap, txns, updatedAt, volume, walletAvatarURL } = tokenDetailData;
+  const amount = 456.86;
+  const change = -12.34;
 
   const { whole, decimal } = formatCurrency(amount);
 
   const noLiquidityData = liquidityData.every((dataPoint) => dataPoint.value === 0);
-
-  const tradingToken = {
-    id,
-    name,
-    tokenSymbol,
-    updatedAt,
-    createdAt,
-    liquidity,
-    marketCap,
-    txns,
-    volume,
-    walletAvatarURL,
-    tokenAddress,
-  };
 
   const tabs = [
     <LBTable data={transactionsData} loading={false} variant="primary" key="transactions" tokenSymbol="SAT" />,
@@ -44,10 +31,10 @@ const MobileView = ({ tokenDetailData, userRole, holdingsData, tabTexts, transac
   ];
 
   const items = [
-    <div key="info" className="min-w-[343px] p-6 rounded-lg border border-primary-50 h-fit">
-      <TokenInfo tokenDetailData={tokenDetailData} userRole={userRole} />
+    <div key="info" className="self-stretch p-6 rounded-lg border border-primary-50 h-fit">
+      <TokenInfo token={token} userRole={userRole} />
     </div>,
-    <div key="chart+txns" className="max-w-[343px] self-stretch flex flex-col items-stretch justify-center gap-6 rounded-lg border border-primary-50 p-6">
+    <div key="chart+txns" className="w-full self-stretch flex flex-col items-stretch justify-center gap-6 rounded-lg border border-primary-50 p-6">
       <div className="flex items-center justify-center self-stretch">
         <div className="flex items-center justify-center gap-8 px-3.5 py-2.5 rounded border border-primary-1950 shadow-table-cta bg-white">
           {periods.map(({ text, value }) => (
@@ -110,18 +97,19 @@ const MobileView = ({ tokenDetailData, userRole, holdingsData, tabTexts, transac
         </motion.div>
       </AnimatePresence>
     </div>,
-    <div key="buy/sell" className="max-w-[343px]">
-      <LBTradeInterface balance={120330} token={tradingToken} />
+    <div key="buy/sell" className="max-w-full">
+      <LBTradeInterface balance={120330} token={token!} />
     </div>,
   ];
 
   return (
-    <div className="flex flex-col justify-between gap-3.5 pb-10">
+    <div className="pb-10">
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.div key={mobileTab} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
           {items.find((item) => item.key === mobileTab)}
         </motion.div>
       </AnimatePresence>
+
       <div className="fixed bottom-0 left-0 w-screen h-fit flex items-center justify-between px-[34px] py-4 bg-primary-200">
         {mobileTabs.map((tab, index) => (
           <div

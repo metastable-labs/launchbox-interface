@@ -1,7 +1,7 @@
 import { Network } from '@/components/button/types';
 
 interface PageProps {
-  params: { network: Network; tokenId: string };
+  params: { network: Network; tokenAddress: string };
   children?: React.ReactNode;
 }
 

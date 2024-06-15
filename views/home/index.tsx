@@ -6,14 +6,32 @@ import { LBContainer, LBModal, LBTable, LBTradeInterface } from '@/components';
 import { BaseBadgeicon, SearchAltIcon } from '@/public/icons';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useTokenActions from '@/store/token/actions';
-import { tokens } from './dummy';
+import { Token } from '@/store/token/types';
+import { setToken } from '@/store/token';
 
 const HomeView = () => {
-  const { navigate, tokenState } = useSystemFunctions();
+  const { navigate, tokenState, dispatch } = useSystemFunctions();
   const { getTokens } = useTokenActions();
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeToken, setActiveToken] = useState<ILBTokenCard>();
+  const [activeToken, setActiveToken] = useState<Token>();
+  const [shouldFetchMore, setShouldFetchMore] = useState(false);
+
+  const { tokens, meta } = tokenState;
+
+  const tableData = tokens?.map((token) => ({
+    name: token.token_name,
+    tokenSymbol: token.token_symbol,
+    id: token.id,
+    createdAt: token.created_at,
+    updatedAt: token.updated_at,
+    liquidity: { numerator: 3, denominator: 3450.3 },
+    marketCap: { numerator: 400000, denominator: 0.000056 },
+    txns: { numerator: 706, denominator: { numerator: 406, denominator: 300 } },
+    volume: token.token_total_supply,
+    walletAvatarURL: token.token_logo_url,
+    wallet: token.token_address,
+  }));
 
   const debouncedSetSearchTerm = debounce((term) => {
     setSearchTerm(term);
@@ -25,24 +43,34 @@ const HomeView = () => {
   };
 
   const cta = (id: string) => {
-    const token = tokens.find((token) => token.id === id);
-    setActiveToken(token);
-    console.log('CTA', token);
+    const token = tokens?.find((token) => token.id === id);
+    setActiveToken(token!);
   };
 
-  const rowClick = (id: string) => navigate.push(`/${id}`);
+  const rowClick = (id: string) => {
+    const token = tokens?.find((token) => token.token_address === id);
+    dispatch(setToken(token!));
+    navigate.push(`/${id}`);
+  };
 
   const closeModal = () => setActiveToken(undefined);
 
   useEffect(() => {
-    console.log('Searching...', searchTerm);
+    // getTokens(`take=50&search=${searchTerm}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setSearchTerm]);
-  console.log(tokenState.tokens);
+
   useEffect(() => {
-    getTokens();
+    if (shouldFetchMore) getTokens(`take=20&skip=${tokens?.length}`, { onSuccess: () => setShouldFetchMore(false) });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldFetchMore]);
+
+  useEffect(() => {
+    if (!tokens?.length) getTokens('take=50');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <div className="py-[50px] flex flex-col gap-9 w-full">
       <div className="w-full pb-9 border-b border-b-primary-50">
@@ -70,7 +98,16 @@ const HomeView = () => {
       </div>
 
       <div className="w-full max-w-[1440px] mx-auto px-6 md:px-8 xl:px-20 relative">
-        <LBTable data={tokens} variant="tertiary" cta={cta} rowClick={rowClick} />
+        <LBTable
+          setShouldFetchMore={setShouldFetchMore}
+          shouldFetchMore={shouldFetchMore}
+          take={meta?.take}
+          total={meta?.totalTokens}
+          data={tableData || []}
+          variant="tertiary"
+          cta={cta}
+          rowClick={rowClick}
+        />
       </div>
 
       <LBModal close={closeModal} show={Boolean(activeToken)}>

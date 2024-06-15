@@ -11,28 +11,15 @@ import LiquidityLineChart from './line-chart';
 import ClickTabs from '../tabs';
 import { IView } from './types';
 
-const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, tabTexts, tokenDetailData, transactionsData, userRole }: IView) => {
+const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, tabTexts, token, transactionsData, userRole }: IView) => {
   const [tab, setTab] = useState<SecondaryTabs>('transactions');
 
-  const { amount, name, tokenSymbol, tokenAddress, tokenImageURL, change, createdAt, id, liquidity, marketCap, txns, updatedAt, volume, walletAvatarURL } = tokenDetailData;
+  const amount = 456.86;
+  const change = -12.34;
 
   const { whole, decimal } = formatCurrency(amount);
 
   const noLiquidityData = liquidityData.every((dataPoint) => dataPoint.value === 0);
-
-  const tradingToken = {
-    id,
-    name,
-    tokenSymbol,
-    updatedAt,
-    createdAt,
-    liquidity,
-    marketCap,
-    txns,
-    volume,
-    walletAvatarURL,
-    tokenAddress,
-  };
 
   const tabs = [
     <LBTable data={transactionsData} loading={false} variant="primary" key="transactions" tokenSymbol="SAT" />,
@@ -43,7 +30,7 @@ const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, 
     <div className="flex justify-between gap-3.5">
       {userRole === 'user' && (
         <div className="min-w-[300px] p-6 rounded-lg border border-primary-50 h-fit">
-          <TokenInfo tokenDetailData={tokenDetailData} userRole={userRole} />
+          <TokenInfo token={token} userRole={userRole} />
         </div>
       )}
 
@@ -106,11 +93,11 @@ const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, 
       </div>
 
       <div className={classNames('max-w-[300px]', { 'flex flex-col gap-8 items-stretch': userRole === 'admin' })}>
-        <LBTradeInterface balance={120330} token={tradingToken} />
+        <LBTradeInterface balance={120330} token={token!} />
 
         {userRole === 'admin' && (
           <div className="min-w-[300px] p-6 rounded-lg border border-primary-50 h-fit">
-            <TokenInfo tokenDetailData={tokenDetailData} userRole={userRole} />
+            <TokenInfo token={token} userRole={userRole} />
           </div>
         )}
       </div>

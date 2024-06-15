@@ -12,7 +12,7 @@ export const formatCurrency = (amount: number) => {
   return { whole, decimal };
 };
 
-const Overview = ({ tokenDetailData, userRole }: IOverview) => {
+const Overview = ({ token, userRole }: IOverview) => {
   const [period, setPeriod] = useState<Period>('1m');
   const [liquidityData, setLiquidityData] = useState(generateData(period));
 
@@ -31,8 +31,8 @@ const Overview = ({ tokenDetailData, userRole }: IOverview) => {
     period,
     setPeriod,
     periods,
-    tokenDetailData,
     userRole,
+    token,
   };
 
   useEffect(() => {

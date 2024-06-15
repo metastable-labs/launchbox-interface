@@ -1,6 +1,7 @@
 import moment from 'moment';
 
 import { TableItem } from '@/components/table/types';
+import { Address } from 'viem';
 
 const tokenDetailData = {
   id: '0cnswi32',
@@ -138,84 +139,84 @@ const transactionsData: TableItem[] = [
   },
 ];
 
-const holdingsData = [
+const holdingsData: { wallet: Address; walletAvatarURL: string; holding: number }[] = [
   {
-    wallet: '0x123456789012345678901234567890',
+    wallet: `0x${'123456789012345678901234567890'}`,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_npmw4c.jpg',
     holding: 90.02,
   },
   {
-    wallet: '0x123456789012345678901234567890',
+    wallet: `0x${'123456789012345678901234567890'}`,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_1_gxydxc.jpg',
     holding: 10.98,
   },
   {
-    wallet: '0x123456789012345678901234567890',
+    wallet: `0x${'123456789012345678901234567890'}`,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_2_drwkq1.jpg',
     holding: 0,
   },
   {
-    wallet: '0x123456789012345678901234567890',
+    wallet: `0x${'123456789012345678901234567890'}`,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_3_kgtkxs.jpg',
     holding: 0,
   },
   {
-    wallet: '0x123456789012345678901234567890',
+    wallet: `0x${'123456789012345678901234567890'}`,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_npmw4c.jpg',
     holding: 90.02,
   },
   {
-    wallet: '0x123456789012345678901234567890',
+    wallet: `0x${'123456789012345678901234567890'}`,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_1_gxydxc.jpg',
     holding: 10.98,
   },
   {
-    wallet: '0x123456789012345678901234567890',
+    wallet: `0x${'123456789012345678901234567890'}`,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_2_drwkq1.jpg',
     holding: 0,
   },
   {
-    wallet: '0x123456789012345678901234567890',
+    wallet: `0x${'123456789012345678901234567890'}`,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_3_kgtkxs.jpg',
     holding: 0,
   },
   {
-    wallet: '0x123456789012345678901234567890',
+    wallet: `0x${'123456789012345678901234567890'}`,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_npmw4c.jpg',
     holding: 90.02,
   },
   {
-    wallet: '0x123456789012345678901234567890',
+    wallet: `0x${'123456789012345678901234567890'}`,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_1_gxydxc.jpg',
     holding: 10.98,
   },
   {
-    wallet: '0x123456789012345678901234567890',
+    wallet: `0x${'123456789012345678901234567890'}`,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_2_drwkq1.jpg',
     holding: 0,
   },
   {
-    wallet: '0x123456789012345678901234567890',
+    wallet: `0x${'123456789012345678901234567890'}`,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_3_kgtkxs.jpg',
     holding: 0,
   },
   {
-    wallet: '0x123456789012345678901234567890',
+    wallet: `0x${'123456789012345678901234567890'}`,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_npmw4c.jpg',
     holding: 90.02,
   },
   {
-    wallet: '0x123456789012345678901234567890',
+    wallet: `0x${'123456789012345678901234567890'}`,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_1_gxydxc.jpg',
     holding: 10.98,
   },
   {
-    wallet: '0x123456789012345678901234567890',
+    wallet: `0x${'123456789012345678901234567890'}`,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_2_drwkq1.jpg',
     holding: 0,
   },
   {
-    wallet: '0x123456789012345678901234567890',
+    wallet: `0x${'123456789012345678901234567890'}`,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_3_kgtkxs.jpg',
     holding: 0,
   },

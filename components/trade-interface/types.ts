@@ -1,7 +1,7 @@
-import { ILBTokenCard } from '../token-card/types';
+import { Token } from '@/store/token/types';
 
 interface ILBTradeInterface {
-  token: ILBTokenCard;
+  token: Token;
   balance: number;
   standAlone?: boolean;
 }

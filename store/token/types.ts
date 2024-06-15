@@ -7,7 +7,7 @@ type Token = {
   token_decimals: number;
   token_address: Address;
   token_total_supply: number;
-  token_logo_url: number;
+  token_logo_url: string;
   create_token_page: boolean;
   warpcast_channel_link: string;
   website_url: string;
@@ -34,4 +34,15 @@ type TokenData = {
   website_url?: string;
 };
 
-export type { Token, TokenData };
+type Meta = {
+  take: number;
+  skip: number;
+  totalTokens: number;
+};
+
+type Tokens = {
+  tokens: Token[];
+  meta: Meta;
+};
+
+export type { Token, TokenData, Meta, Tokens };

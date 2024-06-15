@@ -62,6 +62,7 @@ import SearchAltIcon from './search-alt-icon.svg';
 import InfoIcon from './info-icon.svg';
 import TimerAltIcon from './timer-alt-icon.svg';
 import ExclaimIcon from './exclaim-icon.svg';
+import XIcon from './x-icon';
 
 export {
   LaunchIcon,
@@ -128,4 +129,5 @@ export {
   InfoIcon,
   TimerAltIcon,
   ExclaimIcon,
+  XIcon,
 };

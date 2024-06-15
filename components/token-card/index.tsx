@@ -5,7 +5,7 @@ import React from 'react';
 import { SmallBaseIcon } from '@/public/icons';
 import LBClickAnimation from '../click-animation';
 import Image from 'next/image';
-import { ILBTokenCard } from './types';
+import { Token } from '@/store/token/types';
 
 const timeAgo = (date: string) => {
   const now = moment();
@@ -21,20 +21,20 @@ const timeAgo = (date: string) => {
   return createdMoment.fromNow();
 };
 
-const LBTokenCard = ({ createdAt, name, tokenSymbol, id, walletAvatarURL }: ILBTokenCard) => {
-  const date = timeAgo(createdAt);
+const LBTokenCard = ({ created_at, token_address, token_logo_url, token_name, token_symbol }: Token) => {
+  const date = timeAgo(created_at);
 
   return (
-    <Link href={`/${id}`}>
+    <Link href={`/${token_address}`}>
       <LBClickAnimation className="p-5 bg-white rounded-lg border border-primary-50 flex flex-col gap-4 w-full h-[275px]">
         <div className="flex items-center justify-between self-stretch">
-          <Image src={walletAvatarURL!} alt={`${name} logo`} width={500} height={500} className="w-12 h-12" />
+          <Image src={token_logo_url} alt={`${token_name} logo`} width={500} height={500} className="w-12 h-12" />
           <SmallBaseIcon />
         </div>
 
         <div className="flex flex-col items-start gap-0.5">
           <div className="flex items-center justify-center gap-1 text-primary-700 text-[20px] leading-[24px]">
-            {name} <span className="border-[0.5px] border-primary-50 rounded-lg bg-primary-800 px-2 text-primary-750 text-[12px] leading-[24px] font-medium">{tokenSymbol}</span>
+            {token_name} <span className="border-[0.5px] border-primary-50 rounded-lg bg-primary-800 px-2 text-primary-750 text-[12px] leading-[24px] font-medium">{token_symbol}</span>
           </div>
           <p className="text-primary-850 text-[14px] leading-[24px]">Deployed {date}</p>
         </div>
