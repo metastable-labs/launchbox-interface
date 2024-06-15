@@ -1,7 +1,6 @@
 import CustomizingPaper from './paper';
 import { ITokenomics } from './types';
-import { PlusAltIcon, TokenomicsIcon } from '@/public/icons';
-import { LBClickAnimation } from '@/components';
+import { TokenomicsIcon } from '@/public/icons';
 
 interface IDistributionInput {
   title: string;
@@ -12,22 +11,10 @@ interface IDistributionInput {
 
 const DistributionInput = ({ percentage, title, handlePercentageChange, handleTitleChange }: IDistributionInput) => (
   <div className="flex items-center justify-center gap-2 self-stretch">
-    <input
-      type="text"
-      className="self-stretch rounded-lg border border-primary-1950 shadow-table-cta bg-white px-3 py-2 w-full outline-none"
-      placeholder="Team"
-      value={title}
-      onChange={(e) => handleTitleChange(e.target.value)}
-    />
+    <div className="self-stretch rounded-lg border border-primary-1950 shadow-table-cta bg-white px-3 py-2 w-full outline-none">{title}</div>
 
     <div className="w-[106px] h-[40px] shrink border border-primary-1950 flex items-center justify-center rounded-lg bg-white">
-      <input
-        type="number"
-        className="self-stretch shadow-table-cta px-3 py-2 w-[62px] h-full outline-none rounded-lg"
-        placeholder="10%"
-        value={percentage}
-        onChange={(e) => handlePercentageChange(Number(e.target.value))}
-      />
+      <div className="self-stretch shadow-table-cta px-3 py-2 w-[62px] h-full outline-none rounded-lg">{percentage}</div>
 
       <div className="px-3.5 flex items-center justify-center h-full w-11 text-sm text-primary-2000 font-semibold border-l border-primary-1950">%</div>
     </div>
@@ -57,14 +44,7 @@ const Tokenomics = ({ onClick, handleChange, isActive, tokenDistributions, token
             Total token supply
           </label>
 
-          <input
-            id="token-supply"
-            type="number"
-            className="self-stretch rounded-lg border border-primary-1950 shadow-table-cta bg-primary-2250 px-3 py-2 outline-none"
-            placeholder="10,000,000"
-            onChange={(e) => handleChange('tokenTotalSupply', Number(e.target.value))}
-            value={tokenTotalSupply}
-          />
+          <div className="self-stretch rounded-lg border border-primary-1950 shadow-table-cta bg-primary-2250 px-3 py-2 outline-none">{tokenTotalSupply.toLocaleString()}</div>
         </div>
 
         <h1 className="pb-4 border-b-[0.5px] border-b-primary-50 text-primary-2000 text-sm font-semibold">Token distribution</h1>
@@ -80,12 +60,12 @@ const Tokenomics = ({ onClick, handleChange, isActive, tokenDistributions, token
             />
           ))}
 
-          <div className="flex items-center justify-start">
+          {/* <div className="flex items-center justify-start">
             <LBClickAnimation onClick={handleNewDistribution} className="flex items-center justify-center gap-1">
               <PlusAltIcon />
               <span className="text-sm font-semibold text-primary-2300">Add distribution unit</span>
             </LBClickAnimation>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

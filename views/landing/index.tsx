@@ -15,27 +15,19 @@ export const defaultData: ILBLandingPageComponent = {
   heroSecondaryButtonText: 'Lorem ipsum',
   heroImageURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717454052/lb-hero-placeholder_xjoaa3.jpg',
   tokenomicsSummary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis  ac, nisi.',
-  tokenTotalSupply: 1000000,
+  tokenTotalSupply: 1000000000,
   tokenDistributions: [
     {
-      title: 'Seed Round',
-      percentage: 10,
+      title: 'Launchbox fee',
+      percentage: 1,
     },
     {
-      title: 'Airdrops',
-      percentage: 20,
+      title: 'Community Incentives',
+      percentage: 9,
     },
     {
-      title: 'Public sale',
-      percentage: 30,
-    },
-    {
-      title: 'Team',
-      percentage: 30,
-    },
-    {
-      title: 'Private rounds',
-      percentage: 10,
+      title: 'Fair Launch',
+      percentage: 90,
     },
   ],
   tokenSymbol: 'LBT',
