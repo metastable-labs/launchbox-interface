@@ -8,7 +8,7 @@ import { mode } from 'wagmi/chains';
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useContract from '@/hooks/useContract';
-import { setLoading, setLoadingCreate, setToken, setTokens, setMeta } from '.';
+import { setLoading, setLoadingCreate, setToken, setTokens, setMeta, setExtraTokens } from '.';
 import { CallbackProps } from '..';
 import api from './api';
 import { TokenData } from './types';
@@ -29,7 +29,11 @@ const useTokenActions = () => {
       const { meta, tokens } = await api.fetchTokens(query);
 
       dispatch(setMeta(meta));
-      dispatch(setTokens(tokens));
+      if (meta.skip === 0) {
+        dispatch(setTokens(tokens));
+      } else {
+        dispatch(setExtraTokens(tokens));
+      }
       return callback?.onSuccess?.(tokens);
     } catch (error: any) {
       callback?.onError?.(error);

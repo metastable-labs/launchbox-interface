@@ -8,15 +8,9 @@ import LBClickAnimation from '../click-animation';
 
 const LBShare = ({ token_address }: ILBShare) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [hasCopied, setHasCopied] = useState(false);
-  const copy = useCopy();
+  const { handleCopy, hasCopied } = useCopy();
 
   const handleClick = () => setIsOpen((prev) => !prev);
-
-  const handleCopy = () => {
-    copy(token_address!);
-    setHasCopied(true);
-  };
 
   const handleShareOnX = () => {
     window.open(`https://x.com/intent/tweet?text=Check out this token&url=${window.location.href}`, '_blank');
@@ -26,7 +20,7 @@ const LBShare = ({ token_address }: ILBShare) => {
     {
       icons: [<CopyIcon key="copy" width={16} height={16} />, <CheckAltIcon key="check" width={16} height={16} />],
       text: 'Copy',
-      onClick: handleCopy,
+      onClick: () => handleCopy(token_address!),
     },
     {
       icon: <XIcon width={16} height={16} />,
@@ -34,16 +28,6 @@ const LBShare = ({ token_address }: ILBShare) => {
       onClick: handleShareOnX,
     },
   ];
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setHasCopied(false);
-    }, 5000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [hasCopied]);
 
   return (
     <div className="relative w-full">

@@ -66,26 +66,15 @@ const Address = ({ wallet, walletAvatarURL, isTransaction = false, variant }: IA
 };
 
 const TokenSample = ({ tokenAddress, tokenLogoURL, tokenSymbol }: ITokenSample) => {
-  const [hasCopied, setHasCopied] = useState(false);
-  const copy = useCopy();
+  const { handleCopy, hasCopied } = useCopy();
 
   const icons = [<CopyIcon key="copy" width={16} height={16} />, <CheckAltIcon key="check" width={16} height={16} />];
 
-  const handleCopy = (e: React.MouseEvent) => {
+  const handleCopyClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    copy(tokenAddress!);
-    setHasCopied(true);
+    handleCopy(tokenAddress!);
   };
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setHasCopied(false);
-    }, 5000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [hasCopied]);
   return (
     <div className="flex items-center gap-2">
       <Image
@@ -109,7 +98,7 @@ const TokenSample = ({ tokenAddress, tokenLogoURL, tokenSymbol }: ITokenSample) 
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             className={classNames('cursor-pointer', { 'pointer-events-none': hasCopied })}
-            onClick={handleCopy}>
+            onClick={handleCopyClick}>
             {icons[+hasCopied]}
           </motion.div>
         </AnimatePresence>

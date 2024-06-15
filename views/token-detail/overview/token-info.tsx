@@ -8,12 +8,10 @@ import { BaseBadgeicon, CheckAltIcon, ConfigSiteIcon, CopyIcon, FarcasterIcon, S
 import { LBClickAnimation, LBShare } from '@/components';
 import { IOverview } from './types';
 import useScreenDetect from '@/hooks/useScreenDetect';
-import { useEffect, useState } from 'react';
 
 const TokenInfo = ({ token, userRole }: IOverview) => {
-  const copy = useCopy();
+  const { handleCopy, hasCopied } = useCopy();
   const { isDesktop } = useScreenDetect();
-  const [hasCopiedAddress, setHasCopiedAddress] = useState(false);
 
   const siteConfigLink = 'https://satoshis.com';
   const liquidity = { numerator: 3, denominator: 3450.3 };
@@ -26,12 +24,9 @@ const TokenInfo = ({ token, userRole }: IOverview) => {
   const actions = [
     {
       icons: [<CopyIcon key="copy" width={16} height={16} />, <CheckAltIcon key="check" width={16} height={16} />],
-      onClick: () => {
-        copy(token?.token_address!);
-        setHasCopiedAddress(true);
-      },
+      onClick: () => handleCopy(token?.token_address!),
       show: true,
-      hasCopiedAddress,
+      hasCopied,
     },
     {
       icon: <ConfigSiteIcon />,
@@ -77,16 +72,6 @@ const TokenInfo = ({ token, userRole }: IOverview) => {
 
   const show = (userRole === 'admin' && !isDesktop) || userRole === 'user';
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setHasCopiedAddress(false);
-    }, 5000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [hasCopiedAddress]);
-
   return (
     <div className="flex flex-col self-stretch w-full gap-6">
       {show && (
@@ -113,7 +98,7 @@ const TokenInfo = ({ token, userRole }: IOverview) => {
           </div>
 
           <div className="flex items-stretch gap-2 w-full pb-[30px] border-b border-b-primary-50">
-            {actions.map(({ icon, onClick, show, hasCopiedAddress, icons }, index) => (
+            {actions.map(({ icon, onClick, show, hasCopied, icons }, index) => (
               <LBClickAnimation
                 key={index}
                 className={classNames('w-full flex items-center justify-center px-3 py-2 bg-white border border-primary-1950 rounded-lg shadow-table-cta', {
@@ -123,13 +108,13 @@ const TokenInfo = ({ token, userRole }: IOverview) => {
                 {icons && (
                   <AnimatePresence mode="wait" initial={false}>
                     <motion.div
-                      key={+hasCopiedAddress}
+                      key={+hasCopied}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.1 }}
                       exit={{ opacity: 0 }}
-                      className={classNames('', { 'pointer-events-none': hasCopiedAddress })}>
-                      {icons[+hasCopiedAddress]}
+                      className={classNames('', { 'pointer-events-none': hasCopied })}>
+                      {icons[+hasCopied]}
                     </motion.div>
                   </AnimatePresence>
                 )}

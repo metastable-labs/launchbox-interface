@@ -1,15 +1,18 @@
-// import { toast } from 'react-toastify';
+import { useState } from 'react';
 
 const useCopy = () => {
-  const copyAction = (text: string) => {
-    navigator.clipboard.writeText(text);
+  const [hasCopied, setHasCopied] = useState(false);
 
-    // return toast('copied to clipboard', {
-    //   type: 'info',
-    // });
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setHasCopied(true);
+
+    setTimeout(() => {
+      setHasCopied(false);
+    }, 5000);
   };
 
-  return copyAction;
+  return { handleCopy, hasCopied };
 };
 
 export default useCopy;

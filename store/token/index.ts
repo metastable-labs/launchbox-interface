@@ -31,13 +31,17 @@ export const tokenReducer = createSlice({
       state.loadingCreate = action.payload;
     },
 
+    setExtraTokens: (state, action: PayloadAction<Token[] | undefined>) => {
+      if (action.payload) {
+        state.tokens = [...state.tokens!, ...action.payload];
+      } else {
+        state.tokens = undefined;
+      }
+    },
+
     setTokens: (state, action: PayloadAction<Token[] | undefined>) => {
       if (action.payload) {
-        if (state.tokens) {
-          state.tokens = [...state.tokens, ...action.payload];
-        } else {
-          state.tokens = [...action.payload];
-        }
+        state.tokens = [...action.payload];
       } else {
         state.tokens = undefined;
       }
@@ -61,6 +65,6 @@ export const tokenReducer = createSlice({
   },
 });
 
-export const { setLoading, setTokens, setToken, setLoadingCreate, setMeta } = tokenReducer.actions;
+export const { setLoading, setTokens, setToken, setLoadingCreate, setMeta, setExtraTokens } = tokenReducer.actions;
 
 export default tokenReducer.reducer;

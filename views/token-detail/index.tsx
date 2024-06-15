@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import classNames from 'classnames';
+import { useAccount } from 'wagmi';
 
 import { LBClickAnimation } from '@/components';
 import useCopy from '@/hooks/useCopy';
 import { BaseBadgeicon, CheckAltIcon, ConfigSiteIcon, CopyIcon, FarcasterIcon, ShareIcon, WebIcon } from '@/public/icons';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import PrimaryHeader from './primary-header';
-import { tokenDetailData } from './dummy';
 import Overview from './overview';
 import Leaderboard from './leaderboard';
 import { Tabs } from './types';
@@ -17,13 +17,13 @@ import ClickTabs from './tabs';
 import useTokenActions from '@/store/token/actions';
 
 const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: string }) => {
+  const { address } = useAccount();
   const { tokenState, navigate } = useSystemFunctions();
   const { getToken } = useTokenActions();
-  const copy = useCopy();
+  const { handleCopy, hasCopied } = useCopy();
 
   const [tab, setTab] = useState<Tabs>('overview');
-  const [userRole, setUserRole] = useState<'admin' | 'user'>('admin');
-  const [hasCopiedAddress, setHasCopiedAddress] = useState(false);
+  const [userRole, setUserRole] = useState<'admin' | 'user'>('user');
 
   const { token } = tokenState;
 
@@ -35,8 +35,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
       text: 'Token address',
       icons: [<CopyIcon key="copy" width={16} height={16} />, <CheckAltIcon key="check" width={16} height={16} />],
       onClick: () => {
-        copy(token?.token_address!);
-        setHasCopiedAddress(true);
+        handleCopy(token?.token_address!);
       },
       show: true,
     },
@@ -68,14 +67,12 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
   }, [tokenAddressURL, token]);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setHasCopiedAddress(false);
-    }, 5000);
+    if (!address || !token) return;
 
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [hasCopiedAddress]);
+    if (address === token?.chain?.deployer_address) {
+      setUserRole('admin');
+    }
+  }, [address, token]);
 
   return (
     <div className={classNames('pt-12 flex flex-col gap-9 px-5 items-stretch relative overflow-y-scroll', { 'pb-14': tab === 'overview', 'pb-72': tab === 'leaderboard' })}>
@@ -107,13 +104,13 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
                   {icons && (
                     <AnimatePresence mode="wait" initial={false}>
                       <motion.div
-                        key={+hasCopiedAddress}
+                        key={+hasCopied}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.1 }}
                         exit={{ opacity: 0 }}
-                        className={classNames('', { 'pointer-events-none': hasCopiedAddress })}>
-                        {icons[+hasCopiedAddress]}
+                        className={classNames('', { 'pointer-events-none': hasCopied })}>
+                        {icons[+hasCopied]}
                       </motion.div>
                     </AnimatePresence>
                   )}
