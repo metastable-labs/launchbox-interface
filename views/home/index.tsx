@@ -61,13 +61,15 @@ const HomeView = () => {
   }, [setSearchTerm]);
 
   useEffect(() => {
-    if (shouldFetchMore) getTokens(`take=20&skip=${tokens?.length}`, { onSuccess: () => setShouldFetchMore(false) });
+    if (!shouldFetchMore) return;
+
+    getTokens(`take=20&skip=${tokens?.length}`, { onSuccess: () => setShouldFetchMore(false) });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldFetchMore]);
 
   useEffect(() => {
-    if (!tokens?.length) getTokens('take=50');
+    getTokens('take=50');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
