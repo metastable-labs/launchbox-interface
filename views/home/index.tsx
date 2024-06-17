@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 
-import { LBContainer, LBModal, LBTable, LBTradeInterface } from '@/components';
+import { LBContainer, LBLoader, LBModal, LBTable, LBTradeInterface } from '@/components';
 import { BaseBadgeicon, SearchAltIcon } from '@/public/icons';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useTokenActions from '@/store/token/actions';
@@ -71,7 +71,12 @@ const HomeView = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (loading) return <div>Loading... put loading animation here</div>;
+  if (loading)
+    return (
+      <div className="w-screen h-[80vh] flex items-center justify-center">
+        <LBLoader variant="large" />
+      </div>
+    );
 
   return (
     <div className="py-[50px] flex flex-col gap-9 w-full">
