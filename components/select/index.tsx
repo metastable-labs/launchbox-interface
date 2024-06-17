@@ -25,7 +25,7 @@ const LBSelect = ({ text, disabled, onClick, options, defaultId, label }: ILBSel
 
   useEffect(() => {
     if (defaultId && options) {
-      const defaultOption = options.find((option) => option.id === defaultId);
+      const defaultOption = options.find((option) => option.text.toLowerCase() === defaultId.toLowerCase());
       if (defaultOption) setSelectedOption(defaultOption);
     }
   }, [defaultId, options]);
@@ -45,7 +45,7 @@ const LBSelect = ({ text, disabled, onClick, options, defaultId, label }: ILBSel
         <span className="text-primary-150">{label}</span>
         <LBClickAnimation
           onClick={toggleOpen}
-          className={classNames('flex justify-between items-center gap-2 cursor-pointer py-2.5 px-3 bg-white rounded-[5px] font-bold text-center text-primary-250 w-full border border-primary-50', {
+          className={classNames('flex justify-between items-center gap-2 cursor-pointer py-2.5 px-3 bg-white rounded-[5px] text-center text-primary-250 w-full border border-primary-50', {
             'pointer-events-none': disabled,
           })}>
           {!selectedOption && <span className="whitespace-nowrap">{text}</span>}
