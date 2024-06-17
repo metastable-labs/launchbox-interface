@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import classNames from 'classnames';
 import { useAccount } from 'wagmi';
 
-import { LBClickAnimation } from '@/components';
+import { LBClickAnimation, LBShare } from '@/components';
 import useCopy from '@/hooks/useCopy';
 import { BaseBadgeicon, CheckAltIcon, ConfigSiteIcon, CopyIcon, FarcasterIcon, ShareIcon, WebIcon } from '@/public/icons';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
@@ -121,9 +121,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
                 </LBClickAnimation>
               ))}
 
-              <LBClickAnimation className="flex items-center justify-center gap-1 cursor-pointer px-3.5 py-2.5 bg-white border border-primary-1950 rounded-lg shadow-table-cta">
-                <ShareIcon />
-              </LBClickAnimation>
+              <LBShare />
             </div>
           </div>
         )}
