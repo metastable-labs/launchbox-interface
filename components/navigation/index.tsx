@@ -51,7 +51,8 @@ const LBNavigation = ({ network }: ILBNavigation) => {
   ];
 
   const updatedLinks = links.map((link) => {
-    const isHomeOrTokenId = link.href === '/' && (pathname === '/' || (/^\/[a-zA-Z0-9]+$/.test(pathname) && pathname !== '/token'));
+    const absolutePaths = ['/token', '/faq', '/builder'];
+    const isHomeOrTokenId = link.href === '/' && (pathname === '/' || (/^\/[a-zA-Z0-9]+$/.test(pathname) && !absolutePaths.includes(pathname)));
     return {
       ...link,
       isActive: link.href === pathname || isHomeOrTokenId,
@@ -88,6 +89,8 @@ const LBNavigation = ({ network }: ILBNavigation) => {
       },
     },
   ];
+
+  if (pathname === '/builder') return;
 
   return (
     <>
