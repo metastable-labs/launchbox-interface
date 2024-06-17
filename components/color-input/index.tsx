@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SketchPicker, ColorResult } from 'react-color';
+import LBBackdrop from '../backdrop';
 
 const LBColorInput: React.FC<ILBColorInput> = ({ color: defaultColor, handleChange, instruction, label }) => {
   const [color, setColor] = useState(defaultColor);
@@ -23,9 +24,7 @@ const LBColorInput: React.FC<ILBColorInput> = ({ color: defaultColor, handleChan
     }
   };
 
-  const toggleColorPicker = () => {
-    setShowColorPicker(!showColorPicker);
-  };
+  const toggleColorPicker = () => setShowColorPicker((prev) => !prev);
 
   return (
     <div className="relative flex flex-col w-full gap-1.5">
@@ -41,9 +40,12 @@ const LBColorInput: React.FC<ILBColorInput> = ({ color: defaultColor, handleChan
 
       <AnimatePresence>
         {showColorPicker && (
-          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="absolute top-full left-0 mt-2 z-10">
-            <SketchPicker color={color} onChange={handleColorChange} />
-          </motion.div>
+          <>
+            <LBBackdrop onClick={toggleColorPicker} />
+            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="absolute top-full left-0 mt-2 z-20">
+              <SketchPicker color={color} onChange={handleColorChange} />
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </div>
