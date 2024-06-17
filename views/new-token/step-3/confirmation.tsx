@@ -18,10 +18,6 @@ const Confirmation = ({ tokenData, handleTokenDeployment }: IConfirmation) => {
       value: Number(tokenData?.tokenSupply)?.toLocaleString(),
     },
     { title: 'Decimal', value: '18' },
-    {
-      title: "You'll get",
-      value: `${tokenData?.firstBuyTokenAmount} ${tokenData?.tokenSymbol}`,
-    },
   ];
 
   return (
@@ -42,7 +38,7 @@ const Confirmation = ({ tokenData, handleTokenDeployment }: IConfirmation) => {
                 'flex items-center justify-center gap-1': icon,
               })}>
               {icon && icon}
-              <span className="font-medium">{value}</span>
+              <span className="font-medium capitalize">{value}</span>
             </div>
           </div>
         ))}
