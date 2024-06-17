@@ -1,29 +1,33 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import classNames from 'classnames';
+import { useCookies } from 'react-cookie';
 
-import Header from './header';
-import { CustomizeChange, ILBLandingPageComponent } from '@/components/landing/types';
-import { defaultData } from '../landing';
 import { LBLandingPageComponent } from '@/components';
+import { CustomizeChange, ILBLandingPageComponent } from '@/components/landing/types';
+import Header from './header';
+import { defaultData } from '../landing';
 import CustomizingInterface from './customizing';
 
 const externalLink = '#';
 
 const BuilderView = () => {
+  const [cookies, setCookie] = useCookies(['buildData']);
   const [buildData, setBuildData] = useState<ILBLandingPageComponent>(defaultData);
   const [displayType, setDisplayType] = useState<DisplayType>('desktop');
   const [shouldHideCustomize, setShouldHideCustomize] = useState(false);
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [heroImageFile, setHeroImageFile] = useState<File | null>(null);
-
-  const publishActive = false;
-  const saveActive = false;
+  const [saveActive, setSaveActive] = useState(false);
+  const [publishActive, setPublishActive] = useState(false);
 
   const hideCoustomize = () => setShouldHideCustomize((prev) => !prev);
-  const publish = () => {};
-  const save = () => {};
+  const publish = () => setPublishActive(false);
+  const save = () => {
+    setCookie('buildData', buildData, { path: '/' });
+    setSaveActive(false);
+  };
 
   const handleChange = (name: CustomizeChange, value: any) => {
     setBuildData((prev) => ({
@@ -50,6 +54,19 @@ const BuilderView = () => {
     handleChange,
     setHeroImageFile,
   };
+
+  useEffect(() => {
+    const storedBuildData = cookies.buildData;
+    if (storedBuildData) {
+      setBuildData(storedBuildData);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    setSaveActive(true);
+    setPublishActive(true);
+  }, [buildData]);
 
   return (
     <>
