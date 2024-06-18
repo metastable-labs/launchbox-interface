@@ -7,8 +7,8 @@ const LBInput = ({ name, className, disabled, error, instruction, isOptional, is
     <div className={classNames('w-full text-sm tracking-[-0.084px] text-primary-150 flex flex-col items-start gap-1', { 'text-primary-1050': error })}>
       <label
         htmlFor={name}
-        className={classNames('', {
-          'flex items-center justify-center gap-2 font-medium': isRequired || isOptional,
+        className={classNames('font-medium', {
+          'flex items-center justify-center gap-1': isRequired || isOptional,
         })}>
         {label}
         {(isRequired || isOptional) && (
