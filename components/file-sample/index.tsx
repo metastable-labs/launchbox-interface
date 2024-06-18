@@ -1,7 +1,7 @@
 'use client';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { DeleteIcon, CheckAltIcon, SVGIcon } from '@/public/icons';
+import { DeleteIcon, CheckAltIcon, SVGIcon, PNGIcon } from '@/public/icons';
 
 const formatFileSize = (bytes: number, decimals = 2) => {
   if (bytes === 0) return '0 Bytes';
@@ -15,6 +15,8 @@ const formatFileSize = (bytes: number, decimals = 2) => {
 const LBFileSample = ({ file, deleteFile }: ILBFileSmaple) => {
   const fileSize = file ? formatFileSize(file.size) : '';
 
+  const isSVG = file?.name.split('.').pop()?.toLowerCase() === 'svg';
+
   return (
     <AnimatePresence>
       {file && (
@@ -25,7 +27,8 @@ const LBFileSample = ({ file, deleteFile }: ILBFileSmaple) => {
           exit={{ opacity: 0 }}
           className="flex self-stretch justify-start items-start md:justify-between md:items-center gap-3 py-4 pl-[14px] pr-4 rounded-xl bg-white border border-primary-50">
           <div className="flex items-center justify-center gap-3">
-            <SVGIcon />
+            {isSVG && <SVGIcon />}
+            {!isSVG && <PNGIcon />}
             <div className="flex flex-col items-start justify-center gap-1">
               <span className="text-primary-150 tracking-[-0.084px] font-medium text-sm">{file.name}</span>
               <div className="flex items-center gap-1 text-xs font-normal">
