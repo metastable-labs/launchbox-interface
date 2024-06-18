@@ -7,15 +7,19 @@ import { NumericFormat, OnValueChange } from 'react-number-format';
 
 import { LBButton, LBClickAnimation } from '@/components';
 import { ILBTradeInterface } from './types';
+import useTokenActions from '@/store/token/actions';
+import useSystemFunctions from '@/hooks/useSystemFunctions';
 
 const tabs = ['buy', 'sell'];
 
 const LBTradeInterface = ({ balance, token, standAlone = true }: ILBTradeInterface) => {
   const { openConnectModal } = useConnectModal();
   const { isConnected, address } = useAccount();
+  const { buyTokens } = useTokenActions();
+  const { tokenState } = useSystemFunctions();
 
   const [tab, setTab] = useState<'buy' | 'sell'>('buy');
-  const [amount, setAmount] = useState<number>(0);
+  const [amount, setAmount] = useState<number>();
 
   const balancePartitions = [
     { text: '10%', onClick: () => setAmount(balance * 0.1) },
@@ -31,7 +35,12 @@ const LBTradeInterface = ({ balance, token, standAlone = true }: ILBTradeInterfa
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!amount || !token?.id) return;
+
     if (!isConnected && !address && openConnectModal) return openConnectModal();
+    if (tab === 'buy') {
+      return buyTokens(token.token_address, amount);
+    }
   };
 
   return (
@@ -86,24 +95,14 @@ const LBTradeInterface = ({ balance, token, standAlone = true }: ILBTradeInterfa
       </div>
 
       <div className="py-3 flex flex-col gap-3 items-stretch rounded-lg">
-        {info.map(({ title, value, secondaryValue }, index) => (
+        {info.map(({ title, value }, index) => (
           <div key={index} className="flex items-center justify-between gap-2 text-primary-250 text-sm">
             <span>{title}</span>
-
-            <p className="font-medium">
-              {secondaryValue && (
-                <>
-                  <span className="text-primary-750">{secondaryValue}</span>
-                  &ensp;
-                </>
-              )}
-              {value}
-            </p>
           </div>
         ))}
       </div>
 
-      <LBButton variant="plainAlt" text={tab} type="submit" />
+      <LBButton loading={tokenState.loadingBuy} disabled={!amount} variant="plainAlt" text={tab} type="submit" />
     </form>
   );
 };

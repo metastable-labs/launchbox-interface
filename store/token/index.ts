@@ -6,17 +6,19 @@ import { Meta, Token } from './types';
 export interface TokenState {
   tokens: Token[] | undefined;
   token: Token | undefined;
+  meta?: Meta;
   loading: boolean;
   loadingCreate: boolean;
-  meta?: Meta;
+  loadingBuy: boolean;
 }
 
 const initialState: TokenState = {
   tokens: undefined,
   token: undefined,
+  meta: undefined,
   loading: true,
   loadingCreate: false,
-  meta: undefined,
+  loadingBuy: false,
 };
 
 export const tokenReducer = createSlice({
@@ -29,6 +31,10 @@ export const tokenReducer = createSlice({
 
     setLoadingCreate: (state, action: PayloadAction<boolean>) => {
       state.loadingCreate = action.payload;
+    },
+
+    setLoadingBuy: (state, action: PayloadAction<boolean>) => {
+      state.loadingBuy = action.payload;
     },
 
     setExtraTokens: (state, action: PayloadAction<Token[] | undefined>) => {
@@ -65,6 +71,6 @@ export const tokenReducer = createSlice({
   },
 });
 
-export const { setLoading, setTokens, setToken, setLoadingCreate, setMeta, setExtraTokens } = tokenReducer.actions;
+export const { setLoading, setTokens, setToken, setLoadingCreate, setMeta, setExtraTokens, setLoadingBuy } = tokenReducer.actions;
 
 export default tokenReducer.reducer;

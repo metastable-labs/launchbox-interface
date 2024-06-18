@@ -5,19 +5,21 @@ import { useCookies } from 'react-cookie';
 import { toast } from 'react-toastify';
 import { useChainId, useAccount } from 'wagmi';
 import { mode } from 'wagmi/chains';
+import { trim } from 'viem';
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useContract from '@/hooks/useContract';
-import { setLoading, setLoadingCreate, setToken, setTokens, setMeta, setExtraTokens } from '.';
+import { networks } from '@/config/rainbow/config';
+import { setLoading, setLoadingCreate, setToken, setTokens, setMeta, setExtraTokens, setLoadingBuy } from '.';
 import { CallbackProps } from '..';
 import api from './api';
 import { TokenData } from './types';
-import { networks } from '@/config/rainbow/config';
-import { trim } from 'viem';
 
 const useTokenActions = () => {
   const { dispatch, tokenState } = useSystemFunctions();
-  const { deployToken, isPending, isConfirmed, getTransactionData, error } = useContract();
+  const { deployToken, isDeployPending, isDeployConfirmed, getDeployTransactionData } = useContract.useDeploy();
+  const { buyToken, isBuyPending, isBuyConfirmed, getBuyTransactionData, buyError } = useContract.useBuyToken();
+  const { sellToken, isSellPending, isSellConfirmed, getSellTransactionData, sellError } = useContract.useSellToken();
   const chainId = useChainId();
   const { address } = useAccount();
 
@@ -66,18 +68,38 @@ const useTokenActions = () => {
     } catch (error: any) {
       console.log(error);
       callback?.onError?.(error);
-    } finally {
+    }
+  };
+
+  const buyTokens = async (tokenAddress: Address, amount: number) => {
+    try {
+      console.log('calling this');
+      dispatch(setLoadingBuy(true));
+
+      return buyToken('0x5F66dE9e53D558439F25d4Ff9Ca606CFcE3B32f6', amount * 10 ** 18);
+    } catch (error: any) {
+      //
+    }
+  };
+
+  const sellTokens = async (tokenAddress: Address, amount: number) => {
+    try {
+      console.log('calling this');
+      dispatch(setLoadingBuy(true));
+
+      return buyToken(tokenAddress, amount * 10 ** 18);
+    } catch (error: any) {
       //
     }
   };
 
   const _submitData = async () => {
     try {
-      if (isPending || !isConfirmed) return;
+      if (isDeployPending || !isDeployConfirmed) return;
 
       const currentNetwork = networks.find((network) => network.chainId === chainId);
 
-      const txData = await getTransactionData();
+      const txData = await getDeployTransactionData();
       console.log('txData', txData);
 
       const topicIndex = chainId !== 34443 ? 1 : 2;
@@ -126,16 +148,25 @@ const useTokenActions = () => {
       dispatch(setLoadingCreate(false));
     }
   };
-
+  console.log(buyError?.message);
   useEffect(() => {
     _submitData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPending, isConfirmed, error, tokenState.loadingCreate]);
+  }, [isDeployPending, isDeployConfirmed, tokenState.loadingCreate]);
+
+  useEffect(() => {
+    if (!isBuyConfirmed || isBuyPending || buyError?.message) return;
+
+    dispatch(setLoadingBuy(false));
+    getBuyTransactionData()?.then((res) => console.log(res));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isBuyPending, isBuyConfirmed, buyError]);
 
   return {
     getTokens,
     getToken,
     createToken,
+    buyTokens,
   };
 };
 
