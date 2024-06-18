@@ -7,7 +7,7 @@ import { formatCurrency } from '.';
 import { LBTable, LBTradeInterface } from '@/components';
 import TokenInfo from './token-info';
 import ChangeIndicator from './change-indicator';
-import LiquidityLineChart from './line-chart';
+import LineChart from '../line-chart';
 import ClickTabs from '../tabs';
 import { IView } from './types';
 
@@ -15,7 +15,7 @@ const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, 
   const [tab, setTab] = useState<SecondaryTabs>('transactions');
 
   const amount = 456.86;
-  const change = -12.34;
+  const change = 12.34;
 
   const { whole, decimal } = formatCurrency(amount);
 
@@ -61,7 +61,7 @@ const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, 
         </div>
 
         <div className="w-full flex items-center justify-center h-[295px] relative">
-          <LiquidityLineChart period={period} liquidityData={liquidityData} />
+          <LineChart period={period} data={liquidityData} />
 
           {noLiquidityData && (
             <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center text-primary-250 text-[20px] leading-[32px] tracking-[-0.2px] font-semibold">No price data.</div>
