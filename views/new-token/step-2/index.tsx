@@ -2,11 +2,12 @@ import { LBButton, LBFileInput, LBFileSample, LBInput, LBSelect } from '@/compon
 import { StepProps } from '../types';
 import Switch from './switch';
 import { warpcastChannels } from './dummy';
+import { FarcasterIcon } from '@/public/icons';
 
 const Step2 = ({ file, register, setFile, tokenSymbol, createTokenPage, setCreateTokenPage, setValue, watch }: StepProps) => {
   const tokenWarpcastChannelLink = watch?.('tokenWarpcastChannelLink');
   console.log(tokenWarpcastChannelLink);
-  const disbleButton = !file || !tokenWarpcastChannelLink;
+  const disbleButton = !file;
 
   let buttonText = 'Deploy';
   if (tokenSymbol) buttonText = `Deploy $${tokenSymbol} token`;
@@ -36,21 +37,21 @@ const Step2 = ({ file, register, setFile, tokenSymbol, createTokenPage, setCreat
 
       <LBFileSample file={file} deleteFile={deleteFile} />
 
-      {inputs.map((input, index) => (
-        <LBInput key={index} {...input} />
-      ))}
-
       <LBSelect
         label="Warpcast channel"
         text="Select channel"
         options={warpcastChannels}
         onClick={({ text }) => setValue?.('tokenWarpcastChannelLink', text.toLowerCase())}
         defaultId={tokenWarpcastChannelLink}
+        isOptional
+        textIcon={<FarcasterIcon />}
       />
+
+      <LBInput name="tokenWebsiteURL" register={register?.('tokenWebsiteURL')} placeholder="..." type="text" label="Website URL" instruction="Link to your token's website" isOptional />
 
       <Switch
         handleOverride={() => setCreateTokenPage?.((prev) => !prev)}
-        instruction="Add a landing page that shows full details about your token"
+        instruction="Don’t have a website? Add a landing page that shows full details about your token project and community"
         switched={createTokenPage!}
         title="Create token page"
       />
