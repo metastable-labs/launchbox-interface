@@ -2,6 +2,7 @@ import moment from 'moment';
 
 import { TableItem } from '@/components/table/types';
 import { Address } from 'viem';
+import { Period } from './types';
 
 const tokenDetailData = {
   id: '0cnswi32',
@@ -222,4 +223,62 @@ const holdingsData: { wallet: Address; walletAvatarURL: string; holding: number 
   },
 ];
 
-export { tokenDetailData, transactionsData, holdingsData };
+const periods = [
+  { text: '1H', value: '1h' as Period },
+  { text: '24H', value: '24h' as Period },
+  { text: '1W', value: '1w' as Period },
+  { text: '1M', value: '1m' as Period },
+];
+
+const generateData = (period: Period, isSecondary?: boolean) => {
+  const data = [];
+  const today = new Date();
+  let value = 500;
+  let startTime;
+
+  switch (period) {
+    case '1h':
+      startTime = new Date(today.getTime() - 60 * 60 * 1000);
+      for (let i = 0; i <= 60; i += 5) {
+        const date = new Date(startTime.getTime() + i * 60 * 1000);
+        value += Math.random() * 20 - 10;
+        data.push({ date, value: isSecondary ? Math.round(value) : value });
+      }
+      break;
+    case '24h':
+      startTime = new Date(today.getTime() - 24 * 60 * 60 * 1000);
+      for (let i = 0; i <= 24; i += 2) {
+        const date = new Date(startTime.getTime() + i * 60 * 60 * 1000);
+        value += Math.random() * 50 - 25;
+        data.push({ date, value: isSecondary ? Math.round(value) : value });
+      }
+      break;
+    case '1w':
+      startTime = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+      for (let i = 0; i <= 7; i++) {
+        const date = new Date(startTime.getTime() + i * 24 * 60 * 60 * 1000);
+        value += Math.random() * 100 - 50;
+        data.push({ date, value: isSecondary ? Math.round(value) : value });
+      }
+      break;
+    case '1m':
+      startTime = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000);
+      for (let i = 0; i <= 4; i++) {
+        const date = new Date(startTime.getTime() + i * 7 * 24 * 60 * 60 * 1000);
+        value += Math.random() * 200 - 100;
+        data.push({ date, value: isSecondary ? Math.round(value) : value });
+      }
+      break;
+    default:
+      throw new Error("Invalid period. Choose from '1h', '24h', '1w', or '1m'");
+  }
+
+  const smoothingFactor = 0.3;
+  for (let i = 1; i < data.length - 1; i++) {
+    data[i].value = Math.round(data[i].value * smoothingFactor + ((data[i - 1].value + data[i + 1].value) / 2) * (1 - smoothingFactor));
+  }
+
+  return data;
+};
+
+export { tokenDetailData, transactionsData, holdingsData, periods, generateData };
