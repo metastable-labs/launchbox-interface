@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 
-import { generateData } from './dummy';
-import { holdingsData, transactionsData } from '../dummy';
-import { IOverview, Period } from './types';
+import { generateData, holdingsData, periods, transactionsData } from '../dummy';
+import { Period } from '../types';
 import DesktopView from './desktop';
 import MobileView from './mobile';
+import { IOverview } from './types';
 
 const tabTexts = ['transactions', 'holders'];
 export const formatCurrency = (amount: number) => {
@@ -15,13 +15,6 @@ export const formatCurrency = (amount: number) => {
 const Overview = ({ token, userRole }: IOverview) => {
   const [period, setPeriod] = useState<Period>('1m');
   const [liquidityData, setLiquidityData] = useState(generateData(period));
-
-  const periods = [
-    { text: '1H', value: '1h' as Period },
-    { text: '24H', value: '24h' as Period },
-    { text: '1W', value: '1w' as Period },
-    { text: '1M', value: '1m' as Period },
-  ];
 
   const props = {
     transactionsData,
