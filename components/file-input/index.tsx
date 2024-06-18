@@ -48,7 +48,7 @@ const LBFileInput = ({ name, handleFileChange, disabled, label, show }: ILBFileI
           <label htmlFor={name}>{label}</label>
 
           <div
-            className={classNames('w-full p-8 flex flex-col gap-5 items-center bg-white rounded-xl border border-dashed transition-colors duration-300', {
+            className={classNames('w-full p-8 flex flex-col gap-2.5 items-center bg-white rounded-xl border border-dashed transition-colors duration-300', {
               'border-primary-550': !isDragOver,
               'border-primary-1000': chainId === base.id && isDragOver,
               'border-primary-1050': chainId === optimism.id && isDragOver,
@@ -63,7 +63,7 @@ const LBFileInput = ({ name, handleFileChange, disabled, label, show }: ILBFileI
 
             <p className="flex flex-col self-stretch gap-1 text-center">
               <p className="text-primary-150 text-sm tracking-[-0.084px] font-medium max-w-[332px] text-center">Choose a file or drag & drop it here.</p>
-              <span className="text-primary-750 text-xs font-normal">SVG, PNG, JPEG formats up to 5MB</span>
+              <span className="text-primary-750 text-xs font-normal">SVG, PNG formats up to 5MB</span>
             </p>
 
             <LBClickAnimation onClick={handleButtonClick} className="px-4 py-[6px] flex items-center justify-center shadow-fade-dark rounded-lg bg-white border border-primary-50">
@@ -71,7 +71,7 @@ const LBFileInput = ({ name, handleFileChange, disabled, label, show }: ILBFileI
             </LBClickAnimation>
           </div>
 
-          <input ref={documentInputRef} id="file-input" type="file" accept=".svg , .png, .jpeg" className="hidden" onChange={handleFileChange} />
+          <input ref={documentInputRef} id="file-input" type="file" accept=".svg , .png" className="hidden" onChange={handleFileChange} />
         </motion.div>
       )}
     </AnimatePresence>
