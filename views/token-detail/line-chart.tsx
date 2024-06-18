@@ -12,8 +12,8 @@ const getOptions = (period: Period, data: { date: Date; value: number }[], varia
   let displayFormats: any;
   let stepSizeY: number;
   let stepSizeX: number;
-  let minDate: Date;
-  let maxDate: Date;
+  let minDate = data.length > 0 ? data[0].date : moment().toDate();
+  let maxDate = data.length > 0 ? data[data.length - 1].date : moment().toDate();
 
   switch (period) {
     case '1h':

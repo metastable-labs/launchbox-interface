@@ -5,4 +5,21 @@ interface IChannel {
   userRole: 'admin' | 'user';
 }
 
-export default IChannel;
+interface IInfo {
+  title: string;
+  text?: string;
+  activeFollowersPercentage?: number;
+  weeklyCastPercentage?: number;
+  socialScore?: number;
+  priceChangePercentage?: number;
+  txns?: {
+    numerator: number;
+    denominator: {
+      numerator: number;
+      denominator: number;
+    };
+  };
+  hasBorder?: boolean;
+}
+
+export type { IChannel, IInfo };
