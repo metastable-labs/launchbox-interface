@@ -124,7 +124,7 @@ const TokenInfo = ({ token, userRole }: IOverview) => {
               </LBClickAnimation>
             ))}
 
-            <LBShare token_address={token?.token_address} />
+            <LBShare />
           </div>
         </>
       )}
