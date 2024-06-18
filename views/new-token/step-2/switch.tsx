@@ -45,7 +45,7 @@ const Switch = ({ handleOverride, switched, title, instruction }: ISwitch) => {
         <span className="text-primary-150 text-sm font-medium tracking-[-0.084px]">{title}</span>
       </div>
 
-      <p className="text-[10px] leading-[16px] text-primary-250">{instruction}</p>
+      <p className="text-[10px] leading-[16px] text-primary-250 max-w-[400px]">{instruction}</p>
     </div>
   );
 };
