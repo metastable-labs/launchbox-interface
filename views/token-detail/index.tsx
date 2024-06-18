@@ -15,6 +15,7 @@ import Leaderboard from './leaderboard';
 import { Tabs } from './types';
 import ClickTabs from './tabs';
 import useTokenActions from '@/store/token/actions';
+import Channel from './channel';
 
 const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: string }) => {
   const { address } = useAccount();
@@ -59,7 +60,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
     },
   ];
 
-  const tabs = [<Overview key="overview" userRole={userRole} token={token} />, <Leaderboard key="incentive" />, <div key="channel">Channel</div>];
+  const tabs = [<Overview key="overview" userRole={userRole} token={token} />, <Leaderboard key="incentive" />, <Channel key="channel" token={token} userRole={userRole} />];
 
   useEffect(() => {
     if (!token) getToken(tokenAddressURL);
