@@ -56,13 +56,11 @@ const Step1 = ({ setStep, watch, errors, register, setValue }: StepProps) => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 rounded-base border border-primary-1200 bg-white p-6 min-w-[343px] md:min-w-[448px]">
-      <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full">
-        {primaryInputs.map((input, index) => (
-          <LBInput key={index} {...input} />
-        ))}
-      </div>
+      {primaryInputs.map((input, index) => (
+        <LBInput key={index} {...input} />
+      ))}
 
-      <LBSelect label="Blockchain network" text="Select Network" options={blockchainNetworks} onClick={({ text }) => setValue?.('tokenNetwork', text.toLowerCase())} defaultId={tokenNetwork} />
+      <LBSelect label="Blockchain network" text="Select chain" options={blockchainNetworks} onClick={({ text }) => setValue?.('tokenNetwork', text.toLowerCase())} defaultId={tokenNetwork} />
 
       <LBInput
         name="tokenSupply"
