@@ -68,6 +68,7 @@ import PlusCircleIcon from './plus-circle-icon.svg';
 import AboutIcon from './about-icon.svg';
 import Divider from './Divider.svg';
 import PNGIcon from './png-icon.svg';
+import SmallFarcasterIcon from './small-farcaster-icon.svg';
 
 export {
   LaunchIcon,
@@ -140,4 +141,5 @@ export {
   AboutIcon,
   Divider,
   PNGIcon,
+  SmallFarcasterIcon,
 };
