@@ -64,6 +64,7 @@ import TimerAltIcon from './timer-alt-icon.svg';
 import ExclaimIcon from './exclaim-icon.svg';
 import XIcon from './x-icon';
 import PNGIcon from './png-icon.svg';
+import SmallFarcasterIcon from './small-farcaster-icon.svg';
 
 export {
   LaunchIcon,
@@ -132,4 +133,5 @@ export {
   ExclaimIcon,
   XIcon,
   PNGIcon,
+  SmallFarcasterIcon,
 };
