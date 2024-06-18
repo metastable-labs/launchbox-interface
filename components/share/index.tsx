@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import classNames from 'classnames';
 
@@ -7,7 +7,7 @@ import useCopy from '@/hooks/useCopy';
 import LBClickAnimation from '../click-animation';
 import LBBackdrop from '../backdrop';
 
-const LBShare = () => {
+const LBShare = ({ fullWidth }: ILBShare) => {
   const [isOpen, setIsOpen] = useState(false);
   const { handleCopy, hasCopied } = useCopy();
 
@@ -31,7 +31,7 @@ const LBShare = () => {
   ];
 
   return (
-    <div className="relative z-20">
+    <div className={classNames('relative z-20', { 'w-full': fullWidth })}>
       <LBClickAnimation
         onClick={handleClick}
         className="flex items-center justify-center gap-1 cursor-pointer px-3.5 py-2.5 bg-white border border-primary-1950 rounded-lg shadow-table-cta w-full relative z-20">
