@@ -8,7 +8,7 @@ import LBClickAnimation from '../click-animation';
 import LBModal from '../modal';
 import { SearchIcon, SecondarySelectIcon } from '@/public/icons';
 
-const LBSelect = ({ text, disabled, onClick, options, defaultId, label }: ILBSelect) => {
+const LBSelect = ({ text, disabled, onClick, options, defaultId, label, isOptional, textIcon }: ILBSelect) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [selectedOption, setSelectedOption] = useState<IOption>();
@@ -42,13 +42,20 @@ const LBSelect = ({ text, disabled, onClick, options, defaultId, label }: ILBSel
   return (
     <>
       <div className="flex flex-col w-full items-start gap-1 text-sm">
-        <span className="text-primary-150">{label}</span>
+        <span className={classNames('text-primary-150 font-medium', { 'flex items-center justify-center gap-1': isOptional })}>
+          {label}
+          {isOptional && <span className="text-primary-1000"> (optional)</span>}
+        </span>
         <LBClickAnimation
           onClick={toggleOpen}
           className={classNames('flex justify-between items-center gap-2 cursor-pointer py-2.5 px-3 bg-white rounded-[5px] text-center text-primary-250 w-full border border-primary-50', {
             'pointer-events-none': disabled,
           })}>
-          {!selectedOption && <span className="whitespace-nowrap">{text}</span>}
+          {!selectedOption && (
+            <div className={classNames('whitespace-nowrap', { 'flex items-center gap-2': textIcon })}>
+              {textIcon && textIcon} {text}
+            </div>
+          )}
           {selectedOption && (
             <div className="flex items-center gap-2">
               {selectedOption.icon}
