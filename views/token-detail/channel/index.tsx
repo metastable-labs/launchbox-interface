@@ -6,12 +6,12 @@ import Rating from 'react-rating-stars-component';
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useCopy from '@/hooks/useCopy';
-import { LBClickAnimation, LBShare } from '@/components';
+import { LBClickAnimation, LBShare, LBComment } from '@/components';
 import { formatNumber } from '@/components/table/row';
 import { BaseBadgeicon, CheckAltIcon, ConfigSiteIcon, CopyIcon, FarcasterIcon, SmallFarcasterIcon, WebIcon } from '@/public/icons';
 import { Period } from '../types';
 import { IChannel, IInfo } from './types';
-import { generateData, periods } from '../dummy';
+import { generateData, holders, periods, comments } from '../dummy';
 import LineChart from '../line-chart';
 
 const dollarRate = 0.014728;
@@ -94,14 +94,6 @@ const Channel = ({ token, userRole }: IChannel) => {
     },
   ];
 
-  const holders = [
-    { name: 'drippy.eth', amount: 95100000, avatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723895/Avatar_khczwg.jpg' },
-    { name: 'Evans', amount: 25700000, avatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723894/Avatar_1_rg5wgw.jpg' },
-    { name: 'CJ', amount: 7510000, avatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723894/Avatar_2_ch4dwg.jpg' },
-    { name: 'tammmy', amount: 95100000, avatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723894/Avatar_3_jhomgx.jpg' },
-    { name: 'rossnothere', amount: 64000000, avatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723894/Avatar_4_dlvjwk.jpg' },
-  ];
-
   const info = [
     { title: 'Channel followers', text: (56801).toLocaleString(), activeFollowersPercentage: 13.3 },
     { title: 'Weekly cast', text: (10354).toLocaleString(), weeklyCastPercentage: 16.7 },
@@ -119,7 +111,11 @@ const Channel = ({ token, userRole }: IChannel) => {
 
   return (
     <div className="flex justify-between gap-2.5">
-      <div className="w-3/5 p-6 rounded-lg border border-primary-50 h-fit">jhg</div>
+      <div className="w-3/5 flex flex-col items-stretch gap-8">
+        {comments.map((comment) => (
+          <LBComment key={comment.id} {...comment} />
+        ))}
+      </div>
 
       <div className="w-2/5 p-6 rounded-lg border border-primary-50 h-fit flex flex-col gap-6">
         <div className="flex items-start gap-4">
