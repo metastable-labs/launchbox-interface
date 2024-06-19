@@ -110,14 +110,14 @@ const Channel = ({ token, userRole }: IChannel) => {
   }, [period]);
 
   return (
-    <div className="flex justify-between gap-2.5">
-      <div className="w-3/5 flex flex-col items-stretch gap-8">
+    <div className="flex flex-col-reverse lg:flex-row justify-between gap-7 lg:gap-3.5">
+      <div className="w-full lg:w-3/5 flex flex-col items-stretch gap-8">
         {comments.map((comment) => (
           <LBComment key={comment.id} {...comment} />
         ))}
       </div>
 
-      <div className="w-2/5 p-6 rounded-lg border border-primary-50 h-fit flex flex-col gap-6">
+      <div className="w-full lg:w-2/5 p-6 rounded-lg border border-primary-50 h-fit flex flex-col gap-6">
         <div className="flex items-start gap-4">
           <Image src={token?.token_logo_url || ''} alt="token-logo" width={500} height={500} className="w-[50px] h-[50px] object-cover" />
 
@@ -165,7 +165,7 @@ const Channel = ({ token, userRole }: IChannel) => {
         <div className="self-stretch flex flex-col items-center gap-4">
           <div className="self-stretch flex flex-col gap-9 items-center pb-4 border-b border-b-primary-50">
             <div className="self-stretch flex flex-col gap-[30px]">
-              <div className="self-stretch flex items-center justify-between">
+              <div className="self-stretch flex items-center justify-between flex-wrap gap-4">
                 <span className="text-primary-700 text-[14px] leading-[24px]">Channel growth</span>
 
                 <div className="flex items-center justify-center gap-8">
