@@ -65,6 +65,9 @@ import ExclaimIcon from './exclaim-icon.svg';
 import XIcon from './x-icon';
 import PNGIcon from './png-icon.svg';
 import SmallFarcasterIcon from './small-farcaster-icon.svg';
+import HeartIcon from './heart-icon';
+import RecastIcon from './recast-icon';
+import ReplyIcon from './reply-icon.svg';
 
 export {
   LaunchIcon,
@@ -134,4 +137,7 @@ export {
   XIcon,
   PNGIcon,
   SmallFarcasterIcon,
+  HeartIcon,
+  RecastIcon,
+  ReplyIcon,
 };
