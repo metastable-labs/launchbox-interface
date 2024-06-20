@@ -1,4 +1,5 @@
 import { Address } from 'viem';
+import { FarcaterChannel } from '../social/types';
 
 type Token = {
   id: string;
@@ -16,6 +17,9 @@ type Token = {
     deployer_address: Address;
     transaction_hash: string;
   };
+  warpcast: {
+    channel: FarcaterChannel;
+  };
   is_active: boolean;
   created_at: string;
   updated_at: string;
@@ -30,6 +34,7 @@ type TokenData = {
   token_address?: Address;
   warpcast_channel_link?: string;
   website_url?: string;
+  socials?: FarcaterChannel;
 };
 
 type Meta = {

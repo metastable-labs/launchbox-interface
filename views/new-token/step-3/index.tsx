@@ -59,7 +59,7 @@ const Step3 = ({ tokenData, setDisableHeader }: StepProps) => {
         token_total_supply: tokenData?.tokenSupply!,
         logo: tokenData?.tokenLogo!,
         website_url: tokenData?.tokenWebsiteURL!,
-        warpcast_channel_link: tokenData?.tokenWarpcastChannelLink!,
+        socials: tokenData?.farcasterChannel,
       },
       {
         onError: () => {

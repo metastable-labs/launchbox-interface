@@ -1,3 +1,4 @@
+import { FarcaterChannel } from '@/store/social/types';
 import { SetStateAction, Dispatch } from 'react';
 import { FieldErrors, UseFormRegister, UseFormWatch, UseFormSetValue } from 'react-hook-form';
 
@@ -7,7 +8,7 @@ interface FormProp {
   tokenNetwork: string;
   tokenSupply: string;
   tokenWebsiteURL?: string;
-  tokenWarpcastChannelLink?: string;
+  warpcastChannelId?: string;
 }
 
 interface StepProps {
@@ -61,7 +62,7 @@ type NewTokenData = {
   tokenNetwork: string;
   tokenSupply: number;
   tokenWebsiteURL?: string | undefined;
-  tokenWarpcastChannelLink?: string | undefined;
+  farcasterChannel?: FarcaterChannel;
 };
 
 export type { StepProps, FormProp, ISwitchIcon, ISwitch, IConfirmation, IFirstBuyModal, NewTokenData };

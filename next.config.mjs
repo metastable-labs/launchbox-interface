@@ -10,7 +10,7 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ['res.cloudinary.com'],
+    domains: ['res.cloudinary.com', 'imgur.com', 'imagedelivery.net', 'i.imgur.com'],
   },
 };
 

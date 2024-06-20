@@ -25,7 +25,7 @@ const LBSelect = ({ text, disabled, onClick, options, defaultId, label, isOption
 
   useEffect(() => {
     if (defaultId && options) {
-      const defaultOption = options.find((option) => option.text.toLowerCase() === defaultId.toLowerCase());
+      const defaultOption = options.find((option) => option.id === defaultId || option.text.toLowerCase() === defaultId.toLowerCase());
       if (defaultOption) setSelectedOption(defaultOption);
     }
   }, [defaultId, options]);
