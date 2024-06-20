@@ -29,7 +29,7 @@ const Wrapper = ({ children }: { children: ReactNode }) => {
   const {} = useConnect();
   return (
     <main>
-      <LBNavigation network="base" />
+      <LBNavigation />
       {children}
     </main>
   );
