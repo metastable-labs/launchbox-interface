@@ -36,6 +36,21 @@ export const defaultData: ILBLandingPageComponent = {
   farcasterLink: 'https://www.landbot.io/',
   telegramLink: 'https://www.landbot.io/',
   chainExplorerLink: 'https://www.landbot.io/',
+  aboutImageURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717454052/lb-hero-placeholder_xjoaa3.jpg',
+  aboutTitle: 'About the project',
+  aboutDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis  ac, nisi.',
+  faqTitle: 'Frequently asked questions',
+  faqDescription: 'Everything you need to know about the project.',
+  faqs: [
+    {
+      question: 'What is the project about?',
+      answer: 'Lorem ipsum dolor sit amet, ',
+    },
+    {
+      question: 'How can I participate?',
+      answer: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis  ac, nisi.',
+    },
+  ],
 };
 
 const LandingView = () => {
