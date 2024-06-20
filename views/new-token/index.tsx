@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -12,6 +12,9 @@ import Step3 from './step-3';
 import PrimaryHeader from './primary-header';
 import SecondaryHeader from './secondary-header';
 import { FormProp, NewTokenData } from './types';
+import useSocialActions from '@/store/social/actions';
+import { useAccount } from 'wagmi';
+import useSystemFunctions from '@/hooks/useSystemFunctions';
 
 const schema = yup.object().shape({
   tokenName: yup.string().required('Token Name is required'),
@@ -19,7 +22,7 @@ const schema = yup.object().shape({
   tokenNetwork: yup.string().required('Blockchain Network is required'),
   tokenSupply: yup.string().required('Token Supply is Required'),
   tokenWebsiteURL: yup.string(),
-  tokenWarpcastChannelLink: yup.string(),
+  warpcastChannelId: yup.string(),
 });
 
 const ensureHttps = (url: string): string => {
@@ -31,6 +34,9 @@ const ensureHttps = (url: string): string => {
 };
 
 const NewTokenView = () => {
+  const { socialState } = useSystemFunctions();
+  const { address } = useAccount();
+  const { getFarcasterChannels } = useSocialActions();
   const [step, setStep] = useState(0);
   const [newTokenData, setNewTokenData] = useState<NewTokenData>();
   const [createTokenPage, setCreateTokenPage] = useState(false);
@@ -55,17 +61,25 @@ const NewTokenView = () => {
   ];
 
   const onSubmit = (data: FormProp) => {
+    const farcasterChannel = socialState?.farcasterChannels?.find((channel) => channel.channel_id === data?.warpcastChannelId);
+
     const formData = {
       ...data,
       tokenSupply: Number(data.tokenSupply.replace(/,/g, '')),
       createTokenPage,
       tokenLogo: file,
       tokenWebsiteURL: ensureHttps(data.tokenWebsiteURL!) || undefined,
+      farcasterChannel,
     };
     setNewTokenData?.(formData);
 
     setStep(2);
   };
+
+  useEffect(() => {
+    getFarcasterChannels();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address]);
 
   return (
     <LBContainer>

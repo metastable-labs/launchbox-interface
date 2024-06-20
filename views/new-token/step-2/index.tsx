@@ -1,28 +1,18 @@
+import Image from 'next/image';
 import { LBButton, LBFileInput, LBFileSample, LBInput, LBSelect } from '@/components';
-import { StepProps } from '../types';
-import Switch from './switch';
-import { warpcastChannels } from './dummy';
 import { FarcasterIcon } from '@/public/icons';
+import useSystemFunctions from '@/hooks/useSystemFunctions';
+import Switch from './switch';
+import { StepProps } from '../types';
 
 const Step2 = ({ file, register, setFile, tokenSymbol, createTokenPage, setCreateTokenPage, setValue, watch }: StepProps) => {
-  const tokenWarpcastChannelLink = watch?.('tokenWarpcastChannelLink');
-  console.log(tokenWarpcastChannelLink);
+  const { socialState } = useSystemFunctions();
+  const warpcastChannelId = watch?.('warpcastChannelId');
+
   const disbleButton = !file;
 
   let buttonText = 'Deploy';
   if (tokenSymbol) buttonText = `Deploy $${tokenSymbol} token`;
-
-  const inputs = [
-    {
-      name: 'tokenWebsiteURL',
-      register: register?.('tokenWebsiteURL'),
-      placeholder: '...',
-      type: 'text',
-      label: 'Website URL',
-      instruction: "Link to your token's website",
-      isOptional: true,
-    },
-  ];
 
   const handleFile = (e: any) => {
     const file = e.target?.files?.[0];
@@ -30,6 +20,13 @@ const Step2 = ({ file, register, setFile, tokenSymbol, createTokenPage, setCreat
   };
 
   const deleteFile = () => setFile?.(null);
+
+  const warpcastChannels = socialState?.farcasterChannels?.map((channel) => ({
+    text: channel.name,
+    value: channel.name,
+    icon: <Image src={channel.image_url} alt={channel.name} width={24} height={24} />,
+    id: channel.channel_id,
+  }));
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 rounded-base border border-primary-1200 bg-white p-6 min-w-[343px] md:min-w-[448px]">
@@ -41,8 +38,8 @@ const Step2 = ({ file, register, setFile, tokenSymbol, createTokenPage, setCreat
         label="Warpcast channel"
         text="Select channel"
         options={warpcastChannels}
-        onClick={({ text }) => setValue?.('tokenWarpcastChannelLink', text.toLowerCase())}
-        defaultId={tokenWarpcastChannelLink}
+        onClick={({ id }) => setValue?.('warpcastChannelId', id)}
+        defaultId={warpcastChannelId}
         isOptional
         textIcon={<FarcasterIcon />}
       />

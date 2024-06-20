@@ -55,17 +55,19 @@ const Confirmation = ({ tokenData, handleTokenDeployment }: IConfirmation) => {
           </div>
         ))}
 
-        <div className="flex flex-col gap-4">
-          <span className="text-base text-primary-700">Warpcast channel</span>
+        {tokenData?.farcasterChannel && (
+          <div className="flex flex-col gap-4">
+            <span className="text-base text-primary-700">Warpcast channel</span>
 
-          <div className="self-stretch flex items-center gap-4 bg-white rounded-lg border border-primary-50 p-2.5">
-            <Image src={fileURL} alt="logo" width={500} height={500} className="w-[50px] h-[50px] object-cover" />
-            <div className="flex flex-col gap-1">
-              <span className="text-[16px] leading-[28px] text-primary-650 font-medium">{tokenData?.tokenName}</span>
-              <span className="text-[14px] leading-[16px] text-primary-700">{(24601).toLocaleString()} followers</span>
+            <div className="self-stretch flex items-center gap-4 bg-white rounded-lg border border-primary-50 p-2.5">
+              <Image src={tokenData.farcasterChannel?.image_url} alt="logo" width={500} height={500} className="w-[50px] h-[50px] object-cover" />
+              <div className="flex flex-col gap-1">
+                <span className="text-[16px] leading-[28px] text-primary-650 font-medium">{tokenData.farcasterChannel?.name}</span>
+                <span className="text-[14px] leading-[16px] text-primary-700">{tokenData.farcasterChannel?.follower_count} followers</span>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       <LBButton onClick={handleTokenDeployment} text={`Confirm and deploy $${tokenData?.tokenSymbol}`} fullWidth variant="plain" type="submit" />
