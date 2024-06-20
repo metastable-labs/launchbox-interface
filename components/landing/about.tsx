@@ -7,8 +7,8 @@ import { IAbout } from './types';
 const About = ({ aboutDescription, aboutImageURL, aboutTitle, isBuilder, isMobile, isDesktop }: IAbout) => (
   <LBContainer>
     <section
-      className={classNames('', {
-        'pt-[128px] md:pt-[160px] flex flex-col-reverse md:flex-row items-center justify-between gap-[184px] md:gap-24 pb-[72px] md:px-12 lg:px-7 xl:px-[60px]': !isBuilder,
+      className={classNames('bg-white', {
+        'py-16 md:pt-24 flex flex-col-reverse md:flex-row items-center justify-between gap-[184px] md:gap-24 pb-[72px] md:px-12 lg:px-7 xl:px-[60px]': !isBuilder,
         'py-[45px] flex items-center justify-between gap-[50.111px] w-full': isBuilder && isDesktop,
         'py-[45px] flex flex-col-reverse items-stretch justify-center gap-20 -mx-20 px-5': isBuilder && isMobile,
       })}>

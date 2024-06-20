@@ -66,6 +66,7 @@ import XIcon from './x-icon';
 import MinusCircleIcon from './minus-circle-icon.svg';
 import PlusCircleIcon from './plus-circle-icon.svg';
 import AboutIcon from './about-icon.svg';
+import Divider from './Divider.svg';
 
 export {
   LaunchIcon,
@@ -136,4 +137,5 @@ export {
   MinusCircleIcon,
   PlusCircleIcon,
   AboutIcon,
+  Divider,
 };

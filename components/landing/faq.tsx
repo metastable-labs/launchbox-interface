@@ -74,7 +74,7 @@ const FAQ = ({ faqDescription, faqTitle, faqs, isBuilder, isDesktop, isMobile }:
   return (
     <LBContainer>
       <section
-        className={classNames('flex flex-col', {
+        className={classNames('flex flex-col bg-white', {
           'py-16 md:py-24 items-center px-4 gap-12 md:gap-16': !isBuilder,
           'py-[45px] items-center justify-between gap-[50.111px] w-full': isBuilder && isDesktop,
           'py-[45px] items-stretch justify-center gap-12 -mx-20 px-5': isBuilder && isMobile,

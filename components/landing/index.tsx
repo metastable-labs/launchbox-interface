@@ -114,13 +114,13 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
 
   return (
     <main
-      className={classNames('transition-all ease-in-out duration-500', {
-        'bg-white rounded-xl border border-primary-50 shadow-preview-shadow': isBuilder,
+      className={classNames('transition-all ease-in-out duration-500 relative', {
+        'rounded-xl border border-primary-50 shadow-preview-shadow': isBuilder,
         'w-full h-fit mb-10': isBuilder && isDesktop,
         'w-[375px] h-fit mb-10': isBuilder && isMobile,
       })}>
       {isBuilder && (
-        <div className="flex flex-col justify-center items-stretch">
+        <div className="flex flex-col justify-center items-stretch overflow-hidden">
           <Image
             src={'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717504705/Browser_top_lbycmr.jpg'}
             alt="browser-top"
@@ -155,7 +155,7 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
 
       <About {...aboutData} />
 
-      <section className="bg-primary-1750">
+      <section className="bg-primary-1750 bg-opacity-60">
         <LBContainer>
           <div
             className={classNames('flex flex-col w-full', {
@@ -196,6 +196,14 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
       <FAQ {...faqData} />
 
       <Footer {...footerData} />
+
+      {
+        <div className={classNames('absolute left-0 w-full flex flex-col', { 'top-[81px] md:gap-[498px] -z-10': !isBuilder, 'top-[55px] -z-10 gap-[288px]': isBuilder })}>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <Image key={index} src="/icons/Divider.svg" alt="divider" width={2000} height={2000} className="object-cover w-full" />
+          ))}
+        </div>
+      }
     </main>
   );
 };
