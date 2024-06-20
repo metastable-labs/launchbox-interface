@@ -61,9 +61,11 @@ const Info = ({ text, title, activeFollowersPercentage, priceChangePercentage, s
   );
 };
 
-const Channel = ({ token, userRole }: IChannel) => {
-  const { navigate } = useSystemFunctions();
+const Channel = ({ userRole }: IChannel) => {
+  const { navigate, tokenState } = useSystemFunctions();
   const { handleCopy, hasCopied } = useCopy();
+
+  const { token } = tokenState;
 
   const [period, setPeriod] = useState<Period>('1h');
   const [growthData, setGrowthData] = useState(generateData(period, true));
@@ -73,7 +75,7 @@ const Channel = ({ token, userRole }: IChannel) => {
   const actions = [
     {
       icons: [<CopyIcon key="copy" width={16} height={16} />, <CheckAltIcon key="check" width={16} height={16} />],
-      onClick: () => handleCopy(token?.token_address!),
+      onClick: () => handleCopy(token?.warpcast?.channel?.url || ''),
       show: true,
       hasCopied,
     },
@@ -95,7 +97,7 @@ const Channel = ({ token, userRole }: IChannel) => {
   ];
 
   const info = [
-    { title: 'Channel followers', text: (56801).toLocaleString(), activeFollowersPercentage: 13.3 },
+    { title: 'Channel followers', text: token?.warpcast?.channel?.follower_count?.toString(), activeFollowersPercentage: 13.3 },
     { title: 'Weekly cast', text: (10354).toLocaleString(), weeklyCastPercentage: 16.7 },
     { title: 'Social score', text: (504.01).toLocaleString(), socialScore: 3 },
     { title: 'Price (1D)', text: `$${0.00567}`, priceChangePercentage: 6.7 },
@@ -119,17 +121,15 @@ const Channel = ({ token, userRole }: IChannel) => {
 
       <div className="w-full lg:w-2/5 p-6 rounded-lg border border-primary-50 h-fit flex flex-col gap-6">
         <div className="flex items-start gap-4">
-          <Image src={token?.token_logo_url || ''} alt="token-logo" width={500} height={500} className="w-[50px] h-[50px] object-cover" />
+          <Image src={token?.warpcast?.channel?.image_url || ''} alt="channel-logo" width={500} height={500} className="w-[50px] h-[50px] object-cover" />
 
           <div className="flex flex-col gap-4">
             <div className="flex gap-4 items-center">
-              <h1 className="text-primary-650 font-medium break-words text-[30px] lg:text-[32px] leading-[28px]">{token?.token_name}</h1>
+              <h1 className="text-primary-650 font-medium break-words text-[30px] lg:text-[32px] leading-[28px]">{token?.warpcast?.channel?.name}</h1>
               <BaseBadgeicon />
             </div>
 
-            <p className="text-primary-700 text-[14px] leading-[21px]">
-              Satosh is a lorem lore mlore lore. Satosh is a lorem lore mlore lore Satosh is a lorem lore mlore lore Satosh is a lorem lore mlore lore
-            </p>
+            <p className="text-primary-700 text-[14px] leading-[21px]">{token?.warpcast?.channel?.description}</p>
           </div>
         </div>
 

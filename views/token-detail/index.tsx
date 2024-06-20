@@ -60,7 +60,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
     },
   ];
 
-  const tabs = [<Overview key="overview" userRole={userRole} token={token} />, <Leaderboard key="incentive" />, <Channel key="channel" token={token} userRole={userRole} />];
+  const tabs = [<Overview key="overview" userRole={userRole} token={token} />, <Leaderboard key="incentive" />, <Channel key="channel" userRole={userRole} />];
 
   useEffect(() => {
     if (!token) getToken(tokenAddressURL);
