@@ -17,8 +17,10 @@ type Token = {
     deployer_address: Address;
     transaction_hash: string;
   };
-  warpcast: {
-    channel: FarcaterChannel;
+  socials: {
+    warpcast: {
+      channel: FarcaterChannel;
+    };
   };
   is_active: boolean;
   created_at: string;
