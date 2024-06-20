@@ -12,7 +12,7 @@ import LBClickAnimation from '../click-animation';
 
 export const formatNumber = (num: number): string => {
   const formatWithPrecision = (value: number) => {
-    return value % 1 === 0 ? value.toFixed(0) : value.toFixed(2);
+    return value % 1 === 0 ? value.toFixed(0) : value.toFixed(2).replace(/\.?0+$/, '');
   };
 
   if (num >= 1e9) {

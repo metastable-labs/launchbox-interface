@@ -18,6 +18,7 @@ import LBFileSample from './file-sample';
 import LBTradeInterface from './trade-interface';
 import LBShare from './share';
 import LBBackdrop from './backdrop';
+import LBComment from './comment';
 
 export {
   LBButton,
@@ -40,4 +41,5 @@ export {
   LBTradeInterface,
   LBShare,
   LBBackdrop,
+  LBComment,
 };

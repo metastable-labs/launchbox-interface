@@ -1,4 +1,6 @@
+import { FarcaterChannel } from '@/store/social/types';
 import { SetStateAction, Dispatch } from 'react';
+import { FieldErrors, UseFormRegister, UseFormWatch, UseFormSetValue } from 'react-hook-form';
 
 interface FormProp {
   tokenName: string;
@@ -6,17 +8,27 @@ interface FormProp {
   tokenNetwork: string;
   tokenSupply: string;
   tokenWebsiteURL?: string;
-  tokenWarpcastChannelLink?: string;
+  warpcastChannelId?: string;
 }
 
 interface StepProps {
-  setStep: Dispatch<SetStateAction<number>>;
+  setStep?: Dispatch<SetStateAction<number>>;
   setNewTokenData?: Dispatch<SetStateAction<NewTokenData | undefined>>;
   tokenData?: NewTokenData;
+  register?: UseFormRegister<FormProp>;
+  watch?: UseFormWatch<FormProp>;
+  errors?: FieldErrors<FormProp>;
+  setFile?: Dispatch<SetStateAction<File | null>>;
+  file?: File | null;
+  tokenSymbol?: string;
+  createTokenPage?: boolean;
+  setCreateTokenPage?: Dispatch<SetStateAction<boolean>>;
+  setValue?: UseFormSetValue<FormProp>;
+  setDisableHeader?: Dispatch<SetStateAction<boolean>>;
 }
 
 interface ISwitchIcon {
-  switched: boolean;
+  switched?: boolean;
   onClick?: () => void;
 }
 
@@ -45,14 +57,12 @@ interface IFirstBuyModal {
 type NewTokenData = {
   createTokenPage: boolean;
   tokenLogo: File | null;
-  firstBuyAmount: number;
-  firstBuyTokenAmount: number;
   tokenName: string;
   tokenSymbol: string;
   tokenNetwork: string;
   tokenSupply: number;
   tokenWebsiteURL?: string | undefined;
-  tokenWarpcastChannelLink?: string | undefined;
+  farcasterChannel?: FarcaterChannel;
 };
 
 export type { StepProps, FormProp, ISwitchIcon, ISwitch, IConfirmation, IFirstBuyModal, NewTokenData };

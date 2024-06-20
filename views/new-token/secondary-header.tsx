@@ -4,14 +4,13 @@ import { useChainId } from 'wagmi';
 import { base, optimism, mode } from 'wagmi/chains';
 
 import { CheckIcon, RightCarretDarkIcon } from '@/public/icons';
-import { Network } from '@/components/button/types';
 
 interface StepProps {
   step: number;
   title: string;
   current: boolean;
   passed: boolean;
-  onClick?: (step: number) => void;
+  onClick?: () => void;
 }
 
 const Step = ({ step, title, current, passed, onClick }: StepProps) => {
@@ -21,7 +20,7 @@ const Step = ({ step, title, current, passed, onClick }: StepProps) => {
       className={classNames('flex items-center justify-center gap-2', {
         'cursor-pointer': onClick,
       })}
-      onClick={() => onClick && onClick(0)}>
+      onClick={() => onClick && onClick()}>
       <div
         className={classNames('rounded-full w-5 h-5 flex items-center justify-center transition-all duration-300', {
           'bg-primary-1000': current && chainId === base.id,
@@ -56,17 +55,15 @@ const Step = ({ step, title, current, passed, onClick }: StepProps) => {
   );
 };
 
-const SecondaryHeader = ({ step, setStep }: { step: number; setStep: (step: number) => void }) => {
+const SecondaryHeader = ({ step, setStep, disabled }: { step: number; setStep: (step: number) => void; disabled: boolean }) => {
   return (
-    <AnimatePresence>
-      {step < 2 && (
-        <motion.div key={0} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center justify-center gap-4">
-          <Step current={step === 0} passed={step != 0} step={1} title="Token info" onClick={setStep} />
-          <RightCarretDarkIcon />
-          <Step current={step === 1} passed={step > 1} step={2} title="Deploy" />
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <div className={classNames('flex items-center justify-center gap-4', { 'pointer-events-none': disabled })}>
+      <Step current={step === 0} passed={step != 0} step={1} title="Token info" onClick={() => setStep(0)} />
+      <RightCarretDarkIcon />
+      <Step current={step === 1} passed={step > 1} step={2} title="Socials" onClick={() => step > 1 && setStep(1)} />
+      <RightCarretDarkIcon />
+      <Step current={step === 2} passed={step > 2} step={3} title="Deploy" />
+    </div>
   );
 };
 

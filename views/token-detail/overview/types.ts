@@ -1,5 +1,6 @@
 import { TableItem } from '@/components/table/types';
 import { Token } from '@/store/token/types';
+import { Period } from '../types';
 
 type TokenDetailData = {
   id: string;
@@ -25,13 +26,6 @@ type TokenDetailData = {
   fdv: number;
 };
 
-type Period = '1h' | '24h' | '1w' | '1m';
-
-interface ILiquidityChart {
-  liquidityData: { date: Date; value: number }[];
-  period: Period;
-}
-
 interface IOverview {
   token?: Token;
   userRole: 'admin' | 'user';
@@ -53,4 +47,4 @@ interface IView extends IOverview {
   }[];
 }
 
-export type { ILiquidityChart, IOverview, IView, Period, TokenDetailData };
+export type { IOverview, IView, Period, TokenDetailData };
