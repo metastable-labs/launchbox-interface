@@ -56,13 +56,16 @@ import ETHIcon from './eth-icon';
 import ExchangeIcon from './exchange-icon.svg';
 import AlternatingArrowIcon from './alternating-arrow-icon.svg';
 import TokenIcon from './token-icon.svg';
-import QuestionIcon from './question-icon.svg';
+import QuestionIcon from './question-icon';
 import BuyAndSellIcon from './buy-and-sell-icon';
 import SearchAltIcon from './search-alt-icon.svg';
 import InfoIcon from './info-icon.svg';
 import TimerAltIcon from './timer-alt-icon.svg';
 import ExclaimIcon from './exclaim-icon.svg';
 import XIcon from './x-icon';
+import MinusCircleIcon from './minus-circle-icon.svg';
+import PlusCircleIcon from './plus-circle-icon.svg';
+import AboutIcon from './about-icon.svg';
 
 export {
   LaunchIcon,
@@ -130,4 +133,7 @@ export {
   TimerAltIcon,
   ExclaimIcon,
   XIcon,
+  MinusCircleIcon,
+  PlusCircleIcon,
+  AboutIcon,
 };
