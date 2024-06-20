@@ -21,7 +21,7 @@ const ClickTabs = ({ tabTexts, tab, setTab }: IClickTabs) => {
   const leftPosition = `${activeIndex * tabWidth}%`;
 
   return (
-    <div className="flex items-center justify-start max-w-fit gap-2 sticky top-0">
+    <div className="flex items-center justify-start max-w-fit gap-2 sticky top-0 bg-white">
       {tabTexts.map((text, index) => (
         <div
           key={index}

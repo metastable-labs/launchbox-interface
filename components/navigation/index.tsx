@@ -94,7 +94,7 @@ const LBNavigation = ({ network }: ILBNavigation) => {
 
   return (
     <>
-      <div className={classNames('fixed w-screen z-10 flex justify-center items-center md:pt-0 bg-white border-b border-primary-50')}>
+      <div className={classNames('fixed w-screen z-50 flex justify-center items-center md:pt-0 bg-white border-b border-primary-50')}>
         <nav className="flex-1 flex bg-white px-4 py-[14px] md:px-11 md:py-5 items-center justify-between relative">
           <Left links={updatedLinks} />
           <Right menuOpen={menuOpen} toggleMenu={toggleMenu} actionItems={actionItems} />
