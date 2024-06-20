@@ -37,8 +37,6 @@ const Hero = ({
             'gap-4': !isBuilder || (isBuilder && isMobile),
             'gap-2.5 w-full': isBuilder && isDesktop,
           })}>
-          <PoweredBy isBuilder={isBuilder} isDesktop={isDesktop} isMobile={isMobile} />
-
           <h1
             className={classNames('text-primary-1650 font-semibold', {
               'text-[37px] leading-[44.4px] tracking-[-0.37px] lg:text-[68px] lg:leading-[81.6px] lg:tracking-[-0.68px] w-full lg:max-w-[512px]': !isBuilder,

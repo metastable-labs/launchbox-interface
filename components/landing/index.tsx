@@ -4,23 +4,28 @@ import Image from 'next/image';
 import { ILBLandingPageComponent } from './types';
 import LBContainer from '../container';
 import LandingLink from './landing-link';
-import Tokenomics from './tokenomics';
-import Footer from './footer';
 import Hero from './hero';
+import About from './about';
+import Tokenomics from './tokenomics';
+import FAQ from './faq';
+import Footer from './footer';
 
 const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
   const {
+    aboutDescription,
+    aboutImageURL,
+    aboutTitle,
     buyLink,
     chainExplorerLink,
+    faqDescription,
+    faqTitle,
+    faqs,
     farcasterLink,
     heroDescription,
     heroImageURL,
     heroPrimaryButtonText,
     heroSecondaryButtonText,
     heroTitle,
-    isBuilder,
-    isDesktop,
-    isMobile,
     logoURL,
     navButtonText,
     primaryColor,
@@ -31,6 +36,9 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
     tokenTotalSupply,
     tokenomicsSummary,
     xLink,
+    isBuilder,
+    isDesktop,
+    isMobile,
   } = props;
 
   const footerLinks = [
@@ -68,6 +76,15 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
     isMobile,
   };
 
+  const aboutData = {
+    aboutDescription,
+    aboutImageURL,
+    aboutTitle,
+    isBuilder,
+    isMobile,
+    isDesktop,
+  };
+
   const tokenomicsData = {
     tokenDistributions,
     tokenSymbol,
@@ -76,6 +93,15 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
     isBuilder,
     isMobile,
     isDesktop,
+  };
+
+  const faqData = {
+    faqDescription,
+    faqTitle,
+    faqs,
+    isBuilder,
+    isDesktop,
+    isMobile,
   };
 
   const footerData = {
@@ -127,6 +153,8 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
 
       <Hero {...heroData} />
 
+      <About {...aboutData} />
+
       <section className="bg-primary-1750">
         <LBContainer>
           <div
@@ -164,6 +192,8 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
           </div>
         </LBContainer>
       </section>
+
+      <FAQ {...faqData} />
 
       <Footer {...footerData} />
     </main>

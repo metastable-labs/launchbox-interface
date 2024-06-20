@@ -25,6 +25,12 @@ interface ILBLandingPageComponent {
   isBuilder?: boolean;
   isMobile?: boolean;
   isDesktop?: boolean;
+  aboutImageURL: string;
+  aboutTitle: string;
+  aboutDescription: string;
+  faqTitle: string;
+  faqDescription: string;
+  faqs: { question: string; answer: string }[];
 }
 
 type CustomizeChange =
@@ -45,7 +51,13 @@ type CustomizeChange =
   | 'xLink'
   | 'farcasterLink'
   | 'telegramLink'
-  | 'chainExplorerLink';
+  | 'chainExplorerLink'
+  | 'aboutImageURL'
+  | 'aboutTitle'
+  | 'aboutDescription'
+  | 'faqTitle'
+  | 'faqDescription'
+  | 'faqs';
 
 interface ILandingLink {
   link: string;
@@ -109,4 +121,22 @@ interface IHero {
   heroImageURL: string;
 }
 
-export type { TokenDistribution, ILBLandingPageComponent, ILandingLink, ITokenomics, IDistributionCard, IPoweredBy, IFooter, IHero, CustomizeChange };
+interface IAbout {
+  aboutImageURL: string;
+  aboutTitle: string;
+  aboutDescription: string;
+  isBuilder?: boolean;
+  isMobile?: boolean;
+  isDesktop?: boolean;
+}
+
+interface IFAQ {
+  faqTitle: string;
+  faqDescription: string;
+  faqs: { question: string; answer: string }[];
+  isBuilder?: boolean;
+  isMobile?: boolean;
+  isDesktop?: boolean;
+}
+
+export type { TokenDistribution, ILBLandingPageComponent, ILandingLink, ITokenomics, IDistributionCard, IPoweredBy, IFooter, IHero, CustomizeChange, IAbout, IFAQ };
