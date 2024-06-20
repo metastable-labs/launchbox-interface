@@ -41,7 +41,7 @@ const Hero = ({ onClick, handleChange, isActive, heroDescription, heroImageURL, 
         <CustomizeInput handleChange={(value) => handleChange('heroDescription', value)} label="Description" placeholder="Your description" value={heroDescription} variant="secondary" rows={3} />
 
         <div className="flex flex-col items-stretch gap-4">
-          <span className="text-primary-2000 text-xs font-medium">Hero Image</span>
+          <span className="text-primary-2000 text-sm font-medium">Hero Image</span>
 
           <div className="self-stretch h-[160px] rounded-lg border border-primary-50 bg-primary-200 flex items-center justify-center">
             {heroImageURL && <Image src={heroImageURL} width={500} height={500} alt="hero-image" className="object-cover w-[120px] h-[120px]" />}

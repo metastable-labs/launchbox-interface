@@ -6,11 +6,13 @@ import { ICustomizeInterface, Tabs } from './types';
 import Appearance from './appearance';
 import Footer from './footer';
 import Hero from './hero';
+import About from './about';
 import Navigation from './navigation';
 import Tokenomics from './tokenomics';
 import InactiveTabs from './inactive-tabs';
+import FAQ from './faq';
 
-const CustomizingInterface = ({ handleChange, data, setLogoFile, setHeroImageFile }: ICustomizeInterface) => {
+const CustomizingInterface = ({ data, handleChange, setAboutImageFile, setHeroImageFile, setLogoFile }: ICustomizeInterface) => {
   const [activeTab, setActiveTab] = useState<Tabs>('undefined');
 
   const handleTabChange = (tab: Tabs) => {
@@ -49,12 +51,31 @@ const CustomizingInterface = ({ handleChange, data, setLogoFile, setHeroImageFil
     handleHeroImageFile: setHeroImageFile,
   };
 
+  const aboutData = {
+    handleChange,
+    onClick: handleTabChange,
+    isActive: activeTab === 'about',
+    aboutDescription: data.aboutDescription,
+    aboutImageURL: data.aboutImageURL,
+    aboutTitle: data.aboutTitle,
+    handleAboutImageFile: setAboutImageFile,
+  };
+
   const tokenomicsData = {
     handleChange,
     onClick: handleTabChange,
     isActive: activeTab === 'tokenomics',
     tokenDistributions: data.tokenDistributions,
     tokenTotalSupply: data.tokenTotalSupply,
+  };
+
+  const faqData = {
+    handleChange,
+    onClick: handleTabChange,
+    isActive: activeTab === 'faq',
+    faqDescription: data.faqDescription,
+    faqTitle: data.faqTitle,
+    faqs: data.faqs,
   };
 
   const footerData = {
@@ -72,7 +93,9 @@ const CustomizingInterface = ({ handleChange, data, setLogoFile, setHeroImageFil
     <Appearance key="appearance" {...appearanceData} />,
     <Navigation key="navigation" {...navigationData} />,
     <Hero key="hero" {...heroData} />,
+    <About key="about" {...aboutData} />,
     <Tokenomics key="tokenomics" {...tokenomicsData} />,
+    <FAQ key="faq" {...faqData} />,
     <Footer key="footer" {...footerData} />,
   ];
 

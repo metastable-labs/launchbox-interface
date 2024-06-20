@@ -2,7 +2,7 @@ import { ICustomizeInput } from './types';
 
 const CustomizeInput = ({ handleChange, label, placeholder, instruction, value, type = 'string', disabled, variant = 'primary', rows }: ICustomizeInput) => (
   <div className="flex flex-col gap-1.5">
-    <label htmlFor={placeholder} className="text-primary-2000 text-xs font-medium">
+    <label htmlFor={placeholder} className="text-primary-2000 text-sm font-medium">
       {label}
     </label>
 
