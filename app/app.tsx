@@ -1,5 +1,5 @@
 'use client';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { CookiesProvider } from 'react-cookie';
 import { Provider as ReduxProvider } from 'react-redux';
 
@@ -7,6 +7,8 @@ import RainbowProvider from '@/config/rainbow/rainbowkit';
 import useConnect from '@/hooks/useConnect';
 import { LBNavigation } from '@/components';
 import { store } from '@/store';
+import useSocialActions from '@/store/social/actions';
+import { useAccount } from 'wagmi';
 
 const cookieOptions = {
   path: '/',
@@ -27,6 +29,13 @@ const App = ({ children }: { children: ReactNode }) => {
 
 const Wrapper = ({ children }: { children: ReactNode }) => {
   const {} = useConnect();
+  const { address } = useAccount();
+  const { getFarcasterChannels } = useSocialActions();
+
+  useEffect(() => {
+    getFarcasterChannels();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address]);
   return (
     <main>
       <LBNavigation />
