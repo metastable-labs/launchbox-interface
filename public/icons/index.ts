@@ -72,9 +72,6 @@ import SmallFarcasterIcon from './small-farcaster-icon.svg';
 import HeartIcon from './heart-icon';
 import RecastIcon from './recast-icon';
 import ReplyIcon from './reply-icon.svg';
-import MinusCircleIcon from './minus-circle-icon.svg';
-import PlusCircleIcon from './plus-circle-icon.svg';
-import AboutIcon from './about-icon.svg';
 
 export {
   LaunchIcon,
@@ -151,7 +148,4 @@ export {
   HeartIcon,
   RecastIcon,
   ReplyIcon,
-  MinusCircleIcon,
-  PlusCircleIcon,
-  AboutIcon,
 };
