@@ -90,7 +90,7 @@ const LBNavigation = ({ network }: ILBNavigation) => {
     },
   ];
 
-  if (pathname === '/builder') return;
+  if (pathname === '/builder' || pathname === '/leaderboard') return;
 
   return (
     <>

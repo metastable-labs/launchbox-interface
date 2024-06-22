@@ -53,7 +53,7 @@ const LBLeaderboard = ({ variant = 'private' }: ILBLeaderboard) => {
   return (
     <div
       className={classNames('self-stretch flex-1 flex flex-col gap-6 relative min-h-full overflow-auto', {
-        'p-6 rounded-lg border border-primary-50': variant === 'public',
+        'p-6 rounded-lg border border-primary-50 mx-5 min-h-[80vh] mb-10': variant === 'public',
       })}>
       <h1 className="text-primary-650 text-[24px] leading-[38px] font-medium">Leaderboard</h1>
 
@@ -75,7 +75,7 @@ const LBLeaderboard = ({ variant = 'private' }: ILBLeaderboard) => {
         ))}
       </div>
 
-      <div className="max-h-[350px] overflow-auto">
+      <div className={classNames('overflow-auto pb-20', { 'max-h-[350px]': variant === 'private', 'max-h-[470px]': variant === 'public' })}>
         <LBTable data={leaderboardData} variant="secondaryAlt" />
       </div>
 
