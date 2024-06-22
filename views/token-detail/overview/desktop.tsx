@@ -34,7 +34,11 @@ const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, 
         </div>
       )}
 
-      <div className="xl:w-2/4 self-stretch flex flex-col items-stretch justify-center gap-6 rounded-lg border border-primary-50 p-6">
+      <div
+        className={classNames('self-stretch flex flex-col items-stretch justify-center gap-6 rounded-lg border border-primary-50 p-6', {
+          'xl:w-2/4': userRole === 'user',
+          'xl:w-full': userRole === 'admin',
+        })}>
         <div className="flex items-center justify-end self-stretch">
           <div className="flex items-center justify-center gap-8 px-3.5 py-2.5 rounded border border-primary-1950 shadow-table-cta bg-white">
             {periods.map(({ text, value }) => (
