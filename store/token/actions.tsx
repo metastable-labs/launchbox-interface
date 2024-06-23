@@ -76,7 +76,8 @@ const useTokenActions = () => {
       console.log('calling this');
       dispatch(setLoadingBuy(true));
 
-      return buyToken('0x5F66dE9e53D558439F25d4Ff9Ca606CFcE3B32f6', amount * 10 ** 18);
+      //   return buyToken('0x5F66dE9e53D558439F25d4Ff9Ca606CFcE3B32f6', amount * 10 ** 18);
+      return buyToken(tokenAddress, amount * 10 ** 18);
     } catch (error: any) {
       //
     }

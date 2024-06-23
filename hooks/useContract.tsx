@@ -64,20 +64,20 @@ const useBuyToken = () => {
 
   const buyToken = async (tokenAddress: Address, tokenAmount: number) => {
     try {
-      await simulateContract(wagmiConfig, {
-        abi: exchangeAbi,
-        address: tokenAddress,
-        functionName: 'buyTokens',
-        args: [],
-      });
-
-      // writeContract({
-      //   address: tokenAddress,
+      // await simulateContract(wagmiConfig, {
       //   abi: exchangeAbi,
+      //   address: tokenAddress,
       //   functionName: 'buyTokens',
       //   args: [],
-      //   value: BigInt(tokenAmount),
       // });
+
+      writeContract({
+        address: tokenAddress,
+        abi: exchangeAbi,
+        functionName: 'buyTokens',
+        args: [],
+        value: BigInt(tokenAmount),
+      });
     } catch (error: any) {
       console.log('error occured while buying token', error);
     }
