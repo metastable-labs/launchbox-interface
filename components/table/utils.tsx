@@ -1,9 +1,10 @@
 import { BuyAndSellIcon, InfoIcon, UpandDownIcon } from '@/public/icons';
 
 const headers = [
-  { primary: 'Wallet', secondary: '#', tertiary: 'Token', key: 0 },
+  { primary: 'Wallet', secondary: '#', secondaryAlt: '#', tertiary: 'Token', key: 0 },
   {
     secondary: 'Address',
+    secondaryAlt: 'User',
     tertiary: (
       <div className="flex items-center gap-1">
         Created <BuyAndSellIcon width={16} height={16} />
@@ -25,6 +26,7 @@ const headers = [
   {
     primary: 'Date',
     secondary: 'Holding',
+    secondaryAlt: 'Points',
     tertiary: (
       <div className="flex items-center gap-1">
         TXNS <BuyAndSellIcon color="#0A0D14" width={16} height={16} />

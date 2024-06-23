@@ -91,7 +91,7 @@ const LBNavigation = () => {
     },
   ];
 
-  if (pathname === '/builder' || pathname === '/landing') return;
+  if (pathname === '/builder' || pathname === '/leaderboard' || pathname === '/landing') return;
 
   return (
     <>

@@ -4,7 +4,7 @@ import moment from 'moment';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { IAddress, IRow, ITXNS, ITokenSample } from './types';
+import { IAddress, ILeaderboardEntity, IRow, ITXNS, ITokenSample } from './types';
 import useTruncateText from '@/hooks/useTruncateText';
 import useCopy from '@/hooks/useCopy';
 import { CheckAltIcon, CopyIcon, ETHIcon, TimerAltIcon } from '@/public/icons';
@@ -61,6 +61,18 @@ const Address = ({ wallet, walletAvatarURL, isTransaction = false, variant }: IA
           {variant}
         </span>
       )}
+    </div>
+  );
+};
+
+const LeaderboardEntity = ({ name, type, wallet, walletAvatarURL }: ILeaderboardEntity) => {
+  const { truncatedText } = useTruncateText(wallet, 5, 5);
+  const imageToShow = type === 'farcaster' ? walletAvatarURL : '/icons/wallet-alt-icon.svg';
+  const textToShow = type === 'farcaster' ? name : truncatedText;
+  return (
+    <div className="flex items-center gap-1 py-1 pl-1 pr-2 justify-center bg-primary-200 rounded-full max-w-fit">
+      <Image src={imageToShow || ''} alt="avatar" width={500} height={500} className="w-4 h-4 object-cover rounded-full" />
+      <span className="text-primary-250 text-[14px] leading-[21px] font-medium">{textToShow}</span>
     </div>
   );
 };
@@ -183,30 +195,32 @@ const Row = ({ item, variant, index, tokenSymbol, cta, rowClick, items, setShoul
         })}>
         {variant === 'primary' && <Address isTransaction variant={item.transactionType} wallet={item.wallet || '-'} walletAvatarURL={item.walletAvatarURL} />}
 
-        {variant === 'secondary' && <div className="w-full flex items-center justify-center text-primary-650">{index + 1}</div>}
+        {(variant === 'secondary' || variant === 'secondaryAlt') && <div className="w-full flex items-center justify-center text-primary-650">{index + 1}</div>}
 
         {variant === 'tertiary' && <TokenSample tokenAddress={item.wallet} tokenLogoURL={item.walletAvatarURL} tokenSymbol={item.tokenSymbol} />}
       </td>
 
       <td
         className={classNames('min-h-[71px] px-4 md:px-6 py-4 whitespace-nowrap text-gray-500', {
-          'w-4/6': variant === 'secondary',
+          'w-4/6': variant === 'secondary' || variant === 'secondaryAlt',
           hidden: variant === 'primary',
           'hidden sm:table-cell': variant === 'tertiary',
         })}>
         {variant === 'secondary' && <Address wallet={item.wallet || '-'} walletAvatarURL={item.walletAvatarURL} />}
 
+        {variant === 'secondaryAlt' && <LeaderboardEntity name={item.name} type={item.userType} wallet={item.wallet} walletAvatarURL={item.walletAvatarURL} />}
+
         {variant === 'tertiary' && <CreatedAt createdAt={item.createdAt} />}
       </td>
 
-      {variant !== 'secondary' && (
+      {variant !== 'secondary' && variant !== 'secondaryAlt' && (
         <td className={classNames('min-h-[71px] px-4 md:px-6 py-4 whitespace-nowrap text-gray-500', { 'hidden md:table-cell': variant === 'primary', 'hidden lg:table-cell': variant === 'tertiary' })}>
           {variant === 'primary' && <span className="text-primary-650">{item.usdAmount ? '$' + formatNumber(item.usdAmount) : '-'}</span>}
           {variant === 'tertiary' && <Liquidity numerator={item.liquidity?.numerator || 0} denominator={item.liquidity?.denominator || 0} />}
         </td>
       )}
 
-      {variant !== 'secondary' && (
+      {variant !== 'secondary' && variant !== 'secondaryAlt' && (
         <td className={classNames('min-h-[71px] px-4 md:px-6 py-4 whitespace-nowrap text-gray-500', { 'hidden lg:table-cell': variant === 'tertiary' })}>
           {variant === 'primary' && (
             <span className="text-primary-650">
@@ -227,6 +241,8 @@ const Row = ({ item, variant, index, tokenSymbol, cta, rowClick, items, setShoul
         {variant === 'primary' && <p className="text-primary-250 min-w-full text-right">{item.createdAt ? moment(item.createdAt).fromNow() : '-'}</p>}
 
         {variant === 'secondary' && <span className="text-primary-650">{`${item.holding?.toLocaleString() + '%' || '-'}`}</span>}
+
+        {variant === 'secondaryAlt' && <span className="text-primary-650">{item.points?.toLocaleString() || '-'}</span>}
 
         {variant === 'tertiary' && <TXNS numerator={item.txns?.numerator || 0} denominator={item.txns?.denominator || { numerator: 0, denominator: 0 }} />}
       </td>

@@ -1,11 +1,12 @@
 import { Address } from 'viem';
 
-type TableVariant = 'primary' | 'secondary' | 'tertiary';
+type TableVariant = 'primary' | 'secondary' | 'secondaryAlt' | 'tertiary';
 
 interface TableItem {
   wallet?: Address;
   walletAvatarURL?: string;
   type?: 'buy' | 'sell';
+  userType?: 'farcaster' | 'wallet';
   usdAmount?: number;
   tokenAmount?: number;
   tokenSymbol?: string;
@@ -30,6 +31,7 @@ interface TableItem {
   };
   volume?: number;
   transactionType?: 'buy' | 'sell';
+  points?: number;
 }
 
 interface IAddress {
@@ -37,6 +39,13 @@ interface IAddress {
   walletAvatarURL?: string;
   isTransaction?: boolean;
   variant?: 'buy' | 'sell';
+}
+
+interface ILeaderboardEntity {
+  name?: string;
+  walletAvatarURL?: string;
+  wallet?: string;
+  type?: 'farcaster' | 'wallet';
 }
 
 interface ILBTable {
@@ -79,4 +88,4 @@ interface ITXNS {
   };
 }
 
-export type { TableItem, TableVariant, IAddress, ILBTable, IRow, ITokenSample, ITXNS };
+export type { TableItem, TableVariant, IAddress, ILBTable, IRow, ITokenSample, ITXNS, ILeaderboardEntity };

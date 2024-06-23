@@ -29,11 +29,13 @@ const LBTable = ({ data, loading, variant = 'primary', tokenSymbol, cta, rowClic
               <th
                 key={header.key}
                 className={classNames('px-4 md:px-6 py-3 text-[12px] leading-[18px] font-medium whitespace-nowrap', {
-                  'w-[83px]': index === 0 && variant === 'secondary',
-                  hidden: ((index === 1 || index === 5 || index === 6) && variant === 'primary') || ((index === 2 || index === 3 || index === 5 || index === 6) && variant === 'secondary'),
+                  'w-[83px]': index === 0 && (variant === 'secondary' || variant === 'secondaryAlt'),
+                  hidden:
+                    ((index === 1 || index === 5 || index === 6) && variant === 'primary') ||
+                    ((index === 2 || index === 3 || index === 5 || index === 6) && (variant === 'secondary' || variant === 'secondaryAlt')),
 
                   'text-right': header.textRight && variant === 'primary',
-                  'text-left': !header.textRight || variant === 'secondary' || variant === 'tertiary',
+                  'text-left': !header.textRight || variant === 'secondary' || variant === 'secondaryAlt' || variant === 'tertiary',
                   'hidden lg:table-cell': (variant === 'primary' && (index === 2 || index === 4)) || (variant === 'tertiary' && (index === 2 || index === 3 || index === 4)),
                   'hidden sm:table-cell': variant === 'tertiary' && (index === 1 || index === 5),
                 })}>

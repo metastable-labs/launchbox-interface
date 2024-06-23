@@ -1,8 +1,7 @@
 import Image from 'next/image';
-import { LBButton, LBFileInput, LBFileSample, LBInput, LBSelect } from '@/components';
+import { LBButton, LBFileInput, LBFileSample, LBInput, LBSelect, LBSwitch } from '@/components';
 import { FarcasterIcon } from '@/public/icons';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
-import Switch from './switch';
 import { StepProps } from '../types';
 
 const Step2 = ({ file, register, setFile, tokenSymbol, createTokenPage, setCreateTokenPage, setValue, watch }: StepProps) => {
@@ -46,8 +45,8 @@ const Step2 = ({ file, register, setFile, tokenSymbol, createTokenPage, setCreat
 
       <LBInput name="tokenWebsiteURL" register={register?.('tokenWebsiteURL')} placeholder="..." type="text" label="Website URL" instruction="Link to your token's website" isOptional />
 
-      <Switch
-        handleOverride={() => setCreateTokenPage?.((prev) => !prev)}
+      <LBSwitch
+        onClick={() => setCreateTokenPage?.((prev) => !prev)}
         instruction="Don’t have a website? Add a landing page that shows full details about your token project and community"
         switched={createTokenPage!}
         title="Create token page"

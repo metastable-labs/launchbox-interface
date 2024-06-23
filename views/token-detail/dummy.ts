@@ -472,4 +472,51 @@ const holders = [
   { name: 'rossnothere', amount: 64000000, avatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723894/Avatar_4_dlvjwk.jpg' },
 ];
 
-export { tokenDetailData, transactionsData, holdingsData, periods, generateData, comments, holders };
+const leaderboardData: TableItem[] = [
+  {
+    name: 'choco.eth',
+    walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723895/Avatar_khczwg.jpg',
+    points: 95100000,
+    userType: 'farcaster',
+  },
+  {
+    name: 'meister.eth',
+    walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723894/Avatar_1_rg5wgw.jpg',
+    points: 45000000,
+    userType: 'farcaster',
+  },
+  {
+    wallet: '0x123456789012345678901234567890',
+    points: 95100000,
+    userType: 'wallet',
+  },
+  {
+    name: 'zamfara',
+    walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723894/Avatar_2_ch4dwg.jpg',
+    points: 510000,
+    userType: 'farcaster',
+  },
+  {
+    name: '!static',
+    walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723894/Avatar_4_dlvjwk.jpg',
+    points: 450000,
+    userType: 'farcaster',
+  },
+  {
+    wallet: '0x123456789012345678901234567890',
+    points: 95100,
+    userType: 'wallet',
+  },
+  {
+    wallet: '0x123456789012345678901234567890',
+    points: 51000,
+    userType: 'wallet',
+  },
+  {
+    wallet: '0x123456789012345678901234567890',
+    points: 10000,
+    userType: 'wallet',
+  },
+];
+
+export { tokenDetailData, transactionsData, holdingsData, periods, generateData, comments, holders, leaderboardData };
