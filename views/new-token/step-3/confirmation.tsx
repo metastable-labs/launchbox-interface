@@ -63,7 +63,7 @@ const Confirmation = ({ tokenData, handleTokenDeployment }: IConfirmation) => {
               <Image src={tokenData.farcasterChannel?.image_url} alt="logo" width={500} height={500} className="w-[50px] h-[50px] object-cover" />
               <div className="flex flex-col gap-1">
                 <span className="text-[16px] leading-[28px] text-primary-650 font-medium">{tokenData.farcasterChannel?.name}</span>
-                <span className="text-[14px] leading-[16px] text-primary-700">{tokenData.farcasterChannel?.follower_count} followers</span>
+                <span className="text-[14px] leading-[16px] text-primary-700">{tokenData?.farcasterChannel?.follower_count} followers</span>
               </div>
             </div>
           </div>

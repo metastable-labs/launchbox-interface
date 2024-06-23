@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useChainId, useAccount, useSwitchChain } from 'wagmi';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { base } from 'wagmi/chains';
 
 import { StepProps } from '../types';
 import { LBButton, LBLoaderAlt } from '@/components';
@@ -43,12 +44,10 @@ const Step3 = ({ tokenData, setDisableHeader }: StepProps) => {
       return openConnectModal();
     }
 
-    const tokenNetwork = networks.find((network) => network.variant === tokenData?.tokenNetwork);
+    const tokenNetwork = networks.find((network) => network.chainId === chainId);
 
-    if (!tokenNetwork) return;
-
-    if (chainId !== tokenNetwork.chainId) {
-      return switchChain({ chainId: tokenNetwork.chainId });
+    if (!tokenNetwork) {
+      return switchChain({ chainId: base.id });
     }
 
     createToken(

@@ -102,12 +102,13 @@ const useTokenActions = () => {
 
       const txData = await getDeployTransactionData();
 
-      const topics = txData?.logs?.[4]?.topics;
-      const data = txData?.logs?.[4]?.data;
+      const topics = txData?.logs?.[6]?.topics;
+      const data = txData?.logs?.[6]?.data;
       const decodedEvent: any = await decodeEventLog({ abi: currentNetwork?.factoryAbi!, topics: topics!, data: data });
 
       const token_address = decodedEvent?.args?.tokenAddress;
       const exchange_address = decodedEvent?.args?.launchboxExchangeAddress;
+      const converted_block_number = Number(txData?.blockNumber);
 
       const formData = new FormData();
       formData.append('logo', deployData?.logo as File);
@@ -133,13 +134,12 @@ const useTokenActions = () => {
         formData.append('socials', channel);
       }
 
-      const deployedToken = networks.find((network) => network.chainId === chainId);
-
       let chain = {
         id: chainId,
-        name: deployedToken?.variant,
+        name: 'base',
         deployer_address: address,
         transaction_hash: txData?.transactionHash,
+        block_number: converted_block_number,
       };
 
       formData.append('chain', JSON.stringify(chain));
@@ -149,6 +149,8 @@ const useTokenActions = () => {
       dispatch(setToken(response));
 
       getTokens('take=50');
+    } catch (e) {
+      console.log('errorrr oooo', e);
     } finally {
       dispatch(setLoadingCreate(false));
     }
