@@ -44,8 +44,4 @@ interface NavActionProps {
   isVisibile?: boolean;
 }
 
-interface ILBNavigation {
-  network: Network;
-}
-
-export type { INavLinks, INavLink, INavActions, INavAction, MenuProps, NavLinkProps, NavActionProps, ILBNavigation };
+export type { INavLinks, INavLink, INavActions, INavAction, MenuProps, NavLinkProps, NavActionProps };

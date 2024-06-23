@@ -1,6 +1,5 @@
-import { title } from 'process';
+import { ApperanceIcon, FooterIcon, HeroIcon, TokenomicsIcon, NavigationIcon, QuestionIcon, AboutIcon } from '@/public/icons';
 import CustomizingPaper from './paper';
-import { ApperanceIcon, FooterIcon, HeroIcon, TokenomicsIcon, NavigationIcon } from '@/public/icons';
 import { IInactiveTabs } from './types';
 
 const InactiveTabs = ({ onClick }: IInactiveTabs) => {
@@ -24,10 +23,22 @@ const InactiveTabs = ({ onClick }: IInactiveTabs) => {
       onClick: () => onClick('hero'),
     },
     {
+      title: 'About section',
+      icon: <AboutIcon />,
+      isActive: false,
+      onClick: () => onClick('about'),
+    },
+    {
       title: 'Tokenomics',
       icon: <TokenomicsIcon />,
       isActive: false,
       onClick: () => onClick('tokenomics'),
+    },
+    {
+      title: 'FAQ',
+      icon: <QuestionIcon width={24} height={24} />,
+      isActive: false,
+      onClick: () => onClick('faq'),
     },
     {
       title: 'Footer',

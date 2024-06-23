@@ -9,7 +9,7 @@ import { IFooter } from './types';
 const Footer = ({ footerLinks, isBuilder, isDesktop, isMobile, logoURL }: IFooter) => {
   return (
     <footer
-      className={classNames('bg-white flex items-center justify-center', {
+      className={classNames('flex items-center justify-center', {
         'px-5 md:px-7 lg:px-[140px] py-16': !isBuilder,
         'px-[75.17px] py-[40.09px] rounded-b-xl': isBuilder && isDesktop,
         'px-5 py-14 rounded-b-xl': isBuilder && isMobile,

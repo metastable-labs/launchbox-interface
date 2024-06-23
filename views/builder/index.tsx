@@ -19,13 +19,14 @@ const BuilderView = () => {
   const [shouldHideCustomize, setShouldHideCustomize] = useState(false);
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [heroImageFile, setHeroImageFile] = useState<File | null>(null);
+  const [aboutImageFile, setAboutImageFile] = useState<File | null>(null);
   const [saveActive, setSaveActive] = useState(false);
   const [publishActive, setPublishActive] = useState(false);
 
   const hideCoustomize = () => setShouldHideCustomize((prev) => !prev);
   const publish = () => setPublishActive(false);
   const save = () => {
-    setCookie('buildData', buildData, { path: '/' });
+    setCookie('buildData', buildData, { path: '/', maxAge: 604800 });
     setSaveActive(false);
   };
 
@@ -53,6 +54,7 @@ const BuilderView = () => {
     data: buildData,
     handleChange,
     setHeroImageFile,
+    setAboutImageFile,
   };
 
   useEffect(() => {
@@ -68,6 +70,8 @@ const BuilderView = () => {
     setPublishActive(true);
   }, [buildData]);
 
+  console.log('buildData', buildData);
+
   return (
     <>
       <Header {...headerData} />
@@ -81,7 +85,7 @@ const BuilderView = () => {
             width: shouldHideCustomize ? 0 : '30%',
             opacity: shouldHideCustomize ? 0 : 1,
           }}
-          className="h-screen pt-[112px] flex">
+          className="h-screen overflow-auto pt-[112px] flex mb-10">
           <CustomizingInterface {...customisingInterfaceData} />
         </motion.div>
 

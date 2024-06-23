@@ -4,23 +4,28 @@ import Image from 'next/image';
 import { ILBLandingPageComponent } from './types';
 import LBContainer from '../container';
 import LandingLink from './landing-link';
-import Tokenomics from './tokenomics';
-import Footer from './footer';
 import Hero from './hero';
+import About from './about';
+import Tokenomics from './tokenomics';
+import FAQ from './faq';
+import Footer from './footer';
 
 const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
   const {
+    aboutDescription,
+    aboutImageURL,
+    aboutTitle,
     buyLink,
     chainExplorerLink,
+    faqDescription,
+    faqTitle,
+    faqs,
     farcasterLink,
     heroDescription,
     heroImageURL,
     heroPrimaryButtonText,
     heroSecondaryButtonText,
     heroTitle,
-    isBuilder,
-    isDesktop,
-    isMobile,
     logoURL,
     navButtonText,
     primaryColor,
@@ -31,6 +36,9 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
     tokenTotalSupply,
     tokenomicsSummary,
     xLink,
+    isBuilder,
+    isDesktop,
+    isMobile,
   } = props;
 
   const footerLinks = [
@@ -68,6 +76,15 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
     isMobile,
   };
 
+  const aboutData = {
+    aboutDescription,
+    aboutImageURL,
+    aboutTitle,
+    isBuilder,
+    isMobile,
+    isDesktop,
+  };
+
   const tokenomicsData = {
     tokenDistributions,
     tokenSymbol,
@@ -76,6 +93,15 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
     isBuilder,
     isMobile,
     isDesktop,
+  };
+
+  const faqData = {
+    faqDescription,
+    faqTitle,
+    faqs,
+    isBuilder,
+    isDesktop,
+    isMobile,
   };
 
   const footerData = {
@@ -88,13 +114,13 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
 
   return (
     <main
-      className={classNames('transition-all ease-in-out duration-500', {
-        'bg-white rounded-xl border border-primary-50 shadow-preview-shadow': isBuilder,
+      className={classNames('transition-all ease-in-out duration-500 relative', {
+        'rounded-xl border border-primary-50 shadow-preview-shadow': isBuilder,
         'w-full h-fit mb-10': isBuilder && isDesktop,
         'w-[375px] h-fit mb-10': isBuilder && isMobile,
       })}>
       {isBuilder && (
-        <div className="flex flex-col justify-center items-stretch">
+        <div className="flex flex-col justify-center items-stretch overflow-hidden">
           <Image
             src={'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717504705/Browser_top_lbycmr.jpg'}
             alt="browser-top"
@@ -127,7 +153,9 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
 
       <Hero {...heroData} />
 
-      <section className="bg-primary-1750">
+      <About {...aboutData} />
+
+      <section className="bg-primary-1750 bg-opacity-60">
         <LBContainer>
           <div
             className={classNames('flex flex-col w-full', {
@@ -165,7 +193,17 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
         </LBContainer>
       </section>
 
+      <FAQ {...faqData} />
+
       <Footer {...footerData} />
+
+      {
+        <div className={classNames('absolute left-0 w-full flex flex-col', { 'top-[81px] md:gap-[498px] -z-10': !isBuilder, 'top-[55px] -z-10 gap-[288px]': isBuilder })}>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <Image key={index} src="/icons/Divider.svg" alt="divider" width={2000} height={2000} className="object-cover w-full" />
+          ))}
+        </div>
+      }
     </main>
   );
 };

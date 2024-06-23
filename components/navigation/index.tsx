@@ -10,13 +10,15 @@ import Left from './left';
 import Right from './right';
 import Menu from './menu';
 import { BuyAndSellIcon, PlusIcon, QuestionIcon, TokenIcon } from '@/public/icons';
-import { INavLinks, INavActions, ILBNavigation } from './types';
+import { INavLinks, INavActions } from './types';
 import LBModal from '../modal';
 import { ModalType } from './modals/types';
 import WalletModal from './modals/wallet';
 import NetworkModal from './modals/network';
 
-const LBNavigation = ({ network }: ILBNavigation) => {
+const absolutePaths = ['/token', '/faq', '/builder', '/landing'];
+
+const LBNavigation = () => {
   const { address, isConnected } = useAccount();
   const { openConnectModal } = useConnectModal();
   const pathname = usePathname();
@@ -51,7 +53,6 @@ const LBNavigation = ({ network }: ILBNavigation) => {
   ];
 
   const updatedLinks = links.map((link) => {
-    const absolutePaths = ['/token', '/faq', '/builder'];
     const isHomeOrTokenId = link.href === '/' && (pathname === '/' || (/^\/[a-zA-Z0-9]+$/.test(pathname) && !absolutePaths.includes(pathname)));
     return {
       ...link,
@@ -90,7 +91,7 @@ const LBNavigation = ({ network }: ILBNavigation) => {
     },
   ];
 
-  if (pathname === '/builder' || pathname === '/leaderboard') return;
+  if (pathname === '/builder' || pathname === '/leaderboard' || pathname === '/landing') return;
 
   return (
     <>

@@ -13,9 +13,10 @@ interface ICustomizeInterface {
   data: ILBLandingPageComponent;
   setLogoFile: (file: File) => void;
   setHeroImageFile: (file: File) => void;
+  setAboutImageFile: (file: File) => void;
 }
 
-type Tabs = 'appearance' | 'navigation' | 'hero' | 'tokenomics' | 'footer' | 'undefined';
+type Tabs = 'appearance' | 'navigation' | 'hero' | 'about' | 'tokenomics' | 'faq' | 'footer' | 'undefined';
 
 interface ICustomizeTab {
   isActive: boolean;
@@ -42,9 +43,22 @@ interface IHero extends ICustomizeTab {
   handleHeroImageFile: (file: File) => void;
 }
 
+interface IAbout extends ICustomizeTab {
+  aboutImageURL: string;
+  aboutTitle: string;
+  aboutDescription: string;
+  handleAboutImageFile: (file: File) => void;
+}
+
 interface ITokenomics extends ICustomizeTab {
   tokenTotalSupply: number;
   tokenDistributions: TokenDistribution[];
+}
+
+interface IFAQ extends ICustomizeTab {
+  faqTitle: string;
+  faqDescription: string;
+  faqs: { question: string; answer: string }[];
 }
 
 interface IFooter extends ICustomizeTab {
@@ -70,4 +84,4 @@ interface IInactiveTabs {
   onClick: (tab: Tabs) => void;
 }
 
-export type { ICustomizingPaper, ICustomizeInterface, Tabs, ICustomizeTab, IAppearance, INavigation, IHero, ITokenomics, IFooter, ICustomizeInput, IInactiveTabs };
+export type { ICustomizingPaper, ICustomizeInterface, Tabs, ICustomizeTab, IAppearance, INavigation, IHero, ITokenomics, IFooter, ICustomizeInput, IInactiveTabs, IFAQ, IAbout };

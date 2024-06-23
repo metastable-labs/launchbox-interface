@@ -56,13 +56,17 @@ import ETHIcon from './eth-icon';
 import ExchangeIcon from './exchange-icon.svg';
 import AlternatingArrowIcon from './alternating-arrow-icon.svg';
 import TokenIcon from './token-icon.svg';
-import QuestionIcon from './question-icon.svg';
+import QuestionIcon from './question-icon';
 import BuyAndSellIcon from './buy-and-sell-icon';
 import SearchAltIcon from './search-alt-icon.svg';
 import InfoIcon from './info-icon';
 import TimerAltIcon from './timer-alt-icon.svg';
 import ExclaimIcon from './exclaim-icon';
 import XIcon from './x-icon';
+import MinusCircleIcon from './minus-circle-icon.svg';
+import PlusCircleIcon from './plus-circle-icon.svg';
+import AboutIcon from './about-icon.svg';
+import Divider from './Divider.svg';
 import PNGIcon from './png-icon.svg';
 import SmallFarcasterIcon from './small-farcaster-icon.svg';
 import HeartIcon from './heart-icon';
@@ -139,6 +143,10 @@ export {
   TimerAltIcon,
   ExclaimIcon,
   XIcon,
+  MinusCircleIcon,
+  PlusCircleIcon,
+  AboutIcon,
+  Divider,
   PNGIcon,
   SmallFarcasterIcon,
   HeartIcon,

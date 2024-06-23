@@ -9,23 +9,6 @@ import useScreenDetect from '@/hooks/useScreenDetect';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const getRandomColor = () => {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-};
-
-const generateRandomColors = (numColors: number) => {
-  const colors = [];
-  for (let i = 0; i < numColors; i++) {
-    colors.push(getRandomColor());
-  }
-  return colors;
-};
-
 const DistributionCard = ({ title, color, percentage, isBuilder, isDesktop, isMobile }: IDistributionCard) => {
   return (
     <div
@@ -76,7 +59,7 @@ const DistributionCard = ({ title, color, percentage, isBuilder, isDesktop, isMo
 
 const Tokenomics = ({ tokenDistributions, tokenSymbol, tokenTotalSupply, isBuilder, isDesktop: isParentDesktop, isMobile: isParentMobile }: ITokenomics) => {
   const { isMobile, isTablet } = useScreenDetect();
-  const colors = generateRandomColors(tokenDistributions.length);
+  const colors = ['#CAC2FF', '#C2EFFF', '#FBEDB1'];
 
   const data = {
     labels: tokenDistributions.map((d) => d.title),
@@ -84,7 +67,7 @@ const Tokenomics = ({ tokenDistributions, tokenSymbol, tokenTotalSupply, isBuild
       {
         label: `${tokenSymbol} Distribution`,
         data: tokenDistributions.map((d) => d.percentage),
-        backgroundColor: colors,
+        backgroundColor: ['#CAC2FF', '#C2EFFF', '#FBEDB1'],
         hoverBackgroundColor: colors,
         borderWidth: 6,
         hoverBorderWidth: 0,

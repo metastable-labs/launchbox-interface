@@ -2,12 +2,12 @@ import { useRef } from 'react';
 import Image from 'next/image';
 
 import CustomizingPaper from './paper';
-import { IHero } from './types';
-import { HeroIcon } from '@/public/icons';
+import { IAbout } from './types';
+import { AboutIcon } from '@/public/icons';
 import { LBClickAnimation } from '@/components';
 import CustomizeInput from './input';
 
-const Hero = ({ onClick, handleChange, isActive, heroDescription, heroImageURL, heroTitle, handleHeroImageFile }: IHero) => {
+const About = ({ aboutDescription, aboutImageURL, aboutTitle, handleAboutImageFile, handleChange, isActive, onClick }: IAbout) => {
   const logoInputRef = useRef<HTMLInputElement>(null);
 
   const handleUpload = () => {
@@ -20,12 +20,12 @@ const Hero = ({ onClick, handleChange, isActive, heroDescription, heroImageURL, 
     const file = e.target.files?.[0];
 
     if (file) {
-      handleHeroImageFile(file);
+      handleAboutImageFile(file);
 
       const reader = new FileReader();
       reader.onloadend = () => {
         const result = reader.result as string;
-        handleChange('heroImageURL', result);
+        handleChange('aboutImageURL', result);
       };
       reader.readAsDataURL(file);
     }
@@ -33,18 +33,18 @@ const Hero = ({ onClick, handleChange, isActive, heroDescription, heroImageURL, 
 
   return (
     <div className="px-4 rounded-lg border border-primary-50 bg-white flex flex-col self-stretch gap-2">
-      <CustomizingPaper icon={<HeroIcon />} isActive={isActive} title="Hero section" onClick={() => onClick('hero')} />
+      <CustomizingPaper icon={<AboutIcon />} isActive={isActive} title="About section" onClick={() => onClick('about')} />
 
       <div className="flex flex-col items-stretch justify-center gap-5 self-stretch pb-4">
-        <CustomizeInput handleChange={(value) => handleChange('heroTitle', value)} label="Hero title" placeholder="Enter hero title" instruction="This is a big hero text" value={heroTitle} />
+        <CustomizeInput handleChange={(value) => handleChange('aboutTitle', value)} label="About title" placeholder="Enter about title" value={aboutTitle} />
 
-        <CustomizeInput handleChange={(value) => handleChange('heroDescription', value)} label="Description" placeholder="Your description" value={heroDescription} variant="secondary" rows={3} />
+        <CustomizeInput handleChange={(value) => handleChange('aboutDescription', value)} label="Description" placeholder="Your description" value={aboutDescription} variant="secondary" rows={3} />
 
         <div className="flex flex-col items-stretch gap-4">
-          <span className="text-primary-2000 text-sm font-medium">Hero Image</span>
+          <span className="text-primary-2000 text-sm font-medium">About image</span>
 
           <div className="self-stretch h-[160px] rounded-lg border border-primary-50 bg-primary-200 flex items-center justify-center">
-            {heroImageURL && <Image src={heroImageURL} width={500} height={500} alt="hero-image" className="object-cover w-[120px] h-[120px]" />}
+            {aboutImageURL && <Image src={aboutImageURL} width={500} height={500} alt="hero-image" className="object-cover w-[120px] h-[120px]" />}
           </div>
 
           <div className="flex items-center justify-start gap-2">
@@ -61,4 +61,4 @@ const Hero = ({ onClick, handleChange, isActive, heroDescription, heroImageURL, 
   );
 };
 
-export default Hero;
+export default About;

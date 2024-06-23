@@ -38,7 +38,7 @@ const Wrapper = ({ children }: { children: ReactNode }) => {
   }, [address]);
   return (
     <main>
-      <LBNavigation network="base" />
+      <LBNavigation />
       {children}
     </main>
   );
