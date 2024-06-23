@@ -42,7 +42,7 @@ import PlusAltIcon from './plus-alt-icon';
 import BaseBadgeicon from './base-badge-icon.svg';
 import ConfigSiteIcon from './config-site-icon.svg';
 import ShareIcon from './share-icon.svg';
-import TimerIcon from './timer-icon.svg';
+import TimerIcon from './timer-icon';
 import SelectArrowIcon from './select-arrow-icon.svg';
 import ChangeIndicatorIcon from './change-indicator-icon';
 import UpandDownIcon from './up-and-down-icon';
@@ -59,15 +59,19 @@ import TokenIcon from './token-icon.svg';
 import QuestionIcon from './question-icon.svg';
 import BuyAndSellIcon from './buy-and-sell-icon';
 import SearchAltIcon from './search-alt-icon.svg';
-import InfoIcon from './info-icon.svg';
+import InfoIcon from './info-icon';
 import TimerAltIcon from './timer-alt-icon.svg';
-import ExclaimIcon from './exclaim-icon.svg';
+import ExclaimIcon from './exclaim-icon';
 import XIcon from './x-icon';
 import PNGIcon from './png-icon.svg';
 import SmallFarcasterIcon from './small-farcaster-icon.svg';
 import HeartIcon from './heart-icon';
 import RecastIcon from './recast-icon';
 import ReplyIcon from './reply-icon.svg';
+import UserIcon from './user-icon.svg';
+import CoinIcon from './coin-icon.svg';
+import LinkIcon from './link-icon.svg';
+import WalletAltIcon from './wallet-alt-icon.svg';
 
 export {
   LaunchIcon,
@@ -140,4 +144,8 @@ export {
   HeartIcon,
   RecastIcon,
   ReplyIcon,
+  UserIcon,
+  CoinIcon,
+  LinkIcon,
+  WalletAltIcon,
 };

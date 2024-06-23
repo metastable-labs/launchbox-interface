@@ -29,12 +29,16 @@ const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, 
   return (
     <div className="flex justify-between gap-3.5">
       {userRole === 'user' && (
-        <div className="min-w-[300px] p-6 rounded-lg border border-primary-50 h-fit">
+        <div className="w-1/4 p-6 rounded-lg border border-primary-50 h-fit">
           <TokenInfo token={token} userRole={userRole} />
         </div>
       )}
 
-      <div className="xl:max-w-[73%] self-stretch flex flex-col items-stretch justify-center gap-6 rounded-lg border border-primary-50 p-6">
+      <div
+        className={classNames('self-stretch flex flex-col items-stretch justify-center gap-6 rounded-lg border border-primary-50 p-6', {
+          'xl:w-2/4': userRole === 'user',
+          'xl:w-full': userRole === 'admin',
+        })}>
         <div className="flex items-center justify-end self-stretch">
           <div className="flex items-center justify-center gap-8 px-3.5 py-2.5 rounded border border-primary-1950 shadow-table-cta bg-white">
             {periods.map(({ text, value }) => (
@@ -92,7 +96,7 @@ const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, 
         </AnimatePresence>
       </div>
 
-      <div className={classNames('max-w-[27%]', { 'flex flex-col gap-8 items-stretch': userRole === 'admin' })}>
+      <div className={classNames('w-1/4', { 'flex flex-col gap-8 items-stretch': userRole === 'admin' })}>
         <LBTradeInterface balance={120330} token={token!} />
 
         {userRole === 'admin' && (
