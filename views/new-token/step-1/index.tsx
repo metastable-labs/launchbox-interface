@@ -1,25 +1,14 @@
 import { useEffect } from 'react';
 
-import { LBButton, LBInput, LBSelect } from '@/components';
+import { LBButton, LBInput } from '@/components';
 import { StepProps } from '../types';
-import { networks } from '@/views/dummy';
 
 const Step1 = ({ setStep, watch, errors, register, setValue }: StepProps) => {
-  const blockchainNetworks = networks?.map((network) => {
-    return {
-      text: network.title,
-      value: network.chainId.toString(),
-      icon: network.icon,
-      id: network.chainId.toString(),
-    };
-  });
-
   const tokenName = watch?.('tokenName');
   const tokenSymbol = watch?.('tokenSymbol');
-  const tokenNetwork = watch?.('tokenNetwork');
   const tokenSupply = watch?.('tokenSupply');
 
-  const disbleButton = !tokenName || !tokenNetwork || !tokenSupply || !tokenSymbol;
+  const disbleButton = !tokenName || !tokenSupply || !tokenSymbol;
 
   const primaryInputs = [
     {
@@ -59,8 +48,6 @@ const Step1 = ({ setStep, watch, errors, register, setValue }: StepProps) => {
       {primaryInputs.map((input, index) => (
         <LBInput key={index} {...input} />
       ))}
-
-      <LBSelect label="Blockchain network" text="Select chain" options={blockchainNetworks} onClick={({ text }) => setValue?.('tokenNetwork', text.toLowerCase())} defaultId={tokenNetwork} />
 
       <LBInput
         name="tokenSupply"

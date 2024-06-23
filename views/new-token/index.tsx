@@ -19,7 +19,6 @@ import useSystemFunctions from '@/hooks/useSystemFunctions';
 const schema = yup.object().shape({
   tokenName: yup.string().required('Token Name is required'),
   tokenSymbol: yup.string().required('Token Symbol is required'),
-  tokenNetwork: yup.string().required('Blockchain Network is required'),
   tokenSupply: yup.string().required('Token Supply is Required'),
   tokenWebsiteURL: yup.string(),
   warpcastChannelId: yup.string(),

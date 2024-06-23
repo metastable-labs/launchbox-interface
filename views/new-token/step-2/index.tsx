@@ -33,15 +33,17 @@ const Step2 = ({ file, register, setFile, tokenSymbol, createTokenPage, setCreat
 
       <LBFileSample file={file} deleteFile={deleteFile} />
 
-      <LBSelect
-        label="Warpcast channel"
-        text="Select channel"
-        options={warpcastChannels}
-        onClick={({ id }) => setValue?.('warpcastChannelId', id)}
-        defaultId={warpcastChannelId}
-        isOptional
-        textIcon={<FarcasterIcon />}
-      />
+      {warpcastChannels && warpcastChannels?.length > 0 && (
+        <LBSelect
+          label="Warpcast channel"
+          text="Select channel"
+          options={warpcastChannels}
+          onClick={({ id }) => setValue?.('warpcastChannelId', id)}
+          defaultId={warpcastChannelId}
+          isOptional
+          textIcon={<FarcasterIcon />}
+        />
+      )}
 
       <LBInput name="tokenWebsiteURL" register={register?.('tokenWebsiteURL')} placeholder="..." type="text" label="Website URL" instruction="Link to your token's website" isOptional />
 

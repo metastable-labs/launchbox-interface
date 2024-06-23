@@ -5,7 +5,6 @@ import { FieldErrors, UseFormRegister, UseFormWatch, UseFormSetValue } from 'rea
 interface FormProp {
   tokenName: string;
   tokenSymbol: string;
-  tokenNetwork: string;
   tokenSupply: string;
   tokenWebsiteURL?: string;
   warpcastChannelId?: string;
@@ -59,7 +58,6 @@ type NewTokenData = {
   tokenLogo: File | null;
   tokenName: string;
   tokenSymbol: string;
-  tokenNetwork: string;
   tokenSupply: number;
   tokenWebsiteURL?: string | undefined;
   farcasterChannel?: FarcaterChannel;
