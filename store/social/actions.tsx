@@ -15,7 +15,7 @@ const useSocialActions = () => {
       if (!address) return;
       dispatch(setLoading(true));
 
-      const channels = await api.fetchFarcasterChannels('0xbA4760A2b7E747Dd3EB60e265e8E997BC397957A');
+      const channels = await api.fetchFarcasterChannels(address);
 
       dispatch(setFarcaster(channels));
 
