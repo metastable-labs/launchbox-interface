@@ -3,24 +3,24 @@ import { Chart as ChartJS, LineElement, PointElement, CategoryScale, LinearScale
 import 'chartjs-adapter-date-fns';
 import crosshairPlugin from 'chartjs-plugin-crosshair';
 import moment from 'moment';
-import { ILiquidityChart, Period } from './types';
+import { ILineChart, LineChartVariant, Period } from './types';
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, TimeScale, Filler, crosshairPlugin);
 
-const getOptions = (period: Period, liquidityData: { date: Date; value: number }[]): any => {
+const getOptions = (period: Period, data: { date: Date; value: number }[], variant?: LineChartVariant): any => {
   let unit: TimeUnit;
   let displayFormats: any;
   let stepSizeY: number;
   let stepSizeX: number;
-  let minDate: Date;
-  let maxDate: Date;
+  let minDate = data.length > 0 ? data[0].date : moment().toDate();
+  let maxDate = data.length > 0 ? data[data.length - 1].date : moment().toDate();
 
   switch (period) {
     case '1h':
       unit = 'minute';
       displayFormats = { minute: 'HH:mm' };
       stepSizeX = 5;
-      stepSizeY = calculateStepSizeY(liquidityData);
+      stepSizeY = calculateStepSizeY(data);
       minDate = moment().subtract(1, 'hour').toDate();
       maxDate = moment().toDate();
       break;
@@ -28,7 +28,7 @@ const getOptions = (period: Period, liquidityData: { date: Date; value: number }
       unit = 'hour';
       displayFormats = { hour: 'HH:mm' };
       stepSizeX = 2;
-      stepSizeY = calculateStepSizeY(liquidityData);
+      stepSizeY = calculateStepSizeY(data);
       minDate = moment().subtract(24, 'hour').toDate();
       maxDate = moment().toDate();
       break;
@@ -36,7 +36,7 @@ const getOptions = (period: Period, liquidityData: { date: Date; value: number }
       unit = 'day';
       displayFormats = { day: 'EEE' };
       stepSizeX = 1;
-      stepSizeY = calculateStepSizeY(liquidityData);
+      stepSizeY = calculateStepSizeY(data);
       minDate = moment().subtract(1, 'week').toDate();
       maxDate = moment().toDate();
       break;
@@ -44,7 +44,7 @@ const getOptions = (period: Period, liquidityData: { date: Date; value: number }
       unit = 'week';
       displayFormats = { week: 'MMM d' };
       stepSizeX = 1;
-      stepSizeY = calculateStepSizeY(liquidityData);
+      stepSizeY = calculateStepSizeY(data);
       minDate = moment().subtract(1, 'month').toDate();
       maxDate = moment().toDate();
       break;
@@ -52,7 +52,7 @@ const getOptions = (period: Period, liquidityData: { date: Date; value: number }
       unit = 'week';
       displayFormats = { day: 'MMM d' };
       stepSizeX = 1;
-      stepSizeY = calculateStepSizeY(liquidityData);
+      stepSizeY = calculateStepSizeY(data);
       minDate = moment().subtract(1, 'week').toDate();
       maxDate = moment().toDate();
   }
@@ -106,7 +106,7 @@ const getOptions = (period: Period, liquidityData: { date: Date; value: number }
           },
           label: function (context: any) {
             const value = (context.raw as number).toFixed(2);
-            return `$${value}`;
+            return variant === 'secondary' ? `${Number(value).toLocaleString()} followers` : `$${value}`;
           },
         },
       },
@@ -121,20 +121,20 @@ const getOptions = (period: Period, liquidityData: { date: Date; value: number }
   };
 };
 
-const calculateStepSizeY = (liquidityData: { date: Date; value: number }[]): number => {
-  const minValue = Math.min(...liquidityData.map((d) => d.value));
-  const maxValue = Math.max(...liquidityData.map((d) => d.value));
+const calculateStepSizeY = (data: { date: Date; value: number }[]): number => {
+  const minValue = Math.min(...data.map((d) => d.value));
+  const maxValue = Math.max(...data.map((d) => d.value));
   const valueRange = maxValue - minValue;
   const stepSizeFactor = Math.pow(10, Math.floor(Math.log10(valueRange)) - 1);
   return Math.ceil(valueRange / 4 / stepSizeFactor) * stepSizeFactor;
 };
 
-const LiquidityLineChart: React.FC<ILiquidityChart> = ({ liquidityData, period }) => {
+const LineChart: React.FC<ILineChart> = ({ data, period, variant = 'primary' }) => {
   const chartData = {
-    labels: liquidityData.map((d) => d.date),
+    labels: data.map((d) => d.date),
     datasets: [
       {
-        data: liquidityData.map((d) => d.value),
+        data: data.map((d) => d.value),
         borderColor: '#0C68E9',
         borderWidth: 2,
         pointRadius: 0,
@@ -144,9 +144,13 @@ const LiquidityLineChart: React.FC<ILiquidityChart> = ({ liquidityData, period }
     ],
   };
 
-  const options = getOptions(period, liquidityData);
+  const options = getOptions(period, data, variant);
+
+  if (variant === 'secondary') {
+    options.scales.y.ticks.display = false;
+  }
 
   return <Line data={chartData} options={{ ...options, responsive: true }} width={'100%'} />;
 };
 
-export default LiquidityLineChart;
+export default LineChart;

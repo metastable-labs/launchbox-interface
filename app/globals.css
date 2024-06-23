@@ -45,3 +45,10 @@ input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+.star-ratings {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+}

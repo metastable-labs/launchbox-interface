@@ -2,6 +2,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import tokenReducer from './token';
+import socialReducer from './social';
 
 export interface CallbackProps {
   onSuccess?: Function;
@@ -11,6 +12,7 @@ export interface CallbackProps {
 export const store = configureStore({
   reducer: {
     token: tokenReducer,
+    social: socialReducer,
   },
 });
 

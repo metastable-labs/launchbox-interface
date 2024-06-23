@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 
 interface SkeletonRowsProps {
-  variant: 'primary' | 'secondary' | 'tertiary';
+  variant: 'primary' | 'secondary' | 'secondaryAlt' | 'tertiary';
 }
 
 const SkeletonRows = ({ variant }: SkeletonRowsProps) => {
@@ -10,6 +10,7 @@ const SkeletonRows = ({ variant }: SkeletonRowsProps) => {
   const columns = {
     primary: 4,
     secondary: 3,
+    secondaryAlt: 3,
     tertiary: 7,
   };
 

@@ -1,43 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect } from 'react';
 
-import { LBButton, LBFileInput, LBFileSample, LBInput, LBSelect } from '@/components';
-import { FormProp, StepProps } from '../types';
+import { LBButton, LBInput, LBSelect } from '@/components';
+import { StepProps } from '../types';
 import { networks } from '@/views/dummy';
-import Switch from './switch';
 
-const schema = yup.object().shape({
-  tokenName: yup.string().required('Token Name is required'),
-  tokenSymbol: yup.string().required('Token Symbol is required'),
-  tokenNetwork: yup.string().required('Blockchain Network is required'),
-  // tokenDecimal: yup.string().required('Token Decimal is required'),
-  tokenSupply: yup.string().required('Token Supply is Required'),
-  tokenWebsiteURL: yup.string(),
-  tokenWarpcastChannelLink: yup.string(),
-});
-
-const Step1 = ({ setStep, setNewTokenData }: StepProps) => {
-  const [createTokenPage, setCreateTokenPage] = useState(false);
-  // const [revokeMintAuthority, setRevokeMintAuthority] = useState(false);
-  const [showFirstBuyModal, setShowFirstBuyModal] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
-  const [fileURL, setFileURL] = useState<string | null>(null);
-  const [firstBuyAmount, setFirstBuyAmount] = useState(0);
-  const [firstBuyTokenAmount, setFirstBuyTokenAmount] = useState(0);
-
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-    watch,
-  } = useForm<FormProp>({
-    mode: 'onSubmit',
-    resolver: yupResolver(schema),
-  });
-
+const Step1 = ({ setStep, watch, errors, register, setValue }: StepProps) => {
   const blockchainNetworks = networks?.map((network) => {
     return {
       text: network.title,
@@ -47,15 +14,12 @@ const Step1 = ({ setStep, setNewTokenData }: StepProps) => {
     };
   });
 
-  const tokenName = watch('tokenName');
-  const tokenSymbol = watch('tokenSymbol');
-  const tokenNetwork = watch('tokenNetwork');
-  const tokenSupply = watch('tokenSupply');
+  const tokenName = watch?.('tokenName');
+  const tokenSymbol = watch?.('tokenSymbol');
+  const tokenNetwork = watch?.('tokenNetwork');
+  const tokenSupply = watch?.('tokenSupply');
 
-  const disbleButton = !tokenName || !tokenNetwork || !tokenSupply || !tokenSymbol || !file;
-
-  let buttonText = 'Deploy';
-  if (tokenName && tokenNetwork && tokenSupply && tokenSymbol) buttonText = `Deploy $${tokenSymbol} token`;
+  const disbleButton = !tokenName || !tokenNetwork || !tokenSupply || !tokenSymbol;
 
   const primaryInputs = [
     {
@@ -78,131 +42,38 @@ const Step1 = ({ setStep, setNewTokenData }: StepProps) => {
     },
   ];
 
-  const secondaryInputs = [
-    // {
-    //   name: 'tokenDecimal',
-    //   placeholder: '5',
-    //   register: register?.('tokenDecimal'),
-    //   error: errors?.tokenDecimal,
-    //   type: 'number',
-    //   label: 'Decimals',
-    //   instruction: 'The number of decimals for your token',
-    // },
-    {
-      name: 'tokenSupply',
-      register: register?.('tokenSupply'),
-      placeholder: '1,000,000',
-      error: errors?.tokenSupply,
-      type: 'text',
-      label: 'Supply',
-      instruction: 'Initial number of tokens that will be created in your wallet',
-    },
-  ];
-
-  const tertiaryInputs = [
-    {
-      name: 'tokenWebsiteURL',
-      register: register?.('tokenWebsiteURL'),
-      placeholder: '...',
-      type: 'text',
-      label: 'Website URL',
-      instruction: "Link to your token's website",
-      isOptional: true,
-    },
-    {
-      name: 'tokenWarpcastChannelLink',
-      register: register?.('tokenWarpcastChannelLink'),
-      placeholder: '...',
-      type: 'text',
-      label: 'Warpcast channel link',
-      instruction: "Link to your token's warpcast channel",
-      isOptional: true,
-    },
-  ];
-
-  const switches = [
-    {
-      title: 'Create token page',
-      instruction: 'Add a landing page that shows full details about your token',
-      switched: createTokenPage,
-      handleOverride: () => setCreateTokenPage((prev) => !prev),
-    },
-    // {
-    //   title: "Revoke mint authority",
-    //   instruction: "Limit the token supply to increase investor confidence.",
-    //   switched: revokeMintAuthority,
-    //   handleOverride: () => setRevokeMintAuthority((prev) => !prev),
-    // },
-  ];
-
-  const handleFile = (e: any) => {
-    const file = e.target?.files?.[0];
-    if (file) {
-      setFile?.(file);
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const result = reader.result as string;
-        setFileURL(result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const deleteFile = () => setFile?.(null);
-
-  const onSubmit = (data: FormProp) => {
-    const formData = {
-      ...data,
-      tokenSupply: Number(data.tokenSupply.replace(/,/g, '')),
-      createTokenPage,
-      // revokeMintAuthority,
-      tokenLogo: file,
-      firstBuyAmount,
-      firstBuyTokenAmount,
-    };
-    setNewTokenData?.(formData);
-
-    setStep(1);
-  };
+  const next = () => setStep?.((prev) => prev + 1);
 
   useEffect(() => {
     if (tokenSupply) {
       const formatedTokenSupply = tokenSupply.replace(/[^0-9]/g, '');
       const numberTokenSupply = Number(formatedTokenSupply);
       const thousandSeparator = numberTokenSupply.toLocaleString();
-      setValue('tokenSupply', thousandSeparator);
+      setValue?.('tokenSupply', thousandSeparator);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokenSupply]);
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center justify-center gap-4 rounded-base border border-primary-1200 bg-white p-6 min-w-[343px] md:min-w-[448px]">
-      <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full">
-        {primaryInputs.map((input, index) => (
-          <LBInput key={index} {...input} />
-        ))}
-      </div>
-
-      <LBSelect label="Blockchain network" text="Select Network" options={blockchainNetworks} onClick={({ text }) => setValue?.('tokenNetwork', text.toLowerCase())} />
-
-      {secondaryInputs.map((input, index) => (
+    <div className="flex flex-col items-center justify-center gap-4 rounded-base border border-primary-1200 bg-white p-6 min-w-[343px] md:min-w-[448px]">
+      {primaryInputs.map((input, index) => (
         <LBInput key={index} {...input} />
       ))}
 
-      <LBFileInput handleFileChange={handleFile} name="token-logo" label="Upload logo" show={!file} />
+      <LBSelect label="Blockchain network" text="Select chain" options={blockchainNetworks} onClick={({ text }) => setValue?.('tokenNetwork', text.toLowerCase())} defaultId={tokenNetwork} />
 
-      <LBFileSample file={file} deleteFile={deleteFile} />
+      <LBInput
+        name="tokenSupply"
+        register={register?.('tokenSupply')}
+        placeholder="1,000,000"
+        error={errors?.tokenSupply}
+        type="text"
+        label="Supply"
+        instruction="Initial number of tokens that will be created in your wallet"
+      />
 
-      {tertiaryInputs.map((input, index) => (
-        <LBInput key={index} {...input} />
-      ))}
-
-      {switches.map((switchData, index) => (
-        <Switch key={index} {...switchData} />
-      ))}
-
-      <LBButton text={buttonText} fullWidth variant="plain" disabled={disbleButton} type="submit" />
-    </form>
+      <LBButton onClick={next} text="Next" fullWidth variant="plain" disabled={disbleButton} />
+    </div>
   );
 };
 

@@ -7,4 +7,13 @@ interface IClickTabs {
   setTab: (tab: any) => void;
 }
 
-export type { Tabs, SecondaryTabs, IClickTabs };
+type Period = '1h' | '24h' | '1w' | '1m';
+
+type LineChartVariant = 'primary' | 'secondary';
+interface ILineChart {
+  data: { date: Date; value: number }[];
+  period: Period;
+  variant?: LineChartVariant;
+}
+
+export type { Tabs, SecondaryTabs, IClickTabs, Period, LineChartVariant, ILineChart };

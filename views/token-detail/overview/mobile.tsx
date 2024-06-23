@@ -6,7 +6,7 @@ import { LBTable, LBTradeInterface } from '@/components';
 import TokenInfo from './token-info';
 import classNames from 'classnames';
 import ChangeIndicator from './change-indicator';
-import LiquidityLineChart from './line-chart';
+import LineChart from '../line-chart';
 import ClickTabs from '../tabs';
 import { AnimatePresence, motion } from 'framer-motion';
 import { IView } from './types';
@@ -61,7 +61,7 @@ const MobileView = ({ token, userRole, holdingsData, tabTexts, transactionsData,
       </div>
 
       <div className="w-full flex items-center justify-center h-[295px] relative">
-        <LiquidityLineChart period={period} liquidityData={liquidityData} />
+        <LineChart period={period} data={liquidityData} />
 
         {noLiquidityData && (
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center text-primary-250 text-[20px] leading-[32px] tracking-[-0.2px] font-semibold">No price data.</div>

@@ -14,5 +14,7 @@ interface ILBSelect {
   defaultId?: string;
   disabled?: boolean;
   label?: string;
+  isOptional?: boolean;
+  textIcon?: ReactNode;
 }
 export type { IOption, ILBSelect };

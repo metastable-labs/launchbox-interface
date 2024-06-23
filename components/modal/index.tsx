@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import LBClickAnimation from '../click-animation';
 import { ILBModal } from './types';
 
-const LBModal = ({ children, close, show, variant = 'primary', title, hasClose = true }: ILBModal) => {
+const LBModal = ({ children, close, show, variant = 'primary', title, hasClose = true, hasHeader = true }: ILBModal) => {
   useEffect(() => {
     if (show) {
       document.body.classList.add('overflow-hidden');
@@ -37,19 +37,21 @@ const LBModal = ({ children, close, show, variant = 'primary', title, hasClose =
               'border border-primary-50': variant === 'primary',
             })}>
             <div>
-              <div
-                className={classNames('flex items-center pb-6', {
-                  'justify-between': title,
-                  'justify-end': !title,
-                })}>
-                <h1 className="text-primary-150 text-lg md:text-[24px] md:leading-[37.2px]">{title}</h1>
+              {hasHeader && (
+                <div
+                  className={classNames('flex items-center pb-6', {
+                    'justify-between': title,
+                    'justify-end': !title,
+                  })}>
+                  <h1 className="text-primary-150 text-lg md:text-[24px] md:leading-[37.2px]">{title}</h1>
 
-                {hasClose && (
-                  <LBClickAnimation onClick={close}>
-                    <RoundedCloseIcon />
-                  </LBClickAnimation>
-                )}
-              </div>
+                  {hasClose && (
+                    <LBClickAnimation onClick={close}>
+                      <RoundedCloseIcon />
+                    </LBClickAnimation>
+                  )}
+                </div>
+              )}
 
               {children}
             </div>

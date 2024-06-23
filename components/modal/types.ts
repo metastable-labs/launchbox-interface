@@ -7,6 +7,7 @@ interface ILBModal {
   variant?: 'primary';
   title?: string | ReactNode;
   hasClose?: boolean;
+  hasHeader?: boolean;
 }
 
 export type { ILBModal };

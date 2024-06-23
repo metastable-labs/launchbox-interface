@@ -1,14 +1,19 @@
 import { useRef } from 'react';
 import classNames from 'classnames';
 import Image from 'next/image';
+import { AnimatePresence, motion } from 'framer-motion';
 
+import useCopy from '@/hooks/useCopy';
+import { CheckAltIcon, CopyIcon, NavigationIcon } from '@/public/icons';
+import { LBClickAnimation } from '@/components';
 import CustomizingPaper from './paper';
 import { INavigation } from './types';
-import { NavigationIcon } from '@/public/icons';
-import { LBClickAnimation } from '@/components';
+
+const icons = [<CopyIcon color="#868C98" key="copy" width={16} height={16} />, <CheckAltIcon key="check" width={16} height={16} />];
 
 const Navigation = ({ onClick, handleChange, isActive, handleLogoFile, logoURL, buyLink }: INavigation) => {
   const logoInputRef = useRef<HTMLInputElement>(null);
+  const { hasCopied, handleCopy } = useCopy();
 
   const handleUpload = () => {
     if (logoInputRef.current) {
@@ -30,6 +35,8 @@ const Navigation = ({ onClick, handleChange, isActive, handleLogoFile, logoURL, 
       reader.readAsDataURL(file);
     }
   };
+
+  const handleCopyBuyLink = () => handleCopy(buyLink);
 
   return (
     <div className="px-4 rounded-lg border border-primary-50 bg-white flex flex-col self-stretch">
@@ -59,13 +66,29 @@ const Navigation = ({ onClick, handleChange, isActive, handleLogoFile, logoURL, 
           <div className="w-full flex items-center justify-center bg-white rounded-lg border border-primary-1950 overflow-hidden">
             <div className="px-3 py-2 ">https://</div>
 
-            <input
-              type="text"
-              value={buyLink}
-              onChange={(e) => handleChange('buyLink', e.target.value)}
-              className="border-l border-l-primary-1950 px-3 py-2 text-primary-2200 flex-1 h-full outline-none"
-              disabled
-            />
+            <div className="flex flex-1 items-center gap-2 pr-3">
+              <input
+                type="text"
+                value={buyLink}
+                onChange={(e) => handleChange('buyLink', e.target.value)}
+                className="border-l border-l-primary-1950 px-3 py-2 text-primary-2200 flex-1 h-full outline-none"
+                disabled
+              />
+
+              <LBClickAnimation onClick={handleCopyBuyLink}>
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={+hasCopied}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.1 }}
+                    exit={{ opacity: 0 }}
+                    className={classNames('', { 'pointer-events-none': hasCopied })}>
+                    {icons[+hasCopied]}
+                  </motion.div>
+                </AnimatePresence>
+              </LBClickAnimation>
+            </div>
           </div>
 
           <p className="text-primary-700 text-sm">This is auto-generated and cannot be modified</p>
