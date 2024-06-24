@@ -23,7 +23,7 @@ const useTokenActions = () => {
   const { dispatch, tokenState } = useSystemFunctions();
   const { deployToken, isDeployPending, isDeployConfirmed, getDeployTransactionData } = useContract.useDeploy();
   const { buyToken, isBuyPending, isBuyConfirmed, getBuyTransactionData, buyError } = useContract.useBuyToken();
-  const { sellToken, isSellPending, isSellConfirmed, getSellTransactionData, sellError } = useContract.useSellToken();
+  const { approveAndSell, isSellPending, getSellTransactionData, error, isApprovePending, isSellConfirmed, isApproveLoading, isSellLoading } = useContract.useSellToken();
   const chainId = useChainId();
   const { address } = useAccount();
 
@@ -139,7 +139,7 @@ const useTokenActions = () => {
     try {
       dispatch(setLoadingBuy(true));
 
-      return sellToken(exchangeAddress, tokenAddress, amount * 10 ** 18);
+      return await approveAndSell(exchangeAddress, tokenAddress, amount * 10 ** 18);
     } catch (error: any) {
       //
     }
@@ -283,9 +283,9 @@ const useTokenActions = () => {
   }, [isBuyPending, isBuyConfirmed, buyError]);
 
   useEffect(() => {
-    if (!isSellConfirmed || isSellPending) return;
+    if (isApprovePending || isSellPending) return;
 
-    if (sellError?.message) {
+    if (error) {
       toast('An error occured! Please try again later.', {
         type: 'error',
       });
@@ -295,12 +295,15 @@ const useTokenActions = () => {
     }
 
     dispatch(setLoadingBuy(false));
-    toast('Token sell is successful!', {
-      type: 'success',
-    });
+    if (isSellConfirmed) {
+      toast('Token sell is successful!', {
+        type: 'success',
+      });
+    }
+
     getSellTransactionData()?.then((res) => console.log(res));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSellPending, isSellConfirmed, sellError]);
+  }, [isSellPending, isSellConfirmed, error]);
 
   return {
     getTokens,
