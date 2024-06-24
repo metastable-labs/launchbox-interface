@@ -8,7 +8,7 @@ import { HeartIcon, RecastIcon, ReplyIcon } from '@/public/icons';
 import { formatNumber } from '../table/row';
 import LBClickAnimation from '../click-animation';
 
-const LBComment = ({ comments, createdAt, createdBy, id, images, likes: initialLikes, recasts: initialRecasts, replies, updatedAt }: ILBComment) => {
+const LBComment = ({ comment, createdAt, createdBy, id, images, likes: initialLikes, recasts: initialRecasts, replies, updatedAt }: ILBComment) => {
   const [liked, setLiked] = useState(false);
   const [recasted, setRecasted] = useState(false);
   const [likes, setLikes] = useState(initialLikes);
@@ -43,13 +43,7 @@ const LBComment = ({ comments, createdAt, createdBy, id, images, likes: initialL
         </div>
       </div>
 
-      <ol className="list-decimal pl-4 text-primary-650 text-[16px] leading-[22.4px]">
-        {comments.map((comment, index) => (
-          <li key={`${id}-comment-${index}`} className="mb-2">
-            {comment}
-          </li>
-        ))}
-      </ol>
+      <p className="text-primary-650 text-[16px] leading-[22.4px]">{comment}</p>
 
       {images?.length > 0 && (
         <div className={classNames('flex flex-col items-stretch', { 'gap-4': images?.length > 1 })}>
