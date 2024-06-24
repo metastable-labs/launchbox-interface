@@ -61,7 +61,7 @@ const useTokenActions = () => {
 
         tokensRespose.push(item);
       }
-      console.log(tokensRespose);
+
       dispatch(setMeta(meta));
       if (meta.skip === 0) {
         dispatch(setTokens(tokensRespose));
@@ -123,24 +123,23 @@ const useTokenActions = () => {
     }
   };
 
-  const buyTokens = async (tokenAddress: Address, amount: number) => {
+  const buyTokens = async (exchangeAddress: Address, amount: number) => {
     try {
       dispatch(setLoadingBuy(true));
 
       //   return buyToken('0x5F66dE9e53D558439F25d4Ff9Ca606CFcE3B32f6', amount * 10 ** 18);
-      return buyToken(tokenAddress, amount * 10 ** 18);
+      return buyToken(exchangeAddress, amount * 10 ** 18);
     } catch (error: any) {
       dispatch(setLoadingBuy(false));
       //
     }
   };
 
-  const sellTokens = async (tokenAddress: Address, amount: number) => {
+  const sellTokens = async (exchangeAddress: Address, tokenAddress: Address, amount: number) => {
     try {
-      console.log('calling this');
       dispatch(setLoadingBuy(true));
 
-      return sellToken(tokenAddress, amount * 10 ** 18);
+      return sellToken(exchangeAddress, tokenAddress, amount * 10 ** 18);
     } catch (error: any) {
       //
     }
@@ -270,6 +269,7 @@ const useTokenActions = () => {
       toast('An error occured! Please try again later.', {
         type: 'error',
       });
+      dispatch(setLoadingBuy(false));
 
       return;
     }
@@ -281,7 +281,7 @@ const useTokenActions = () => {
     getBuyTransactionData()?.then((res) => console.log(res));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isBuyPending, isBuyConfirmed, buyError]);
-  console.log(sellError?.message);
+
   useEffect(() => {
     if (!isSellConfirmed || isSellPending) return;
 
@@ -289,6 +289,7 @@ const useTokenActions = () => {
       toast('An error occured! Please try again later.', {
         type: 'error',
       });
+      dispatch(setLoadingBuy(false));
 
       return;
     }

@@ -80,7 +80,7 @@ const LBTradeInterface = ({ token, standAlone = true }: ILBTradeInterface) => {
       return buyTokens(token?.exchange_address, amount);
     }
 
-    return sellTokens(token?.exchange_address, amount);
+    return sellTokens(token?.exchange_address, token.token_address, amount);
   };
 
   useEffect(() => {

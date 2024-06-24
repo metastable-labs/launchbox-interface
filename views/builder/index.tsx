@@ -70,8 +70,6 @@ const BuilderView = () => {
     setPublishActive(true);
   }, [buildData]);
 
-  console.log('buildData', buildData);
-
   return (
     <>
       <Header {...headerData} />

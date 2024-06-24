@@ -1,5 +1,5 @@
 import { useWaitForTransactionReceipt, useWriteContract, useChainId } from 'wagmi';
-import { simulateContract } from '@wagmi/core';
+import { writeContract as writeCoreContract } from '@wagmi/core';
 
 import { Address } from 'viem';
 import { getTransactionReceipt } from '@wagmi/core';
@@ -112,9 +112,17 @@ const useSellToken = () => {
   const currentNetwork = networks.find((network) => network.chainId === chainId);
 
   const exchangeAbi = currentNetwork?.exchangeAbi;
+  const erc20Abi = currentNetwork?.erc20Abi;
 
-  const sellToken = (exchangeAddress: Address, tokenAmount: number) => {
+  const sellToken = async (exchangeAddress: Address, tokenAddress: Address, tokenAmount: number) => {
     try {
+      await writeCoreContract(wagmiConfig, {
+        abi: erc20Abi,
+        address: tokenAddress,
+        functionName: 'approve',
+        args: [exchangeAddress, tokenAmount],
+      });
+
       writeContract({
         address: exchangeAddress,
         abi: exchangeAbi,

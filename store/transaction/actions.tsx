@@ -16,8 +16,6 @@ const useTransactionActions = () => {
       dispatch(setLoading(true));
 
       const activities = await api.fetchTokenTransactions(tokenState.token?.id);
-
-      console.log(activities);
     } catch (error: any) {
       callback?.onError?.(error);
     } finally {
