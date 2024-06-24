@@ -37,7 +37,6 @@ const TokenView = () => {
   useEffect(() => {
     const handleScroll = () => {
       if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 200 && Number(userTokens?.length) < Number(userTokensMeta?.totalCount)) {
-        console.log('here');
         setShouldFetchMore(true);
       }
     };

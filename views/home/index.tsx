@@ -12,6 +12,7 @@ import { readContract } from '@wagmi/core';
 import { wagmiConfig } from '@/config/rainbow/rainbowkit';
 import LaunchBoxExchange from '@/config/rainbow/abis/LaunchBoxExchange.json';
 import { formatEther } from 'viem';
+import EmptyState from '../token/empty';
 
 const HomeView = () => {
   const { navigate, tokenState, dispatch } = useSystemFunctions();
@@ -110,18 +111,24 @@ const HomeView = () => {
         </LBContainer>
       </div>
 
-      <div className="w-full max-w-[1440px] mx-auto px-6 md:px-8 xl:px-20 relative">
-        <LBTable
-          setShouldFetchMore={setShouldFetchMore}
-          shouldFetchMore={shouldFetchMore}
-          take={meta?.take}
-          total={meta?.totalCount}
-          data={tableData || []}
-          variant="tertiary"
-          cta={cta}
-          rowClick={rowClick}
-        />
-      </div>
+      {tableData?.length === 0 ? (
+        <div key="empty-state">
+          <EmptyState />
+        </div>
+      ) : (
+        <div className="w-full max-w-[1440px] mx-auto px-6 md:px-8 xl:px-20 relative">
+          <LBTable
+            setShouldFetchMore={setShouldFetchMore}
+            shouldFetchMore={shouldFetchMore}
+            take={meta?.take}
+            total={meta?.totalCount}
+            data={tableData || []}
+            variant="tertiary"
+            cta={cta}
+            rowClick={rowClick}
+          />
+        </div>
+      )}
 
       <LBModal close={closeModal} show={Boolean(activeToken)}>
         <LBTradeInterface token={activeToken!} balance={100} standAlone={false} />
