@@ -6,6 +6,7 @@ type Token = {
   token_name: string;
   token_symbol: string;
   token_address: Address;
+  exchange_address: Address;
   token_total_supply: number;
   token_logo_url: string;
   create_token_page: boolean;
@@ -25,6 +26,9 @@ type Token = {
   is_active: boolean;
   created_at: string;
   updated_at: string;
+  market_cap: number;
+  token_price_in_usd: number;
+  token_price_in_eth: number;
 };
 
 type TokenData = {
@@ -50,4 +54,12 @@ type Tokens = {
   meta: Meta;
 };
 
-export type { Token, TokenData, Meta, Tokens };
+type CoinPrice = {
+  name: string;
+  symbol: string;
+  price: number;
+  currency: string;
+  last_updated: string;
+};
+
+export type { Token, TokenData, Meta, Tokens, CoinPrice };

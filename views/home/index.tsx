@@ -8,6 +8,10 @@ import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useTokenActions from '@/store/token/actions';
 import { Token } from '@/store/token/types';
 import { setToken } from '@/store/token';
+import { readContract } from '@wagmi/core';
+import { wagmiConfig } from '@/config/rainbow/rainbowkit';
+import LaunchBoxExchange from '@/config/rainbow/abis/LaunchBoxExchange.json';
+import { formatEther } from 'viem';
 
 const HomeView = () => {
   const { navigate, tokenState, dispatch } = useSystemFunctions();
@@ -26,7 +30,7 @@ const HomeView = () => {
     createdAt: token.created_at,
     updatedAt: token.updated_at,
     liquidity: { numerator: 3, denominator: 3450.3 },
-    marketCap: { numerator: 400000, denominator: 0.000056 },
+    marketCap: { numerator: token.market_cap, denominator: 0.000056 },
     txns: { numerator: 706, denominator: { numerator: 406, denominator: 300 } },
     volume: token.token_total_supply,
     walletAvatarURL: token.token_logo_url,

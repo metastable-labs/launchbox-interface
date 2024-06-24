@@ -1,19 +1,23 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Address, decodeEventLog } from 'viem';
+import { Address, decodeEventLog, formatEther } from 'viem';
 import { useCookies } from 'react-cookie';
 import { toast } from 'react-toastify';
 import { useChainId, useAccount } from 'wagmi';
+import { readContract, writeContract } from '@wagmi/core';
+
 import { mode } from 'wagmi/chains';
 import { trim } from 'viem';
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useContract from '@/hooks/useContract';
 import { networks } from '@/config/rainbow/config';
-import { setLoading, setLoadingCreate, setToken, setTokens, setMeta, setExtraTokens, setLoadingBuy } from '.';
+import { setLoading, setLoadingCreate, setToken, setTokens, setMeta, setExtraTokens, setLoadingBuy, setCoinPrice } from '.';
 import { CallbackProps } from '..';
 import api from './api';
-import { TokenData } from './types';
+import { Token, TokenData } from './types';
+import { wagmiConfig } from '@/config/rainbow/rainbowkit';
+import LaunchBoxExchange from '@/config/rainbow/abis/LaunchBoxExchange.json';
 
 const useTokenActions = () => {
   const { dispatch, tokenState } = useSystemFunctions();
@@ -28,16 +32,45 @@ const useTokenActions = () => {
   const getTokens = async (query: string, callback?: CallbackProps) => {
     try {
       dispatch(setLoading(true));
+      const coinPrice = await api.fetchCoinPrice();
+      dispatch(setCoinPrice(coinPrice));
       const { meta, tokens } = await api.fetchTokens(query);
 
+      const tokensRespose: Token[] = [];
+
+      for (const token of tokens) {
+        if (!token.exchange_address) {
+          tokensRespose.push({ ...token, market_cap: 0 });
+          continue;
+        }
+
+        const marketCapValue = await _getMarketCap(token.exchange_address);
+
+        const tokenPriceInEth = await _getTokenPrice(token.exchange_address);
+        const tokenPriceInUSD = coinPrice.price * Number(tokenPriceInEth);
+
+        const factor = Math.pow(10, 7);
+        const usdPrice = Math.floor(tokenPriceInUSD * factor) / factor;
+
+        const item = {
+          ...token,
+          market_cap: marketCapValue,
+          token_price_in_usd: usdPrice,
+          token_price_in_eth: Number(tokenPriceInEth),
+        };
+
+        tokensRespose.push(item);
+      }
+      console.log(tokensRespose);
       dispatch(setMeta(meta));
       if (meta.skip === 0) {
-        dispatch(setTokens(tokens));
+        dispatch(setTokens(tokensRespose));
       } else {
-        dispatch(setExtraTokens(tokens));
+        dispatch(setExtraTokens(tokensRespose));
       }
-      return callback?.onSuccess?.(tokens);
+      return callback?.onSuccess?.(tokensRespose);
     } catch (error: any) {
+      console.log(error);
       callback?.onError?.(error);
     } finally {
       dispatch(setLoading(false));
@@ -64,7 +97,7 @@ const useTokenActions = () => {
       dispatch(setToken(undefined));
       setDeployData(data);
 
-      return deployToken(data.token_name, data.token_symbol, '18', data.token_total_supply * 10 ** 18);
+      return deployToken(data.token_name, data.token_symbol, 'https://', data.token_total_supply * 10 ** 18);
     } catch (error: any) {
       console.log(error);
       callback?.onError?.(error);
@@ -79,6 +112,7 @@ const useTokenActions = () => {
       //   return buyToken('0x5F66dE9e53D558439F25d4Ff9Ca606CFcE3B32f6', amount * 10 ** 18);
       return buyToken(tokenAddress, amount * 10 ** 18);
     } catch (error: any) {
+      dispatch(setLoadingBuy(false));
       //
     }
   };
@@ -91,6 +125,24 @@ const useTokenActions = () => {
       return buyToken(tokenAddress, amount * 10 ** 18);
     } catch (error: any) {
       //
+    }
+  };
+
+  const calculateTokenAmount = async (exchangeAddress: Address, amount: number) => {
+    try {
+      console.log(amount, amount * 10 ** 18);
+
+      const result = await readContract(wagmiConfig, {
+        abi: LaunchBoxExchange.abi,
+        address: exchangeAddress,
+        functionName: 'calculateSaleTokenOut',
+        args: [amount * 10 ** 18],
+      });
+      console.log(result);
+
+      return result;
+    } catch (error: any) {
+      console.log(error);
     }
   };
 
@@ -155,7 +207,41 @@ const useTokenActions = () => {
       dispatch(setLoadingCreate(false));
     }
   };
-  console.log(buyError?.message);
+
+  const _getMarketCap = async (exchange_address: Address) => {
+    try {
+      const result: any = await readContract(wagmiConfig, {
+        abi: LaunchBoxExchange.abi,
+        address: exchange_address,
+        functionName: 'marketCap',
+        args: [],
+      });
+      const formatted = formatEther(result);
+      const marketCapValue = Number(formatted);
+
+      return marketCapValue;
+    } catch (error) {
+      return 0;
+    }
+  };
+
+  const _getTokenPrice = async (exchange_address: Address) => {
+    try {
+      const result: any = await readContract(wagmiConfig, {
+        abi: LaunchBoxExchange.abi,
+        address: exchange_address,
+        functionName: 'getTokenPriceinETH',
+        args: [],
+      });
+      const formatted = formatEther(result);
+
+      return formatted;
+    } catch (error) {
+      return 0;
+    }
+  };
+
+  //   console.log(buyError?.message);
   useEffect(() => {
     _submitData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -174,6 +260,7 @@ const useTokenActions = () => {
     getToken,
     createToken,
     buyTokens,
+    calculateTokenAmount,
   };
 };
 

@@ -261,7 +261,7 @@ const Row = ({ item, variant, index, tokenSymbol, cta, rowClick, items, setShoul
             })}
             onClick={() => cta?.(item.id!)}
             stopPropagation>
-            Quick buy
+            Buy / Sell
           </LBClickAnimation>
         </td>
       )}
