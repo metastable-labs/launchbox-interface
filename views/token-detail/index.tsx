@@ -28,7 +28,9 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
 
   const { token } = tokenState;
 
-  const tabTexts = [{ text: 'overview' }, { text: 'incentive', hide: userRole === 'user' }, { text: 'channel' }];
+  const hasChannel = Boolean(Object.keys(token?.socials.warpcast.channel || {}).length);
+
+  const tabTexts = [{ text: 'overview' }, { text: 'incentive', hide: userRole === 'user' }, { text: 'channel', hide: !hasChannel }];
   const tabsToShow = tabTexts.filter(({ hide }) => !hide).map(({ text }) => text);
 
   const actions = [
@@ -127,9 +129,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
           </div>
         )}
 
-        <div className="w-full">
-          <ClickTabs tabTexts={tabsToShow} tab={tab} setTab={setTab} />
-        </div>
+        <ClickTabs tabTexts={tabsToShow} tab={tab} setTab={setTab} />
       </div>
 
       <div className={classNames('', {})}>

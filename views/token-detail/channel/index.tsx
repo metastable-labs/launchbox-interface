@@ -113,13 +113,13 @@ const Channel = ({ userRole }: IChannel) => {
 
   return (
     <div className="flex flex-col-reverse lg:flex-row justify-between gap-7 lg:gap-3.5">
-      <div className="w-full lg:w-3/5 flex flex-col items-stretch gap-8">
+      <div className="w-full lg:w-3/5 flex flex-col items-stretch gap-8 max-h-[80vh] overflow-auto">
         {comments.map((comment) => (
           <LBComment key={comment.id} {...comment} />
         ))}
       </div>
 
-      <div className="w-full lg:w-2/5 p-6 rounded-lg border border-primary-50 h-fit flex flex-col gap-6">
+      <div className="w-full lg:w-2/5 p-6 rounded-lg border border-primary-50 h-fit flex flex-col gap-6 max-h-[80vh] overflow-auto">
         <div className="flex items-start gap-4">
           <Image src={channel?.image_url || ''} alt="channel-logo" width={500} height={500} className="w-[50px] h-[50px] object-cover" />
 

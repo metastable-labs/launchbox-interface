@@ -283,9 +283,8 @@ const generateData = (period: Period, isSecondary?: boolean) => {
 
 const comments: ILBComment[] = [
   {
-    comments: [
+    comment:
       'Rolling out channel specific user rankings think of these as customizable channel power badges - an essential lego for decentralized channels - rankings for 100 channels live, 500+ by eow - ongoing eyeballing/feedback from channel owners and @automod @jrgi - soon @neynar makes it easy to consume for devs/frames more ⭐️',
-    ],
     createdAt: '2024-06-08T00:00:00Z',
     createdBy: {
       avatar: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723895/Avatar_khczwg.jpg',
@@ -299,9 +298,8 @@ const comments: ILBComment[] = [
     recasts: 12,
     replies: [
       {
-        comments: [
+        comment:
           'Excited to announce the integration of new features in our platform! 🎉 Continuous improvement and feedback from our community has been invaluable. Check out the new update and let us know your thoughts! #productupdate #community',
-        ],
         createdAt: '2024-06-10T12:34:56Z',
         createdBy: {
           avatar: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723895/Avatar_khczwg.jpg',
@@ -317,9 +315,8 @@ const comments: ILBComment[] = [
         updatedAt: '2024-06-10T12:34:56Z',
       },
       {
-        comments: [
+        comment:
           'Excited to announce the integration of new features in our platform! 🎉 Continuous improvement and feedback from our community has been invaluable. Check out the new update and let us know your thoughts! #productupdate #community',
-        ],
         createdAt: '2024-06-10T12:34:56Z',
         createdBy: {
           avatar: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723895/Avatar_khczwg.jpg',
@@ -335,9 +332,9 @@ const comments: ILBComment[] = [
         updatedAt: '2024-06-10T12:34:56Z',
       },
       {
-        comments: [
+        comment:
           'Excited to announce the integration of new features in our platform! 🎉 Continuous improvement and feedback from our community has been invaluable. Check out the new update and let us know your thoughts! #productupdate #community',
-        ],
+
         createdAt: '2024-06-10T12:34:56Z',
         createdBy: {
           avatar: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723895/Avatar_khczwg.jpg',
@@ -353,9 +350,9 @@ const comments: ILBComment[] = [
         updatedAt: '2024-06-10T12:34:56Z',
       },
       {
-        comments: [
+        comment:
           'Excited to announce the integration of new features in our platform! 🎉 Continuous improvement and feedback from our community has been invaluable. Check out the new update and let us know your thoughts! #productupdate #community',
-        ],
+
         createdAt: '2024-06-10T12:34:56Z',
         createdBy: {
           avatar: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723895/Avatar_khczwg.jpg',
@@ -374,9 +371,9 @@ const comments: ILBComment[] = [
     updatedAt: '2024-06-08T00:00:00Z',
   },
   {
-    comments: [
+    comment:
       'Excited to announce the integration of new features in our platform! 🎉 Continuous improvement and feedback from our community has been invaluable. Check out the new update and let us know your thoughts! #productupdate #community',
-    ],
+
     createdAt: '2024-06-10T12:34:56Z',
     createdBy: {
       avatar: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723895/Avatar_khczwg.jpg',
@@ -392,10 +389,8 @@ const comments: ILBComment[] = [
     updatedAt: '2024-06-10T12:34:56Z',
   },
   {
-    comments: [
-      'Join us for our upcoming webinar on decentralized applications! 🚀 Learn from industry experts and get insights into the future of decentralized tech. Register now! #webinar #decentralization',
-      'Join us for our upcoming webinar on decentralized applications! 🚀 Learn from industry experts and get insights into the future of decentralized tech. Register now! #webinar #decentralization',
-    ],
+    comment:
+      'Join us for our upcoming webinar on decentralized applications! 🚀 Learn from industry experts and get insights into the future of decentralized tech. Register now! #webinar #decentralization Join us for our upcoming webinar on decentralized applications! 🚀 Learn from industry experts and get insights into the future of decentralized tech. Register now! #webinar #decentralization',
     createdAt: '2024-06-12T08:20:15Z',
     createdBy: {
       avatar: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723895/Avatar_khczwg.jpg',
@@ -411,7 +406,7 @@ const comments: ILBComment[] = [
     updatedAt: '2024-06-12T08:20:15Z',
   },
   {
-    comments: ['Our team is working tirelessly to bring you the best experience. Big shoutout to everyone involved! 🙌 Stay tuned for more updates. #teamwork #development'],
+    comment: 'Our team is working tirelessly to bring you the best experience. Big shoutout to everyone involved! 🙌 Stay tuned for more updates. #teamwork #development',
     createdAt: '2024-06-14T14:45:30Z',
     createdBy: {
       avatar: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723895/Avatar_khczwg.jpg',
@@ -427,7 +422,7 @@ const comments: ILBComment[] = [
     updatedAt: '2024-06-14T14:45:30Z',
   },
   {
-    comments: ['Just released a new tutorial on how to get started with decentralized finance (DeFi). Check it out and start your DeFi journey today! 💡 #DeFi #tutorial'],
+    comment: 'Just released a new tutorial on how to get started with decentralized finance (DeFi). Check it out and start your DeFi journey today! 💡 #DeFi #tutorial',
     createdAt: '2024-06-16T10:15:45Z',
     createdBy: {
       avatar: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723895/Avatar_khczwg.jpg',
@@ -443,11 +438,8 @@ const comments: ILBComment[] = [
     updatedAt: '2024-06-16T10:15:45Z',
   },
   {
-    comments: [
-      'Proud to announce that we have reached 10,000 active users! 🎉 Thank you to our amazing community for the support. Here’s to many more milestones! #milestone #community',
-      'Proud to announce that we have reached 10,000 active users! 🎉 Thank you to our amazing community for the support. Here’s to many more milestones! #milestone #community',
-      'Proud to announce that we have reached 10,000 active users! 🎉 Thank you to our amazing community for the support. Here’s to many more milestones! #milestone #community',
-    ],
+    comment:
+      'Proud to announce that we have reached 10,000 active users! 🎉 Thank you to our amazing community for the support. Here’s to many more milestones! #milestone #community Proud to announce that we have reached 10,000 active users! 🎉 Thank you to our amazing community for the support. Here’s to many more milestones! #milestone #communit Proud to announce that we have reached 10,000 active users! 🎉 Thank you to our amazing community for the support. Here’s to many more milestones! #milestone #community',
     createdAt: '2024-06-18T09:00:00Z',
     createdBy: {
       avatar: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723895/Avatar_khczwg.jpg',

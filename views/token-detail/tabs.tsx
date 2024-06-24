@@ -21,13 +21,14 @@ const ClickTabs = ({ tabTexts, tab, setTab }: IClickTabs) => {
   const leftPosition = `${activeIndex * tabWidth}%`;
 
   return (
-    <div className="flex items-center justify-start max-w-fit gap-2 sticky top-0">
+    <div className={classNames('flex items-center justify-start max-w-fit relative', { 'gap-2': tabTexts.length > 1 })}>
       {tabTexts.map((text, index) => (
         <div
           key={index}
-          className={classNames('px-3.5 pt-2.5 pb-[13px] flex items-center justify-center cursor-pointer text-sm font-medium transition-colors duration-300 capitalize w-1/2', {
+          className={classNames('px-3.5 pt-2.5 pb-[13px] flex items-center cursor-pointer text-sm font-medium transition-colors duration-300 capitalize w-1/2', {
             'text-primary-2300': text === tab,
             'text-primary-700': text !== tab,
+            'justify-center': tabTexts.length > 1,
           })}
           onClick={() => onClick(text)}>
           {text}
