@@ -1,42 +1,89 @@
 'use client';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
+import { useAccount } from 'wagmi';
 
-import { LBButton, LBClickAnimation, LBContainer, LBTokenCard } from '@/components';
+import { LBButton, LBClickAnimation, LBContainer, LBLoader, LBTokenCard } from '@/components';
 import EmptyState from './empty';
-import { tokens } from '../home/dummy';
 import { ExclaimIcon, PlusIconAlt } from '@/public/icons';
+import useTokenActions from '@/store/token/actions';
+import useSystemFunctions from '@/hooks/useSystemFunctions';
+import Skeleton from './skeleton';
+
+const animateVariant = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+};
 
 const TokenView = () => {
-  const isConnected = true;
+  const { isConnected, address } = useAccount();
+  const { getUserTokens } = useTokenActions();
+  const { tokenState } = useSystemFunctions();
+  const [shouldFetchMore, setShouldFetchMore] = useState(false);
 
-  const showEmptyState = isConnected && !Boolean(tokens.length);
-  const showTokens = isConnected && Boolean(tokens.length);
+  const { userTokens, userTokensLoading, userTokensMeta } = tokenState;
+  const showEmptyState = isConnected && !Boolean(userTokens?.length) && !userTokensLoading;
+  const showTokens = isConnected && Boolean(userTokens?.length);
+
+  useEffect(() => {
+    if (!address) return;
+
+    getUserTokens(`deployer_address=${address}&take=12`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 200 && Number(userTokens?.length) < Number(userTokensMeta?.totalCount)) {
+        console.log('here');
+        setShouldFetchMore(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [userTokensLoading, userTokens, userTokensMeta]);
+
+  useEffect(() => {
+    if (!shouldFetchMore) return;
+
+    const query = `deployer_address=${address}&take=12&skip=${userTokens?.length}`;
+
+    getUserTokens(query, { onSuccess: () => setShouldFetchMore(false) });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldFetchMore]);
+
+  if (userTokensLoading && !userTokens)
+    return (
+      <div className="w-screen h-[80vh] flex items-center justify-center">
+        <LBLoader variant="large" />
+      </div>
+    );
+
   return (
     <LBContainer>
       <div className="pt-12 flex flex-col gap-[86px] lg:px-8 items-center pb-14">
         <div className="flex flex-col items-start gap-1 flex-1 self-stretch">
           <h1 className="text-primary-650 text-[30px] leading-[38px] font-Biform">Token launch</h1>
-          <p className="text-base text-primary-700">Generate and deploy your own L2 tokens without coding</p>
+          <p className="text-base text-primary-700">Generate and deploy your own L2 userTokens without coding</p>
         </div>
 
         <AnimatePresence mode="popLayout" initial={false}>
           {showEmptyState && (
-            <motion.div key="empty-state" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <motion.div key="empty-state" {...animateVariant}>
               <EmptyState />
             </motion.div>
           )}
 
           {showTokens && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              key="tokens-list"
-              className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 items-center justify-start gap-6 flex-1 self-stretch">
-              {tokens.map((token) => (
+            <motion.div {...animateVariant} key="userTokens-list" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 items-center justify-start gap-6 flex-1 self-stretch">
+              {userTokens?.map((token) => (
                 <LBTokenCard key={token?.id} {...token} />
               ))}
+
+              {shouldFetchMore && <Skeleton />}
 
               <Link href={'/token/new'}>
                 <LBClickAnimation className="p-5 bg-white rounded-lg border border-primary-50 flex flex-col gap-2 h-[275px] justify-center items-center">
@@ -49,7 +96,10 @@ const TokenView = () => {
           )}
 
           {!isConnected && (
-            <div className="py-20 flex items-center justify-center bg-white rounded-[5px] border border-primary-950 shadow-table-cta w-[343px] md:w-[448px]">
+            <motion.div
+              key="connect-wallet"
+              {...animateVariant}
+              className="py-20 flex items-center justify-center bg-white rounded-[5px] border border-primary-950 shadow-table-cta w-[343px] md:w-[448px]">
               <div className="flex flex-col gap-3.5 items-center justify-center">
                 <div className="flex flex-col items-center justify-center gap-1">
                   <div className="flex items-center justify-center bg-very-light-gray rounded-full border-t border-primary-900 p-4">
@@ -64,7 +114,7 @@ const TokenView = () => {
 
                 <LBButton text="Connect wallet" onClick={() => {}} variant="plain" />
               </div>
-            </div>
+            </motion.div>
           )}
         </AnimatePresence>
       </div>

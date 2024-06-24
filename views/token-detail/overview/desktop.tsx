@@ -35,7 +35,7 @@ const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, 
       )}
 
       <div
-        className={classNames('self-stretch flex flex-col items-stretch justify-center gap-6 rounded-lg border border-primary-50 p-6', {
+        className={classNames('self-stretch flex flex-col items-stretch gap-6 rounded-lg border border-primary-50 p-6 max-h-[94.5vh] overflow-auto', {
           'xl:w-2/4': userRole === 'user',
           'xl:w-full': userRole === 'admin',
         })}>
@@ -64,7 +64,7 @@ const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, 
           </div>
         </div>
 
-        <div className="w-full flex items-center justify-center h-[295px] relative">
+        <div className="w-full flex items-center justify-center min-h-[295px] relative">
           <LineChart period={period} data={liquidityData} />
 
           {noLiquidityData && (
@@ -87,7 +87,9 @@ const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, 
           When the market cap reaches $100,000 all the liquidity from the bonding curve will be deposited into Aerodrome and burned. progression increases as the price goes up.
         </p>
 
-        <ClickTabs tabTexts={tabTexts} tab={tab} setTab={setTab} />
+        <div className="sticky -top-6 w-full bg-white z-10">
+          <ClickTabs tabTexts={tabTexts} tab={tab} setTab={setTab} />
+        </div>
 
         <AnimatePresence mode="popLayout">
           <motion.div key={tab} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
@@ -96,7 +98,7 @@ const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, 
         </AnimatePresence>
       </div>
 
-      <div className={classNames('w-1/4', { 'flex flex-col gap-8 items-stretch': userRole === 'admin' })}>
+      <div className={classNames('w-1/4 ', { 'flex flex-col gap-8 items-stretch': userRole === 'admin' })}>
         <LBTradeInterface balance={120330} token={token!} />
 
         {userRole === 'admin' && (

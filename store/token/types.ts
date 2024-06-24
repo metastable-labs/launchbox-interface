@@ -42,7 +42,7 @@ type TokenData = {
 type Meta = {
   take: number;
   skip: number;
-  totalTokens: number;
+  totalCount: number;
 };
 
 type Tokens = {
