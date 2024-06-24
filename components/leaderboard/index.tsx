@@ -75,7 +75,7 @@ const LBLeaderboard = ({ variant = 'private' }: ILBLeaderboard) => {
         ))}
       </div>
 
-      <div className={classNames('overflow-auto pb-20', { 'max-h-[350px]': variant === 'private', 'max-h-[470px]': variant === 'public' })}>
+      <div className={classNames('overflow-auto pb-20', { 'max-h-[50vh]': variant === 'private', 'max-h-[470px]': variant === 'public' })}>
         <LBTable data={leaderboardData} variant="secondaryAlt" />
       </div>
 

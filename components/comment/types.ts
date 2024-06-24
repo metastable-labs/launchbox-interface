@@ -8,7 +8,7 @@ interface ILBComment {
     name: string;
     avatar: string;
   };
-  comments: string[];
+  comment: string;
   images: string[];
   replies: ILBComment[];
   recasts: number;

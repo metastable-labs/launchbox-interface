@@ -6,6 +6,8 @@ import { SmallBaseIcon } from '@/public/icons';
 import LBClickAnimation from '../click-animation';
 import Image from 'next/image';
 import { Token } from '@/store/token/types';
+import useSystemFunctions from '@/hooks/useSystemFunctions';
+import { setToken } from '@/store/token';
 
 const timeAgo = (date: string) => {
   const now = moment();
@@ -21,14 +23,19 @@ const timeAgo = (date: string) => {
   return createdMoment.fromNow();
 };
 
-const LBTokenCard = ({ created_at, token_address, token_logo_url, token_name, token_symbol }: Token) => {
+const LBTokenCard = (token: Token) => {
+  const { dispatch } = useSystemFunctions();
+
+  const { created_at, token_address, token_logo_url, token_name, token_symbol } = token;
   const date = timeAgo(created_at);
 
+  const onClick = () => dispatch(setToken(token));
+
   return (
-    <Link href={`/${token_address}`}>
+    <Link onClick={onClick} href={`/${token_address}`}>
       <LBClickAnimation className="p-5 bg-white rounded-lg border border-primary-50 flex flex-col gap-4 w-full h-[275px]">
         <div className="flex items-center justify-between self-stretch">
-          <Image src={token_logo_url} alt={`${token_name} logo`} width={500} height={500} className="w-12 h-12" />
+          <Image src={token_logo_url} alt={`${token_name} logo`} width={500} height={500} className="w-12 h-12 object-cover" />
           <SmallBaseIcon />
         </div>
 

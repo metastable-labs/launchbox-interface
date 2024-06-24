@@ -115,7 +115,7 @@ const HomeView = () => {
           setShouldFetchMore={setShouldFetchMore}
           shouldFetchMore={shouldFetchMore}
           take={meta?.take}
-          total={meta?.totalTokens}
+          total={meta?.totalCount}
           data={tableData || []}
           variant="tertiary"
           cta={cta}

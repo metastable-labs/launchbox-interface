@@ -52,6 +52,7 @@ const Configuration = ({ close, show }: IConfiguration) => {
   });
 
   const channel = token?.socials?.warpcast?.channel;
+  const hasChannel = Boolean(Object.keys(token?.socials.warpcast.channel || {}).length);
 
   const hasHeader = Boolean(socialState?.farcasterChannels?.length);
   const title = Boolean(channel) ? 'Configure action' : 'Select a channel';
@@ -76,14 +77,14 @@ const Configuration = ({ close, show }: IConfiguration) => {
 
   return (
     <LBModal show={show} close={close} variant="primary" hasHeader={hasHeader} title={title}>
-      {channel && (
+      {hasChannel && (
         <form onSubmit={handleSubmit(onSubmit)} className="w-80 md:w-[400px] flex flex-col gap-6">
           <div className="self-stretch flex flex-col justify-center items-stretch gap-4">
             <div className="flex flex-col gap-1">
               <span className="text-sm tracking-[-0.084px] font-medium text-primary-150">Warpcast channel</span>
 
               <div className="self-stretch flex items-center gap-4 bg-white rounded-lg border border-primary-50 p-3.5">
-                <Image src={channel?.image_url} alt="logo" width={500} height={500} className="w-[50px] h-[50px] object-cover" />
+                <Image src={channel?.image_url || ''} alt="logo" width={500} height={500} className="w-[50px] h-[50px] object-cover" />
                 <div className="flex flex-col gap-1">
                   <span className="text-[16px] leading-[28px] text-primary-650 font-medium">{channel?.name}</span>
                   <span className="text-[14px] leading-[16px] text-primary-700">{channel?.follower_count?.toLocaleString()} followers</span>
@@ -113,7 +114,9 @@ const Configuration = ({ close, show }: IConfiguration) => {
           <LBButton text="Create" fullWidth type="submit" disabled={!cast} />
         </form>
       )}
-      {!channel && <SelectChannel />}
+
+      {!hasChannel && hasHeader && <SelectChannel />}
+
       {!hasHeader && <EmptyState close={close} />}
     </LBModal>
   );

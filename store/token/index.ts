@@ -5,21 +5,27 @@ import { CoinPrice, Meta, Token } from './types';
 
 export interface TokenState {
   tokens: Token[] | undefined;
+  userTokens: Token[] | undefined;
   token: Token | undefined;
   meta?: Meta;
   coinPrice?: CoinPrice;
   loading: boolean;
+  userTokensLoading: boolean;
   loadingCreate: boolean;
   loadingBuy: boolean;
+  userTokensMeta?: Meta;
 }
 
 const initialState: TokenState = {
   tokens: undefined,
+  userTokens: undefined,
   token: undefined,
   meta: undefined,
   loading: true,
+  userTokensLoading: true,
   loadingCreate: false,
   loadingBuy: false,
+  userTokensMeta: undefined,
 };
 
 export const tokenReducer = createSlice({
@@ -28,6 +34,10 @@ export const tokenReducer = createSlice({
   reducers: {
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
+    },
+
+    setUserTokensLoading: (state, action: PayloadAction<boolean>) => {
+      state.userTokensLoading = action.payload;
     },
 
     setLoadingCreate: (state, action: PayloadAction<boolean>) => {
@@ -54,6 +64,22 @@ export const tokenReducer = createSlice({
       }
     },
 
+    setExtraUserTokens: (state, action: PayloadAction<Token[] | undefined>) => {
+      if (action.payload) {
+        state.userTokens = [...state.userTokens!, ...action.payload];
+      } else {
+        state.userTokens = undefined;
+      }
+    },
+
+    setUserTokens: (state, action: PayloadAction<Token[] | undefined>) => {
+      if (action.payload) {
+        state.userTokens = [...action.payload];
+      } else {
+        state.userTokens = undefined;
+      }
+    },
+
     setToken: (state, action: PayloadAction<Token | undefined>) => {
       if (action.payload) {
         state.token = { ...action.payload };
@@ -77,9 +103,18 @@ export const tokenReducer = createSlice({
         state.coinPrice = undefined;
       }
     },
+
+    setUserTokensMeta: (state, action: PayloadAction<Meta | undefined>) => {
+      if (action.payload) {
+        state.userTokensMeta = { ...action.payload };
+      } else {
+        state.userTokensMeta = undefined;
+      }
+    },
   },
 });
 
-export const { setLoading, setTokens, setToken, setLoadingCreate, setMeta, setExtraTokens, setLoadingBuy, setCoinPrice } = tokenReducer.actions;
+export const { setExtraTokens, setExtraUserTokens, setLoading, setLoadingCreate, setMeta, setToken, setTokens, setUserTokens, setUserTokensLoading, setUserTokensMeta, setLoadingBuy, setCoinPrice } =
+  tokenReducer.actions;
 
 export default tokenReducer.reducer;
