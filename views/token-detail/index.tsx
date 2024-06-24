@@ -16,11 +16,13 @@ import Leaderboard from './leaderboard';
 import { Tabs } from './types';
 import ClickTabs from './tabs';
 import Channel from './channel';
+import useTransactionActions from '@/store/transaction/actions';
 
 const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: string }) => {
   const { address } = useAccount();
   const { tokenState, navigate } = useSystemFunctions();
   const { getToken } = useTokenActions();
+  const { getTokenTransactions } = useTransactionActions();
   const { handleCopy, hasCopied } = useCopy();
 
   const [tab, setTab] = useState<Tabs>('overview');
@@ -72,6 +74,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
   useEffect(() => {
     if (!address || !token) return;
 
+    getTokenTransactions();
     if (address === token?.chain?.deployer_address) {
       setUserRole('admin');
     }

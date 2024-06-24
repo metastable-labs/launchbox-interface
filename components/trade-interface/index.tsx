@@ -1,21 +1,39 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import Image from 'next/image';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
 import { NumericFormat, OnValueChange } from 'react-number-format';
+import { getBalance } from '@wagmi/core';
+import { formatEther } from 'viem';
 
 import { LBButton, LBClickAnimation } from '@/components';
 import { ILBTradeInterface } from './types';
+import useTokenActions from '@/store/token/actions';
+import useSystemFunctions from '@/hooks/useSystemFunctions';
+import { ETHIcon } from '@/public/icons';
+import { wagmiConfig } from '@/config/rainbow/rainbowkit';
 
 const tabs = ['buy', 'sell'];
 
-const LBTradeInterface = ({ balance, token, standAlone = true }: ILBTradeInterface) => {
+function truncateToDecimals(num: number) {
+  const factor = Math.pow(10, 5);
+  return Math.floor(num * factor) / factor;
+}
+
+const LBTradeInterface = ({ token, standAlone = true }: ILBTradeInterface) => {
   const { openConnectModal } = useConnectModal();
   const { isConnected, address } = useAccount();
+  const { buyTokens, calculateTokenAmount, sellTokens } = useTokenActions();
+  const { tokenState } = useSystemFunctions();
 
   const [tab, setTab] = useState<'buy' | 'sell'>('buy');
-  const [amount, setAmount] = useState<number>(0);
+  const [amount, setAmount] = useState<number>();
+  const [valueToGet, setValueToGet] = useState<number>();
+  const [ethBalance, setEthBalance] = useState<number>(0);
+  const [tokenBalance, setTokenBalance] = useState<number>(0);
+
+  const balance = tab === 'buy' ? ethBalance : tokenBalance;
 
   const balancePartitions = [
     { text: '10%', onClick: () => setAmount(balance * 0.1) },
@@ -24,15 +42,58 @@ const LBTradeInterface = ({ balance, token, standAlone = true }: ILBTradeInterfa
     { text: '100%', onClick: () => setAmount(balance) },
   ];
 
-  const info = [{ title: "You'll get", value: `12 ETH` }];
+  const info = [{ title: "You'll get", value: `${valueToGet?.toLocaleString()} ${token?.token_symbol}` }];
+
+  const tokenSymbol = tab === 'buy' ? 'ETH' : token?.token_symbol;
+  const tokenLogo = tab === 'buy' ? <ETHIcon height={20} width={20} /> : <Image src={token?.token_logo_url || ''} alt="token" width={500} height={500} className="w-5 h-5 object-cover" />;
 
   const handleAmountChange: OnValueChange = ({ floatValue }) => setAmount(floatValue || 0);
+
+  const handleGetBalance = async () => {
+    const ethResponse = await getBalance(wagmiConfig, {
+      address: address!,
+      unit: 'ether',
+    });
+
+    const ethBalance = formatEther(ethResponse.value);
+    const formattedEthValue = truncateToDecimals(Number(ethBalance));
+
+    setEthBalance(formattedEthValue);
+
+    const tokenBalance = await getBalance(wagmiConfig, {
+      address: address!,
+      token: token?.token_address,
+    });
+
+    const formattedBalanceValue = truncateToDecimals(Number(tokenBalance.formatted));
+
+    setTokenBalance(formattedBalanceValue);
+  };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!amount || !token?.id) return;
+
     if (!isConnected && !address && openConnectModal) return openConnectModal();
+    if (tab === 'buy') {
+      return buyTokens(token?.exchange_address, amount);
+    }
+
+    return sellTokens(token?.exchange_address, amount);
   };
+
+  useEffect(() => {
+    if (!amount) return;
+
+    calculateTokenAmount(token?.exchange_address, amount).then((value) => null);
+  }, [amount]);
+
+  useEffect(() => {
+    if (!address) return;
+
+    handleGetBalance();
+  }, [address]);
 
   return (
     <form onSubmit={onSubmit} className={classNames('h-fit flex flex-col gap-6', { 'p-6 rounded-base border border-primary-50 bg-white': standAlone, 'max-w-80 md:max-w-[343px]': !standAlone })}>
@@ -66,12 +127,12 @@ const LBTradeInterface = ({ balance, token, standAlone = true }: ILBTradeInterfa
 
           <div className="flex flex-col items-end justify-center gap-1.5">
             <div className="px-3 py-1.5 bg-white flex items-center justify-between gap-3 rounded-base">
-              <Image src={token?.token_logo_url || ''} alt="token" width={500} height={500} className="w-5 h-5 object-cover" />
-              <span className="text-primary-2800 font-semibold text-[15px] leading-[24px] tracking-[-0.075px]">{token?.token_symbol}</span>
+              {tokenLogo}
+              <span className="text-primary-2800 font-semibold text-[15px] leading-[24px] tracking-[-0.075px]">{tokenSymbol}</span>
             </div>
 
             <p className="text-primary-250 text-[12px] leading-[17.4px] font-medium whitespace-nowrap">
-              Balance: {balance.toLocaleString()} {token?.token_symbol}
+              Balance: {balance.toLocaleString('en', { maximumFractionDigits: 5 })} {tokenSymbol}
             </p>
           </div>
         </div>
@@ -85,25 +146,18 @@ const LBTradeInterface = ({ balance, token, standAlone = true }: ILBTradeInterfa
         </div>
       </div>
 
-      <div className="py-3 flex flex-col gap-3 items-stretch rounded-lg">
-        {info.map(({ title, value, secondaryValue }, index) => (
-          <div key={index} className="flex items-center justify-between gap-2 text-primary-250 text-sm">
-            <span>{title}</span>
+      {valueToGet && (
+        <div className="py-3 flex flex-col gap-3 items-stretch rounded-lg">
+          {info.map(({ title, value }, index) => (
+            <div key={index} className="flex items-center justify-between gap-2 text-primary-250 text-sm">
+              <span>{title}</span>
+              <span>{value}</span>
+            </div>
+          ))}
+        </div>
+      )}
 
-            <p className="font-medium">
-              {secondaryValue && (
-                <>
-                  <span className="text-primary-750">{secondaryValue}</span>
-                  &ensp;
-                </>
-              )}
-              {value}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      <LBButton variant="plainAlt" text={tab} type="submit" />
+      <LBButton loading={tokenState.loadingBuy} disabled={!amount} variant="plainAlt" text={tab} type="submit" />
     </form>
   );
 };

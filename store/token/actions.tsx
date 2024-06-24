@@ -1,20 +1,29 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Address, decodeEventLog } from 'viem';
+import { Address, decodeEventLog, formatEther } from 'viem';
+import { useCookies } from 'react-cookie';
+import { toast } from 'react-toastify';
 import { useChainId, useAccount } from 'wagmi';
+import { readContract, writeContract } from '@wagmi/core';
+
+import { mode } from 'wagmi/chains';
+import { trim } from 'viem';
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useContract from '@/hooks/useContract';
-import { setLoading, setLoadingCreate, setToken, setTokens, setMeta, setExtraTokens, setExtraUserTokens, setUserTokens, setUserTokensLoading, setUserTokensMeta } from '.';
+import { networks } from '@/config/rainbow/config';
+import { setLoading, setLoadingCreate, setToken, setTokens, setMeta, setExtraTokens, setExtraUserTokens, setUserTokens, setUserTokensLoading, setUserTokensMeta, setLoadingBuy, setCoinPrice } from '.';
 import { CallbackProps } from '..';
 import api from './api';
-import { TokenData } from './types';
-import { networks } from '@/config/rainbow/config';
-import { trim } from 'viem';
+import { Token, TokenData } from './types';
+import { wagmiConfig } from '@/config/rainbow/rainbowkit';
+import LaunchBoxExchange from '@/config/rainbow/abis/LaunchBoxExchange.json';
 
 const useTokenActions = () => {
   const { dispatch, tokenState } = useSystemFunctions();
-  const { deployToken, isPending, isConfirmed, getTransactionData, error } = useContract();
+  const { deployToken, isDeployPending, isDeployConfirmed, getDeployTransactionData } = useContract.useDeploy();
+  const { buyToken, isBuyPending, isBuyConfirmed, getBuyTransactionData, buyError } = useContract.useBuyToken();
+  const { sellToken, isSellPending, isSellConfirmed, getSellTransactionData, sellError } = useContract.useSellToken();
   const chainId = useChainId();
   const { address } = useAccount();
 
@@ -23,16 +32,45 @@ const useTokenActions = () => {
   const getTokens = async (query: string, callback?: CallbackProps) => {
     try {
       dispatch(setLoading(true));
+      const coinPrice = await api.fetchCoinPrice();
+      dispatch(setCoinPrice(coinPrice));
       const { meta, tokens } = await api.fetchTokens(query);
 
+      const tokensRespose: Token[] = [];
+
+      for (const token of tokens) {
+        if (!token.exchange_address) {
+          tokensRespose.push({ ...token, market_cap: 0 });
+          continue;
+        }
+
+        const marketCapValue = await _getMarketCap(token.exchange_address);
+
+        const tokenPriceInEth = await _getTokenPrice(token.exchange_address);
+        const tokenPriceInUSD = coinPrice.price * Number(tokenPriceInEth);
+
+        const factor = Math.pow(10, 6);
+        const usdPrice = Math.floor(tokenPriceInUSD * factor) / factor;
+
+        const item = {
+          ...token,
+          market_cap: marketCapValue,
+          token_price_in_usd: usdPrice,
+          token_price_in_eth: Number(tokenPriceInEth),
+        };
+
+        tokensRespose.push(item);
+      }
+      console.log(tokensRespose);
       dispatch(setMeta(meta));
       if (meta.skip === 0) {
-        dispatch(setTokens(tokens));
+        dispatch(setTokens(tokensRespose));
       } else {
-        dispatch(setExtraTokens(tokens));
+        dispatch(setExtraTokens(tokensRespose));
       }
-      return callback?.onSuccess?.(tokens);
+      return callback?.onSuccess?.(tokensRespose);
     } catch (error: any) {
+      console.log(error);
       callback?.onError?.(error);
     } finally {
       dispatch(setLoading(false));
@@ -78,23 +116,59 @@ const useTokenActions = () => {
       dispatch(setToken(undefined));
       setDeployData(data);
 
-      return deployToken(data.token_name, data.token_symbol, '18', data.token_total_supply * 10 ** 18);
+      return deployToken(data.token_name, data.token_symbol, 'https://', data.token_total_supply * 10 ** 18);
     } catch (error: any) {
       console.log(error);
       callback?.onError?.(error);
-    } finally {
+    }
+  };
+
+  const buyTokens = async (tokenAddress: Address, amount: number) => {
+    try {
+      dispatch(setLoadingBuy(true));
+
+      //   return buyToken('0x5F66dE9e53D558439F25d4Ff9Ca606CFcE3B32f6', amount * 10 ** 18);
+      return buyToken(tokenAddress, amount * 10 ** 18);
+    } catch (error: any) {
+      dispatch(setLoadingBuy(false));
       //
+    }
+  };
+
+  const sellTokens = async (tokenAddress: Address, amount: number) => {
+    try {
+      console.log('calling this');
+      dispatch(setLoadingBuy(true));
+
+      return sellToken(tokenAddress, amount * 10 ** 18);
+    } catch (error: any) {
+      //
+    }
+  };
+
+  const calculateTokenAmount = async (exchangeAddress: Address, amount: number) => {
+    try {
+      const result = await readContract(wagmiConfig, {
+        abi: LaunchBoxExchange.abi,
+        address: exchangeAddress,
+        functionName: 'calculateSaleTokenOut',
+        args: [amount * 10 ** 18],
+      });
+      console.log(result);
+
+      return result;
+    } catch (error: any) {
+      console.log(error);
     }
   };
 
   const _submitData = async () => {
     try {
-      if (isPending || !isConfirmed) return;
+      if (isDeployPending || !isDeployConfirmed) return;
 
       const currentNetwork = networks.find((network) => network.chainId === chainId);
 
-      const txData = await getTransactionData();
-      console.log('txData', txData);
+      const txData = await getDeployTransactionData();
 
       const topics = txData?.logs?.[6]?.topics;
       const data = txData?.logs?.[6]?.data;
@@ -150,16 +224,91 @@ const useTokenActions = () => {
     }
   };
 
+  const _getMarketCap = async (exchange_address: Address) => {
+    try {
+      const result: any = await readContract(wagmiConfig, {
+        abi: LaunchBoxExchange.abi,
+        address: exchange_address,
+        functionName: 'marketCap',
+        args: [],
+      });
+      const formatted = formatEther(result);
+      const marketCapValue = Number(formatted);
+
+      return marketCapValue;
+    } catch (error) {
+      return 0;
+    }
+  };
+
+  const _getTokenPrice = async (exchange_address: Address) => {
+    try {
+      const result: any = await readContract(wagmiConfig, {
+        abi: LaunchBoxExchange.abi,
+        address: exchange_address,
+        functionName: 'getTokenPriceinETH',
+        args: [],
+      });
+      const formatted = formatEther(result);
+
+      return formatted;
+    } catch (error) {
+      return 0;
+    }
+  };
+
+  //   console.log(buyError?.message);
   useEffect(() => {
     _submitData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPending, isConfirmed, error, tokenState.loadingCreate]);
+  }, [isDeployPending, isDeployConfirmed, tokenState.loadingCreate]);
+
+  useEffect(() => {
+    if (!isBuyConfirmed || isBuyPending) return;
+
+    if (buyError?.message) {
+      toast('An error occured! Please try again later.', {
+        type: 'error',
+      });
+
+      return;
+    }
+
+    dispatch(setLoadingBuy(false));
+    toast('Token purchase is successful!', {
+      type: 'success',
+    });
+    getBuyTransactionData()?.then((res) => console.log(res));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isBuyPending, isBuyConfirmed, buyError]);
+  console.log(sellError?.message);
+  useEffect(() => {
+    if (!isSellConfirmed || isSellPending) return;
+
+    if (sellError?.message) {
+      toast('An error occured! Please try again later.', {
+        type: 'error',
+      });
+
+      return;
+    }
+
+    dispatch(setLoadingBuy(false));
+    toast('Token sell is successful!', {
+      type: 'success',
+    });
+    getSellTransactionData()?.then((res) => console.log(res));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSellPending, isSellConfirmed, sellError]);
 
   return {
     getTokens,
     getUserTokens,
     getToken,
     createToken,
+    buyTokens,
+    calculateTokenAmount,
+    sellTokens,
   };
 };
 

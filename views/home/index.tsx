@@ -8,6 +8,11 @@ import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useTokenActions from '@/store/token/actions';
 import { Token } from '@/store/token/types';
 import { setToken } from '@/store/token';
+import { readContract } from '@wagmi/core';
+import { wagmiConfig } from '@/config/rainbow/rainbowkit';
+import LaunchBoxExchange from '@/config/rainbow/abis/LaunchBoxExchange.json';
+import { formatEther } from 'viem';
+import EmptyState from '../token/empty';
 
 const HomeView = () => {
   const { navigate, tokenState, dispatch } = useSystemFunctions();
@@ -26,7 +31,7 @@ const HomeView = () => {
     createdAt: token.created_at,
     updatedAt: token.updated_at,
     liquidity: { numerator: 3, denominator: 3450.3 },
-    marketCap: { numerator: 400000, denominator: 0.000056 },
+    marketCap: { numerator: token.market_cap, denominator: token?.token_price_in_usd },
     txns: { numerator: 706, denominator: { numerator: 406, denominator: 300 } },
     volume: token.token_total_supply,
     walletAvatarURL: token.token_logo_url,
@@ -106,18 +111,24 @@ const HomeView = () => {
         </LBContainer>
       </div>
 
-      <div className="w-full max-w-[1440px] mx-auto px-6 md:px-8 xl:px-20 relative">
-        <LBTable
-          setShouldFetchMore={setShouldFetchMore}
-          shouldFetchMore={shouldFetchMore}
-          take={meta?.take}
-          total={meta?.totalCount}
-          data={tableData || []}
-          variant="tertiary"
-          cta={cta}
-          rowClick={rowClick}
-        />
-      </div>
+      {tableData?.length === 0 ? (
+        <div key="empty-state">
+          <EmptyState />
+        </div>
+      ) : (
+        <div className="w-full max-w-[1440px] mx-auto px-6 md:px-8 xl:px-20 relative">
+          <LBTable
+            setShouldFetchMore={setShouldFetchMore}
+            shouldFetchMore={shouldFetchMore}
+            take={meta?.take}
+            total={meta?.totalCount}
+            data={tableData || []}
+            variant="tertiary"
+            cta={cta}
+            rowClick={rowClick}
+          />
+        </div>
+      )}
 
       <LBModal close={closeModal} show={Boolean(activeToken)}>
         <LBTradeInterface token={activeToken!} balance={100} standAlone={false} />

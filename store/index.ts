@@ -3,6 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import tokenReducer from './token';
 import socialReducer from './social';
+import transactionReducer from './transaction';
 
 export interface CallbackProps {
   onSuccess?: Function;
@@ -13,6 +14,7 @@ export const store = configureStore({
   reducer: {
     token: tokenReducer,
     social: socialReducer,
+    transaction: transactionReducer,
   },
 });
 

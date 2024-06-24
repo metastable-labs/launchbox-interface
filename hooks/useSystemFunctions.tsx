@@ -17,6 +17,7 @@ const useSystemFunctions = () => {
   // states
   const tokenState = useAppSelector((state) => state.token);
   const socialState = useAppSelector((state) => state.social);
+  const transactionState = useAppSelector((state) => state.transaction);
 
   return {
     navigate,
@@ -26,6 +27,7 @@ const useSystemFunctions = () => {
     // states
     tokenState,
     socialState,
+    transactionState,
   };
 };
 

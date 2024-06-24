@@ -2,6 +2,7 @@
 import { ReactNode, useEffect } from 'react';
 import { CookiesProvider } from 'react-cookie';
 import { Provider as ReduxProvider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 
 import RainbowProvider from '@/config/rainbow/rainbowkit';
 import useConnect from '@/hooks/useConnect';
@@ -9,6 +10,8 @@ import { LBNavigation } from '@/components';
 import { store } from '@/store';
 import useSocialActions from '@/store/social/actions';
 import { useAccount } from 'wagmi';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const cookieOptions = {
   path: '/',
@@ -40,6 +43,7 @@ const Wrapper = ({ children }: { children: ReactNode }) => {
     <main>
       <LBNavigation />
       {children}
+      <ToastContainer autoClose={2000} hideProgressBar position="top-center" theme="colored" bodyStyle={{ alignItems: 'center' }} className="md:min-w-[430px] pt-0" />
     </main>
   );
 };
