@@ -113,10 +113,10 @@ const useSellToken = () => {
 
   const exchangeAbi = currentNetwork?.exchangeAbi;
 
-  const sellToken = (tokenAddress: Address, tokenAmount: number) => {
+  const sellToken = (exchangeAddress: Address, tokenAmount: number) => {
     try {
       writeContract({
-        address: tokenAddress,
+        address: exchangeAddress,
         abi: exchangeAbi,
         functionName: 'sellTokens',
         args: [tokenAmount],

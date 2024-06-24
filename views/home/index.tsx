@@ -31,7 +31,7 @@ const HomeView = () => {
     createdAt: token.created_at,
     updatedAt: token.updated_at,
     liquidity: { numerator: 3, denominator: 3450.3 },
-    marketCap: { numerator: token.market_cap, denominator: 0.000056 },
+    marketCap: { numerator: token.market_cap, denominator: token?.token_price_in_usd },
     txns: { numerator: 706, denominator: { numerator: 406, denominator: 300 } },
     volume: token.token_total_supply,
     walletAvatarURL: token.token_logo_url,

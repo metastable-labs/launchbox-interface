@@ -49,7 +49,7 @@ const useTokenActions = () => {
         const tokenPriceInEth = await _getTokenPrice(token.exchange_address);
         const tokenPriceInUSD = coinPrice.price * Number(tokenPriceInEth);
 
-        const factor = Math.pow(10, 7);
+        const factor = Math.pow(10, 6);
         const usdPrice = Math.floor(tokenPriceInUSD * factor) / factor;
 
         const item = {
@@ -125,7 +125,6 @@ const useTokenActions = () => {
 
   const buyTokens = async (tokenAddress: Address, amount: number) => {
     try {
-      console.log('calling this');
       dispatch(setLoadingBuy(true));
 
       //   return buyToken('0x5F66dE9e53D558439F25d4Ff9Ca606CFcE3B32f6', amount * 10 ** 18);
@@ -141,7 +140,7 @@ const useTokenActions = () => {
       console.log('calling this');
       dispatch(setLoadingBuy(true));
 
-      return buyToken(tokenAddress, amount * 10 ** 18);
+      return sellToken(tokenAddress, amount * 10 ** 18);
     } catch (error: any) {
       //
     }
@@ -149,8 +148,6 @@ const useTokenActions = () => {
 
   const calculateTokenAmount = async (exchangeAddress: Address, amount: number) => {
     try {
-      console.log(amount, amount * 10 ** 18);
-
       const result = await readContract(wagmiConfig, {
         abi: LaunchBoxExchange.abi,
         address: exchangeAddress,
@@ -267,12 +264,42 @@ const useTokenActions = () => {
   }, [isDeployPending, isDeployConfirmed, tokenState.loadingCreate]);
 
   useEffect(() => {
-    if (!isBuyConfirmed || isBuyPending || buyError?.message) return;
+    if (!isBuyConfirmed || isBuyPending) return;
+
+    if (buyError?.message) {
+      toast('An error occured! Please try again later.', {
+        type: 'error',
+      });
+
+      return;
+    }
 
     dispatch(setLoadingBuy(false));
+    toast('Token purchase is successful!', {
+      type: 'success',
+    });
     getBuyTransactionData()?.then((res) => console.log(res));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isBuyPending, isBuyConfirmed, buyError]);
+  console.log(sellError?.message);
+  useEffect(() => {
+    if (!isSellConfirmed || isSellPending) return;
+
+    if (sellError?.message) {
+      toast('An error occured! Please try again later.', {
+        type: 'error',
+      });
+
+      return;
+    }
+
+    dispatch(setLoadingBuy(false));
+    toast('Token sell is successful!', {
+      type: 'success',
+    });
+    getSellTransactionData()?.then((res) => console.log(res));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSellPending, isSellConfirmed, sellError]);
 
   return {
     getTokens,
@@ -281,6 +308,7 @@ const useTokenActions = () => {
     createToken,
     buyTokens,
     calculateTokenAmount,
+    sellTokens,
   };
 };
 

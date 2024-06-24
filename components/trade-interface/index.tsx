@@ -24,7 +24,7 @@ function truncateToDecimals(num: number) {
 const LBTradeInterface = ({ token, standAlone = true }: ILBTradeInterface) => {
   const { openConnectModal } = useConnectModal();
   const { isConnected, address } = useAccount();
-  const { buyTokens, calculateTokenAmount } = useTokenActions();
+  const { buyTokens, calculateTokenAmount, sellTokens } = useTokenActions();
   const { tokenState } = useSystemFunctions();
 
   const [tab, setTab] = useState<'buy' | 'sell'>('buy');
@@ -79,6 +79,8 @@ const LBTradeInterface = ({ token, standAlone = true }: ILBTradeInterface) => {
     if (tab === 'buy') {
       return buyTokens(token?.exchange_address, amount);
     }
+
+    return sellTokens(token?.exchange_address, amount);
   };
 
   useEffect(() => {
