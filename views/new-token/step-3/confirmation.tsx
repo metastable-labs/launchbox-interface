@@ -16,7 +16,7 @@ const Confirmation = ({ tokenData, handleTokenDeployment }: IConfirmation) => {
     { title: 'Token Name', value: tokenData?.tokenName },
     { title: 'Token Symbol', value: `$${tokenData?.tokenSymbol}` },
     {
-      title: 'Supply',
+      title: 'Total Supply',
       value: Number(tokenData?.tokenSupply)?.toLocaleString(),
     },
     { title: 'Network', value: networkInfo?.variant, icon: networkInfo?.icon },

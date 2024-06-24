@@ -18,7 +18,6 @@ const Step1 = ({ setStep, watch, errors, register, setValue }: StepProps) => {
       error: errors?.tokenName,
       type: 'text',
       label: 'Token Name',
-      instruction: 'Maximum of 30 characters',
     },
     {
       name: 'tokenSymbol',
@@ -27,7 +26,6 @@ const Step1 = ({ setStep, watch, errors, register, setValue }: StepProps) => {
       error: errors?.tokenSymbol,
       type: 'text',
       label: 'Token Symbol',
-      instruction: 'Maximum of 10 characters',
     },
   ];
 
@@ -44,7 +42,7 @@ const Step1 = ({ setStep, watch, errors, register, setValue }: StepProps) => {
   }, [tokenSupply]);
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 rounded-base border border-primary-1200 bg-white p-6 min-w-[343px] md:min-w-[448px]">
+    <div className="flex flex-col items-center justify-center gap-6 rounded-base border border-primary-1200 bg-white p-6 min-w-[343px] md:min-w-[448px]">
       {primaryInputs.map((input, index) => (
         <LBInput key={index} {...input} />
       ))}
@@ -55,8 +53,8 @@ const Step1 = ({ setStep, watch, errors, register, setValue }: StepProps) => {
         placeholder="1,000,000"
         error={errors?.tokenSupply}
         type="text"
-        label="Supply"
-        instruction="Initial number of tokens that will be created in your wallet"
+        label="Total Supply"
+        instruction="Total Number of tokens you want available"
       />
 
       <LBButton onClick={next} text="Next" fullWidth variant="plain" disabled={disbleButton} />

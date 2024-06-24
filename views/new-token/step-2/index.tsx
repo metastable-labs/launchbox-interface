@@ -28,7 +28,7 @@ const Step2 = ({ file, register, setFile, tokenSymbol, createTokenPage, setCreat
   }));
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 rounded-base border border-primary-1200 bg-white p-6 min-w-[343px] md:min-w-[448px]">
+    <div className="flex flex-col items-center justify-center gap-6 rounded-base border border-primary-1200 bg-white p-6 min-w-[343px] md:min-w-[448px]">
       <LBFileInput handleFileChange={handleFile} name="token-logo" label="Upload logo" show={!file} />
 
       <LBFileSample file={file} deleteFile={deleteFile} />

@@ -62,7 +62,7 @@ const SecondaryHeader = ({ step, setStep, disabled }: { step: number; setStep: (
       <RightCarretDarkIcon />
       <Step current={step === 1} passed={step > 1} step={2} title="Socials" onClick={() => step > 1 && setStep(1)} />
       <RightCarretDarkIcon />
-      <Step current={step === 2} passed={step > 2} step={3} title="Deploy" />
+      <Step current={step === 2} passed={step > 2} step={3} title="Review" />
     </div>
   );
 };
