@@ -1,14 +1,11 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { Address, decodeEventLog } from 'viem';
-import { useCookies } from 'react-cookie';
-import { toast } from 'react-toastify';
 import { useChainId, useAccount } from 'wagmi';
-import { mode } from 'wagmi/chains';
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useContract from '@/hooks/useContract';
-import { setLoading, setLoadingCreate, setToken, setTokens, setMeta, setExtraTokens } from '.';
+import { setLoading, setLoadingCreate, setToken, setTokens, setMeta, setExtraTokens, setExtraUserTokens, setUserTokens, setUserTokensLoading, setUserTokensMeta } from '.';
 import { CallbackProps } from '..';
 import api from './api';
 import { TokenData } from './types';
@@ -39,6 +36,25 @@ const useTokenActions = () => {
       callback?.onError?.(error);
     } finally {
       dispatch(setLoading(false));
+    }
+  };
+
+  const getUserTokens = async (query: string, callback?: CallbackProps) => {
+    try {
+      dispatch(setUserTokensLoading(true));
+      const { meta, tokens } = await api.fetchTokens(query);
+
+      dispatch(setUserTokensMeta(meta));
+      if (meta.skip === 0) {
+        dispatch(setUserTokens(tokens));
+      } else {
+        dispatch(setExtraUserTokens(tokens));
+      }
+      return callback?.onSuccess?.(tokens);
+    } catch (error: any) {
+      callback?.onError?.(error);
+    } finally {
+      dispatch(setUserTokensLoading(false));
     }
   };
 
@@ -141,6 +157,7 @@ const useTokenActions = () => {
 
   return {
     getTokens,
+    getUserTokens,
     getToken,
     createToken,
   };
