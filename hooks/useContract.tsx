@@ -1,10 +1,12 @@
-import { useWaitForTransactionReceipt, useWriteContract, useChainId } from 'wagmi';
+import { useWaitForTransactionReceipt, useWriteContract, useChainId, useContractWrite } from 'wagmi';
 import { writeContract as writeCoreContract } from '@wagmi/core';
 
 import { Address } from 'viem';
 import { getTransactionReceipt } from '@wagmi/core';
 import { wagmiConfig } from '@/config/rainbow/rainbowkit';
 import { networks } from '@/config/rainbow/config';
+import { useCallback, useEffect, useState } from 'react';
+import { writeContract } from 'viem/actions';
 
 const useDeploy = () => {
   const chainId: any = useChainId();
@@ -102,37 +104,101 @@ const useBuyToken = () => {
 };
 
 const useSellToken = () => {
-  const chainId: any = useChainId();
-  const { data: sellHash, isPending: isSellPending, writeContract, error: sellError } = useWriteContract();
+  const [status, setStatus] = useState('idle');
+  const [error, setError] = useState<Error | unknown>(null);
+  const [approveHash, setApproveHash] = useState<`0x${string}` | null>(null);
+  const [sellHash, setSellHash] = useState<`0x${string}` | null>(null);
+  const [pendingExchangeAddress, setPendingExchangeAddress] = useState<Address | null>(null);
+  const [pendingTokenAmount, setPendingTokenAmount] = useState<number | null>(null);
+  const [isSellConfirmed, setIsSellConfirmed] = useState(false);
 
-  const { isSuccess: isSellConfirmed } = useWaitForTransactionReceipt({
-    hash: sellHash,
+  const { writeContract: writeApprove, data: approveData, error: approveError, isPending: isApprovePending } = useWriteContract();
+  const { writeContract: writeSell, data: sellData, error: sellError, isPending: isSellPending } = useWriteContract();
+
+  const { isLoading: isApproveLoading, isSuccess: isApproveSuccess } = useWaitForTransactionReceipt({
+    hash: approveHash!,
   });
 
+  const { isLoading: isSellLoading, isSuccess: isSellSuccess } = useWaitForTransactionReceipt({
+    hash: sellHash!,
+  });
+  const chainId: any = useChainId();
   const currentNetwork = networks.find((network) => network.chainId === chainId);
-
   const exchangeAbi = currentNetwork?.exchangeAbi;
   const erc20Abi = currentNetwork?.erc20Abi;
 
-  const sellToken = async (exchangeAddress: Address, tokenAddress: Address, tokenAmount: number) => {
-    try {
-      await writeCoreContract(wagmiConfig, {
-        abi: erc20Abi,
-        address: tokenAddress,
-        functionName: 'approve',
-        args: [exchangeAddress, tokenAmount],
-      });
-
-      writeContract({
-        address: exchangeAddress,
-        abi: exchangeAbi,
-        functionName: 'sellTokens',
-        args: [tokenAmount],
-      });
-    } catch (error: any) {
-      console.log('error occured while selling token', error);
+  useEffect(() => {
+    if (approveData) {
+      setApproveHash(approveData!);
+      setStatus('waiting for approval');
     }
-  };
+  }, [approveData]);
+
+  useEffect(() => {
+    if (isApproveSuccess && pendingExchangeAddress && pendingTokenAmount !== null) {
+      handleSell(pendingExchangeAddress, pendingTokenAmount);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isApproveSuccess, pendingExchangeAddress, pendingTokenAmount]);
+
+  useEffect(() => {
+    if (sellData) {
+      setSellHash(sellData!);
+      setStatus('waiting for sell confirmation');
+    }
+  }, [sellData]);
+
+  useEffect(() => {
+    if (isSellSuccess) {
+      setStatus('sold');
+      setIsSellConfirmed(true);
+      setPendingExchangeAddress(null);
+      setPendingTokenAmount(null);
+    }
+  }, [isSellSuccess]);
+
+  const handleApprove = useCallback(
+    async (exchangeAddress: Address, tokenAddress: Address, tokenAmount: number) => {
+      setStatus('approving');
+      setError(null);
+      setIsSellConfirmed(false);
+      setPendingExchangeAddress(exchangeAddress);
+      setPendingTokenAmount(tokenAmount);
+      try {
+        await writeApprove({
+          address: tokenAddress,
+          abi: erc20Abi,
+          functionName: 'approve',
+          args: [exchangeAddress, tokenAmount],
+        });
+      } catch (err) {
+        console.error('Approve Error:', err);
+        setError(err);
+        setStatus('error');
+      }
+    },
+    [erc20Abi, writeApprove],
+  );
+
+  const handleSell = useCallback(
+    async (exchangeAddress: Address, tokenAmount: number) => {
+      setStatus('selling');
+
+      try {
+        await writeSell({
+          address: exchangeAddress,
+          abi: exchangeAbi,
+          functionName: 'sellTokens',
+          args: [tokenAmount],
+        });
+      } catch (err) {
+        console.error('Sell Error:', err);
+        setError(err!);
+        setStatus('error');
+      }
+    },
+    [exchangeAbi, writeSell],
+  );
 
   const getSellTransactionData = () => {
     let transactionData;
@@ -142,13 +208,25 @@ const useSellToken = () => {
     return transactionData;
   };
 
+  const approveAndSell = useCallback(
+    async (exchangeAddress: Address, tokenAddress: Address, tokenAmount: number) => {
+      handleApprove(exchangeAddress, tokenAddress, tokenAmount);
+    },
+    [handleApprove],
+  );
+
   return {
-    sellToken,
+    approveAndSell,
+    status,
+    error,
+    approveHash,
+    sellHash,
+    isApprovePending,
+    isApproveLoading,
     isSellPending,
+    isSellLoading,
     isSellConfirmed,
     getSellTransactionData,
-    sellError,
-    sellHash,
   };
 };
 
