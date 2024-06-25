@@ -127,36 +127,6 @@ const useSellToken = () => {
   const exchangeAbi = currentNetwork?.exchangeAbi;
   const erc20Abi = currentNetwork?.erc20Abi;
 
-  useEffect(() => {
-    if (approveData) {
-      setApproveHash(approveData!);
-      setStatus('waiting for approval');
-    }
-  }, [approveData]);
-
-  useEffect(() => {
-    if (isApproveSuccess && pendingExchangeAddress && pendingTokenAmount !== null) {
-      handleSell(pendingExchangeAddress, pendingTokenAmount);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isApproveSuccess, pendingExchangeAddress, pendingTokenAmount]);
-
-  useEffect(() => {
-    if (sellData) {
-      setSellHash(sellData!);
-      setStatus('waiting for sell confirmation');
-    }
-  }, [sellData]);
-
-  useEffect(() => {
-    if (isSellSuccess) {
-      setStatus('sold');
-      setIsSellConfirmed(true);
-      setPendingExchangeAddress(null);
-      setPendingTokenAmount(null);
-    }
-  }, [isSellSuccess]);
-
   const handleApprove = useCallback(
     async (exchangeAddress: Address, tokenAddress: Address, tokenAmount: number) => {
       setStatus('approving');
@@ -214,6 +184,36 @@ const useSellToken = () => {
     },
     [handleApprove],
   );
+
+  useEffect(() => {
+    if (approveData) {
+      setApproveHash(approveData!);
+      setStatus('waiting for approval');
+    }
+  }, [approveData]);
+
+  useEffect(() => {
+    if (isApproveSuccess && pendingExchangeAddress && pendingTokenAmount !== null) {
+      handleSell(pendingExchangeAddress, pendingTokenAmount);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isApproveSuccess, pendingExchangeAddress, pendingTokenAmount]);
+
+  useEffect(() => {
+    if (sellData) {
+      setSellHash(sellData!);
+      setStatus('waiting for sell confirmation');
+    }
+  }, [sellData]);
+
+  useEffect(() => {
+    if (isSellSuccess) {
+      setStatus('sold');
+      setIsSellConfirmed(true);
+      setPendingExchangeAddress(null);
+      setPendingTokenAmount(null);
+    }
+  }, [isSellSuccess]);
 
   return {
     approveAndSell,
