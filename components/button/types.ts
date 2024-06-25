@@ -10,6 +10,7 @@ interface ILBButton {
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
   loading?: boolean;
+  tradeType?: 'buy' | 'sell';
 }
 
 export type { ILBButton, ButtonVariants, Network };

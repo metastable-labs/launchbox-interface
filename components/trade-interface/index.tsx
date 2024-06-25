@@ -87,12 +87,14 @@ const LBTradeInterface = ({ token, standAlone = true }: ILBTradeInterface) => {
     if (!amount) return;
 
     calculateTokenAmount(token?.exchange_address, amount).then((value) => null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [amount]);
 
   useEffect(() => {
     if (!address) return;
 
     handleGetBalance();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
   return (
@@ -157,7 +159,7 @@ const LBTradeInterface = ({ token, standAlone = true }: ILBTradeInterface) => {
         </div>
       )}
 
-      <LBButton loading={tokenState.loadingBuy} disabled={!amount} variant="plainAlt" text={tab} type="submit" />
+      <LBButton loading={tokenState.loadingBuy} disabled={!amount} variant="plainAlt" text={tab} type="submit" tradeType={tab} />
     </form>
   );
 };
