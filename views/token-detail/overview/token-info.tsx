@@ -15,8 +15,8 @@ const TokenInfo = ({ userRole }: IOverview) => {
   const { handleCopy, hasCopied } = useCopy();
   const { isDesktop } = useScreenDetect();
 
-  const { token } = tokenState;
-  const { meta } = transactionState;
+  const { token, loading: tokenLoading } = tokenState;
+  const { meta, loading: transactionsLoading } = transactionState;
 
   const liquidity = { numerator: 3, denominator: 3450.3 };
   const marketCap = { numerator: 400000, denominator: 0.000056 };
@@ -68,8 +68,9 @@ const TokenInfo = ({ userRole }: IOverview) => {
           <span>)</span>
         </div>
       ),
+      loading: transactionsLoading,
     },
-    { text: 'Total supply', value: `${token?.token_total_supply.toLocaleString()} ${token?.token_symbol}` },
+    { text: 'Total supply', value: `${token?.token_total_supply.toLocaleString()} ${token?.token_symbol}`, loading: tokenLoading },
     { text: 'Holders', value: holders.toLocaleString() },
     { text: 'Volume', value: formatNumber(volume) },
   ];
@@ -143,13 +144,19 @@ const TokenInfo = ({ userRole }: IOverview) => {
         </div>
 
         <div className="flex flex-col items-center gap-4">
-          {secondaryInfo.map(({ text, value }, index) => (
+          {secondaryInfo.map(({ text, value, loading }, index) => (
             <div
               key={index}
               className={classNames('self-stretch flex items-center justify-between gap-2 text-primary-250', { 'pb-4 border-b border-b-primary-50': index !== secondaryInfo.length - 1 })}>
               <span className="text-primary-700 text-[14px] leading-[24px]">{text}</span>
-              {typeof value === 'string' && <span className="text-primary-650 text-base font-medium">{value}</span>}
-              {typeof value !== 'string' && value}
+              {loading ? (
+                <div className="animate-pulse h-6 w-20 rounded-base bg-primary-50" />
+              ) : (
+                <>
+                  {typeof value === 'string' && <span className="text-primary-650 text-base font-medium">{value}</span>}
+                  {typeof value !== 'string' && value}
+                </>
+              )}
             </div>
           ))}
         </div>
