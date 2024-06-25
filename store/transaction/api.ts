@@ -1,16 +1,15 @@
-import { Address } from 'viem';
 import { axiosInstance } from '@/utils/axios';
-import { Transaction } from './types';
+import { TransactionResponse } from './types';
 
 type ITransaction = {
-  fetchTokenTransactions: (id: string) => Promise<Transaction[]>;
+  fetchTokenTransactions: (id: string, query?: string) => Promise<TransactionResponse>;
 };
 
 const transaction: ITransaction = {
-  fetchTokenTransactions: async (id: string): Promise<Transaction[]> => {
-    const response = await axiosInstance.get(`launchbox/tokens/${id}/transactions`);
+  fetchTokenTransactions: async (id: string, query?: string): Promise<TransactionResponse> => {
+    const response = await axiosInstance.get(`launchbox/tokens/${id}/transactions?${query}`);
 
-    return response.data?.data;
+    return response.data;
   },
 };
 

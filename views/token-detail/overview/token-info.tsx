@@ -10,14 +10,17 @@ import { IOverview } from './types';
 import useScreenDetect from '@/hooks/useScreenDetect';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 
-const TokenInfo = ({ token, userRole }: IOverview) => {
-  const { navigate } = useSystemFunctions();
+const TokenInfo = ({ userRole }: IOverview) => {
+  const { navigate, tokenState, transactionState } = useSystemFunctions();
   const { handleCopy, hasCopied } = useCopy();
   const { isDesktop } = useScreenDetect();
 
+  const { token } = tokenState;
+  const { meta } = transactionState;
+
   const liquidity = { numerator: 3, denominator: 3450.3 };
   const marketCap = { numerator: 400000, denominator: 0.000056 };
-  const txns = { numerator: 706, denominator: { numerator: 406, denominator: 300 } };
+  const txns = { numerator: meta?.totalCount || 0, denominator: { numerator: meta?.totalBuyCount || 0, denominator: meta?.totalSellCount || 0 } };
   const volume = 1430000;
   const holders = 20000;
   const fdv = 20000000;

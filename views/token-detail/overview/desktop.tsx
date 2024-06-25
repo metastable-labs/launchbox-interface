@@ -10,8 +10,11 @@ import ChangeIndicator from './change-indicator';
 import LineChart from '../line-chart';
 import ClickTabs from '../tabs';
 import { IView } from './types';
+import useSystemFunctions from '@/hooks/useSystemFunctions';
 
-const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, tabTexts, token, transactionsData, userRole }: IView) => {
+const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, tabTexts, token, userRole }: IView) => {
+  const { transactionState } = useSystemFunctions();
+
   const [tab, setTab] = useState<SecondaryTabs>('transactions');
 
   const amount = 456.86;
@@ -21,8 +24,18 @@ const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, 
 
   const noLiquidityData = liquidityData.every((dataPoint) => dataPoint.value === 0);
 
+  const transactionsData = transactionState.transactions?.map((tx) => ({
+    wallet: tx.address,
+    walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_npmw4c.jpg',
+    type: tx.type,
+    usdAmount: tx.token_value_in_usd,
+    tokenAmount: Number(tx.token_value),
+    createdAt: tx.created_at,
+    transactionType: tx.type,
+  }));
+
   const tabs = [
-    <LBTable data={transactionsData} loading={false} variant="primary" key="transactions" tokenSymbol="SAT" />,
+    <LBTable data={transactionsData || []} loading={false} variant="primary" key="transactions" tokenSymbol="SAT" />,
     <LBTable data={holdingsData} loading={false} variant="secondary" key="holders" />,
   ];
 
@@ -105,7 +118,7 @@ const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, 
 
         {userRole === 'admin' && (
           <div className="min-w-[300px] p-6 rounded-lg border border-primary-50 h-fit">
-            <TokenInfo token={token} userRole={userRole} />
+            <TokenInfo userRole={userRole} />
           </div>
         )}
       </div>

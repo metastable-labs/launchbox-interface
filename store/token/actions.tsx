@@ -99,9 +99,26 @@ const useTokenActions = () => {
   const getToken = async (id: string, callback?: CallbackProps) => {
     try {
       dispatch(setLoading(true));
+      const coinPrice = await api.fetchCoinPrice();
+      dispatch(setCoinPrice(coinPrice));
       const token = await api.fetchToken(id);
 
-      dispatch(setToken(token));
+      const marketCapValue = await _getMarketCap(token.exchange_address);
+
+      const tokenPriceInEth = await _getTokenPrice(token.exchange_address);
+      const tokenPriceInUSD = coinPrice.price * Number(tokenPriceInEth);
+
+      const factor = Math.pow(10, 6);
+      const usdPrice = Math.floor(tokenPriceInUSD * factor) / factor;
+
+      const item = {
+        ...token,
+        market_cap: marketCapValue,
+        token_price_in_usd: usdPrice,
+        token_price_in_eth: Number(tokenPriceInEth),
+      };
+
+      dispatch(setToken(item));
       return callback?.onSuccess?.(token);
     } catch (error: any) {
       callback?.onError?.(error);

@@ -55,7 +55,7 @@ const useDeploy = () => {
 const useBuyToken = () => {
   const chainId: any = useChainId();
   const { data: buyHash, isPending: isBuyPending, writeContract, error: buyError } = useWriteContract();
-
+  console.log(buyError);
   const { isSuccess: isBuyConfirmed } = useWaitForTransactionReceipt({
     hash: buyHash,
   });

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { generateData, holdingsData, periods, transactionsData } from '../dummy';
+import { generateData, holdingsData, periods } from '../dummy';
 import { Period } from '../types';
 import DesktopView from './desktop';
 import MobileView from './mobile';
@@ -17,7 +17,6 @@ const Overview = ({ token, userRole }: IOverview) => {
   const [liquidityData, setLiquidityData] = useState(generateData(period));
 
   const props = {
-    transactionsData,
     holdingsData,
     tabTexts,
     liquidityData,

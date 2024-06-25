@@ -67,14 +67,18 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
   const tabs = [<Overview key="overview" userRole={userRole} token={token} />, <Leaderboard key="incentive" />, <Channel key={channelTitle} userRole={userRole} />];
 
   useEffect(() => {
-    if (!token) getToken(tokenAddressURL);
+    if (!token) {
+      getToken(tokenAddressURL);
+      return;
+    }
+
+    getTokenTransactions('take=15');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokenAddressURL, token]);
 
   useEffect(() => {
     if (!address || !token) return;
 
-    getTokenTransactions();
     if (address === token?.chain?.deployer_address) {
       setUserRole('admin');
     }

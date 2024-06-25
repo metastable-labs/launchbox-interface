@@ -32,7 +32,6 @@ interface IOverview {
 }
 
 interface IView extends IOverview {
-  transactionsData: TableItem[];
   holdingsData: TableItem[];
   tabTexts: string[];
   liquidityData: {

@@ -13,6 +13,7 @@ import { wagmiConfig } from '@/config/rainbow/rainbowkit';
 import LaunchBoxExchange from '@/config/rainbow/abis/LaunchBoxExchange.json';
 import { formatEther } from 'viem';
 import EmptyState from '../token/empty';
+import { setMeta, setTransactions } from '@/store/transaction';
 
 const HomeView = () => {
   const { navigate, tokenState, dispatch } = useSystemFunctions();
@@ -55,6 +56,8 @@ const HomeView = () => {
   const rowClick = (id: string) => {
     const token = tokens?.find((token) => token.token_address === id);
     dispatch(setToken(token!));
+    dispatch(setTransactions(undefined));
+    dispatch(setMeta(undefined));
     navigate.push(`/${id}`);
   };
 

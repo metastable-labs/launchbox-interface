@@ -1,15 +1,17 @@
 'use client';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { Transaction } from './types';
+import { Transaction, TransactionMeta } from './types';
 
 export interface TransactionState {
-  transactions: Transaction[] | undefined;
+  transactions?: Transaction[];
+  meta?: TransactionMeta;
   loading: boolean;
 }
 
 const initialState: TransactionState = {
   transactions: undefined,
+  meta: undefined,
   loading: true,
 };
 
@@ -28,9 +30,17 @@ export const transactionReducer = createSlice({
         state.transactions = [...action.payload];
       }
     },
+
+    setMeta: (state, action: PayloadAction<TransactionMeta | undefined>) => {
+      if (action.payload === undefined) {
+        state.meta = undefined;
+      } else {
+        state.meta = { ...action.payload };
+      }
+    },
   },
 });
 
-export const { setLoading, setTransactions } = transactionReducer.actions;
+export const { setLoading, setTransactions, setMeta } = transactionReducer.actions;
 
 export default transactionReducer.reducer;

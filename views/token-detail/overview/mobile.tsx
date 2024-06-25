@@ -1,20 +1,23 @@
 import { useState } from 'react';
+import classNames from 'classnames';
+import { AnimatePresence, motion } from 'framer-motion';
 
 import { SecondaryTabs } from '../types';
-import { formatCurrency } from '.';
 import { LBTable, LBTradeInterface } from '@/components';
+import useSystemFunctions from '@/hooks/useSystemFunctions';
+import { formatCurrency } from '.';
 import TokenInfo from './token-info';
-import classNames from 'classnames';
 import ChangeIndicator from './change-indicator';
 import LineChart from '../line-chart';
 import ClickTabs from '../tabs';
-import { AnimatePresence, motion } from 'framer-motion';
 import { IView } from './types';
 
 type MobileTabs = 'info' | 'chart+txns' | 'buy/sell';
 const mobileTabs: MobileTabs[] = ['info', 'chart+txns', 'buy/sell'];
 
-const MobileView = ({ token, userRole, holdingsData, tabTexts, transactionsData, liquidityData, period, setPeriod, periods }: IView) => {
+const MobileView = ({ token, userRole, holdingsData, tabTexts, liquidityData, period, setPeriod, periods }: IView) => {
+  const { transactionState } = useSystemFunctions();
+
   const [tab, setTab] = useState<SecondaryTabs>('transactions');
   const [mobileTab, setMobileTab] = useState<MobileTabs>('info');
 
@@ -25,8 +28,18 @@ const MobileView = ({ token, userRole, holdingsData, tabTexts, transactionsData,
 
   const noLiquidityData = liquidityData.every((dataPoint) => dataPoint.value === 0);
 
+  const transactionsData = transactionState.transactions?.map((tx) => ({
+    wallet: tx.address,
+    walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_npmw4c.jpg',
+    type: tx.type,
+    usdAmount: tx.token_value_in_usd,
+    tokenAmount: Number(tx.token_value),
+    createdAt: tx.created_at,
+    transactionType: tx.type,
+  }));
+
   const tabs = [
-    <LBTable data={transactionsData} loading={false} variant="primary" key="transactions" tokenSymbol="SAT" />,
+    <LBTable data={transactionsData || []} loading={false} variant="primary" key="transactions" tokenSymbol="SAT" />,
     <LBTable data={holdingsData} loading={false} variant="secondary" key="holders" />,
   ];
 
