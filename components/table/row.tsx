@@ -213,10 +213,10 @@ const Row = ({ item, variant, index, tokenSymbol, cta, rowClick, items, setShoul
         {variant === 'tertiary' && <CreatedAt createdAt={item.createdAt} />}
       </td>
 
-      {variant !== 'secondary' && variant !== 'secondaryAlt' && (
-        <td className={classNames('min-h-[71px] px-4 md:px-6 py-4 whitespace-nowrap text-gray-500', { 'hidden md:table-cell': variant === 'primary', 'hidden lg:table-cell': variant === 'tertiary' })}>
-          {variant === 'primary' && <span className="text-primary-650">{item.usdAmount ? '$' + formatNumber(item.usdAmount) : '-'}</span>}
-          {variant === 'tertiary' && <Liquidity numerator={item.liquidity?.numerator || 0} denominator={item.liquidity?.denominator || 0} />}
+      {variant === 'primary' && (
+        <td className={classNames('min-h-[71px] px-4 md:px-6 py-4 whitespace-nowrap text-gray-500', { 'hidden md:table-cell': variant === 'primary' })}>
+          <span className="text-primary-650">{item.usdAmount ? '$' + formatNumber(item.usdAmount) : '-'}</span>
+          {/* {variant === 'tertiary' && <Liquidity numerator={item.liquidity?.numerator || 0} denominator={item.liquidity?.denominator || 0} />} */}
         </td>
       )}
 

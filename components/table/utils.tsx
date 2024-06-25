@@ -12,7 +12,7 @@ const headers = [
     ),
     key: 1,
   },
-  { primary: 'USD', tertiary: 'Liquidity', key: 2 },
+  { primary: 'USD', key: 2 },
   {
     primary: 'Token amount',
     tertiary: (
