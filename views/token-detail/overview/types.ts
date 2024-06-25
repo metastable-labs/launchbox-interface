@@ -1,6 +1,7 @@
 import { TableItem } from '@/components/table/types';
 import { Token } from '@/store/token/types';
 import { Period } from '../types';
+import { Dispatch, SetStateAction } from 'react';
 
 type TokenDetailData = {
   id: string;
@@ -44,6 +45,8 @@ interface IView extends IOverview {
     text: string;
     value: Period;
   }[];
+  shouldFetchMoreTransactions: boolean;
+  setShouldFetchMoreTransactions: Dispatch<SetStateAction<boolean>>;
 }
 
 export type { IOverview, IView, Period, TokenDetailData };

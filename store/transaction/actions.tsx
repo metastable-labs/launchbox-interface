@@ -3,7 +3,7 @@ import { useAccount } from 'wagmi';
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import api from './api';
-import { setLoading, setMeta, setTransactions } from '.';
+import { setExtraTransactions, setLoading, setMeta, setTransactions } from '.';
 import { CallbackProps } from '..';
 import { formatEther } from 'viem';
 
@@ -38,7 +38,13 @@ const useTransactionActions = () => {
         transactions.push(item);
       }
 
-      dispatch(setTransactions(transactions));
+      if (meta.skip === 0) {
+        dispatch(setTransactions(transactions));
+      } else {
+        dispatch(setExtraTransactions(transactions));
+      }
+
+      callback?.onSuccess?.();
     } catch (error: any) {
       callback?.onError?.(error);
     } finally {

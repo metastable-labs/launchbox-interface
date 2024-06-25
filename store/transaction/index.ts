@@ -31,6 +31,14 @@ export const transactionReducer = createSlice({
       }
     },
 
+    setExtraTransactions: (state, action: PayloadAction<Transaction[] | undefined>) => {
+      if (action.payload) {
+        state.transactions = [...state.transactions!, ...action.payload];
+      } else {
+        state.transactions = undefined;
+      }
+    },
+
     setMeta: (state, action: PayloadAction<TransactionMeta | undefined>) => {
       if (action.payload === undefined) {
         state.meta = undefined;
@@ -41,6 +49,6 @@ export const transactionReducer = createSlice({
   },
 });
 
-export const { setLoading, setTransactions, setMeta } = transactionReducer.actions;
+export const { setLoading, setTransactions, setMeta, setExtraTransactions } = transactionReducer.actions;
 
 export default transactionReducer.reducer;
