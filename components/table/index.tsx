@@ -32,11 +32,12 @@ const LBTable = ({ data, loading, variant = 'primary', tokenSymbol, cta, rowClic
                   'w-[83px]': index === 0 && (variant === 'secondary' || variant === 'secondaryAlt'),
                   hidden:
                     ((index === 1 || index === 5 || index === 6) && variant === 'primary') ||
-                    ((index === 2 || index === 3 || index === 5 || index === 6) && (variant === 'secondary' || variant === 'secondaryAlt')),
+                    ((index === 2 || index === 3 || index === 5 || index === 6) && (variant === 'secondary' || variant === 'secondaryAlt')) ||
+                    (index === 2 && variant === 'tertiary'),
 
                   'text-right': header.textRight && variant === 'primary',
                   'text-left': !header.textRight || variant === 'secondary' || variant === 'secondaryAlt' || variant === 'tertiary',
-                  'hidden lg:table-cell': (variant === 'primary' && (index === 2 || index === 4)) || (variant === 'tertiary' && (index === 2 || index === 3 || index === 4)),
+                  'hidden lg:table-cell': (variant === 'primary' && (index === 2 || index === 4)) || (variant === 'tertiary' && (index === 3 || index === 4)),
                   'hidden sm:table-cell': variant === 'tertiary' && (index === 1 || index === 5),
                 })}>
                 {header[variant]}

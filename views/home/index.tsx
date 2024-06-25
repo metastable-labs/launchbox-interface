@@ -98,22 +98,24 @@ const HomeView = () => {
               <p className="text-primary-700">Tokens launched will be updated here in realtime</p>
             </div>
 
-            <div className="flex items-center justify-center gap-2 min-w-80 px-3 py-2 rounded-lg border border-primary-1950 bg-white shadow-table-cta">
-              <SearchAltIcon />
-              <input
-                type="text"
-                placeholder="Search by token or contract..."
-                className="w-full text-primary-2200 text-[14px] leading-[24px] bg-transparent outline-none"
-                onChange={handleSearchChange}
-              />
-            </div>
+            {tableData?.length !== 0 && (
+              <div className="flex items-center justify-center gap-2 min-w-80 px-3 py-2 rounded-lg border border-primary-1950 bg-white shadow-table-cta">
+                <SearchAltIcon />
+                <input
+                  type="text"
+                  placeholder="Search by token or contract..."
+                  className="w-full text-primary-2200 text-[14px] leading-[24px] bg-transparent outline-none"
+                  onChange={handleSearchChange}
+                />
+              </div>
+            )}
           </div>
         </LBContainer>
       </div>
 
       {tableData?.length === 0 ? (
-        <div key="empty-state">
-          <EmptyState />
+        <div key="empty-state" className="w-full h-[50vh] flex items-center justify-center">
+          <EmptyState isSecondary />
         </div>
       ) : (
         <div className="w-full max-w-[1440px] mx-auto px-6 md:px-8 xl:px-20 relative">
