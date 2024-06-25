@@ -35,7 +35,7 @@ const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, 
       )}
 
       <div
-        className={classNames('self-stretch max-h-[94.5vh] overflow-auto', {
+        className={classNames('self-stretch', {
           'xl:w-2/4': userRole === 'user',
           'xl:w-full': userRole === 'admin',
         })}>
