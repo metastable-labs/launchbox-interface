@@ -30,9 +30,9 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
 
   const { token } = tokenState;
 
-  const hasChannel = Boolean(Object.keys(token?.socials.warpcast.channel || {}).length);
+  const channelTitle = Boolean(Object.keys(token?.socials.warpcast.channel || {}).length) ? 'farcaster' : 'communities';
 
-  const tabTexts = [{ text: 'overview' }, { text: 'incentive', hide: userRole === 'user' }, { text: 'channel', hide: !hasChannel }];
+  const tabTexts = [{ text: 'overview' }, { text: 'incentive', hide: userRole === 'user' }, { text: channelTitle }];
   const tabsToShow = tabTexts.filter(({ hide }) => !hide).map(({ text }) => text);
 
   const actions = [
@@ -64,7 +64,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
     },
   ];
 
-  const tabs = [<Overview key="overview" userRole={userRole} token={token} />, <Leaderboard key="incentive" />, <Channel key="channel" userRole={userRole} />];
+  const tabs = [<Overview key="overview" userRole={userRole} token={token} />, <Leaderboard key="incentive" />, <Channel key={channelTitle} userRole={userRole} />];
 
   useEffect(() => {
     if (!token) getToken(tokenAddressURL);
@@ -78,6 +78,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
     if (address === token?.chain?.deployer_address) {
       setUserRole('admin');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, token]);
 
   return (
