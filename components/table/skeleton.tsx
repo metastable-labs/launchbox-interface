@@ -11,7 +11,7 @@ const SkeletonRows = ({ variant }: SkeletonRowsProps) => {
     primary: 4,
     secondary: 3,
     secondaryAlt: 3,
-    tertiary: 7,
+    tertiary: 6,
   };
 
   return (
