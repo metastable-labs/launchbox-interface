@@ -11,18 +11,18 @@ import useScreenDetect from '@/hooks/useScreenDetect';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 
 const TokenInfo = ({ userRole }: IOverview) => {
-  const { navigate, tokenState, transactionState } = useSystemFunctions();
+  const { navigate, tokenState, transactionState, holderState } = useSystemFunctions();
   const { handleCopy, hasCopied } = useCopy();
   const { isDesktop } = useScreenDetect();
 
   const { token, loading: tokenLoading } = tokenState;
-  const { meta, loading: transactionsLoading } = transactionState;
+  const { meta: transactionsMeta, loading: transactionsLoading } = transactionState;
+  const { meta: holdersMeta, loading: holdersLoading } = holderState;
 
   const liquidity = { numerator: 3, denominator: 3450.3 };
   const marketCap = { numerator: 400000, denominator: 0.000056 };
-  const txns = { numerator: meta?.totalCount || 0, denominator: { numerator: meta?.totalBuyCount || 0, denominator: meta?.totalSellCount || 0 } };
+  const txns = { numerator: transactionsMeta?.totalCount || 0, denominator: { numerator: transactionsMeta?.totalBuyCount || 0, denominator: transactionsMeta?.totalSellCount || 0 } };
   const volume = 1430000;
-  const holders = 20000;
   const fdv = 20000000;
 
   const actions = [
@@ -71,7 +71,7 @@ const TokenInfo = ({ userRole }: IOverview) => {
       loading: transactionsLoading,
     },
     { text: 'Total supply', value: `${token?.token_total_supply.toLocaleString()} ${token?.token_symbol}`, loading: tokenLoading },
-    { text: 'Holders', value: holders.toLocaleString() },
+    { text: 'Holders', value: holdersMeta?.totalCount.toLocaleString(), loading: holdersLoading },
     { text: 'Volume', value: formatNumber(volume) },
   ];
 
@@ -82,19 +82,32 @@ const TokenInfo = ({ userRole }: IOverview) => {
       {show && (
         <>
           <div className="flex items-start gap-4">
-            <Image src={token?.token_logo_url || ''} alt="token-logo" width={500} height={500} className="w-[50px] h-[50px] object-cover" />
+            {!token ? (
+              <div className="w-[50px] h-[50px] rounded-full bg-primary-50 animate-pulse" />
+            ) : (
+              <Image src={token?.token_logo_url || ''} alt="token-logo" width={500} height={500} className="w-[50px] h-[50px] object-cover" />
+            )}
 
             <div className="flex flex-col gap-3 mt-1">
-              <h1
-                className={classNames(
-                  'text-primary-650 font-medium break-words',
-                  { 'text-[30px] lg:text-[32px] leading-[28px]': token?.token_name?.length! <= 6 },
-                  { 'text-xl': token?.token_name?.length! > 6 },
-                )}>
-                {token?.token_name}
-              </h1>
+              {!token ? (
+                <>
+                  <div className="animate-pulse h-7 w-20 rounded-base bg-primary-50" />
+                  <div className="animate-pulse h-4 w-20 rounded-base bg-primary-50" />
+                </>
+              ) : (
+                <>
+                  <h1
+                    className={classNames(
+                      'text-primary-650 font-medium break-words',
+                      { 'text-[30px] lg:text-[32px] leading-[28px]': token?.token_name?.length! <= 6 },
+                      { 'text-xl': token?.token_name?.length! > 6 },
+                    )}>
+                    {token?.token_name}
+                  </h1>
 
-              <span className="text-primary-700 text-[14px] leading-[16px]">${token?.token_symbol}</span>
+                  <span className="text-primary-700 text-[14px] leading-[16px]">${token?.token_symbol}</span>
+                </>
+              )}
             </div>
 
             <div className="min-w-fit">

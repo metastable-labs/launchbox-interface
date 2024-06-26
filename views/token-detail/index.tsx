@@ -17,16 +17,18 @@ import { Tabs } from './types';
 import ClickTabs from './tabs';
 import Channel from './channel';
 import useTransactionActions from '@/store/transaction/actions';
+import useHolderActions from '@/store/holder/actions';
 
 const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: string }) => {
   const { address } = useAccount();
   const { tokenState, navigate } = useSystemFunctions();
   const { getToken } = useTokenActions();
   const { getTokenTransactions } = useTransactionActions();
+  const { getTokenHolders } = useHolderActions();
   const { handleCopy, hasCopied } = useCopy();
 
   const [tab, setTab] = useState<Tabs>('overview');
-  const [userRole, setUserRole] = useState<'admin' | 'user'>('user');
+  const [userRole, setUserRole] = useState<'admin' | 'user'>('admin');
 
   const { token } = tokenState;
 
@@ -73,6 +75,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
     }
 
     getTokenTransactions('take=15');
+    getTokenHolders('take=15');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokenAddressURL, token]);
 
@@ -93,12 +96,25 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
         {userRole === 'admin' && (
           <div className="w-full hidden md:flex items-center justify-between">
             <div className="flex items-start justify-center gap-4">
-              <Image src={token?.token_logo_url || ''} alt="token-logo" width={500} height={500} className="w-[72px] h-[72px] object-cover" />
+              {!token ? (
+                <div className="w-[50px] h-[50px] rounded-full bg-primary-50 animate-pulse" />
+              ) : (
+                <Image src={token?.token_logo_url || ''} alt="token-logo" width={500} height={500} className="w-[72px] h-[72px] object-cover" />
+              )}
 
               <div className="flex flex-col gap-3 mt-1">
-                <h1 className="text-primary-650 text-[32px] leading-[28px] font-medium">{token?.token_name}</h1>
+                {!token ? (
+                  <>
+                    <div className="animate-pulse h-7 w-20 rounded-base bg-primary-50" />
+                    <div className="animate-pulse h-4 w-20 rounded-base bg-primary-50" />
+                  </>
+                ) : (
+                  <>
+                    <h1 className="text-primary-650 text-[32px] leading-[28px] font-medium">{token?.token_name}</h1>
 
-                <span className="text-primary-700 text-[14px] leading-[16px]">${token?.token_symbol}</span>
+                    <span className="text-primary-700 text-[14px] leading-[16px]">${token?.token_symbol}</span>
+                  </>
+                )}
               </div>
 
               <BaseBadgeicon />
@@ -110,6 +126,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
                   key={index}
                   className={classNames('flex items-center justify-center gap-1 cursor-pointer px-3.5 py-2.5 bg-white border border-primary-1950 rounded-lg shadow-table-cta', {
                     hidden: !show,
+                    'pointer-events-none': !token,
                   })}
                   onClick={onClick}>
                   {icons && (

@@ -4,6 +4,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import tokenReducer from './token';
 import socialReducer from './social';
 import transactionReducer from './transaction';
+import holderReducer from './holder';
 
 export interface CallbackProps {
   onSuccess?: Function;
@@ -15,6 +16,7 @@ export const store = configureStore({
     token: tokenReducer,
     social: socialReducer,
     transaction: transactionReducer,
+    holder: holderReducer,
   },
 });
 
