@@ -10,7 +10,8 @@ import useTokenActions from '@/store/token/actions';
 import { Token } from '@/store/token/types';
 import { setToken } from '@/store/token';
 import EmptyState from '../token/empty';
-import { setMeta, setTransactions } from '@/store/transaction';
+import { setMeta as setTransactionsMeta, setTransactions } from '@/store/transaction';
+import { setMeta as setHoldersMeta, setHolders } from '@/store/holder';
 
 const HomeView = () => {
   const { navigate, tokenState, dispatch } = useSystemFunctions();
@@ -56,7 +57,9 @@ const HomeView = () => {
     const token = tokens?.find((token) => token.token_address === id);
     dispatch(setToken(token!));
     dispatch(setTransactions(undefined));
-    dispatch(setMeta(undefined));
+    dispatch(setTransactionsMeta(undefined));
+    dispatch(setHolders(undefined));
+    dispatch(setHoldersMeta(undefined));
     navigate.push(`/${id}`);
   };
 

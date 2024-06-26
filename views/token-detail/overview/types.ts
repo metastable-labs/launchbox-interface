@@ -33,7 +33,6 @@ interface IOverview {
 }
 
 interface IView extends IOverview {
-  holdingsData: TableItem[];
   tabTexts: string[];
   liquidityData: {
     date: Date;
@@ -47,6 +46,8 @@ interface IView extends IOverview {
   }[];
   shouldFetchMoreTransactions: boolean;
   setShouldFetchMoreTransactions: Dispatch<SetStateAction<boolean>>;
+  shouldFetchMoreHolders: boolean;
+  setShouldFetchMoreHolders: Dispatch<SetStateAction<boolean>>;
 }
 
 export type { IOverview, IView, Period, TokenDetailData };

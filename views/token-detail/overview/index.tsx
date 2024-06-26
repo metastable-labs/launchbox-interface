@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { generateData, holdingsData, periods } from '../dummy';
+import { generateData, periods } from '../dummy';
 import { Period } from '../types';
 import DesktopView from './desktop';
 import MobileView from './mobile';
 import { IOverview } from './types';
 import useTransactionActions from '@/store/transaction/actions';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
+import useHolderActions from '@/store/holder/actions';
 
 const tabTexts = ['transactions', 'holders'];
 export const formatCurrency = (amount: number) => {
@@ -16,14 +17,15 @@ export const formatCurrency = (amount: number) => {
 
 const Overview = ({ token, userRole }: IOverview) => {
   const { getTokenTransactions } = useTransactionActions();
-  const { transactionState } = useSystemFunctions();
+  const { getTokenHolders } = useHolderActions();
+  const { transactionState, holderState } = useSystemFunctions();
 
   const [period, setPeriod] = useState<Period>('1m');
   const [liquidityData, setLiquidityData] = useState(generateData(period));
   const [shouldFetchMoreTransactions, setShouldFetchMoreTransactions] = useState(false);
+  const [shouldFetchMoreHolders, setShouldFetchMoreHolders] = useState(false);
 
   const props = {
-    holdingsData,
     tabTexts,
     liquidityData,
     period,
@@ -33,6 +35,8 @@ const Overview = ({ token, userRole }: IOverview) => {
     token,
     shouldFetchMoreTransactions,
     setShouldFetchMoreTransactions,
+    shouldFetchMoreHolders,
+    setShouldFetchMoreHolders,
   };
 
   useEffect(() => {
@@ -48,6 +52,16 @@ const Overview = ({ token, userRole }: IOverview) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldFetchMoreTransactions]);
+
+  useEffect(() => {
+    if (!shouldFetchMoreHolders) return;
+
+    const skip = holderState?.holders?.length;
+
+    getTokenHolders(`take=20&skip=${skip}`, { onSuccess: () => setShouldFetchMoreHolders(false) });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldFetchMoreHolders]);
 
   return (
     <>

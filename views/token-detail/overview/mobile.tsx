@@ -15,8 +15,20 @@ import { IView } from './types';
 type MobileTabs = 'info' | 'chart+txns' | 'buy/sell';
 const mobileTabs: MobileTabs[] = ['info', 'chart+txns', 'buy/sell'];
 
-const MobileView = ({ token, userRole, holdingsData, tabTexts, liquidityData, period, setPeriod, periods, setShouldFetchMoreTransactions, shouldFetchMoreTransactions }: IView) => {
-  const { transactionState } = useSystemFunctions();
+const MobileView = ({
+  liquidityData,
+  period,
+  periods,
+  setPeriod,
+  setShouldFetchMoreHolders,
+  setShouldFetchMoreTransactions,
+  shouldFetchMoreHolders,
+  shouldFetchMoreTransactions,
+  tabTexts,
+  userRole,
+  token,
+}: IView) => {
+  const { transactionState, holderState } = useSystemFunctions();
 
   const [tab, setTab] = useState<SecondaryTabs>('transactions');
   const [mobileTab, setMobileTab] = useState<MobileTabs>('info');
@@ -38,7 +50,14 @@ const MobileView = ({ token, userRole, holdingsData, tabTexts, liquidityData, pe
     transactionType: tx.type,
   }));
 
+  const holdersData = holderState.holders?.map((holder) => ({
+    wallet: holder.address,
+    walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_npmw4c.jpg',
+    holding: Number(holder.balance) / Number(token?.token_total_supply) / 100,
+  }));
+
   const showShouldFetchMore = shouldFetchMoreTransactions || (transactionState.loading && !transactionState.transactions);
+  const showShouldFetchMoreHolders = shouldFetchMoreHolders || (holderState.loading && !holderState.holders);
 
   const tabs = [
     <LBTable
@@ -52,7 +71,16 @@ const MobileView = ({ token, userRole, holdingsData, tabTexts, liquidityData, pe
       setShouldFetchMore={setShouldFetchMoreTransactions}
       shouldFetchMore={showShouldFetchMore}
     />,
-    <LBTable data={holdingsData} loading={false} variant="secondary" key="holders" />,
+    <LBTable
+      data={holdersData || []}
+      loading={false}
+      variant="secondary"
+      key="holders"
+      take={holderState.meta?.take}
+      total={holderState.meta?.totalCount}
+      setShouldFetchMore={setShouldFetchMoreHolders}
+      shouldFetchMore={showShouldFetchMoreHolders}
+    />,
   ];
 
   const items = [
