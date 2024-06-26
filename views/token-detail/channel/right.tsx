@@ -10,8 +10,8 @@ import { Period } from '../types';
 import { LBClickAnimation, LBShare } from '@/components';
 import classNames from 'classnames';
 import LineChart from '../line-chart';
-import { formatNumber } from '@/components/table/row';
 import Info from './info';
+import { formatAmount, formatNumber } from '@/utils/helpers';
 
 const dollarRate = 0.014728;
 
@@ -159,15 +159,19 @@ const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
 
   const noChannel = !Boolean(Object.keys(token?.socials.warpcast.channel || {}).length);
 
+  const total_tx_buy_count = token?.total_buy_count || 0;
+  const total_tx_sell_count = token?.total_sell_count || 0;
+  const total_tx_count = total_tx_buy_count + total_tx_sell_count;
+
   const info = [
     { title: 'Channel followers', text: channel?.follower_count?.toString(), activeFollowersPercentage: 13.3 },
     { title: 'Weekly cast', text: (10354).toLocaleString(), weeklyCastPercentage: 16.7 },
     { title: 'Social score', text: (504.01).toLocaleString(), socialScore: 3 },
-    { title: 'Price (1D)', text: `$${0.00567}`, priceChangePercentage: 6.7 },
-    { title: 'Txns', txns: { numerator: 706, denominator: { numerator: 406, denominator: 300 } } },
-    { title: 'Total supply', text: `${token?.token_total_supply.toLocaleString()} ${token?.token_symbol}` },
+    { title: 'Price (USD)', text: `$${formatAmount(token?.price, 7)}`, priceChangePercentage: 6.7 },
+    { title: 'Txns', txns: { numerator: total_tx_count, denominator: { numerator: total_tx_buy_count, denominator: total_tx_sell_count } } },
+    { title: 'Total supply', text: `${token?.token_total_supply?.toLocaleString()} ${token?.token_symbol}` },
     { title: 'Liquidity', text: `$${formatNumber(206_000)}` },
-    { title: 'Volume', text: `$${formatNumber(4_000_000)}` },
+    { title: 'Volume', text: `$${formatNumber(formatAmount(token?.volume))}` },
   ];
 
   return (

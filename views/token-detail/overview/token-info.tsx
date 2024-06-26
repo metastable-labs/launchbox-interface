@@ -2,14 +2,13 @@ import Image from 'next/image';
 import classNames from 'classnames';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import { formatNumber } from '@/components/table/row';
 import useCopy from '@/hooks/useCopy';
 import { BaseBadgeicon, CheckAltIcon, ConfigSiteIcon, CopyIcon, FarcasterIcon, ShareIcon, WebIcon } from '@/public/icons';
 import { LBClickAnimation, LBShare } from '@/components';
 import { IOverview } from './types';
 import useScreenDetect from '@/hooks/useScreenDetect';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
-import { formatAmount } from '@/utils/helpers';
+import { formatAmount, formatNumber } from '@/utils/helpers';
 
 const TokenInfo = ({ userRole }: IOverview) => {
   const { navigate, tokenState, transactionState, holderState } = useSystemFunctions();
@@ -27,7 +26,7 @@ const TokenInfo = ({ userRole }: IOverview) => {
   const liquidity = { numerator: 3, denominator: 3450.3 };
   const marketCap = { numerator: token?.market_cap, denominator: formatAmount(token?.price || 0, 8) };
   const txns = { numerator: total_count, denominator: { numerator: total_buy_count, denominator: total_sell_count } };
-  const volume = formatAmount(token?.volume || 0, 5);
+  const volume = formatAmount(token?.volume);
   const fdv = 20000000;
 
   const actions = [
