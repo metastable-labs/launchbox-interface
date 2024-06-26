@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { debounce } from 'lodash';
 
-import { LBContainer, LBModal, LBTable, LBTradeInterface } from '@/components';
+import { LBContainer, LBError, LBModal, LBTable, LBTradeInterface } from '@/components';
 import { BaseBadgeicon, SearchAltIcon } from '@/public/icons';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useTokenActions from '@/store/token/actions';
@@ -20,6 +20,7 @@ const HomeView = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeToken, setActiveToken] = useState<Token>();
   const [shouldFetchMore, setShouldFetchMore] = useState(false);
+  const [showErrorState, setShowErrorState] = useState(false);
 
   const { tokens, meta, loading } = tokenState;
 
@@ -65,6 +66,11 @@ const HomeView = () => {
 
   const closeModal = () => setActiveToken(undefined);
 
+  const fetchTokens = () => {
+    setShowErrorState(false);
+    getTokens('take=50', { onError: () => setShowErrorState(true) });
+  };
+
   useEffect(() => {
     // getTokens(`take=50&search=${searchTerm}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -79,9 +85,15 @@ const HomeView = () => {
   }, [shouldFetchMore]);
 
   useEffect(() => {
-    getTokens('take=50');
+    fetchTokens();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (showErrorState) {
+    return (
+      <LBError onClick={fetchTokens} subtitle="We are unable to fetch tokens at the moment, please check your network connection" title="Unable to fetch tokens" standAlone show={showErrorState} />
+    );
+  }
 
   return (
     <div className="py-[50px] flex flex-col gap-9 w-full">
