@@ -11,6 +11,7 @@ import LineChart from '../line-chart';
 import ClickTabs from '../tabs';
 import { IView } from './types';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
+import { formatEther } from 'viem';
 
 const DesktopView = ({
   liquidityData,
@@ -49,7 +50,7 @@ const DesktopView = ({
   const holdersData = holderState.holders?.map((holder) => ({
     wallet: holder.address,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_npmw4c.jpg',
-    holding: Number(holder.balance) / Number(token?.token_total_supply || 0) / 100,
+    holding: (Number(holder.balance) / Number(token?.token_total_supply || 0)) * 100,
   }));
 
   const showShouldFetchMoreTransactions = shouldFetchMoreTransactions || (transactionState.loading && !transactionState.transactions);
