@@ -9,6 +9,7 @@ import { LBClickAnimation, LBShare } from '@/components';
 import { IOverview } from './types';
 import useScreenDetect from '@/hooks/useScreenDetect';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
+import { formatAmount } from '@/utils/helpers';
 
 const TokenInfo = ({ userRole }: IOverview) => {
   const { navigate, tokenState, transactionState, holderState } = useSystemFunctions();
@@ -16,13 +17,17 @@ const TokenInfo = ({ userRole }: IOverview) => {
   const { isDesktop } = useScreenDetect();
 
   const { token, loading: tokenLoading } = tokenState;
-  const { meta: transactionsMeta, loading: transactionsLoading } = transactionState;
+  const { loading: transactionsLoading } = transactionState;
   const { meta: holdersMeta, loading: holdersLoading } = holderState;
 
+  const total_buy_count = token?.total_buy_count || 0;
+  const total_sell_count = token?.total_sell_count || 0;
+  const total_count = total_buy_count + total_sell_count;
+
   const liquidity = { numerator: 3, denominator: 3450.3 };
-  const marketCap = { numerator: 400000, denominator: 0.000056 };
-  const txns = { numerator: transactionsMeta?.totalCount || 0, denominator: { numerator: transactionsMeta?.totalBuyCount || 0, denominator: transactionsMeta?.totalSellCount || 0 } };
-  const volume = 1430000;
+  const marketCap = { numerator: token?.market_cap, denominator: formatAmount(token?.price || 0, 8) };
+  const txns = { numerator: total_count, denominator: { numerator: total_buy_count, denominator: total_sell_count } };
+  const volume = formatAmount(token?.volume || 0, 5);
   const fdv = 20000000;
 
   const actions = [
@@ -52,7 +57,7 @@ const TokenInfo = ({ userRole }: IOverview) => {
   const primaryInfo = [
     { text: 'Liquidity', value: formatNumber(liquidity.denominator) },
     { text: 'FDV', value: formatNumber(fdv) },
-    { text: 'Market cap', value: formatNumber(marketCap.numerator) },
+    { text: 'Market cap', value: formatNumber(marketCap.numerator || 0) },
   ];
 
   const secondaryInfo = [
@@ -70,9 +75,9 @@ const TokenInfo = ({ userRole }: IOverview) => {
       ),
       loading: transactionsLoading,
     },
-    { text: 'Total supply', value: `${token?.token_total_supply.toLocaleString()} ${token?.token_symbol}`, loading: tokenLoading },
-    { text: 'Holders', value: holdersMeta?.totalCount.toLocaleString(), loading: holdersLoading },
-    { text: 'Volume', value: formatNumber(volume) },
+    { text: 'Total supply', value: `${token?.token_total_supply?.toLocaleString()} ${token?.token_symbol}`, loading: tokenLoading },
+    { text: 'Holders', value: holdersMeta?.total_count?.toLocaleString(), loading: holdersLoading },
+    { text: 'Volume', value: `$${formatNumber(volume)}` },
   ];
 
   const show = (userRole === 'admin' && !isDesktop) || userRole === 'user';

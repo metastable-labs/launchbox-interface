@@ -12,6 +12,7 @@ import useSocialActions from '@/store/social/actions';
 import { useAccount } from 'wagmi';
 
 import 'react-toastify/dist/ReactToastify.css';
+import useTokenActions from '@/store/token/actions';
 
 const cookieOptions = {
   path: '/',
@@ -34,9 +35,11 @@ const Wrapper = ({ children }: { children: ReactNode }) => {
   const {} = useConnect();
   const { address } = useAccount();
   const { getFarcasterChannels } = useSocialActions();
+  const { getCoinPrice } = useTokenActions();
 
   useEffect(() => {
     getFarcasterChannels();
+    getCoinPrice();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
   return (

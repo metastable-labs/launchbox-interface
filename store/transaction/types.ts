@@ -23,9 +23,9 @@ type Transaction = {
 type TransactionMeta = {
   take: number;
   skip: number;
-  totalCount: number;
-  totalSellCount: number;
-  totalBuyCount: number;
+  total_count: number;
+  total_sell_count: number;
+  total_buy_count: number;
 };
 
 export type { Transaction, TransactionResponse, TransactionMeta };

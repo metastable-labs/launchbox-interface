@@ -18,7 +18,7 @@ type Holder = {
 type HolderMeta = {
   take: number;
   skip: number;
-  totalCount: number;
+  total_count: number;
 };
 
 export type { Holder, HolderResponse, HolderMeta };

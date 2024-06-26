@@ -23,8 +23,7 @@ const useTransactionActions = () => {
 
       const transactions = [];
       for (const activity of data) {
-        const tokenPriceInEth = formatEther(BigInt(activity.eth_value));
-        const tokenPriceInUSD = (coinPrice?.price || 0) * Number(tokenPriceInEth);
+        const tokenPriceInUSD = (coinPrice?.price || 0) * Number(activity.eth_value);
 
         const factor = Math.pow(10, 6);
         const usdPrice = Math.floor(tokenPriceInUSD * factor) / factor;
@@ -32,7 +31,6 @@ const useTransactionActions = () => {
         const item = {
           ...activity,
           token_value_in_usd: usdPrice,
-          token_value: formatEther(BigInt(activity.token_value)),
         };
 
         transactions.push(item);

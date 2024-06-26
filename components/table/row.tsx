@@ -24,7 +24,7 @@ export const formatNumber = (num: number): string => {
   if (num >= 1e3) {
     return formatWithPrecision(num / 1e3) + 'k';
   }
-  return num.toString();
+  return num?.toString();
 };
 
 const Address = ({ wallet, walletAvatarURL, isTransaction = false, variant }: IAddress) => {
