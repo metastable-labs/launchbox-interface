@@ -12,6 +12,7 @@ import { setToken } from '@/store/token';
 import EmptyState from '../token/empty';
 import { setMeta as setTransactionsMeta, setTransactions } from '@/store/transaction';
 import { setMeta as setHoldersMeta, setHolders } from '@/store/holder';
+import { formatAmount } from '@/utils/helpers';
 
 const HomeView = () => {
   const { navigate, tokenState, dispatch } = useSystemFunctions();
@@ -30,9 +31,9 @@ const HomeView = () => {
     createdAt: token.created_at,
     updatedAt: token.updated_at,
     liquidity: { numerator: 3, denominator: 3450.3 },
-    marketCap: { numerator: token.market_cap, denominator: token?.token_price_in_usd },
-    txns: { numerator: 706, denominator: { numerator: 406, denominator: 300 } },
-    volume: token.token_total_supply,
+    marketCap: { numerator: token.market_cap, denominator: formatAmount(token?.price, 8) },
+    txns: { numerator: token.total_buy_count + token.total_sell_count, denominator: { numerator: token.total_buy_count, denominator: token.total_sell_count } },
+    volume: formatAmount(token.volume),
     walletAvatarURL: token.token_logo_url,
     wallet: token.token_address,
   }));
@@ -127,7 +128,7 @@ const HomeView = () => {
             setShouldFetchMore={setShouldFetchMore}
             shouldFetchMore={showShouldFetchMore}
             take={meta?.take}
-            total={meta?.totalCount}
+            total={meta?.total_count}
             data={tableData || []}
             variant="tertiary"
             cta={cta}

@@ -15,7 +15,7 @@ import { networks } from '@/config/rainbow/config';
 import { setLoading, setLoadingCreate, setToken, setTokens, setMeta, setExtraTokens, setExtraUserTokens, setUserTokens, setUserTokensLoading, setUserTokensMeta, setLoadingBuy, setCoinPrice } from '.';
 import { CallbackProps } from '..';
 import api from './api';
-import { Token, TokenData } from './types';
+import { TokenData } from './types';
 import { wagmiConfig } from '@/config/rainbow/rainbowkit';
 import LaunchBoxExchange from '@/config/rainbow/abis/LaunchBoxExchange.json';
 
@@ -32,43 +32,15 @@ const useTokenActions = () => {
   const getTokens = async (query: string, callback?: CallbackProps) => {
     try {
       dispatch(setLoading(true));
-      const coinPrice = await api.fetchCoinPrice();
-      dispatch(setCoinPrice(coinPrice));
       const { meta, tokens } = await api.fetchTokens(query);
-
-      const tokensRespose: Token[] = [];
-
-      for (const token of tokens) {
-        if (!token.exchange_address) {
-          tokensRespose.push({ ...token, market_cap: 0 });
-          continue;
-        }
-
-        const marketCapValue = await _getMarketCap(token.exchange_address);
-
-        const tokenPriceInEth = await _getTokenPrice(token.exchange_address);
-        const tokenPriceInUSD = coinPrice.price * Number(tokenPriceInEth);
-
-        const factor = Math.pow(10, 6);
-        const usdPrice = Math.floor(tokenPriceInUSD * factor) / factor;
-
-        const item = {
-          ...token,
-          market_cap: marketCapValue,
-          token_price_in_usd: usdPrice,
-          token_price_in_eth: Number(tokenPriceInEth),
-        };
-
-        tokensRespose.push(item);
-      }
 
       dispatch(setMeta(meta));
       if (meta.skip === 0) {
-        dispatch(setTokens(tokensRespose));
+        dispatch(setTokens(tokens));
       } else {
-        dispatch(setExtraTokens(tokensRespose));
+        dispatch(setExtraTokens(tokens));
       }
-      return callback?.onSuccess?.(tokensRespose);
+      return callback?.onSuccess?.(tokens);
     } catch (error: any) {
       console.log(error);
       callback?.onError?.(error);
@@ -96,17 +68,26 @@ const useTokenActions = () => {
     }
   };
 
-  const getToken = async (id: string, callback?: CallbackProps) => {
+  const getCoinPrice = async () => {
     try {
-      dispatch(setLoading(true));
       const coinPrice = await api.fetchCoinPrice();
       dispatch(setCoinPrice(coinPrice));
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  const getToken = async (id: string, callback?: CallbackProps) => {
+    try {
+      if (!tokenState?.coinPrice) return;
+
+      dispatch(setLoading(true));
       const token = await api.fetchToken(id);
 
       const marketCapValue = await _getMarketCap(token.exchange_address);
 
       const tokenPriceInEth = await _getTokenPrice(token.exchange_address);
-      const tokenPriceInUSD = coinPrice.price * Number(tokenPriceInEth);
+      const tokenPriceInUSD = tokenState?.coinPrice?.price * Number(tokenPriceInEth);
 
       const factor = Math.pow(10, 6);
       const usdPrice = Math.floor(tokenPriceInUSD * factor) / factor;
@@ -328,6 +309,7 @@ const useTokenActions = () => {
     buyTokens,
     calculateTokenAmount,
     sellTokens,
+    getCoinPrice,
   };
 };
 

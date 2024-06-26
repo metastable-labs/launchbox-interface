@@ -67,7 +67,7 @@ const MobileView = ({
       key="transactions"
       tokenSymbol="SAT"
       take={transactionState.meta?.take}
-      total={transactionState.meta?.totalCount}
+      total={transactionState.meta?.total_count}
       setShouldFetchMore={setShouldFetchMoreTransactions}
       shouldFetchMore={showShouldFetchMore}
     />,
@@ -77,7 +77,7 @@ const MobileView = ({
       variant="secondary"
       key="holders"
       take={holderState.meta?.take}
-      total={holderState.meta?.totalCount}
+      total={holderState.meta?.total_count}
       setShouldFetchMore={setShouldFetchMoreHolders}
       shouldFetchMore={showShouldFetchMoreHolders}
     />,

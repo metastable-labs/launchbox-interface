@@ -27,8 +27,11 @@ type Token = {
   created_at: string;
   updated_at: string;
   market_cap: number;
-  token_price_in_usd: number;
   token_price_in_eth: number;
+  price: number;
+  volume: number;
+  total_buy_count: number;
+  total_sell_count: number;
 };
 
 type TokenData = {
@@ -46,7 +49,7 @@ type TokenData = {
 type Meta = {
   take: number;
   skip: number;
-  totalCount: number;
+  total_count: number;
 };
 
 type Tokens = {

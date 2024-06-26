@@ -19,3 +19,9 @@ export const getTokenLink = (id: number, hash?: string): { title: string; url: s
 
   return { title: '', url: '' };
 };
+
+export const formatAmount = (amount: number, decimals = 4): number => {
+  const factor = Math.pow(10, decimals);
+  const truncatedValue = Math.floor(amount * factor) / factor;
+  return truncatedValue;
+};
