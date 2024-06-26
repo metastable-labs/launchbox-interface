@@ -91,7 +91,13 @@ const HomeView = () => {
 
   if (showErrorState) {
     return (
-      <LBError onClick={fetchTokens} subtitle="We are unable to fetch tokens at the moment, please check your network connection" title="Unable to fetch tokens" standAlone show={showErrorState} />
+      <LBError
+        onClick={fetchTokens}
+        subtitle="Unable to fetch token data at the moment. Please check your network connection or try again later."
+        title="Unable to Fetch Tokens"
+        standAlone
+        show={showErrorState}
+      />
     );
   }
 
