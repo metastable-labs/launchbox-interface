@@ -97,7 +97,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
           <div className="w-full hidden md:flex items-center justify-between">
             <div className="flex items-start justify-center gap-4">
               {!token ? (
-                <div className="w-[50px] h-[50px] rounded-full bg-primary-50 animate-pulse" />
+                <div className="w-[72px] h-[72px] rounded-full bg-primary-50 animate-pulse" />
               ) : (
                 <Image src={token?.token_logo_url || ''} alt="token-logo" width={500} height={500} className="w-[72px] h-[72px] object-cover" />
               )}

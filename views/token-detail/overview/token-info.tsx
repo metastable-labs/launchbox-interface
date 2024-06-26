@@ -71,7 +71,7 @@ const TokenInfo = ({ userRole }: IOverview) => {
       loading: transactionsLoading,
     },
     { text: 'Total supply', value: `${token?.token_total_supply.toLocaleString()} ${token?.token_symbol}`, loading: tokenLoading },
-    { text: 'Holders', value: holdersMeta?.totalCount.toLocaleString(), loading: holdersLoading },
+    { text: 'Holders', value: holdersMeta?.totalCount?.toLocaleString(), loading: holdersLoading },
     { text: 'Volume', value: formatNumber(volume) },
   ];
 
