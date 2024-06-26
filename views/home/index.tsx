@@ -43,7 +43,7 @@ const HomeView = () => {
     setSearchTerm(term);
   }, 300);
 
-  const showShouldFetchMore = shouldFetchMore || (loading && !tokens);
+  const showShouldFetchMore = tokens && tokens.length > 0 ? false : shouldFetchMore || (loading && !tokens);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -69,7 +69,7 @@ const HomeView = () => {
 
   const fetchTokens = () => {
     setShowErrorState(false);
-    getTokens('take=50', { onError: () => setShowErrorState(true) });
+    getTokens('take=20', { onError: () => setShowErrorState(true) });
   };
 
   useEffect(() => {
