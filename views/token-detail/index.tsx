@@ -10,14 +10,15 @@ import useCopy from '@/hooks/useCopy';
 import { LBClickAnimation, LBShare } from '@/components';
 import useTokenActions from '@/store/token/actions';
 import { BaseBadgeicon, CheckAltIcon, ConfigSiteIcon, CopyIcon, FarcasterIcon, WebIcon } from '@/public/icons';
+import useTransactionActions from '@/store/transaction/actions';
+import useHolderActions from '@/store/holder/actions';
+import useCastActions from '@/store/casts/actions';
 import PrimaryHeader from './primary-header';
 import Overview from './overview';
 import Leaderboard from './leaderboard';
 import { Tabs } from './types';
 import ClickTabs from './tabs';
 import Channel from './channel';
-import useTransactionActions from '@/store/transaction/actions';
-import useHolderActions from '@/store/holder/actions';
 
 const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: string }) => {
   const { address } = useAccount();
@@ -25,6 +26,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
   const { getToken } = useTokenActions();
   const { getTokenTransactions } = useTransactionActions();
   const { getTokenHolders } = useHolderActions();
+  const { getChannelCasts } = useCastActions();
   const { handleCopy, hasCopied } = useCopy();
 
   const [tab, setTab] = useState<Tabs>('overview');
@@ -76,6 +78,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
 
     getTokenTransactions('take=15');
     getTokenHolders('take=15');
+    getChannelCasts('take=15');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokenAddressURL, token]);
 
