@@ -12,13 +12,12 @@ const useCastActions = () => {
 
   const getChannelCasts = async (query: string, callback?: CallbackProps) => {
     try {
-      const channelID = tokenState?.token?.socials?.warpcast?.channel?.channel_id;
-
-      if (!address || !channelID) return;
+      if (!address || !tokenState.token?.id) return;
 
       dispatch(setLoading(true));
 
-      const { meta, data } = await api.fetchChannelCasts(channelID, query);
+      const { meta, data } = await api.fetchChannelCasts(tokenState.token?.id, query);
+
       dispatch(setMeta(meta));
 
       if (meta.skip === 0) {
