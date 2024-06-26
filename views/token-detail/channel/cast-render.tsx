@@ -68,7 +68,7 @@ const CastRender = () => {
           <LBComment {...comment} />
         </div>
       ))}
-      {showShouldFetchMoreCasts && Array.from({ length: 4 }).map((_, i) => <div key={i} className="self-stretch rounded-lg bg-primary-50 h-28" />)}
+      {showShouldFetchMoreCasts && Array.from({ length: 4 }).map((_, i) => <div key={i} className="self-stretch rounded-lg bg-primary-50 h-48" />)}
 
       {showEmptyState && (
         <div className="self-stretch w-full mt-24 flex items-center justify-center">
