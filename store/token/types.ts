@@ -57,12 +57,4 @@ type Tokens = {
   meta: Meta;
 };
 
-type CoinPrice = {
-  name: string;
-  symbol: string;
-  price: number;
-  currency: string;
-  last_updated: string;
-};
-
-export type { Token, TokenData, Meta, Tokens, CoinPrice };
+export type { Token, TokenData, Meta, Tokens };

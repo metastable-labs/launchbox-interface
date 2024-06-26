@@ -90,7 +90,7 @@ const HomeView = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (showErrorState) {
+  if (showErrorState && !tokens) {
     return (
       <LBError
         onClick={fetchTokens}

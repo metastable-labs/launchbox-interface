@@ -45,7 +45,7 @@ const DesktopView = ({
     createdAt: tx.created_at,
     transactionType: tx.type,
   }));
-  console.log(holderState);
+
   const holdersData = holderState.holders?.map((holder) => ({
     wallet: holder.address,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_npmw4c.jpg',

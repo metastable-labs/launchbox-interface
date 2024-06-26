@@ -17,25 +17,27 @@ const useHolderActions = () => {
       dispatch(setLoading(true));
 
       const { meta, data } = await api.fetchTokenHolders(tokenState.token?.id, query);
+      console.log('data', data);
+
       dispatch(setMeta(meta));
 
-      const holders = [];
+      // const holders = [];
 
-      for (const activity of data) {
-        const balance = formatEther(BigInt(activity.balance));
+      // for (const activity of data) {
+      //   const balance = formatEther(BigInt(activity.balance));
 
-        const item = {
-          ...activity,
-          balance,
-        };
+      //   const item = {
+      //     ...activity,
+      //     balance,
+      //   };
 
-        holders.push(item);
-      }
+      //   holders.push(item);
+      // }
 
       if (meta.skip === 0) {
-        dispatch(setHolders(holders));
+        dispatch(setHolders(data));
       } else {
-        dispatch(setExtraHolders(holders));
+        dispatch(setExtraHolders(data));
       }
 
       callback?.onSuccess?.();

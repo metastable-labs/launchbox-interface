@@ -61,7 +61,6 @@ const Configuration = ({ close, show }: IConfiguration) => {
 
   const onSubmit = (data: ConfigurationFormProps) => {
     const points = Number(data.points.replace(/[^0-9]/g, ''));
-    console.log(points);
     close();
   };
 

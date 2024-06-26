@@ -1,10 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { Address, decodeEventLog, formatEther } from 'viem';
-import { useCookies } from 'react-cookie';
 import { toast } from 'react-toastify';
 import { useChainId, useAccount } from 'wagmi';
-import { readContract, writeContract } from '@wagmi/core';
+import { readContract } from '@wagmi/core';
 
 import { mode } from 'wagmi/chains';
 import { trim } from 'viem';
@@ -12,7 +11,7 @@ import { trim } from 'viem';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useContract from '@/hooks/useContract';
 import { networks } from '@/config/rainbow/config';
-import { setLoading, setLoadingCreate, setToken, setTokens, setMeta, setExtraTokens, setExtraUserTokens, setUserTokens, setUserTokensLoading, setUserTokensMeta, setLoadingBuy, setCoinPrice } from '.';
+import { setLoading, setLoadingCreate, setToken, setTokens, setMeta, setExtraTokens, setExtraUserTokens, setUserTokens, setUserTokensLoading, setUserTokensMeta, setLoadingBuy } from '.';
 import { CallbackProps } from '..';
 import api from './api';
 import { TokenData } from './types';
@@ -68,35 +67,13 @@ const useTokenActions = () => {
     }
   };
 
-  const getCoinPrice = async () => {
-    try {
-      const coinPrice = await api.fetchCoinPrice();
-      dispatch(setCoinPrice(coinPrice));
-    } catch (error: any) {
-      console.log(error);
-    }
-  };
-
   const getToken = async (id: string, callback?: CallbackProps) => {
     try {
-      if (!tokenState?.coinPrice) return;
-
       dispatch(setLoading(true));
       const token = await api.fetchToken(id);
 
-      const marketCapValue = await _getMarketCap(token.exchange_address);
-
-      const tokenPriceInEth = await _getTokenPrice(token.exchange_address);
-      const tokenPriceInUSD = tokenState?.coinPrice?.price * Number(tokenPriceInEth);
-
-      const factor = Math.pow(10, 6);
-      const usdPrice = Math.floor(tokenPriceInUSD * factor) / factor;
-
       const item = {
         ...token,
-        market_cap: marketCapValue,
-        token_price_in_usd: usdPrice,
-        token_price_in_eth: Number(tokenPriceInEth),
       };
 
       dispatch(setToken(item));
@@ -125,7 +102,6 @@ const useTokenActions = () => {
     try {
       dispatch(setLoadingBuy(true));
 
-      //   return buyToken('0x5F66dE9e53D558439F25d4Ff9Ca606CFcE3B32f6', amount * 10 ** 18);
       return buyToken(exchangeAddress, amount * 10 ** 18);
     } catch (error: any) {
       dispatch(setLoadingBuy(false));
@@ -192,7 +168,6 @@ const useTokenActions = () => {
       }
 
       if (deployData?.socials) {
-        console.log(deployData?.socials);
         const channel = JSON.stringify({ ...deployData?.socials });
         formData.append('socials', channel);
       }
@@ -213,7 +188,7 @@ const useTokenActions = () => {
 
       getTokens('take=50');
     } catch (e) {
-      console.log('errorrr oooo', e);
+      //
     } finally {
       dispatch(setLoadingCreate(false));
     }
@@ -252,7 +227,6 @@ const useTokenActions = () => {
     }
   };
 
-  //   console.log(buyError?.message);
   useEffect(() => {
     _submitData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -274,7 +248,7 @@ const useTokenActions = () => {
     toast('Token purchase is successful!', {
       type: 'success',
     });
-    getBuyTransactionData()?.then((res) => console.log(res));
+    getBuyTransactionData()?.then((res) => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isBuyPending, isBuyConfirmed, buyError]);
 
@@ -297,7 +271,7 @@ const useTokenActions = () => {
       });
     }
 
-    getSellTransactionData()?.then((res) => console.log(res));
+    getSellTransactionData()?.then((res) => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSellPending, isSellConfirmed, error]);
 
@@ -309,7 +283,6 @@ const useTokenActions = () => {
     buyTokens,
     calculateTokenAmount,
     sellTokens,
-    getCoinPrice,
   };
 };
 
