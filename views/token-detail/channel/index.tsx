@@ -13,17 +13,21 @@ import { IChannel, IInfo } from './types';
 import { generateData, holders, periods, comments } from '../dummy';
 import LineChart from '../line-chart';
 import Info from './info';
+import useCastActions from '@/store/casts/actions';
 
 const dollarRate = 0.014728;
 
 const Channel = ({ userRole }: IChannel) => {
-  const { navigate, tokenState } = useSystemFunctions();
+  const { navigate, tokenState, castState } = useSystemFunctions();
   const { handleCopy, hasCopied } = useCopy();
+  const { getChannelCasts } = useCastActions();
+
+  const [period, setPeriod] = useState<Period>('1w');
+  const [growthData, setGrowthData] = useState(generateData(period, true));
+  const [shouldFetchMoreCasts, setShouldFetchMoreCasts] = useState(false);
 
   const { token } = tokenState;
   const channel = token?.socials?.warpcast?.channel;
-  const [period, setPeriod] = useState<Period>('1w');
-  const [growthData, setGrowthData] = useState(generateData(period, true));
 
   const noGrowthData = growthData.every((dataPoint) => dataPoint.value === 0);
 
@@ -76,6 +80,16 @@ const Channel = ({ userRole }: IChannel) => {
 
     return setGrowthData([]);
   }, [period, noChannel]);
+
+  useEffect(() => {
+    if (!shouldFetchMoreCasts) return;
+
+    const skip = castState?.casts?.length;
+
+    getChannelCasts(`take=20&skip=${skip}`, { onSuccess: () => setShouldFetchMoreCasts(false) });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldFetchMoreCasts]);
 
   return (
     <div className="flex flex-col-reverse lg:flex-row justify-between gap-7 lg:gap-3.5 pb-10">
