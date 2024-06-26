@@ -16,7 +16,7 @@ const placeholder = {
 };
 
 const LBTable = ({ data, loading, variant = 'primary', tokenSymbol, cta, rowClick, setShouldFetchMore, shouldFetchMore, total, take }: ILBTable) => {
-  if (!data.length) {
+  if (!data.length && !shouldFetchMore) {
     data = [placeholder];
   }
 

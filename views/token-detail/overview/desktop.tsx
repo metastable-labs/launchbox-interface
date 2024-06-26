@@ -12,7 +12,7 @@ import ClickTabs from '../tabs';
 import { IView } from './types';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 
-const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, tabTexts, token, userRole }: IView) => {
+const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, tabTexts, token, userRole, setShouldFetchMoreTransactions, shouldFetchMoreTransactions }: IView) => {
   const { transactionState } = useSystemFunctions();
 
   const [tab, setTab] = useState<SecondaryTabs>('transactions');
@@ -34,8 +34,20 @@ const DesktopView = ({ holdingsData, liquidityData, period, periods, setPeriod, 
     transactionType: tx.type,
   }));
 
+  const showShouldFetchMore = shouldFetchMoreTransactions || (transactionState.loading && !transactionState.transactions);
+
   const tabs = [
-    <LBTable data={transactionsData || []} loading={false} variant="primary" key="transactions" tokenSymbol="SAT" />,
+    <LBTable
+      data={transactionsData || []}
+      loading={false}
+      variant="primary"
+      key="transactions"
+      tokenSymbol="SAT"
+      take={transactionState.meta?.take}
+      total={transactionState.meta?.totalCount}
+      setShouldFetchMore={setShouldFetchMoreTransactions}
+      shouldFetchMore={showShouldFetchMore}
+    />,
     <LBTable data={holdingsData} loading={false} variant="secondary" key="holders" />,
   ];
 

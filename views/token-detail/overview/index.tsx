@@ -5,6 +5,8 @@ import { Period } from '../types';
 import DesktopView from './desktop';
 import MobileView from './mobile';
 import { IOverview } from './types';
+import useTransactionActions from '@/store/transaction/actions';
+import useSystemFunctions from '@/hooks/useSystemFunctions';
 
 const tabTexts = ['transactions', 'holders'];
 export const formatCurrency = (amount: number) => {
@@ -13,8 +15,12 @@ export const formatCurrency = (amount: number) => {
 };
 
 const Overview = ({ token, userRole }: IOverview) => {
+  const { getTokenTransactions } = useTransactionActions();
+  const { transactionState } = useSystemFunctions();
+
   const [period, setPeriod] = useState<Period>('1m');
   const [liquidityData, setLiquidityData] = useState(generateData(period));
+  const [shouldFetchMoreTransactions, setShouldFetchMoreTransactions] = useState(false);
 
   const props = {
     holdingsData,
@@ -25,11 +31,23 @@ const Overview = ({ token, userRole }: IOverview) => {
     periods,
     userRole,
     token,
+    shouldFetchMoreTransactions,
+    setShouldFetchMoreTransactions,
   };
 
   useEffect(() => {
     setLiquidityData(generateData(period));
   }, [period]);
+
+  useEffect(() => {
+    if (!shouldFetchMoreTransactions) return;
+
+    const skip = transactionState?.transactions?.length;
+
+    getTokenTransactions(`take=20&skip=${skip}`, { onSuccess: () => setShouldFetchMoreTransactions(false) });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldFetchMoreTransactions]);
 
   return (
     <>

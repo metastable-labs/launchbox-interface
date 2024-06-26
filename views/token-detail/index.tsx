@@ -30,7 +30,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
 
   const { token } = tokenState;
 
-  const channelTitle = Boolean(Object.keys(token?.socials.warpcast.channel || {}).length) ? 'farcaster' : 'communities';
+  const channelTitle = Boolean(Object.keys(token?.socials.warpcast.channel || {}).length) ? 'channel' : 'community';
 
   const tabTexts = [{ text: 'overview' }, { text: 'incentive', hide: userRole === 'user' }, { text: channelTitle }];
   const tabsToShow = tabTexts.filter(({ hide }) => !hide).map(({ text }) => text);

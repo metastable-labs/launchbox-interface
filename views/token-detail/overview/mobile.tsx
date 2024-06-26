@@ -15,7 +15,7 @@ import { IView } from './types';
 type MobileTabs = 'info' | 'chart+txns' | 'buy/sell';
 const mobileTabs: MobileTabs[] = ['info', 'chart+txns', 'buy/sell'];
 
-const MobileView = ({ token, userRole, holdingsData, tabTexts, liquidityData, period, setPeriod, periods }: IView) => {
+const MobileView = ({ token, userRole, holdingsData, tabTexts, liquidityData, period, setPeriod, periods, setShouldFetchMoreTransactions, shouldFetchMoreTransactions }: IView) => {
   const { transactionState } = useSystemFunctions();
 
   const [tab, setTab] = useState<SecondaryTabs>('transactions');
@@ -38,8 +38,20 @@ const MobileView = ({ token, userRole, holdingsData, tabTexts, liquidityData, pe
     transactionType: tx.type,
   }));
 
+  const showShouldFetchMore = shouldFetchMoreTransactions || (transactionState.loading && !transactionState.transactions);
+
   const tabs = [
-    <LBTable data={transactionsData || []} loading={false} variant="primary" key="transactions" tokenSymbol="SAT" />,
+    <LBTable
+      data={transactionsData || []}
+      loading={false}
+      variant="primary"
+      key="transactions"
+      tokenSymbol="SAT"
+      take={transactionState.meta?.take}
+      total={transactionState.meta?.totalCount}
+      setShouldFetchMore={setShouldFetchMoreTransactions}
+      shouldFetchMore={showShouldFetchMore}
+    />,
     <LBTable data={holdingsData} loading={false} variant="secondary" key="holders" />,
   ];
 

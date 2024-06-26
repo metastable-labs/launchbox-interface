@@ -20,6 +20,7 @@ interface IInfo {
     };
   };
   hasBorder?: boolean;
+  noChannel?: boolean;
 }
 
 export type { IChannel, IInfo };

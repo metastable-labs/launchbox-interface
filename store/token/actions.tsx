@@ -170,8 +170,6 @@ const useTokenActions = () => {
         functionName: 'calculateSaleTokenOut',
         args: [amount * 10 ** 18],
       });
-      console.log(result);
-
       return result;
     } catch (error: any) {
       console.log(error);

@@ -11,7 +11,7 @@ const SkeletonRows = ({ variant }: SkeletonRowsProps) => {
     primary: 4,
     secondary: 3,
     secondaryAlt: 3,
-    tertiary: 7,
+    tertiary: 6,
   };
 
   return (
@@ -22,7 +22,6 @@ const SkeletonRows = ({ variant }: SkeletonRowsProps) => {
             <td
               key={colIndex}
               className={classNames('', {
-                hidden: (variant === 'primary' && colIndex === 1) || (variant === 'secondary' && (colIndex === 2 || colIndex === 3)),
                 'hidden md:table-cell': variant === 'primary' && (colIndex === 2 || colIndex === 4),
                 'hidden sm:table-cell': variant === 'tertiary' && (colIndex === 1 || colIndex === 5),
                 'hidden lg:table-cell': variant === 'tertiary' && (colIndex === 2 || colIndex === 3 || colIndex === 4),

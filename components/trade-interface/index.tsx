@@ -36,10 +36,10 @@ const LBTradeInterface = ({ token, standAlone = true }: ILBTradeInterface) => {
   const balance = tab === 'buy' ? ethBalance : tokenBalance;
 
   const balancePartitions = [
-    { text: '10%', onClick: () => setAmount(balance * 0.1) },
-    { text: '25%', onClick: () => setAmount(balance * 0.25) },
-    { text: '50%', onClick: () => setAmount(balance * 0.5) },
-    { text: '100%', onClick: () => setAmount(balance) },
+    { text: '10%', onClick: () => setAmount(truncateToDecimals(balance * 0.1)) },
+    { text: '25%', onClick: () => setAmount(truncateToDecimals(balance * 0.25)) },
+    { text: '50%', onClick: () => setAmount(truncateToDecimals(balance * 0.5)) },
+    { text: '100%', onClick: () => setAmount(truncateToDecimals(balance)) },
   ];
 
   const info = [{ title: "You'll get", value: `${valueToGet?.toLocaleString()} ${token?.token_symbol}` }];
@@ -96,6 +96,8 @@ const LBTradeInterface = ({ token, standAlone = true }: ILBTradeInterface) => {
     handleGetBalance();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
+
+  console.log(typeof amount, amount);
 
   return (
     <form onSubmit={onSubmit} className={classNames('h-fit flex flex-col gap-6', { 'p-6 rounded-base border border-primary-50 bg-white': standAlone, 'max-w-80 md:max-w-[343px]': !standAlone })}>
