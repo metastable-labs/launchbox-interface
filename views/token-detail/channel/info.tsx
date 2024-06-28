@@ -35,9 +35,9 @@ const Info = ({ text, title, activeFollowersPercentage, priceChangePercentage, s
           <div className="flex items-center justify-center gap-1 text-primary-650 text-[16px] leading-[20px] font-medium">
             <span>{noChannel ? '-' : txns.numerator}</span>
             <span>(</span>
-            <span className="text-primary-2600">{noChannel ? '-' : txns.denominator.numerator}</span>
+            <span className="text-primary-2600">{noChannel ? '-' : txns?.denominator?.numerator}</span>
             <span className="text-primary-750 text-[12px]">/</span>
-            <span className="text-primary-2650">{noChannel ? '-' : txns.denominator.denominator}</span>
+            <span className="text-primary-2650">{noChannel ? '-' : txns?.denominator?.denominator}</span>
             <span>)</span>
           </div>
         )}

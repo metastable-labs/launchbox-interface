@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import { formatNumber } from '@/components/table/row';
 import useCopy from '@/hooks/useCopy';
-import { BaseBadgeicon, CheckAltIcon, ConfigSiteIcon, CopyIcon, FarcasterIcon, ShareIcon, WebIcon } from '@/public/icons';
-import { LBClickAnimation, LBShare } from '@/components';
+import { CheckAltIcon, ConfigSiteIcon, CopyIcon, WebIcon } from '@/public/icons';
+import { LBBadge, LBClickAnimation, LBShare } from '@/components';
 import { IOverview } from './types';
 import useScreenDetect from '@/hooks/useScreenDetect';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
@@ -24,11 +24,9 @@ const TokenInfo = ({ userRole }: IOverview) => {
   const total_sell_count = token?.total_sell_count || 0;
   const total_count = total_buy_count + total_sell_count;
 
-  const liquidity = { numerator: 3, denominator: 3450.3 };
   const marketCap = { numerator: token?.market_cap, denominator: formatAmount(token?.price || 0, 8) };
   const txns = { numerator: total_count, denominator: { numerator: total_buy_count, denominator: total_sell_count } };
   const volume = formatAmount(token?.volume || 0, 5);
-  const fdv = 20000000;
 
   const actions = [
     {
@@ -48,19 +46,14 @@ const TokenInfo = ({ userRole }: IOverview) => {
       show: userRole === 'user',
     },
     {
-      icon: <FarcasterIcon />,
+      icon: <Image src="/icons/farcaster-icon.svg" alt="farcaster" width={200} height={200} className="w-5 h-5 object-cover" />,
       onClick: () => window.open(token?.warpcast_channel_link, '_blank'),
       show: userRole === 'user',
     },
   ];
 
-  const primaryInfo = [
-    { text: 'Liquidity', value: formatNumber(liquidity.denominator) },
-    { text: 'FDV', value: formatNumber(fdv) },
-    { text: 'Market cap', value: formatNumber(marketCap.numerator || 0) },
-  ];
-
   const secondaryInfo = [
+    { text: 'Market cap', value: formatNumber(marketCap.numerator || 0) },
     {
       text: 'Txns',
       value: (
@@ -81,6 +74,8 @@ const TokenInfo = ({ userRole }: IOverview) => {
   ];
 
   const show = (userRole === 'admin' && !isDesktop) || userRole === 'user';
+
+  const variant = token?.chain.name as BadgeVariants;
 
   return (
     <div className="flex flex-col self-stretch w-full gap-6">
@@ -116,7 +111,7 @@ const TokenInfo = ({ userRole }: IOverview) => {
             </div>
 
             <div className="min-w-fit">
-              <BaseBadgeicon />
+              <LBBadge variant={variant} />
             </div>
           </div>
 
@@ -152,15 +147,6 @@ const TokenInfo = ({ userRole }: IOverview) => {
       )}
 
       <div className="self-stretch flex flex-col gap-9 items-stretch">
-        <div className="flex items-center gap-2.5 self-stretch">
-          {primaryInfo.map(({ text, value }, index) => (
-            <div key={index} className="flex flex-col items-center justify-center gap-1.5 h-[75px] rounded-base border border-primary-1200 bg-primary-2500 w-[33.333333%]">
-              <span className="text-primary-250 text-[12px] leading-[17.4px]">{text}</span>
-              <span className="text-primary-650 text-base font-medium">${value}</span>
-            </div>
-          ))}
-        </div>
-
         <div className="flex flex-col items-center gap-4">
           {secondaryInfo.map(({ text, value, loading }, index) => (
             <div

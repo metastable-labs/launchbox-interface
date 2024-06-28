@@ -2,18 +2,19 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { BaseBadgeicon, CheckAltIcon, ConfigSiteIcon, CopyIcon, FarcasterIcon, SmallFarcasterIcon, WebIcon } from '@/public/icons';
+import { CheckAltIcon, ConfigSiteIcon, CopyIcon, FarcasterIcon, SmallFarcasterIcon, WebIcon } from '@/public/icons';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useCopy from '@/hooks/useCopy';
 import { generateData, holders, periods } from '../dummy';
 import { Period } from '../types';
-import { LBClickAnimation, LBShare } from '@/components';
+import { LBBadge, LBClickAnimation, LBShare } from '@/components';
 import classNames from 'classnames';
 import LineChart from '../line-chart';
 import { formatNumber } from '@/components/table/row';
 import Info from './info';
-
-const dollarRate = 0.014728;
+import useTruncateText from '@/hooks/useTruncateText';
+import { Holder } from '@/store/holder/types';
+import { formatAmount } from '@/utils/helpers';
 
 const Header = () => {
   const { tokenState } = useSystemFunctions();
@@ -33,7 +34,7 @@ const Header = () => {
       <div className="flex flex-col gap-4">
         <div className="flex gap-4 items-center">
           <h1 className="text-primary-650 font-medium break-words text-[30px] lg:text-[32px] leading-[28px]">{channel?.name || 'No Channel'}</h1>
-          <BaseBadgeicon />
+          <LBBadge variant="warpcast" />
         </div>
 
         <p className="text-primary-700 text-[14px] leading-[21px]">{channel?.description || noChannelDescription}</p>
@@ -151,23 +152,56 @@ const Chart = () => {
   );
 };
 
-const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
+const HolderBadge = ({ address, balance }: Holder) => {
   const { tokenState } = useSystemFunctions();
+  const { truncatedText } = useTruncateText(address, 4, 4);
+
+  const formattedBalance = formatAmount(Number(balance), 4);
+  const formattedPriceInUSD = (formattedBalance * Number(tokenState?.token?.token_price_in_usd!)).toFixed(3);
+
+  const holderAmount = formatNumber(formattedBalance);
+  const holderAmountInUSD = formatNumber(Number(formattedPriceInUSD));
+  const imageToShow = '/icons/wallet-alt-icon.svg';
+  const textToShow = truncatedText;
+
+  return (
+    <div className="flex items-center gap-0.5 py-1 pl-1 pr-2 justify-center bg-primary-200 rounded-full">
+      <Image src={imageToShow} alt="avatar" width={500} height={500} className="w-4 h-4 object-cover rounded-full" />
+      <p className="font-medium">
+        <span className="text-primary-250 text-[14px] leading-[21px]">{textToShow}</span>{' '}
+        <span className="text-[12px] leading-[150%] text-primary-850">
+          {holderAmount} = ${holderAmountInUSD}
+        </span>
+      </p>
+    </div>
+  );
+};
+
+const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
+  const { tokenState, holderState, transactionState, castState } = useSystemFunctions();
 
   const { token } = tokenState;
+  const { meta } = transactionState;
+  const { meta: castMeta } = castState;
+
   const channel = token?.socials?.warpcast?.channel;
 
   const noChannel = !Boolean(Object.keys(token?.socials.warpcast.channel || {}).length);
 
+  const total_buy_count = token?.total_buy_count || 0;
+  const total_sell_count = token?.total_sell_count || 0;
+  const total_count = total_buy_count + total_sell_count;
+  const total_casts = castMeta?.totalCount || 0;
+  const volume = formatAmount(token?.volume || 0, 5);
+
   const info = [
     { title: 'Channel followers', text: channel?.follower_count?.toString(), activeFollowersPercentage: 13.3 },
-    { title: 'Weekly cast', text: (10354).toLocaleString(), weeklyCastPercentage: 16.7 },
+    { title: 'Weekly cast', text: total_casts.toLocaleString(), weeklyCastPercentage: 16.7 },
     { title: 'Social score', text: (504.01).toLocaleString(), socialScore: 3 },
-    { title: 'Price (1D)', text: `$${0.00567}`, priceChangePercentage: 6.7 },
-    { title: 'Txns', txns: { numerator: 706, denominator: { numerator: 406, denominator: 300 } } },
+    { title: 'Price (1D)', text: `$${token?.token_price_in_usd}`, priceChangePercentage: 6.7 },
+    { title: 'Txns', txns: { numerator: total_count, denominator: { numerator: total_buy_count, denominator: total_sell_count } } },
     { title: 'Total supply', text: `${token?.token_total_supply.toLocaleString()} ${token?.token_symbol}` },
-    { title: 'Liquidity', text: `$${formatNumber(206_000)}` },
-    { title: 'Volume', text: `$${formatNumber(4_000_000)}` },
+    { title: 'Volume', text: `$${formatNumber(volume)}` },
   ];
 
   return (
@@ -185,7 +219,9 @@ const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
               <span className="text-primary-700 text-[14px] leading-[24px]">Channel</span>
               <div className="flex items-center gap-1">
                 <SmallFarcasterIcon />
-                <span className="text-primary-650 leading-[20.8px] font-medium underline underline-offset-4">{noChannel ? '-' : token?.token_name}</span>
+                <a href={channel?.url} target="_blank" className="text-primary-650 leading-[20.8px] font-medium underline underline-offset-4">
+                  {noChannel ? '-' : channel?.name}
+                </a>
               </div>
             </div>
           </div>
@@ -193,21 +229,13 @@ const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
           <div className={classNames('self-stretch flex items-center justify-between', { 'pb-4 border-b border-b-primary-50': noChannel })}>
             <span className="text-primary-700 text-[14px] leading-[24px]">Holders</span>
 
-            <span className="text-primary-650 leading-[20.8px] font-medium">{noChannel ? '-' : (37602).toLocaleString()}</span>
+            <span className="text-primary-650 leading-[20.8px] font-medium">{noChannel ? '-' : holderState.meta?.total_count!.toLocaleString()}</span>
           </div>
 
           {!noChannel && (
             <div className="flex content-start gap-2.5 flex-wrap pb-4 border-b border-b-primary-50">
-              {holders.map(({ name, amount, avatarURL }, index) => (
-                <div key={index} className="flex items-center gap-0.5 py-1 pl-1 pr-2 justify-center bg-primary-200 rounded-full">
-                  <Image src={avatarURL} alt="avatar" width={500} height={500} className="w-4 h-4 object-cover rounded-full" />
-                  <p className="font-medium">
-                    <span className="text-primary-250 text-[14px] leading-[21px]">{name}</span>{' '}
-                    <span className="text-[12px] leading-[150%] text-primary-850">
-                      {formatNumber(amount)} = ${formatNumber(amount * dollarRate)}
-                    </span>
-                  </p>
-                </div>
+              {holderState?.holders?.map((holder, index) => (
+                <HolderBadge key={index} {...holder} />
               ))}
             </div>
           )}

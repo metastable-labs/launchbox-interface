@@ -7,8 +7,9 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { IAddress, ILeaderboardEntity, IRow, ITXNS, ITokenSample } from './types';
 import useTruncateText from '@/hooks/useTruncateText';
 import useCopy from '@/hooks/useCopy';
-import { CheckAltIcon, CopyIcon, ETHIcon, TimerAltIcon } from '@/public/icons';
+import { CheckAltIcon, CopyIcon, ETHIcon, TimerAltIcon, UserSettingIcon } from '@/public/icons';
 import LBClickAnimation from '../click-animation';
+import useSystemFunctions from '@/hooks/useSystemFunctions';
 
 export const formatNumber = (num: number): string => {
   const formatWithPrecision = (value: number) => {
@@ -28,7 +29,11 @@ export const formatNumber = (num: number): string => {
 };
 
 const Address = ({ wallet, walletAvatarURL, isTransaction = false, variant }: IAddress) => {
+  const { tokenState } = useSystemFunctions();
   const { truncatedText } = useTruncateText(wallet, 5, 5);
+
+  const isDev = wallet === tokenState?.token?.chain?.deployer_address;
+
   return (
     <div className={classNames('flex', { 'items-center gap-2': !isTransaction, 'flex-col gap-1 items-start': isTransaction })}>
       <div className="flex items-center justify-center gap-2">
@@ -41,6 +46,7 @@ const Address = ({ wallet, walletAvatarURL, isTransaction = false, variant }: IA
             className="w-[10.7px] h-[10.9px] object-cover"
           />
         )}
+
         {isTransaction && (
           <div
             className={classNames('w-[11px] h-[11px] rounded-full', {
@@ -49,7 +55,15 @@ const Address = ({ wallet, walletAvatarURL, isTransaction = false, variant }: IA
             })}
           />
         )}
+
         <span className="text-primary-650 text-sm font-medium">{truncatedText}</span>
+
+        {isDev && !isTransaction && (
+          <div className="flex items-center justify-center py-1 pl-1 pr-2 gap-0.5 bg-primary-3050 rounded-full">
+            <UserSettingIcon />
+            <span className="text-primary-3000 text-[11px] leading-[12px] tracking-[0.22px] font-medium uppercase">dev</span>
+          </div>
+        )}
       </div>
 
       {isTransaction && (
