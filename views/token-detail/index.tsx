@@ -9,7 +9,7 @@ import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useCopy from '@/hooks/useCopy';
 import { LBBadge, LBClickAnimation, LBShare } from '@/components';
 import useTokenActions from '@/store/token/actions';
-import { CheckAltIcon, ConfigSiteIcon, CopyIcon, FarcasterIcon, WebIcon } from '@/public/icons';
+import { CheckAltIcon, ConfigSiteIcon, CopyIcon, WebIcon } from '@/public/icons';
 import useTransactionActions from '@/store/transaction/actions';
 import useHolderActions from '@/store/holder/actions';
 import useCastActions from '@/store/casts/actions';
@@ -70,8 +70,6 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
 
   const tabs = [<Overview key="overview" userRole={userRole} />, <Leaderboard key="incentive" />, <Channel key={channelTitle} userRole={userRole} />];
 
-  const variant = token?.chain.name as BadgeVariants;
-
   useEffect(() => {
     if (!token) {
       getToken(tokenAddressURL);
@@ -122,7 +120,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
                 )}
               </div>
 
-              <LBBadge variant={variant} />
+              <LBBadge variant="base" />
             </div>
 
             <div className="flex items-center justify-center gap-2">

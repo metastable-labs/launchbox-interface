@@ -74,8 +74,6 @@ const TokenInfo = ({ userRole }: IOverview) => {
 
   const show = (userRole === 'admin' && !isDesktop) || userRole === 'user';
 
-  const variant = token?.chain.name as BadgeVariants;
-
   return (
     <div className="flex flex-col self-stretch w-full gap-6">
       {show && (
@@ -110,7 +108,7 @@ const TokenInfo = ({ userRole }: IOverview) => {
             </div>
 
             <div className="min-w-fit">
-              <LBBadge variant={variant} />
+              <LBBadge variant="base" />
             </div>
           </div>
 
