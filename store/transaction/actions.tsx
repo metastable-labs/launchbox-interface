@@ -10,9 +10,11 @@ const useTransactionActions = () => {
   const { dispatch, tokenState } = useSystemFunctions();
   const { address } = useAccount();
 
+  const { coinPrice } = tokenState;
+
   const getTokenTransactions = async (query: string, callback?: CallbackProps) => {
     try {
-      if (!address || !tokenState.token?.id) return;
+      if (!address || !tokenState.token?.id || !coinPrice) return;
       dispatch(setLoading(true));
 
       const { meta, data } = await api.fetchTokenTransactions(tokenState.token?.id, query);
@@ -20,7 +22,7 @@ const useTransactionActions = () => {
 
       const transactions = [];
       for (const activity of data) {
-        const tokenPriceInUSD = 3000 * Number(activity.eth_value);
+        const tokenPriceInUSD = coinPrice?.price * Number(activity.eth_value);
 
         const factor = Math.pow(10, 6);
         const usdPrice = Math.floor(tokenPriceInUSD * factor) / factor;
