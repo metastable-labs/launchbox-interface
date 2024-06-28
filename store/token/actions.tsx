@@ -11,7 +11,7 @@ import { trim } from 'viem';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useContract from '@/hooks/useContract';
 import { networks } from '@/config/rainbow/config';
-import { setLoading, setLoadingCreate, setToken, setTokens, setMeta, setExtraTokens, setExtraUserTokens, setUserTokens, setUserTokensLoading, setUserTokensMeta, setLoadingBuy } from '.';
+import { setLoading, setLoadingCreate, setToken, setTokens, setMeta, setExtraTokens, setExtraUserTokens, setUserTokens, setUserTokensLoading, setUserTokensMeta, setLoadingBuy, setCoinPrice } from '.';
 import { CallbackProps } from '..';
 import api from './api';
 import { TokenData } from './types';
@@ -64,6 +64,15 @@ const useTokenActions = () => {
       callback?.onError?.(error);
     } finally {
       dispatch(setUserTokensLoading(false));
+    }
+  };
+
+  const getCoinPrice = async () => {
+    try {
+      const coinPrice = await api.fetchCoinPrice();
+      dispatch(setCoinPrice(coinPrice));
+    } catch (error: any) {
+      console.log(error);
     }
   };
 
@@ -283,6 +292,7 @@ const useTokenActions = () => {
     buyTokens,
     calculateTokenAmount,
     sellTokens,
+    getCoinPrice,
   };
 };
 

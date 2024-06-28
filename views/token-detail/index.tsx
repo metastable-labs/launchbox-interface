@@ -32,7 +32,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
   const [tab, setTab] = useState<Tabs>('overview');
   const [userRole, setUserRole] = useState<'admin' | 'user'>('user');
 
-  const { token } = tokenState;
+  const { token, coinPrice } = tokenState;
 
   const channelTitle = Boolean(Object.keys(token?.socials.warpcast.channel || {}).length) ? 'channel' : 'community';
 
@@ -81,6 +81,15 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
     getChannelCasts('take=15');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokenAddressURL, token]);
+
+  useEffect(() => {
+    if (!token || !coinPrice) {
+      return;
+    }
+
+    getTokenTransactions('take=15');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [coinPrice, token]);
 
   useEffect(() => {
     if (!address || !token) return;
