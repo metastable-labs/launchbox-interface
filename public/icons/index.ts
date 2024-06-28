@@ -77,6 +77,7 @@ import CoinIcon from './coin-icon.svg';
 import LinkIcon from './link-icon.svg';
 import WalletAltIcon from './wallet-alt-icon.svg';
 import UserSettingIcon from './user-setting-icon';
+import TrendIcon from './trend-icon';
 
 export {
   LaunchIcon,
@@ -158,4 +159,5 @@ export {
   LinkIcon,
   WalletAltIcon,
   UserSettingIcon,
+  TrendIcon,
 };
