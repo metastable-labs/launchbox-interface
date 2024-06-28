@@ -9,7 +9,6 @@ import { getBalance } from '@wagmi/core';
 import { formatEther } from 'viem';
 
 import { LBButton, LBClickAnimation } from '@/components';
-import { ILBTradeInterface } from './types';
 import useTokenActions from '@/store/token/actions';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import { ETHIcon, InfoIcon } from '@/public/icons';
@@ -23,11 +22,13 @@ function truncateToDecimals(num: number) {
   return Math.floor(num * factor) / factor;
 }
 
-const LBTradeInterface = ({ token, standAlone = true }: ILBTradeInterface) => {
+const LBTradeInterface = ({ standAlone = true }: ILBTradeInterface) => {
   const { openConnectModal } = useConnectModal();
   const { isConnected, address } = useAccount();
   const { buyTokens, calculateSellTokenAmount, calculateBuyTokenAmount, sellTokens } = useTokenActions();
   const { tokenState } = useSystemFunctions();
+
+  const { token } = tokenState;
 
   const [tab, setTab] = useState<'buy' | 'sell'>('buy');
   const [amount, setAmount] = useState<number>();
@@ -100,9 +101,9 @@ const LBTradeInterface = ({ token, standAlone = true }: ILBTradeInterface) => {
     }
 
     if (tab === 'buy') {
-      calculateBuyTokenAmount(token?.exchange_address, amount).then((val) => setValueToGet(val));
+      calculateBuyTokenAmount(token?.exchange_address!, amount).then((val) => setValueToGet(val));
     } else {
-      calculateSellTokenAmount(token?.exchange_address, amount).then((val) => setValueToGet(val));
+      calculateSellTokenAmount(token?.exchange_address!, amount).then((val) => setValueToGet(val));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [amount]);
@@ -128,7 +129,11 @@ const LBTradeInterface = ({ token, standAlone = true }: ILBTradeInterface) => {
                   'text-primary-2750': text !== tab,
                 },
               )}
-              onClick={() => setTab(text as 'buy' | 'sell')}>
+              onClick={() => {
+                setTab(text as 'buy' | 'sell');
+                setAmount(0);
+                setValueToGet(undefined);
+              }}>
               {text}
             </div>
           ))}
@@ -164,20 +169,20 @@ const LBTradeInterface = ({ token, standAlone = true }: ILBTradeInterface) => {
               </LBClickAnimation>
             ))}
           </div>
+
+          {valueToGet && (
+            <div className="py-3 flex flex-col gap-3 items-stretch rounded-lg">
+              {info.map(({ title, value }, index) => (
+                <div key={index} className="flex items-center justify-between gap-2 text-primary-250 text-sm">
+                  <span>{title}</span>
+                  <span>{value}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <LBButton loading={tokenState.loadingBuy} disabled={!amount || invalidAmount} variant="plainAlt" text={tab} type="submit" tradeType={tab} />
         </div>
-
-        {valueToGet && (
-          <div className="py-3 flex flex-col gap-3 items-stretch rounded-lg">
-            {info.map(({ title, value }, index) => (
-              <div key={index} className="flex items-center justify-between gap-2 text-primary-250 text-sm">
-                <span>{title}</span>
-                <span>{value}</span>
-              </div>
-            ))}
-          </div>
-        )}
-
-        <LBButton loading={tokenState.loadingBuy} disabled={!amount || invalidAmount} variant="plainAlt" text={tab} type="submit" tradeType={tab} />
       </form>
 
       <AnimatePresence>
