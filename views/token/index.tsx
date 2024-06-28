@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useAccount } from 'wagmi';
 
-import { LBButton, LBClickAnimation, LBContainer, LBLoader, LBTokenCard } from '@/components';
+import { LBButton, LBClickAnimation, LBContainer, LBError, LBLoader, LBTokenCard } from '@/components';
 import EmptyState from './empty';
 import { ExclaimIcon, PlusIconAlt } from '@/public/icons';
 import useTokenActions from '@/store/token/actions';
@@ -22,21 +22,28 @@ const TokenView = () => {
   const { getUserTokens } = useTokenActions();
   const { tokenState } = useSystemFunctions();
   const [shouldFetchMore, setShouldFetchMore] = useState(false);
+  const [showErrorState, setShowErrorState] = useState(false);
 
   const { userTokens, userTokensLoading, userTokensMeta } = tokenState;
   const showEmptyState = isConnected && !Boolean(userTokens?.length) && !userTokensLoading;
-  const showTokens = isConnected && Boolean(userTokens?.length);
+  const showShouldFetchMore = shouldFetchMore || userTokensLoading;
+  const showNewCard = !showShouldFetchMore && Boolean(userTokens?.length);
+
+  const fetchTokens = () => {
+    setShowErrorState(false);
+    getUserTokens(`deployer_address=${address}&take=12`, { onError: () => setShowErrorState(true) });
+  };
 
   useEffect(() => {
     if (!address) return;
 
-    getUserTokens(`deployer_address=${address}&take=12`);
+    fetchTokens();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 200 && Number(userTokens?.length) < Number(userTokensMeta?.totalCount)) {
+      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 200 && Number(userTokens?.length) < Number(userTokensMeta?.total_count)) {
         setShouldFetchMore(true);
       }
     };
@@ -54,12 +61,17 @@ const TokenView = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldFetchMore]);
 
-  if (userTokensLoading && !userTokens)
+  if (showErrorState && !userTokens) {
     return (
-      <div className="w-screen h-[80vh] flex items-center justify-center">
-        <LBLoader variant="large" />
-      </div>
+      <LBError
+        onClick={fetchTokens}
+        subtitle="Unable to get list of tokens at the moment. Please check your network connection and try again later."
+        title="Unable to get Tokens"
+        standAlone
+        show={showErrorState}
+      />
     );
+  }
 
   return (
     <LBContainer>
@@ -76,14 +88,14 @@ const TokenView = () => {
             </motion.div>
           )}
 
-          {showTokens && (
-            <motion.div {...animateVariant} key="userTokens-list" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 items-center justify-start gap-6 flex-1 self-stretch">
-              {userTokens?.map((token) => (
-                <LBTokenCard key={token?.id} {...token} />
-              ))}
+          <motion.div {...animateVariant} key="userTokens-list" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 items-center justify-start gap-6 flex-1 self-stretch">
+            {userTokens?.map((token) => (
+              <LBTokenCard key={token?.id} {...token} />
+            ))}
 
-              {shouldFetchMore && <Skeleton />}
+            {showShouldFetchMore && <Skeleton />}
 
+            {showNewCard && (
               <Link href={'/token/new'}>
                 <LBClickAnimation className="p-5 bg-white rounded-lg border border-primary-50 flex flex-col gap-2 h-[275px] justify-center items-center">
                   <PlusIconAlt />
@@ -91,8 +103,8 @@ const TokenView = () => {
                   <span className="text-primary-2050 text-base">Add new token</span>
                 </LBClickAnimation>
               </Link>
-            </motion.div>
-          )}
+            )}
+          </motion.div>
 
           {!isConnected && (
             <motion.div

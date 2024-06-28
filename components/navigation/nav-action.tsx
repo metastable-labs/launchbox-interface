@@ -8,7 +8,7 @@ import { SelectIcon, VerifiedIcon, SelectSecondaryIcon, WalletIcon } from '@/pub
 import { NavActionProps } from './types';
 import { networks } from '@/config/rainbow/config';
 
-const NavAction = ({ text, onClick, variant = 'network', isVisibile }: NavActionProps) => {
+const NavAction = ({ text, onClick, variant = 'network', isVisibile, disabled }: NavActionProps) => {
   const { truncatedText } = useTruncateText(text || '', 4, 4);
   const chainId = useChainId();
   const { isConnected } = useAccount();
@@ -33,7 +33,7 @@ const NavAction = ({ text, onClick, variant = 'network', isVisibile }: NavAction
   }
 
   return (
-    <LBClickAnimation onClick={onClick}>
+    <LBClickAnimation disabled={disabled} onClick={onClick}>
       <div className="max-w-[200px] md:max-w-[240px] bg-white rounded-base border border-primary-50 shadow-nav-select-shadow py-1 pl-1 pr-2 flex items-center justify-center gap-[6px] relative">
         <div className={classNames('flex items-center justify-center', {})}>
           {isConnected && (icon || connectedNetwork?.icon)}

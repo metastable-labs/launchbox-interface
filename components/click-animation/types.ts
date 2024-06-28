@@ -3,4 +3,5 @@ interface ILBClickAnimation {
   onClick?: () => void;
   className?: string;
   stopPropagation?: boolean;
+  disabled?: boolean;
 }
