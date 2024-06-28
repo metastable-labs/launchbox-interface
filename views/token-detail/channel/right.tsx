@@ -178,7 +178,7 @@ const HolderBadge = ({ address, balance }: Holder) => {
 };
 
 const max_star_rating = 5;
-const max_social_score = 100;
+const max_social_score = 500;
 
 const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
   const { tokenState, holderState, transactionState, castState } = useSystemFunctions();
