@@ -37,7 +37,7 @@ const DesktopView = ({
 
   const noLiquidityData = liquidityData.every((dataPoint) => dataPoint.value === 0);
 
-  const bondingCurveProgress = (((token?.market_cap || 1) / 100000) * 100) % 100;
+  const bondingCurveProgress = Math.min(((token?.market_cap || 1) / 100000) * 100, 100);
 
   const transactionsData = transactionState.transactions?.map((tx) => ({
     wallet: tx.address,
