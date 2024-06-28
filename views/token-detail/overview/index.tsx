@@ -10,10 +10,6 @@ import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useHolderActions from '@/store/holder/actions';
 
 const tabTexts = ['transactions', 'holders'];
-export const formatCurrency = (amount: number) => {
-  const [whole, decimal] = amount.toFixed(2).split('.');
-  return { whole, decimal };
-};
 
 const Overview = ({ userRole }: IOverview) => {
   const { getTokenTransactions } = useTransactionActions();

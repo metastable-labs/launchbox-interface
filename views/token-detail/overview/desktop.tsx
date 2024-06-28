@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import classNames from 'classnames';
 
 import { SecondaryTabs } from '../types';
-import { formatCurrency } from '.';
 import { LBTable, LBTradeInterface } from '@/components';
 import TokenInfo from './token-info';
 import ChangeIndicator from './change-indicator';
@@ -11,7 +10,7 @@ import LineChart from '../line-chart';
 import ClickTabs from '../tabs';
 import { IView } from './types';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
-import { formatAmount } from '@/utils/helpers';
+import { formatAmount, formatCurrency } from '@/utils/helpers';
 
 const DesktopView = ({
   liquidityData,
@@ -30,10 +29,9 @@ const DesktopView = ({
   const [tab, setTab] = useState<SecondaryTabs>('transactions');
 
   const { token } = tokenState;
-  const amount = formatAmount(token?.price || 0, 4);
   const change = 12.34;
 
-  const { whole, decimal } = formatCurrency(amount);
+  const { whole, decimal } = formatCurrency(token?.price, 7);
 
   const noLiquidityData = liquidityData.every((dataPoint) => dataPoint.value === 0);
 

@@ -177,12 +177,13 @@ const HolderBadge = ({ address, balance }: Holder) => {
   );
 };
 
+const max_star_rating = 5;
+const max_social_score = 500;
+
 const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
   const { tokenState, holderState, transactionState, castState } = useSystemFunctions();
 
   const { token } = tokenState;
-  const { meta } = transactionState;
-  const { meta: castMeta } = castState;
 
   const channel = token?.socials?.warpcast?.channel;
 
@@ -191,12 +192,15 @@ const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
   const total_tx_buy_count = token?.total_buy_count || 0;
   const total_tx_sell_count = token?.total_sell_count || 0;
   const total_tx_count = total_tx_buy_count + total_tx_sell_count;
-  const total_casts = castMeta?.totalCount || 0;
+  const total_casts = castState.casts?.length || 0;
+  const weekly_cast = castState.meta?.weekly_casts || 0;
+  const social_capital = castState.meta?.social_capital || 0;
+  const social_score = (social_capital / max_social_score) * max_star_rating;
 
   const info = [
     { title: 'Channel followers', text: channel?.follower_count?.toString(), activeFollowersPercentage: 13.3 },
-    { title: 'Weekly cast', text: total_casts.toLocaleString(), weeklyCastPercentage: 16.7 },
-    { title: 'Social score', text: (504.01).toLocaleString(), socialScore: 3 },
+    { title: 'Weekly cast', text: weekly_cast.toLocaleString(), weeklyCastPercentage: 16.7 },
+    { title: 'Social score', text: social_capital.toLocaleString(), socialScore: social_score },
     { title: 'Price (USD)', text: `$${formatAmount(token?.price, 7)}`, priceChangePercentage: 6.7 },
     { title: 'Txns', txns: { numerator: total_tx_count, denominator: { numerator: total_tx_buy_count, denominator: total_tx_sell_count } } },
     { title: 'Total supply', text: `${token?.token_total_supply?.toLocaleString()} ${token?.token_symbol}` },
