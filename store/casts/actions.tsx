@@ -18,8 +18,6 @@ const useCastActions = () => {
 
       const { meta, data } = await api.fetchChannelCasts(tokenState.token?.id, query);
 
-      console.log('data', data);
-
       dispatch(setMeta(meta));
 
       dispatch(setCasts(data));
