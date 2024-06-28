@@ -55,7 +55,6 @@ const TokenInfo = ({ userRole }: IOverview) => {
   ];
 
   const primaryInfo = [
-    { text: 'Liquidity', value: formatNumber(liquidity.denominator) },
     { text: 'FDV', value: formatNumber(fdv) },
     { text: 'Market cap', value: formatNumber(marketCap.numerator || 0) },
   ];
@@ -154,7 +153,7 @@ const TokenInfo = ({ userRole }: IOverview) => {
       <div className="self-stretch flex flex-col gap-9 items-stretch">
         <div className="flex items-center gap-2.5 self-stretch">
           {primaryInfo.map(({ text, value }, index) => (
-            <div key={index} className="flex flex-col items-center justify-center gap-1.5 h-[75px] rounded-base border border-primary-1200 bg-primary-2500 w-[33.333333%]">
+            <div key={index} className="flex flex-col items-center justify-center gap-1.5 h-[75px] rounded-base border border-primary-1200 bg-primary-2500 w-1/2">
               <span className="text-primary-250 text-[12px] leading-[17.4px]">{text}</span>
               <span className="text-primary-650 text-base font-medium">${value}</span>
             </div>

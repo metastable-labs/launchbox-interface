@@ -192,6 +192,7 @@ const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
   const total_sell_count = token?.total_sell_count || 0;
   const total_count = total_buy_count + total_sell_count;
   const total_casts = castMeta?.totalCount || 0;
+  const volume = formatAmount(token?.volume || 0, 5);
 
   const info = [
     { title: 'Channel followers', text: channel?.follower_count?.toString(), activeFollowersPercentage: 13.3 },
@@ -200,7 +201,7 @@ const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
     { title: 'Price (1D)', text: `$${token?.token_price_in_usd}`, priceChangePercentage: 6.7 },
     { title: 'Txns', txns: { numerator: total_count, denominator: { numerator: total_buy_count, denominator: total_sell_count } } },
     { title: 'Total supply', text: `${token?.token_total_supply.toLocaleString()} ${token?.token_symbol}` },
-    { title: 'Volume', text: `$${formatNumber(Number(token?.volume))}` },
+    { title: 'Volume', text: `$${formatNumber(volume)}` },
   ];
 
   return (
