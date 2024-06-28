@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { BaseBadgeicon, CheckAltIcon, ConfigSiteIcon, CopyIcon, FarcasterIcon, SmallFarcasterIcon, WebIcon } from '@/public/icons';
+import { CheckAltIcon, ConfigSiteIcon, CopyIcon, FarcasterIcon, SmallFarcasterIcon, WebIcon } from '@/public/icons';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useCopy from '@/hooks/useCopy';
 import { generateData, holders, periods } from '../dummy';
 import { Period } from '../types';
-import { LBClickAnimation, LBShare } from '@/components';
+import { LBBadge, LBClickAnimation, LBShare } from '@/components';
 import classNames from 'classnames';
 import LineChart from '../line-chart';
 import { formatNumber } from '@/components/table/row';
@@ -34,7 +34,7 @@ const Header = () => {
       <div className="flex flex-col gap-4">
         <div className="flex gap-4 items-center">
           <h1 className="text-primary-650 font-medium break-words text-[30px] lg:text-[32px] leading-[28px]">{channel?.name || 'No Channel'}</h1>
-          <BaseBadgeicon />
+          <LBBadge variant="warpcast" />
         </div>
 
         <p className="text-primary-700 text-[14px] leading-[21px]">{channel?.description || noChannelDescription}</p>

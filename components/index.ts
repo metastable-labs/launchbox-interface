@@ -22,6 +22,7 @@ import LBComment from './comment';
 import LBSwitch from './switch';
 import LBLeaderboard from './leaderboard';
 import LBError from './error';
+import LBBadge from './badge';
 
 export {
   LBButton,
@@ -48,4 +49,5 @@ export {
   LBSwitch,
   LBLeaderboard,
   LBError,
+  LBBadge,
 };
