@@ -155,7 +155,7 @@ const DesktopView = ({
       </div>
 
       <div className={classNames('w-1/4 ', { 'flex flex-col gap-8 items-stretch': userRole === 'admin' })}>
-        <LBTradeInterface balance={120330} token={token!} />
+        <LBTradeInterface />
 
         {userRole === 'admin' && (
           <div className="min-w-[300px] p-6 rounded-lg border border-primary-50 h-fit">
