@@ -11,6 +11,7 @@ import LineChart from '../line-chart';
 import ClickTabs from '../tabs';
 import { IView } from './types';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
+import { formatAmount } from '@/utils/helpers';
 
 const DesktopView = ({
   liquidityData,
@@ -23,18 +24,20 @@ const DesktopView = ({
   shouldFetchMoreTransactions,
   tabTexts,
   userRole,
-  token,
 }: IView) => {
-  const { transactionState, holderState } = useSystemFunctions();
+  const { transactionState, holderState, tokenState } = useSystemFunctions();
 
   const [tab, setTab] = useState<SecondaryTabs>('transactions');
 
-  const amount = 456.86;
+  const { token } = tokenState;
+  const amount = formatAmount(token?.price || 0, 4);
   const change = 12.34;
 
   const { whole, decimal } = formatCurrency(amount);
 
   const noLiquidityData = liquidityData.every((dataPoint) => dataPoint.value === 0);
+
+  const bondingCurveProgress = (((token?.market_cap || 1) / 100000) * 100) % 100;
 
   const transactionsData = transactionState.transactions?.map((tx) => ({
     wallet: tx.address,
@@ -83,7 +86,7 @@ const DesktopView = ({
     <div className="flex justify-between gap-3.5 sticky top-0">
       {userRole === 'user' && (
         <div className="w-1/4 p-6 rounded-lg border border-primary-50 h-fit">
-          <TokenInfo token={token} userRole={userRole} />
+          <TokenInfo userRole={userRole} />
         </div>
       )}
 
@@ -130,9 +133,9 @@ const DesktopView = ({
             <h1 className="text-primary-2900 text-[24px] leading-[36px] tracking-[-0.48px] font-medium">Bonding curve progress</h1>
 
             <div className="flex items-center gap-2">
-              <span className="text-primary-650 text-[15px] font-medium">{'34.4%'}</span>
+              <span className="text-primary-650 text-[15px] font-medium">{formatAmount(bondingCurveProgress, 2)}%</span>
               <div className="w-full h-2 bg-primary-950 rounded">
-                <motion.div className="h-full bg-primary-1000 rounded" initial={{ width: 0 }} animate={{ width: '34.4%' }} />
+                <motion.div className="h-full bg-primary-1000 rounded" initial={{ width: 0 }} animate={{ width: `${bondingCurveProgress}%` }} />
               </div>
             </div>
           </div>

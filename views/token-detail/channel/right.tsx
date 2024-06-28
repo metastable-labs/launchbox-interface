@@ -156,11 +156,11 @@ const HolderBadge = ({ address, balance }: Holder) => {
   const { tokenState } = useSystemFunctions();
   const { truncatedText } = useTruncateText(address, 4, 4);
 
-  const formattedBalance = formatAmount(Number(balance), 4);
-  const formattedPriceInUSD = (formattedBalance * Number(tokenState?.token?.token_price_in_usd!)).toFixed(3);
+  const formattedBalance = Number(balance);
+  const formattedPriceInUSD = formattedBalance * Number(tokenState?.token?.price!);
 
   const holderAmount = formatNumber(formattedBalance);
-  const holderAmountInUSD = formatNumber(Number(formattedPriceInUSD));
+  const holderAmountInUSD = formatNumber(formatAmount(formattedPriceInUSD));
   const imageToShow = '/icons/wallet-alt-icon.svg';
   const textToShow = truncatedText;
 

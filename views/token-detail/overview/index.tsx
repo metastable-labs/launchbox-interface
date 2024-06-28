@@ -15,7 +15,7 @@ export const formatCurrency = (amount: number) => {
   return { whole, decimal };
 };
 
-const Overview = ({ token, userRole }: IOverview) => {
+const Overview = ({ userRole }: IOverview) => {
   const { getTokenTransactions } = useTransactionActions();
   const { getTokenHolders } = useHolderActions();
   const { transactionState, holderState } = useSystemFunctions();
@@ -32,7 +32,6 @@ const Overview = ({ token, userRole }: IOverview) => {
     setPeriod,
     periods,
     userRole,
-    token,
     shouldFetchMoreTransactions,
     setShouldFetchMoreTransactions,
     shouldFetchMoreHolders,

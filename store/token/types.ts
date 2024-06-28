@@ -27,8 +27,6 @@ type Token = {
   created_at: string;
   updated_at: string;
   market_cap: number;
-  token_price_in_eth: number;
-  token_price_in_usd: number;
   price: number;
   volume: number;
   total_buy_count: number;
