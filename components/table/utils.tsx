@@ -6,8 +6,9 @@ const headers = [
     secondary: 'Address',
     secondaryAlt: 'User',
     tertiary: (
-      <div className="flex items-center gap-1">
-        Created <BuyAndSellIcon width={16} height={16} />
+      <div className="flex items-center">
+        <span>Created</span>
+        {/* <BuyAndSellIcon width={16} height={16} /> */}
       </div>
     ),
     key: 1,
@@ -16,9 +17,9 @@ const headers = [
   {
     primary: 'Token amount',
     tertiary: (
-      <div className="flex items-center gap-1">
+      <div className="flex items-center">
         <span>Market cap</span>
-        <InfoIcon />
+        {/* <InfoIcon /> */}
       </div>
     ),
     key: 3,
@@ -28,8 +29,9 @@ const headers = [
     secondary: 'Holding',
     secondaryAlt: 'Points',
     tertiary: (
-      <div className="flex items-center gap-1">
-        TXNS <BuyAndSellIcon color="#0A0D14" width={16} height={16} />
+      <div className="flex items-center">
+        <span>TXNS</span>
+        {/* <BuyAndSellIcon color="#0A0D14" width={16} height={16} /> */}
       </div>
     ),
     key: 4,
