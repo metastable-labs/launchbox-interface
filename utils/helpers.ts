@@ -28,6 +28,14 @@ export const formatAmount = (amount?: number | string, decimals = 4): number => 
   return truncatedValue;
 };
 
+export const formatCurrency = (amount?: number | string, decimals = 4) => {
+  if (!amount) return { whole: '0', decimal: '00' };
+
+  const [whole, decimal] = formatAmount(amount, decimals).toString().split('.');
+  console.log(whole, decimal);
+  return { whole, decimal };
+};
+
 export const formatNumber = (num: number): string => {
   const formatWithPrecision = (value: number) => {
     return value % 1 === 0 ? value.toFixed(0) : value.toFixed(2).replace(/\.?0+$/, '');

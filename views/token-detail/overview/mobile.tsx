@@ -5,13 +5,12 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { SecondaryTabs } from '../types';
 import { LBTable, LBTradeInterface } from '@/components';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
-import { formatCurrency } from '.';
 import TokenInfo from './token-info';
 import ChangeIndicator from './change-indicator';
 import LineChart from '../line-chart';
 import ClickTabs from '../tabs';
 import { IView } from './types';
-import { formatAmount } from '@/utils/helpers';
+import { formatAmount, formatCurrency } from '@/utils/helpers';
 
 type MobileTabs = 'info' | 'chart+txns' | 'buy/sell';
 const mobileTabs: MobileTabs[] = ['info', 'chart+txns', 'buy/sell'];
@@ -34,10 +33,9 @@ const MobileView = ({
   const [mobileTab, setMobileTab] = useState<MobileTabs>('info');
   const { token } = tokenState;
 
-  const amount = formatAmount(token?.price || 0, 4);
   const change = -12.34;
 
-  const { whole, decimal } = formatCurrency(amount);
+  const { whole, decimal } = formatCurrency(token?.price, 7);
 
   const noLiquidityData = liquidityData.every((dataPoint) => dataPoint.value === 0);
 
