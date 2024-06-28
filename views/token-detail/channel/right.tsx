@@ -177,6 +177,9 @@ const HolderBadge = ({ address, balance }: Holder) => {
   );
 };
 
+const max_star_rating = 5;
+const max_social_score = 100;
+
 const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
   const { tokenState, holderState, transactionState, castState } = useSystemFunctions();
 
@@ -192,7 +195,7 @@ const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
   const total_casts = castState.casts?.length || 0;
   const weekly_cast = castState.meta?.weekly_casts || 0;
   const social_capital = castState.meta?.social_capital || 0;
-  const social_score = social_capital / 2;
+  const social_score = (social_capital / max_social_score) * max_star_rating;
 
   const info = [
     { title: 'Channel followers', text: channel?.follower_count?.toString(), activeFollowersPercentage: 13.3 },
