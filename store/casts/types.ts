@@ -34,6 +34,8 @@ type CastMeta = {
   take: number;
   skip: number;
   totalCount: number;
+  social_capital: number;
+  weekly_casts: number;
 };
 
 export type { Cast, CastMeta, CastResponse };
