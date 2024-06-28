@@ -13,6 +13,7 @@ import useTokenActions from '@/store/token/actions';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import { ETHIcon } from '@/public/icons';
 import { wagmiConfig } from '@/config/rainbow/rainbowkit';
+import { formatAmount } from '@/utils/helpers';
 
 const tabs = ['buy', 'sell'];
 
@@ -24,7 +25,7 @@ function truncateToDecimals(num: number) {
 const LBTradeInterface = ({ token, standAlone = true }: ILBTradeInterface) => {
   const { openConnectModal } = useConnectModal();
   const { isConnected, address } = useAccount();
-  const { buyTokens, calculateTokenAmount, sellTokens } = useTokenActions();
+  const { buyTokens, calculateSellTokenAmount, calculateBuyTokenAmount, sellTokens } = useTokenActions();
   const { tokenState } = useSystemFunctions();
 
   const [tab, setTab] = useState<'buy' | 'sell'>('buy');
@@ -42,12 +43,18 @@ const LBTradeInterface = ({ token, standAlone = true }: ILBTradeInterface) => {
     { text: '100%', onClick: () => setAmount(truncateToDecimals(balance)) },
   ];
 
-  const info = [{ title: "You'll get", value: `${valueToGet?.toLocaleString()} ${token?.token_symbol}` }];
+  const tokenToGet = tab === 'buy' ? token?.token_symbol : 'ETH';
+  const decimal = tab === 'buy' ? 4 : 10;
+  const amountToGet = formatAmount(valueToGet, decimal).toLocaleString();
+  const info = [{ title: "You'll get", value: `${amountToGet} ${tokenToGet}` }];
 
   const tokenSymbol = tab === 'buy' ? 'ETH' : token?.token_symbol;
   const tokenLogo = tab === 'buy' ? <ETHIcon height={20} width={20} /> : <Image src={token?.token_logo_url || ''} alt="token" width={500} height={500} className="w-5 h-5 object-cover" />;
 
-  const handleAmountChange: OnValueChange = ({ floatValue }) => setAmount(floatValue || 0);
+  const handleAmountChange: OnValueChange = ({ floatValue }) => {
+    console.log(floatValue);
+    setAmount(floatValue || 0);
+  };
 
   const handleGetBalance = async () => {
     const ethResponse = await getBalance(wagmiConfig, {
@@ -84,9 +91,16 @@ const LBTradeInterface = ({ token, standAlone = true }: ILBTradeInterface) => {
   };
 
   useEffect(() => {
-    if (!amount) return;
+    if (!amount) {
+      setValueToGet(undefined);
+      return;
+    }
 
-    calculateTokenAmount(token?.exchange_address, amount).then((value) => null);
+    if (tab === 'buy') {
+      calculateBuyTokenAmount(token?.exchange_address, amount).then((val) => setValueToGet(val));
+    } else {
+      calculateSellTokenAmount(token?.exchange_address, amount).then((val) => setValueToGet(val));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [amount]);
 
@@ -110,7 +124,11 @@ const LBTradeInterface = ({ token, standAlone = true }: ILBTradeInterface) => {
                 'text-primary-2750': text !== tab,
               },
             )}
-            onClick={() => setTab(text as 'buy' | 'sell')}>
+            onClick={() => {
+              setTab(text as 'buy' | 'sell');
+              setAmount(0);
+              setValueToGet(undefined);
+            }}>
             {text}
           </div>
         ))}

@@ -128,15 +128,35 @@ const useTokenActions = () => {
     }
   };
 
-  const calculateTokenAmount = async (exchangeAddress: Address, amount: number) => {
+  const calculateSellTokenAmount = async (exchangeAddress: Address, amount: number) => {
     try {
-      const result = await readContract(wagmiConfig, {
+      const result: any = await readContract(wagmiConfig, {
         abi: LaunchBoxExchange.abi,
         address: exchangeAddress,
         functionName: 'calculateSaleTokenOut',
         args: [amount * 10 ** 18],
       });
-      return result;
+
+      const value = formatEther(result[0]);
+
+      return Number(value);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  const calculateBuyTokenAmount = async (exchangeAddress: Address, amount: number) => {
+    try {
+      const result: any = await readContract(wagmiConfig, {
+        abi: LaunchBoxExchange.abi,
+        address: exchangeAddress,
+        functionName: 'calculatePurchaseTokenOut',
+        args: [amount * 10 ** 18],
+      });
+
+      const value = formatEther(result[0]);
+
+      return Number(value);
     } catch (error: any) {
       console.log(error);
     }
@@ -290,7 +310,8 @@ const useTokenActions = () => {
     getToken,
     createToken,
     buyTokens,
-    calculateTokenAmount,
+    calculateSellTokenAmount,
+    calculateBuyTokenAmount,
     sellTokens,
     getCoinPrice,
   };
