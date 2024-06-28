@@ -45,7 +45,7 @@ const Info = ({ text, title, activeFollowersPercentage, priceChangePercentage, s
         {socialScore && (
           <>
             <span>(</span>
-            <Rating count={5} value={noChannel ? 0 : socialScore} size={16} activeColor="#F2AE40" color="#D9D9D9" isHalf={true} edit={false} classNames="star-ratings" />
+            <Rating count={5} value={socialScore} size={16} activeColor="#F2AE40" color="#D9D9D9" isHalf={true} edit={false} classNames="star-ratings" />
             <span>)</span>
           </>
         )}

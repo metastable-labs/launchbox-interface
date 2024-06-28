@@ -32,7 +32,6 @@ export const formatCurrency = (amount?: number | string, decimals = 4) => {
   if (!amount) return { whole: '0', decimal: '00' };
 
   const [whole, decimal] = formatAmount(amount, decimals).toString().split('.');
-  console.log(whole, decimal);
   return { whole, decimal };
 };
 
