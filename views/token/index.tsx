@@ -25,7 +25,8 @@ const TokenView = () => {
 
   const { userTokens, userTokensLoading, userTokensMeta } = tokenState;
   const showEmptyState = isConnected && !Boolean(userTokens?.length) && !userTokensLoading;
-  const showTokens = isConnected && Boolean(userTokens?.length);
+  const showShouldFetchMore = shouldFetchMore || userTokensLoading;
+  const showNewCard = !showShouldFetchMore && Boolean(userTokens?.length);
 
   useEffect(() => {
     if (!address) return;
@@ -36,7 +37,7 @@ const TokenView = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 200 && Number(userTokens?.length) < Number(userTokensMeta?.totalCount)) {
+      if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 200 && Number(userTokens?.length) < Number(userTokensMeta?.total_count)) {
         setShouldFetchMore(true);
       }
     };
@@ -54,13 +55,6 @@ const TokenView = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shouldFetchMore]);
 
-  if (userTokensLoading && !userTokens)
-    return (
-      <div className="w-screen h-[80vh] flex items-center justify-center">
-        <LBLoader variant="large" />
-      </div>
-    );
-
   return (
     <LBContainer>
       <div className="pt-12 flex flex-col gap-[86px] lg:px-8 items-center pb-14">
@@ -76,14 +70,14 @@ const TokenView = () => {
             </motion.div>
           )}
 
-          {showTokens && (
-            <motion.div {...animateVariant} key="userTokens-list" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 items-center justify-start gap-6 flex-1 self-stretch">
-              {userTokens?.map((token) => (
-                <LBTokenCard key={token?.id} {...token} />
-              ))}
+          <motion.div {...animateVariant} key="userTokens-list" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 items-center justify-start gap-6 flex-1 self-stretch">
+            {userTokens?.map((token) => (
+              <LBTokenCard key={token?.id} {...token} />
+            ))}
 
-              {shouldFetchMore && <Skeleton />}
+            {showShouldFetchMore && <Skeleton />}
 
+            {showNewCard && (
               <Link href={'/token/new'}>
                 <LBClickAnimation className="p-5 bg-white rounded-lg border border-primary-50 flex flex-col gap-2 h-[275px] justify-center items-center">
                   <PlusIconAlt />
@@ -91,8 +85,8 @@ const TokenView = () => {
                   <span className="text-primary-2050 text-base">Add new token</span>
                 </LBClickAnimation>
               </Link>
-            </motion.div>
-          )}
+            )}
+          </motion.div>
 
           {!isConnected && (
             <motion.div

@@ -76,6 +76,7 @@ const LBNavigation = () => {
       variant: 'network',
       isVisibile: isConnected,
       onClick: () => handleModal('network'),
+      disabled: true,
     },
     {
       text: address || 'Connect wallet',
