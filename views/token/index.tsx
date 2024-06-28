@@ -66,7 +66,7 @@ const TokenView = () => {
       <div className="pt-12 flex flex-col gap-[86px] lg:px-8 items-center pb-14">
         <div className="flex flex-col items-start gap-1 flex-1 self-stretch">
           <h1 className="text-primary-650 text-[30px] leading-[38px] font-Biform">Token launch</h1>
-          <p className="text-base text-primary-700">Generate and deploy your own L2 userTokens without coding</p>
+          <p className="text-base text-primary-700">Launch your token and grow your community fast</p>
         </div>
 
         <AnimatePresence mode="popLayout" initial={false}>
