@@ -17,6 +17,7 @@ const Address = ({ wallet, walletAvatarURL, isTransaction = false, variant }: IA
   const { truncatedText } = useTruncateText(wallet, 5, 5);
 
   const isDev = wallet === tokenState?.token?.chain?.deployer_address;
+  const isExchangeAddress = wallet === tokenState.token?.exchange_address;
 
   return (
     <div className={classNames('flex', { 'items-center gap-2': !isTransaction, 'flex-col gap-1 items-start': isTransaction })}>
@@ -42,10 +43,13 @@ const Address = ({ wallet, walletAvatarURL, isTransaction = false, variant }: IA
 
         <span className="text-primary-650 text-sm font-medium">{truncatedText}</span>
 
-        {isDev && !isTransaction && (
+        {(isDev || isExchangeAddress) && !isTransaction && (
           <div className="flex items-center justify-center py-1 pl-1 pr-2 gap-0.5 bg-primary-3050 rounded-full">
             <UserSettingIcon />
-            <span className="text-primary-3000 text-[11px] leading-[12px] tracking-[0.22px] font-medium uppercase">dev</span>
+            <span className="text-primary-3000 text-[11px] leading-[12px] tracking-[0.22px] font-medium uppercase">
+              {isDev && 'dev'}
+              {isExchangeAddress && 'exchange contract'}
+            </span>
           </div>
         )}
       </div>
