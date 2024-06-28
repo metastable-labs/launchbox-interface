@@ -97,8 +97,6 @@ const LBTradeInterface = ({ token, standAlone = true }: ILBTradeInterface) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
-  console.log(typeof amount, amount);
-
   return (
     <form onSubmit={onSubmit} className={classNames('h-fit flex flex-col gap-6', { 'p-6 rounded-base border border-primary-50 bg-white': standAlone, 'max-w-80 md:max-w-[343px]': !standAlone })}>
       <div className="p-1 self-stretch flex gap-1 bg-primary-2700 rounded-xl">

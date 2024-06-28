@@ -4,8 +4,8 @@ import moment from 'moment';
 import classNames from 'classnames';
 
 import { HeartIcon, RecastIcon, ReplyIcon } from '@/public/icons';
-import { formatNumber } from '../table/row';
 import { ILBComment } from './types';
+import { formatNumber } from '@/utils/helpers';
 
 const LBComment = (props: ILBComment) => {
   const others = [

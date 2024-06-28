@@ -4,10 +4,10 @@ import classNames from 'classnames';
 import Image from 'next/image';
 
 import { CopyIcon, UserIcon, CoinIcon, LinkIcon, RoundedCloseIcon } from '@/public/icons';
-import { formatNumber } from '../table/row';
 import LBClickAnimation from '../click-animation';
 import LBTable from '../table';
 import { leaderboardData } from '@/views/token-detail/dummy';
+import { formatNumber } from '@/utils/helpers';
 
 const dummyUser: ILBLeaderboardUser = {
   name: 'Choco',

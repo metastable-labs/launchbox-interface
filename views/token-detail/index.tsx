@@ -7,9 +7,9 @@ import { useAccount } from 'wagmi';
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useCopy from '@/hooks/useCopy';
-import { LBClickAnimation, LBShare } from '@/components';
+import { LBBadge, LBClickAnimation, LBShare } from '@/components';
 import useTokenActions from '@/store/token/actions';
-import { BaseBadgeicon, CheckAltIcon, ConfigSiteIcon, CopyIcon, FarcasterIcon, WebIcon } from '@/public/icons';
+import { CheckAltIcon, ConfigSiteIcon, CopyIcon, FarcasterIcon, WebIcon } from '@/public/icons';
 import useTransactionActions from '@/store/transaction/actions';
 import useHolderActions from '@/store/holder/actions';
 import useCastActions from '@/store/casts/actions';
@@ -30,9 +30,9 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
   const { handleCopy, hasCopied } = useCopy();
 
   const [tab, setTab] = useState<Tabs>('overview');
-  const [userRole, setUserRole] = useState<'admin' | 'user'>('admin');
+  const [userRole, setUserRole] = useState<'admin' | 'user'>('user');
 
-  const { token, coinPrice } = tokenState;
+  const { token } = tokenState;
 
   const channelTitle = Boolean(Object.keys(token?.socials.warpcast.channel || {}).length) ? 'channel' : 'community';
 
@@ -62,17 +62,17 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
     },
     {
       text: 'Farcaster',
-      icon: <FarcasterIcon />,
+      icon: <Image src="/icons/farcaster-icon.svg" alt="farcaster" width={200} height={200} className="w-5 h-5 object-cover" />,
       onClick: () => window.open(token?.warpcast_channel_link, '_blank'),
       show: userRole === 'user',
     },
   ];
 
-  const tabs = [<Overview key="overview" userRole={userRole} token={token} />, <Leaderboard key="incentive" />, <Channel key={channelTitle} userRole={userRole} />];
+  const tabs = [<Overview key="overview" userRole={userRole} />, <Leaderboard key="incentive" />, <Channel key={channelTitle} userRole={userRole} />];
+
+  const variant = token?.chain.name as BadgeVariants;
 
   useEffect(() => {
-    if (!coinPrice) return;
-
     if (!token) {
       getToken(tokenAddressURL);
       return;
@@ -82,7 +82,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
     getTokenHolders('take=15');
     getChannelCasts('take=15');
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tokenAddressURL, token, coinPrice]);
+  }, [tokenAddressURL, token]);
 
   useEffect(() => {
     if (!address || !token) return;
@@ -122,7 +122,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
                 )}
               </div>
 
-              <BaseBadgeicon />
+              <LBBadge variant={variant} />
             </div>
 
             <div className="flex items-center justify-center gap-2">

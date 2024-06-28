@@ -1,11 +1,10 @@
 import { axiosInstance } from '@/utils/axios';
-import { CoinPrice, Token, Tokens } from './types';
+import { Token, Tokens } from './types';
 
 type IToken = {
   fetchTokens: (query: string) => Promise<Tokens>;
   fetchToken: (id: string) => Promise<Token>;
   createToken: (data: FormData) => Promise<Token>;
-  fetchCoinPrice: () => Promise<CoinPrice>;
 };
 
 const token: IToken = {
@@ -28,12 +27,6 @@ const token: IToken = {
 
   createToken: async (data: FormData): Promise<Token> => {
     const response = await axiosInstance.post(`launchbox/tokens`, data);
-
-    return response.data?.data;
-  },
-
-  fetchCoinPrice: async (): Promise<CoinPrice> => {
-    const response = await axiosInstance.get(`launchbox/price`);
 
     return response.data?.data;
   },

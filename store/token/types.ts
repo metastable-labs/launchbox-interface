@@ -27,7 +27,6 @@ type Token = {
   created_at: string;
   updated_at: string;
   market_cap: number;
-  token_price_in_eth: number;
   price: number;
   volume: number;
   total_buy_count: number;
@@ -57,12 +56,4 @@ type Tokens = {
   meta: Meta;
 };
 
-type CoinPrice = {
-  name: string;
-  symbol: string;
-  price: number;
-  currency: string;
-  last_updated: string;
-};
-
-export type { Token, TokenData, Meta, Tokens, CoinPrice };
+export type { Token, TokenData, Meta, Tokens };

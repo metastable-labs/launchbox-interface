@@ -5,13 +5,10 @@ import useSystemFunctions from '@/hooks/useSystemFunctions';
 import api from './api';
 import { setExtraTransactions, setLoading, setMeta, setTransactions } from '.';
 import { CallbackProps } from '..';
-import { formatEther } from 'viem';
 
 const useTransactionActions = () => {
   const { dispatch, tokenState } = useSystemFunctions();
   const { address } = useAccount();
-
-  const { coinPrice } = tokenState;
 
   const getTokenTransactions = async (query: string, callback?: CallbackProps) => {
     try {
@@ -23,7 +20,7 @@ const useTransactionActions = () => {
 
       const transactions = [];
       for (const activity of data) {
-        const tokenPriceInUSD = (coinPrice?.price || 0) * Number(activity.eth_value);
+        const tokenPriceInUSD = 3000 * Number(activity.eth_value);
 
         const factor = Math.pow(10, 6);
         const usdPrice = Math.floor(tokenPriceInUSD * factor) / factor;

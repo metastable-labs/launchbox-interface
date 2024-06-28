@@ -2,14 +2,16 @@
 
 import Image from 'next/image';
 
-import { BaseBadgeicon } from '@/public/icons';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
-import { LBLeaderboard } from '@/components';
+import { LBBadge, LBLeaderboard } from '@/components';
 
 const LeaderboardView = () => {
   const { tokenState, navigate } = useSystemFunctions();
 
   const { token } = tokenState;
+
+  const variant = token?.chain.name as BadgeVariants;
+
   return (
     <div className="flex flex-col gap-9">
       <div className="flex items-start gap-4 px-5 pt-8">
@@ -21,7 +23,7 @@ const LeaderboardView = () => {
           <span className="text-primary-700 text-[14px] leading-[16px]">${token?.token_symbol}</span>
         </div>
 
-        <BaseBadgeicon />
+        <LBBadge variant={variant || 'base'} />
       </div>
 
       <LBLeaderboard variant="public" />

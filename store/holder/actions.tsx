@@ -16,6 +16,8 @@ const useHolderActions = () => {
       dispatch(setLoading(true));
 
       const { meta, data } = await api.fetchTokenHolders(tokenState.token?.id, query);
+      console.log('data', data);
+
       dispatch(setMeta(meta));
 
       if (meta.skip === 0) {

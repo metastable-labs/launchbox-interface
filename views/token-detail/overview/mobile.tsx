@@ -11,6 +11,7 @@ import ChangeIndicator from './change-indicator';
 import LineChart from '../line-chart';
 import ClickTabs from '../tabs';
 import { IView } from './types';
+import { formatAmount } from '@/utils/helpers';
 
 type MobileTabs = 'info' | 'chart+txns' | 'buy/sell';
 const mobileTabs: MobileTabs[] = ['info', 'chart+txns', 'buy/sell'];
@@ -26,14 +27,14 @@ const MobileView = ({
   shouldFetchMoreTransactions,
   tabTexts,
   userRole,
-  token,
 }: IView) => {
-  const { transactionState, holderState } = useSystemFunctions();
+  const { transactionState, holderState, tokenState } = useSystemFunctions();
 
   const [tab, setTab] = useState<SecondaryTabs>('transactions');
   const [mobileTab, setMobileTab] = useState<MobileTabs>('info');
+  const { token } = tokenState;
 
-  const amount = 456.86;
+  const amount = formatAmount(token?.price || 0, 4);
   const change = -12.34;
 
   const { whole, decimal } = formatCurrency(amount);
@@ -65,7 +66,7 @@ const MobileView = ({
       loading={false}
       variant="primary"
       key="transactions"
-      tokenSymbol="SAT"
+      tokenSymbol={token?.token_symbol}
       take={transactionState.meta?.take}
       total={transactionState.meta?.total_count}
       setShouldFetchMore={setShouldFetchMoreTransactions}
@@ -85,7 +86,7 @@ const MobileView = ({
 
   const items = [
     <div key="info" className="self-stretch p-6 rounded-lg border border-primary-50 h-fit">
-      <TokenInfo token={token} userRole={userRole} />
+      <TokenInfo userRole={userRole} />
     </div>,
     <div key="chart+txns" className="w-full self-stretch flex flex-col items-stretch justify-center gap-6 rounded-lg border border-primary-50 p-6">
       <div className="flex items-center justify-center self-stretch">

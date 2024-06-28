@@ -28,7 +28,6 @@ type TokenDetailData = {
 };
 
 interface IOverview {
-  token?: Token;
   userRole: 'admin' | 'user';
 }
 
