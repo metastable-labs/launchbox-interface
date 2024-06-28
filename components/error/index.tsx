@@ -19,7 +19,9 @@ const LBError = ({ onClick, subtitle, title, show, standAlone = false }: ILBErro
           <h1 className="text-primary-400 text-[20px] leading-[30px] text-center">{title}</h1>
           <p className="text-primary-700 text-[14px] leading-[24px] text-center max-w-[400px]">{subtitle}</p>
 
-          <LBButton text="Try again" fullWidth onClick={onClick} variant="plain" />
+          <div className="self-stretch items-stretch flex mt-5">
+            <LBButton text="Try again" fullWidth onClick={onClick} variant="plain" />
+          </div>
         </div>
       </motion.div>
     )}

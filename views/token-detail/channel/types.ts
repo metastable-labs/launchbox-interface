@@ -13,10 +13,10 @@ interface IInfo {
   socialScore?: number;
   priceChangePercentage?: number;
   txns?: {
-    numerator: number;
+    numerator?: number;
     denominator: {
-      numerator: number;
-      denominator: number;
+      numerator?: number;
+      denominator?: number;
     };
   };
   hasBorder?: boolean;

@@ -18,13 +18,16 @@ const useCastActions = () => {
 
       const { meta, data } = await api.fetchChannelCasts(tokenState.token?.id, query);
 
+      console.log('data', data);
+
       dispatch(setMeta(meta));
 
-      if (meta.skip === 0) {
-        dispatch(setCasts(data));
-      } else {
-        dispatch(setExtraCasts(data));
-      }
+      dispatch(setCasts(data));
+
+      // if (meta.skip === 0) {
+      // } else {
+      //   dispatch(setExtraCasts(data));
+      // }
 
       callback?.onSuccess?.();
     } catch (error: any) {

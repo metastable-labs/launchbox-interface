@@ -1,6 +1,5 @@
 'use client';
 import { useAccount } from 'wagmi';
-import { formatEther } from 'viem';
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import api from './api';
@@ -20,19 +19,6 @@ const useHolderActions = () => {
       console.log('data', data);
 
       dispatch(setMeta(meta));
-
-      // const holders = [];
-
-      // for (const activity of data) {
-      //   const balance = formatEther(BigInt(activity.balance));
-
-      //   const item = {
-      //     ...activity,
-      //     balance,
-      //   };
-
-      //   holders.push(item);
-      // }
 
       if (meta.skip === 0) {
         dispatch(setHolders(data));

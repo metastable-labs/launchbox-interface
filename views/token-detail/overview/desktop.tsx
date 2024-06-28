@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import classNames from 'classnames';
 
@@ -11,7 +11,6 @@ import LineChart from '../line-chart';
 import ClickTabs from '../tabs';
 import { IView } from './types';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
-import { formatEther } from 'viem';
 
 const DesktopView = ({
   liquidityData,
@@ -62,7 +61,7 @@ const DesktopView = ({
       loading={false}
       variant="primary"
       key="transactions"
-      tokenSymbol="SAT"
+      tokenSymbol={token?.token_symbol}
       take={transactionState.meta?.take}
       total={transactionState.meta?.total_count}
       setShouldFetchMore={setShouldFetchMoreTransactions}

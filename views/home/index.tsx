@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { debounce } from 'lodash';
 
-import { LBContainer, LBError, LBModal, LBTable, LBTradeInterface } from '@/components';
-import { BaseBadgeicon, SearchAltIcon } from '@/public/icons';
+import { LBBadge, LBContainer, LBError, LBModal, LBTable, LBTradeInterface } from '@/components';
+import { SearchAltIcon } from '@/public/icons';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useTokenActions from '@/store/token/actions';
 import { Token } from '@/store/token/types';
@@ -94,8 +94,8 @@ const HomeView = () => {
     return (
       <LBError
         onClick={fetchTokens}
-        subtitle="Unable to fetch token data at the moment. Please check your network connection or try again later."
-        title="Unable to Fetch Tokens"
+        subtitle="Unable to get list of tokens at the moment. Please check your network connection and try again later."
+        title="Unable to get Tokens"
         standAlone
         show={showErrorState}
       />
@@ -110,7 +110,7 @@ const HomeView = () => {
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-3">
                 <h1 className="text-primary-650 text-[32px] leading-[38px] font-medium">Tokens</h1>
-                <BaseBadgeicon />
+                <LBBadge variant="base" />
               </div>
               <p className="text-primary-700">Tokens launched will be updated here in realtime</p>
             </div>

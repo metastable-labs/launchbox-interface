@@ -37,7 +37,8 @@ const LBTable = ({ data, loading, variant = 'primary', tokenSymbol, cta, rowClic
 
                   'text-right': header.textRight && variant === 'primary',
                   'text-left': !header.textRight || variant === 'secondary' || variant === 'secondaryAlt' || variant === 'tertiary',
-                  'hidden lg:table-cell': (variant === 'primary' && (index === 2 || index === 4)) || (variant === 'tertiary' && (index === 3 || index === 4)),
+                  'hidden lg:table-cell': variant === 'tertiary' && (index === 3 || index === 4),
+                  'hidden md:table-cell': variant === 'primary' && (index === 2 || index === 4),
                   'hidden sm:table-cell': variant === 'tertiary' && (index === 1 || index === 5),
                 })}>
                 {header[variant]}
