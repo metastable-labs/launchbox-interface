@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { IAddress, ILeaderboardEntity, IRow, ITXNS, ITokenSample } from './types';
 import useTruncateText from '@/hooks/useTruncateText';
 import useCopy from '@/hooks/useCopy';
-import { CheckAltIcon, CopyIcon, ETHIcon, TimerAltIcon, UserSettingIcon } from '@/public/icons';
+import { CheckAltIcon, CopyIcon, ETHIcon, TimerAltIcon, UserSettingIcon, TrendIcon } from '@/public/icons';
 import LBClickAnimation from '../click-animation';
 import { formatNumber } from '@/utils/helpers';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
@@ -45,7 +45,8 @@ const Address = ({ wallet, walletAvatarURL, isTransaction = false, variant }: IA
 
         {(isDev || isExchangeAddress) && !isTransaction && (
           <div className="flex items-center justify-center py-1 pl-1 pr-2 gap-0.5 bg-primary-3050 rounded-full">
-            <UserSettingIcon />
+            {isDev && <UserSettingIcon />}
+            {isExchangeAddress && <TrendIcon />}
             <span className="text-primary-3000 text-[11px] leading-[12px] tracking-[0.22px] font-medium uppercase">
               {isDev && 'dev'}
               {isExchangeAddress && 'exchange contract'}
