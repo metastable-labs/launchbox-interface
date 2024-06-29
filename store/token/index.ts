@@ -1,7 +1,7 @@
 'use client';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { Meta, Token } from './types';
+import { CoinPrice, Meta, Token } from './types';
 
 export interface TokenState {
   tokens: Token[] | undefined;
@@ -13,6 +13,7 @@ export interface TokenState {
   loadingCreate: boolean;
   loadingBuy: boolean;
   userTokensMeta?: Meta;
+  coinPrice?: CoinPrice;
 }
 
 const initialState: TokenState = {
@@ -25,6 +26,7 @@ const initialState: TokenState = {
   loadingCreate: false,
   loadingBuy: false,
   userTokensMeta: undefined,
+  coinPrice: undefined,
 };
 
 export const tokenReducer = createSlice({
@@ -102,10 +104,14 @@ export const tokenReducer = createSlice({
         state.userTokensMeta = undefined;
       }
     },
+
+    setCoinPrice: (state, action: PayloadAction<CoinPrice>) => {
+      state.coinPrice = { ...action.payload };
+    },
   },
 });
 
-export const { setExtraTokens, setExtraUserTokens, setLoading, setLoadingCreate, setMeta, setToken, setTokens, setUserTokens, setUserTokensLoading, setUserTokensMeta, setLoadingBuy } =
+export const { setExtraTokens, setExtraUserTokens, setLoading, setLoadingCreate, setMeta, setToken, setTokens, setUserTokens, setUserTokensLoading, setUserTokensMeta, setLoadingBuy, setCoinPrice } =
   tokenReducer.actions;
 
 export default tokenReducer.reducer;

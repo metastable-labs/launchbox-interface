@@ -17,6 +17,7 @@ interface INavAction {
   variant: ModalType;
   onClick: () => void;
   isVisibile?: boolean;
+  disabled?: boolean;
 }
 
 type INavActions = INavAction[];
@@ -42,6 +43,7 @@ interface NavActionProps {
   isMobile?: boolean;
   variant?: 'network' | 'account' | 'wallet';
   isVisibile?: boolean;
+  disabled?: boolean;
 }
 
 export type { INavLinks, INavLink, INavActions, INavAction, MenuProps, NavLinkProps, NavActionProps };

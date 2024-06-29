@@ -9,7 +9,7 @@ import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useCopy from '@/hooks/useCopy';
 import { LBBadge, LBClickAnimation, LBShare } from '@/components';
 import useTokenActions from '@/store/token/actions';
-import { CheckAltIcon, ConfigSiteIcon, CopyIcon, FarcasterIcon, WebIcon } from '@/public/icons';
+import { CheckAltIcon, ConfigSiteIcon, CopyIcon, WebIcon } from '@/public/icons';
 import useTransactionActions from '@/store/transaction/actions';
 import useHolderActions from '@/store/holder/actions';
 import useCastActions from '@/store/casts/actions';
@@ -32,7 +32,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
   const [tab, setTab] = useState<Tabs>('overview');
   const [userRole, setUserRole] = useState<'admin' | 'user'>('user');
 
-  const { token } = tokenState;
+  const { token, coinPrice } = tokenState;
 
   const channelTitle = Boolean(Object.keys(token?.socials.warpcast.channel || {}).length) ? 'channel' : 'community';
 
@@ -70,8 +70,6 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
 
   const tabs = [<Overview key="overview" userRole={userRole} />, <Leaderboard key="incentive" />, <Channel key={channelTitle} userRole={userRole} />];
 
-  const variant = token?.chain.name as BadgeVariants;
-
   useEffect(() => {
     if (!token) {
       getToken(tokenAddressURL);
@@ -83,6 +81,15 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
     getChannelCasts('take=15');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokenAddressURL, token]);
+
+  useEffect(() => {
+    if (!token || !coinPrice) {
+      return;
+    }
+
+    getTokenTransactions('take=15');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [coinPrice, token]);
 
   useEffect(() => {
     if (!address || !token) return;
@@ -122,7 +129,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
                 )}
               </div>
 
-              <LBBadge variant={variant} />
+              <LBBadge variant="base" />
             </div>
 
             <div className="flex items-center justify-center gap-2">

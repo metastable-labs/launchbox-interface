@@ -99,10 +99,29 @@ const getOptions = (period: Period, data: { date: Date; value: number }[], varia
         mode: 'index',
         intersect: false,
         axis: 'x',
+        backgroundColor: '#FCFCFC',
+        borderColor: '#EFEFEF',
+        borderWidth: '1',
+        titleColor: '#6F767E',
+        titleFont: {
+          size: variant === 'secondary' ? 10 : 12,
+          weight: 'bold',
+        },
+        padding: variant === 'secondary' ? 14 : 20,
+        bodyColor: '#868C98',
+        bodyFont: {
+          size: variant === 'secondary' ? 16 : 24,
+          weight: 'bold',
+        },
+        cornerRadius: 12,
+        displayColors: false,
         callbacks: {
           title: function (context: any) {
             const rawDate = context[0].label;
-            return rawDate;
+            const parsedDate = moment(rawDate, 'MMM DD, YYYY, h:mm:ss a');
+
+            const formattedDate = parsedDate.format('M/D/YY      h:mma');
+            return formattedDate.toUpperCase();
           },
           label: function (context: any) {
             const value = (context.raw as number).toFixed(2);
