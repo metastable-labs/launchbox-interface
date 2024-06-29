@@ -123,7 +123,7 @@ const MobileView = ({
       {userRole === 'user' && (
         <>
           <div className="flex flex-col justify-center gap-4 w-full p-4 flex-1">
-            <h1 className="text-primary-2900 text-[24px] leading-[36px] tracking-[-0.48px] font-medium">Bonding curve progress</h1>
+            <h1 className="text-primary-2900 text-[24px] leading-[36px] tracking-[-0.48px] font-medium">Market cap progress</h1>
 
             <div className="flex items-center gap-2">
               <span className="text-primary-650 text-[15px] font-medium">{'34.4%'}</span>
@@ -134,7 +134,7 @@ const MobileView = ({
           </div>
 
           <p className="self-stretch flex-1 px-6 py-3 flex items-center rounded-xl bg-primary-300 text-[14px] leading-[24px] text-primary-2550">
-            When the market cap reaches $100,000 all the liquidity from the bonding curve will be deposited into Aerodrome and burned. progression increases as the price goes up.
+            When the market cap reaches $100,000 all the liquidity from the Exchange Contract will be deposited into Aerodrome. Progression increases as the price goes up.
           </p>
         </>
       )}
