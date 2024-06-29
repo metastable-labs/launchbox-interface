@@ -45,7 +45,7 @@ const LBTradeInterface = ({ standAlone = true, token }: ILBTradeInterface) => {
     { text: '50%', onClick: () => setAmount(truncateToDecimals(balance * 0.5)) },
     { text: '100%', onClick: () => setAmount(truncateToDecimals(balance)) },
   ];
-  console.log(token);
+
   const tokenToGet = tab === 'buy' ? token?.token_symbol : 'ETH';
   const decimal = tab === 'buy' ? 4 : 10;
   const amountToGet = formatAmount(valueToGet, decimal).toLocaleString();
