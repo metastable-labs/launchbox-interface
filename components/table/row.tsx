@@ -48,8 +48,8 @@ const Address = ({ wallet, walletAvatarURL, isTransaction = false, variant }: IA
             {isDev && <UserSettingIcon />}
             {isExchangeAddress && <TrendIcon />}
             <span className="text-primary-3000 text-[11px] leading-[12px] tracking-[0.22px] font-medium uppercase">
-              {isDev && 'dev'}
-              {isExchangeAddress && 'exchange contract'}
+              {isDev && 'Creator'}
+              {isExchangeAddress && 'Exchange Contract'}
             </span>
           </div>
         )}
