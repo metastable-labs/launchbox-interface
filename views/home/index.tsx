@@ -156,7 +156,7 @@ const HomeView = () => {
       )}
 
       <LBModal close={closeModal} show={Boolean(activeToken)}>
-        <LBTradeInterface standAlone={false} />
+        <LBTradeInterface standAlone={false} token={activeToken} />
       </LBModal>
     </div>
   );

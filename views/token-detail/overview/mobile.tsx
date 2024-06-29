@@ -150,7 +150,7 @@ const MobileView = ({
       </AnimatePresence>
     </div>,
     <div key="buy/sell" className="max-w-full">
-      <LBTradeInterface />
+      <LBTradeInterface token={token} />
     </div>,
   ];
 
