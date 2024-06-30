@@ -10,7 +10,7 @@ const Step2 = ({ file, register, setFile, tokenSymbol, createTokenPage, setCreat
 
   const disbleButton = !file;
 
-  let buttonText = 'Deploy';
+  let buttonText = 'Review';
   if (tokenSymbol) buttonText = `Deploy $${tokenSymbol} token`;
 
   const handleFile = (e: any) => {
