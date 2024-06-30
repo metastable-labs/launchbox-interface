@@ -237,11 +237,7 @@ const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
           </div>
 
           {!noChannel && (
-            <div className="flex content-start gap-2.5 flex-wrap pb-4 border-b border-b-primary-50">
-              {holderState?.holders?.map((holder, index) => (
-                <HolderBadge key={index} {...holder} />
-              ))}
-            </div>
+            <div className="flex content-start gap-2.5 flex-wrap pb-4 border-b border-b-primary-50">{holderState?.holders?.map((holder, index) => <HolderBadge key={index} {...holder} />)}</div>
           )}
 
           {info.map((item, index) => (

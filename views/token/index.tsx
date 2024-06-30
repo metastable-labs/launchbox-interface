@@ -89,9 +89,7 @@ const TokenView = () => {
           )}
 
           <motion.div {...animateVariant} key="userTokens-list" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 items-center justify-start gap-6 flex-1 self-stretch">
-            {userTokens?.map((token) => (
-              <LBTokenCard key={token?.id} {...token} />
-            ))}
+            {userTokens?.map((token) => <LBTokenCard key={token?.id} {...token} />)}
 
             {showShouldFetchMore && <Skeleton />}
 
