@@ -157,8 +157,13 @@ const LineChart: React.FC<ILineChart> = ({ data, period, variant = 'primary' }) 
         borderColor: '#0C68E9',
         borderWidth: 2,
         pointRadius: 0,
+        pointHoverRadius: 6,
+        pointHitRadius: 50,
         fill: true,
         backgroundColor: 'rgba(156, 197, 255, 0.05)',
+        pointBackgroundColor: '#0C68E9',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 4,
       },
     ],
   };
