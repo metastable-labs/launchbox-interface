@@ -26,7 +26,7 @@ const TokenView = () => {
 
   const { userTokens, userTokensLoading, userTokensMeta } = tokenState;
   const showEmptyState = isConnected && !Boolean(userTokens?.length) && !userTokensLoading;
-  const showShouldFetchMore = shouldFetchMore || userTokensLoading;
+  const showShouldFetchMore = isConnected && (shouldFetchMore || userTokensLoading);
   const showNewCard = !showShouldFetchMore && Boolean(userTokens?.length);
 
   const fetchTokens = () => {

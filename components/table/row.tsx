@@ -246,7 +246,7 @@ const Row = ({ item, variant, index, tokenSymbol, cta, rowClick, items, setShoul
         })}>
         {variant === 'primary' && <p className="text-primary-250 min-w-full text-right">{item.createdAt ? moment(item.createdAt).fromNow() : '-'}</p>}
 
-        {variant === 'secondary' && <span className="text-primary-650">{`${item.holding?.toLocaleString() + '%' || '-'}`}</span>}
+        {variant === 'secondary' && <span className="text-primary-650">{`${item.holding ? item.holding?.toLocaleString() : '-'}`}%</span>}
 
         {variant === 'secondaryAlt' && <span className="text-primary-650">{item.points?.toLocaleString() || '-'}</span>}
 
