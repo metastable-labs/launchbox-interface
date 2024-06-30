@@ -33,9 +33,7 @@ const LBComment = (props: ILBComment) => {
 
       {props?.images?.length > 0 && (
         <div className={classNames('flex flex-col items-stretch', { 'gap-4': props?.images?.length > 1 })}>
-          {props?.images.map((image, index) => (
-            <Image key={`${props?.id}-image-${index}`} src={image} alt={`Image ${index + 1}`} width={1000} height={1000} className="object-cover w-full" />
-          ))}
+          {props?.images.map((image, index) => <Image key={`${props?.id}-image-${index}`} src={image} alt={`Image ${index + 1}`} width={1000} height={1000} className="object-cover w-full" />)}
         </div>
       )}
 

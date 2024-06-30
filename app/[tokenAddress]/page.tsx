@@ -1,6 +1,12 @@
 import { TokenDetailsView } from '@/views';
 
-const TokenDetail = ({ params: { tokenAddress } }: PageProps) => {
+interface TokenDetailProps {
+  params: {
+    tokenAddress: string;
+  };
+}
+
+const TokenDetail = ({ params: { tokenAddress } }: TokenDetailProps) => {
   return <TokenDetailsView tokenAddress={tokenAddress} />;
 };
 

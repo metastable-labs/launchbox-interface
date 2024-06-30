@@ -14,6 +14,7 @@ import useSystemFunctions from '@/hooks/useSystemFunctions';
 import { ETHIcon, InfoIcon } from '@/public/icons';
 import { wagmiConfig } from '@/config/rainbow/rainbowkit';
 import { formatAmount } from '@/utils/helpers';
+import { ILBTradeInterface } from './types';
 
 const tabs = ['buy', 'sell'];
 
@@ -22,13 +23,11 @@ function truncateToDecimals(num: number) {
   return Math.floor(num * factor) / factor;
 }
 
-const LBTradeInterface = ({ standAlone = true }: ILBTradeInterface) => {
+const LBTradeInterface = ({ standAlone = true, token }: ILBTradeInterface) => {
   const { openConnectModal } = useConnectModal();
   const { isConnected, address } = useAccount();
   const { buyTokens, calculateSellTokenAmount, calculateBuyTokenAmount, sellTokens } = useTokenActions();
   const { tokenState } = useSystemFunctions();
-
-  const { token } = tokenState;
 
   const [tab, setTab] = useState<'buy' | 'sell'>('buy');
   const [amount, setAmount] = useState<number>();
@@ -196,7 +195,7 @@ const LBTradeInterface = ({ standAlone = true }: ILBTradeInterface) => {
               <InfoIcon width={24} height={24} color="#6E330C" />
             </div>
 
-            <p className="text-primary-3000 text-[14px] leading-[24px] max-w-[348.7px]">{`You don't have enough ${tab === 'buy' ? 'ETH' : token.token_symbol}`}</p>
+            <p className="text-primary-3000 text-[14px] leading-[24px] max-w-[348.7px]">{`You don't have enough ${tab === 'buy' ? 'ETH' : token?.token_symbol}`}</p>
           </motion.div>
         )}
       </AnimatePresence>
