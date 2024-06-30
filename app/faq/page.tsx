@@ -1,3 +1,5 @@
+'use client';
+
 import { FAQView } from '@/views';
 
 const FAQ = () => <FAQView />;
