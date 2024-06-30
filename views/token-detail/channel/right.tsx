@@ -23,7 +23,7 @@ const Header = () => {
   const channel = token?.socials?.warpcast?.channel;
 
   const noChannel = !Boolean(Object.keys(token?.socials.warpcast.channel || {}).length);
-  const noChannelDescription = 'Satosh is a lorem lore mlore lore. Satosh is a lorem lore mlore lore Satosh is a lorem lore mlore lore Satosh is a lorem lore mlore lore';
+  const noChannelDescription = '- -';
 
   const channelImage = noChannel ? 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717743095/crypto-icon-instance_ygqnhb.jpg' : channel?.image_url!;
 
@@ -33,7 +33,7 @@ const Header = () => {
 
       <div className="flex flex-col gap-4">
         <div className="flex gap-4 items-center">
-          <h1 className="text-primary-650 font-medium break-words text-[30px] lg:text-[32px] leading-[28px]">{channel?.name || 'No Channel'}</h1>
+          <h1 className="text-primary-650 font-medium break-words text-[30px] lg:text-[32px] leading-[28px]">{channel?.name || '- -'}</h1>
           <LBBadge variant="warpcast" />
         </div>
 
@@ -237,7 +237,11 @@ const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
           </div>
 
           {!noChannel && (
-            <div className="flex content-start gap-2.5 flex-wrap pb-4 border-b border-b-primary-50">{holderState?.holders?.map((holder, index) => <HolderBadge key={index} {...holder} />)}</div>
+            <div className="flex content-start gap-2.5 flex-wrap pb-4 border-b border-b-primary-50">
+              {holderState?.holders?.map((holder, index) => (
+                <HolderBadge key={index} {...holder} />
+              ))}
+            </div>
           )}
 
           {info.map((item, index) => (

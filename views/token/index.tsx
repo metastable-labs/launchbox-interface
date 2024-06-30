@@ -78,7 +78,7 @@ const TokenView = () => {
       <div className="pt-12 flex flex-col gap-[86px] lg:px-8 items-center pb-14">
         <div className="flex flex-col items-start gap-1 flex-1 self-stretch">
           <h1 className="text-primary-650 text-[30px] leading-[38px] font-Biform">Token launch</h1>
-          <p className="text-base text-primary-700">Launch your token and grow your community fast</p>
+          <p className="text-base text-primary-700">Launch tokens and grow your community fast</p>
         </div>
 
         <AnimatePresence mode="popLayout" initial={false}>
@@ -89,7 +89,9 @@ const TokenView = () => {
           )}
 
           <motion.div {...animateVariant} key="userTokens-list" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 items-center justify-start gap-6 flex-1 self-stretch">
-            {userTokens?.map((token) => <LBTokenCard key={token?.id} {...token} />)}
+            {userTokens?.map((token) => (
+              <LBTokenCard key={token?.id} {...token} />
+            ))}
 
             {showShouldFetchMore && <Skeleton />}
 
