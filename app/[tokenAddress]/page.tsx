@@ -1,6 +1,12 @@
 import { TokenDetailsView } from '@/views';
 
-const TokenDetail = ({ params: { tokenAddress } }: { params: { tokenAddress: string }; children?: React.ReactNode }) => {
+interface TokenDetailProps {
+  params: {
+    tokenAddress: string;
+  };
+}
+
+const TokenDetail = ({ params: { tokenAddress } }: TokenDetailProps) => {
   return <TokenDetailsView tokenAddress={tokenAddress} />;
 };
 
