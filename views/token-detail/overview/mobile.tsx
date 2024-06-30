@@ -39,6 +39,8 @@ const MobileView = ({
 
   const noLiquidityData = liquidityData.every((dataPoint) => dataPoint.value === 0);
 
+  const bondingCurveProgress = Math.min(((token?.market_cap || 1) / 100000) * 100, 100);
+
   const transactionsData = transactionState.transactions?.map((tx) => ({
     wallet: tx.address,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_npmw4c.jpg',
@@ -52,7 +54,7 @@ const MobileView = ({
   const holdersData = holderState.holders?.map((holder) => ({
     wallet: holder.address,
     walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717871583/Avatar_1.0_npmw4c.jpg',
-    holding: Number(holder.balance) / Number(token?.token_total_supply) / 100,
+    holding: (Number(holder.balance) / Number(token?.token_total_supply || 0)) * 100,
   }));
 
   const showShouldFetchMore = shouldFetchMoreTransactions || (transactionState.loading && !transactionState.transactions);
@@ -126,9 +128,9 @@ const MobileView = ({
             <h1 className="text-primary-2900 text-[24px] leading-[36px] tracking-[-0.48px] font-medium">Market cap progress</h1>
 
             <div className="flex items-center gap-2">
-              <span className="text-primary-650 text-[15px] font-medium">{'34.4%'}</span>
+              <span className="text-primary-650 text-[15px] font-medium">{formatAmount(bondingCurveProgress, 2)}%</span>
               <div className="w-full h-2 bg-primary-950 rounded">
-                <motion.div className="h-full bg-primary-1000 rounded" initial={{ width: 0 }} animate={{ width: '34.4%' }} />
+                <motion.div className="h-full bg-primary-1000 rounded" initial={{ width: 0 }} animate={{ width: `${bondingCurveProgress}%` }} />
               </div>
             </div>
           </div>
