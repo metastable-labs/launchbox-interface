@@ -8,13 +8,12 @@ import { CallbackProps } from '..';
 
 const useTransactionActions = () => {
   const { dispatch, tokenState } = useSystemFunctions();
-  const { address } = useAccount();
 
   const { coinPrice } = tokenState;
 
   const getTokenTransactions = async (query: string, callback?: CallbackProps) => {
     try {
-      if (!address || !tokenState.token?.id || !coinPrice) return;
+      if (!tokenState.token?.id || !coinPrice) return;
       dispatch(setLoading(true));
 
       const { meta, data } = await api.fetchTokenTransactions(tokenState.token?.id, query);

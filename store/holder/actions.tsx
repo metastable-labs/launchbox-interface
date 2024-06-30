@@ -12,7 +12,7 @@ const useHolderActions = () => {
 
   const getTokenHolders = async (query: string, callback?: CallbackProps) => {
     try {
-      if (!address || !tokenState.token?.id) return;
+      if (!tokenState.token?.id) return;
       dispatch(setLoading(true));
 
       const { meta, data } = await api.fetchTokenHolders(tokenState.token?.id, query);

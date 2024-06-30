@@ -76,7 +76,6 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
       return;
     }
 
-    getTokenTransactions('take=15');
     getTokenHolders('take=15');
     getChannelCasts('take=15');
     // eslint-disable-next-line react-hooks/exhaustive-deps
