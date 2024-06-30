@@ -2,10 +2,11 @@ import Link from 'next/link';
 import classNames from 'classnames';
 import { NavLinkProps } from './types';
 
-const NavLink = ({ title, icon, href, isActive, fullWidth, comingSoon }: NavLinkProps) => {
+const NavLink = ({ title, icon, href, isActive, fullWidth, comingSoon, onClick }: NavLinkProps) => {
   return (
     <Link
       href={href}
+      onClick={onClick && onClick}
       className={classNames('py-2 pl-2 pr-3 rounded-lg transition-all duration-200 flex gap-2 items-center justify-start', {
         'bg-primary-200 text-primary-150 underline': isActive,
         'bg-white text-primary-250': !isActive,

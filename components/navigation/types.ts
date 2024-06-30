@@ -8,6 +8,7 @@ interface INavLink {
   href: string;
   isActive: boolean;
   comingSoon?: boolean;
+  onClick?: () => void;
 }
 
 type INavLinks = INavLink[];
@@ -35,6 +36,7 @@ interface NavLinkProps {
   isActive: boolean;
   fullWidth?: boolean;
   comingSoon?: boolean;
+  onClick?: () => void;
 }
 
 interface NavActionProps {
