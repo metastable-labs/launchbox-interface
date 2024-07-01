@@ -29,11 +29,13 @@ const LBLeaderboard = ({ variant = 'private' }: ILBLeaderboard) => {
           icon: <UserIcon />,
           text: `${(40_678).toLocaleString()}`,
           secondaryText: 'Participants',
+          onClick: undefined,
         },
         {
           icon: <CoinIcon />,
           text: `${formatNumber(22_700_000).toUpperCase()}`,
           secondaryText: 'Total Points',
+          onClick: undefined,
         },
       ],
     },
@@ -45,11 +47,13 @@ const LBLeaderboard = ({ variant = 'private' }: ILBLeaderboard) => {
           icon: <LinkIcon />,
           text: 'Public link',
           secondaryText: undefined,
+          onClick: () => {},
         },
         {
           icon: <CopyIcon />,
           text: 'Embed',
           secondaryText: undefined,
+          onClick: () => {},
         },
       ],
     },
@@ -59,22 +63,23 @@ const LBLeaderboard = ({ variant = 'private' }: ILBLeaderboard) => {
 
   return (
     <div
-      className={classNames('self-stretch flex-1 flex flex-col gap-6 relative min-h-full overflow-auto', {
+      className={classNames('self-stretch flex-1 flex flex-col gap-3.5 md:gap-6 relative min-h-full overflow-auto', {
         'p-6 rounded-lg border border-primary-50 mx-5 min-h-[80vh] mb-10': variant === 'public',
       })}>
-      <h1 className="text-primary-650 text-[24px] leading-[38px] font-medium">Leaderboard</h1>
+      <h1 className="text-primary-650 text-[24px] leading-[38px] font-medium font-Clash-Display">Leaderboard</h1>
 
-      <div className="flex items-center justify-between flex-wrap gap-4">
+      <div className="flex items-center justify-between flex-wrap -mt-2.5 md:mt-0 gap-y-4">
         {actions.map(({ type, items, show }) => (
           <div key={type} className="flex items-center gap-2 flex-wrap">
-            {items.map(({ icon, text, secondaryText }) => (
+            {items.map(({ icon, text, secondaryText, onClick }) => (
               <LBClickAnimation
                 key={text}
-                className={classNames('px-3.5 py-2.5 rounded-lg border border-primary-1950 flex items-center bg-white shadow-table-cta', {
+                className={classNames('px-3.5 py-2.5 rounded-lg border border-primary-1950 flex items-center shadow-table-cta', {
                   'pointer-events-none gap-1': type === 'inactive',
                   hidden: !show,
                   'md:gap-1': type === 'active',
-                })}>
+                })}
+                onClick={onClick}>
                 {icon}
                 <p className={classNames('flex items-center justify-center gap-1 text-primary-2000 text-sm font-medium', { 'md:px-0.5': type == 'active', 'px-0.5': type === 'inactive' })}>
                   <span className={classNames('', { 'hidden md:block': type === 'active' })}>{text}</span>
@@ -114,7 +119,7 @@ const LBLeaderboard = ({ variant = 'private' }: ILBLeaderboard) => {
 
               <div
                 className={classNames('flex items-center', {
-                  'justify-between': user,
+                  'justify-between gap-3': user,
                   'justify-center': !user,
                 })}>
                 <LBClickAnimation
