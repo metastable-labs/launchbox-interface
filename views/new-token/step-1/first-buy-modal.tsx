@@ -84,7 +84,7 @@ const FirstBuyModal: React.FC<IFirstBuyModal> = ({ show, tokenLogo, tokenSymbol,
           </div>
         </div>
 
-        <LBButton text="Continue" fullWidth onClick={() => {}} type="submit" variant="plain" />
+        <LBButton text="Continue" fullWidth type="submit" />
 
         <p className="px-6 py-3 self-stretch rounded-xl bg-primary-300 text-primary-1250 text-[14px] leading-[24px]">Helpful informative text here</p>
       </div>

@@ -1,7 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import classNames from 'classnames';
-import { useChainId } from 'wagmi';
-import { base, optimism, mode } from 'wagmi/chains';
 
 import { CheckIcon, RightCarretDarkIcon } from '@/public/icons';
 
@@ -14,7 +12,6 @@ interface StepProps {
 }
 
 const Step = ({ step, title, current, passed, onClick }: StepProps) => {
-  const chainId = useChainId();
   return (
     <div
       className={classNames('flex items-center justify-center gap-2', {
@@ -23,9 +20,7 @@ const Step = ({ step, title, current, passed, onClick }: StepProps) => {
       onClick={() => onClick && onClick()}>
       <div
         className={classNames('rounded-full w-5 h-5 flex items-center justify-center transition-all duration-300', {
-          'bg-primary-1000': current && chainId === base.id,
-          'bg-primary-1050': current && chainId === optimism.id,
-          'bg-primary-1100': current && chainId === mode.id,
+          'bg-primary-3350': current,
           'bg-primary-450': passed,
           'bg-white border border-primary-50': !current && !passed,
           'text-white': current,
@@ -45,7 +40,7 @@ const Step = ({ step, title, current, passed, onClick }: StepProps) => {
       </div>
 
       <span
-        className={classNames('text-sm tracking-[-0.084px]', {
+        className={classNames('text-sm tracking-[-0.084px] font-Clash-Display', {
           'font-medium text-primary-150': current,
           'font-normal text-primary-250': !current,
         })}>

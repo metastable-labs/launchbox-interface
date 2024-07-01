@@ -23,7 +23,7 @@ const Step3 = ({ tokenData, setDisableHeader }: StepProps) => {
 
   const { tokenState } = useSystemFunctions();
   const { createToken } = useTokenActions();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(2);
   const [deployStep, setDeployStep] = useState(0);
 
   const { loading, token } = tokenState;
@@ -80,7 +80,7 @@ const Step3 = ({ tokenData, setDisableHeader }: StepProps) => {
 
   return (
     <>
-      <div className={classNames('flex flex-col rounded-base border border-primary-1200 bg-white p-6 min-w-[343px] md:min-w-[448px]', { 'h-[488px] items-center justify-center': step !== 0 })}>
+      <div className={classNames('flex flex-col rounded-base border border-primary-1200 bg-white p-6 max-w-[370px]', { 'h-[488px] items-center justify-center': step !== 0 })}>
         <AnimatePresence mode="popLayout">
           {step === 0 && (
             <motion.div key="zero" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
@@ -112,18 +112,18 @@ const Step3 = ({ tokenData, setDisableHeader }: StepProps) => {
                 <SuccessIcon />
 
                 <div className="flex flex-col items-center justify-center max-w-[365px] gap-2">
-                  <span className="text-primary-150 text-[20px] leading-[20px] font-medium tracking-[-0.12px]">Contract created successfullly</span>
+                  <span className="text-primary-150 text-[20px] leading-[20px] font-medium tracking-[-0.12px] font-Clash-Display">Token created successfullly</span>
                   <p className="text-primary-750 text-base text-center">{`Congratulations! Your ${token?.token_name}($${token?.token_symbol}) token has been successfully created!`}</p>
                 </div>
               </div>
 
               <div className="flex flex-col gap-3 w-full">
-                <Link href={`/${token?.token_address}`} className="text-primary-150 text-sm font-medium">
-                  <LBButton text="View token details" fullWidth variant="plain" />
+                <Link href={`/${token?.token_address}`}>
+                  <LBButton text="View token details" fullWidth />
                 </Link>
 
                 <a href={`${url}`} target="_blank">
-                  <LBButton text={`View on ${title}`} fullWidth variant="link" />
+                  <LBButton text={`View on ${title}`} fullWidth variant="link" color="tertiary" />
                 </a>
               </div>
             </motion.div>
@@ -131,20 +131,18 @@ const Step3 = ({ tokenData, setDisableHeader }: StepProps) => {
         </AnimatePresence>
       </div>
 
-      {step === 0 && (
+      {step !== 2 && (
         <AnimatePresence>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="mt-6 bg-primary-2950 py-[20.512px] px-[25.64px] flex items-center justify-between rounded-[10px]">
+            className="mt-6 bg-primary-3500 py-[20.512px] px-[25.64px] flex items-center justify-between rounded-base max-w-[370px]">
             <div className="flex items-center justify-center p-3">
               <InfoIcon width={24} height={24} color="#6E330C" />
             </div>
 
-            <p className="text-primary-3000 text-[14px] leading-[24px] max-w-[348.7px]">
-              We’d charge a fee of 1% of the total supply, this applies to all tokens created on Launchbox. 9% goes to the creator of the token for community incentives
-            </p>
+            <p className="text-primary-3000 text-[14px] leading-[24px] ">We’d charge a fee of 1% of the total supply, this applies to all tokens created on Launchbox</p>
           </motion.div>
         </AnimatePresence>
       )}

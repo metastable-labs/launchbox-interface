@@ -28,7 +28,7 @@ const Step2 = ({ file, register, setFile, tokenSymbol, createTokenPage, setCreat
   }));
 
   return (
-    <div className="flex flex-col items-center justify-center gap-6 rounded-base border border-primary-1200 bg-white p-6 min-w-[343px] md:min-w-[448px]">
+    <div className="flex flex-col items-center justify-center gap-6 rounded-base border border-primary-1200 bg-white p-6 max-w-[370px]">
       <LBFileInput handleFileChange={handleFile} name="token-logo" label="Upload logo" show={!file} />
 
       <LBFileSample file={file} deleteFile={deleteFile} />
@@ -42,6 +42,7 @@ const Step2 = ({ file, register, setFile, tokenSymbol, createTokenPage, setCreat
           defaultId={warpcastChannelId}
           isOptional
           textIcon={<FarcasterIcon />}
+          instruction="You can configure your community later, we’ll be adding more social options to this list."
         />
       )}
 
@@ -54,7 +55,7 @@ const Step2 = ({ file, register, setFile, tokenSymbol, createTokenPage, setCreat
         title="Create token page"
       />
 
-      <LBButton text={buttonText} fullWidth variant="plain" disabled={disbleButton} type="submit" />
+      <LBButton text={buttonText} fullWidth disabled={disbleButton} type="submit" />
     </div>
   );
 };
