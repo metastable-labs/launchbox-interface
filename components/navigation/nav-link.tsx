@@ -1,19 +1,22 @@
+import React from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
 import { NavLinkProps } from './types';
 
 const NavLink = ({ title, icon, href, isActive, fullWidth, comingSoon, onClick }: NavLinkProps) => {
+  const iconColor = isActive ? '#0A0D14' : '#525866';
+
   return (
     <Link
       href={href}
       onClick={onClick && onClick}
-      className={classNames('py-2 pl-2 pr-3 rounded-lg transition-all duration-200 flex gap-2 items-center justify-start', {
-        'bg-primary-200 text-primary-150 underline': isActive,
-        'bg-white text-primary-250': !isActive,
+      className={classNames('py-2 pl-2 pr-3 transition-all duration-200 flex gap-2 items-center justify-start font-Clash-Display', {
+        'text-primary-150 font-semibold': isActive,
+        'text-primary-250': !isActive,
         'w-full': fullWidth,
         'pointer-events-none': comingSoon,
       })}>
-      {icon}
+      {React.cloneElement(icon, { color: iconColor })}
       <span className="tracking-[-0.084px] text-sm">{title}</span>
       {comingSoon && (
         <div className="min-h-full flex items-end -m-1">

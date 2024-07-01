@@ -1,6 +1,5 @@
 import { ReactElement, ReactNode } from 'react';
 import { ModalType } from './modals/types';
-import { Network } from '../button/types';
 
 interface INavLink {
   title: string;
@@ -31,7 +30,7 @@ interface MenuProps {
 
 interface NavLinkProps {
   title: string;
-  icon: ReactNode;
+  icon: ReactElement;
   href: string;
   isActive: boolean;
   fullWidth?: boolean;

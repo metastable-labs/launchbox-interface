@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import classNames from 'classnames';
 import { useAccount } from 'wagmi';
@@ -84,6 +84,7 @@ const LBNavigation = () => {
       variant: 'wallet',
       isVisibile: true,
       onClick: () => {
+        setMenuOpen(false);
         if (!isConnected && openConnectModal) {
           return openConnectModal();
         }
@@ -93,12 +94,16 @@ const LBNavigation = () => {
     },
   ];
 
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
   if (pathname === '/builder' || pathname === '/leaderboard' || pathname === '/landing') return;
 
   return (
     <>
       <div className={classNames('fixed w-screen z-10 flex justify-center items-center md:pt-0 bg-white border-b border-primary-50')}>
-        <nav className="flex-1 flex bg-white px-4 py-[14px] md:px-11 md:py-5 items-center justify-between relative">
+        <nav className="flex-1 flex bg-primary-3300 px-4 py-[14px] md:px-11 md:py-5 items-center justify-between relative">
           <Left links={updatedLinks} />
           <Right menuOpen={menuOpen} toggleMenu={toggleMenu} actionItems={actionItems} />
 
