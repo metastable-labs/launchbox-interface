@@ -31,7 +31,7 @@ const EmptyState = ({ close }: { close: () => void }) => (
       </p>
     </div>
 
-    <LBButton variant="plain" text="Got it" fullWidth onClick={close} />
+    <LBButton text="Got it" fullWidth onClick={close} />
   </div>
 );
 

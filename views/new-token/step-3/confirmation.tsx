@@ -70,7 +70,7 @@ const Confirmation = ({ tokenData, handleTokenDeployment }: IConfirmation) => {
         )}
       </div>
 
-      <LBButton onClick={handleTokenDeployment} text={`Confirm and deploy $${tokenData?.tokenSymbol}`} fullWidth variant="plain" type="submit" />
+      <LBButton onClick={handleTokenDeployment} text="Create token" fullWidth type="submit" />
     </div>
   );
 };

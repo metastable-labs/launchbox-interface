@@ -56,7 +56,7 @@ const TokenInfo = ({ userRole }: IOverview) => {
     {
       text: 'Txns',
       value: (
-        <div className="flex items-center justify-center gap-1 text-primary-650 text-[16px] leading-[20px] font-medium">
+        <div className="flex items-center justify-center gap-1 text-primary-650 text-[16px] leading-[20px] font-medium font-Clash-Display">
           <span>{txns.numerator}</span>
           <span>(</span>
           <span className="text-primary-2600">{txns.denominator.numerator}</span>
@@ -78,14 +78,14 @@ const TokenInfo = ({ userRole }: IOverview) => {
     <div className="flex flex-col self-stretch w-full gap-6">
       {show && (
         <>
-          <div className="flex items-start gap-4">
+          <div className="flex gap-4">
             {!token ? (
               <div className="w-[50px] h-[50px] rounded-full bg-primary-50 animate-pulse" />
             ) : (
               <Image src={token?.token_logo_url || ''} alt="token-logo" width={500} height={500} className="w-[50px] h-[50px] object-cover" />
             )}
 
-            <div className="flex flex-col gap-3 mt-1">
+            <div className="flex flex-col gap-3">
               {!token ? (
                 <>
                   <div className="animate-pulse h-7 w-20 rounded-base bg-primary-50" />
@@ -95,7 +95,7 @@ const TokenInfo = ({ userRole }: IOverview) => {
                 <>
                   <h1
                     className={classNames(
-                      'text-primary-650 font-medium break-words',
+                      'text-primary-650 font-medium break-words font-Clash-Display',
                       { 'text-[30px] lg:text-[32px] leading-[28px]': token?.token_name?.length! <= 6 },
                       { 'text-xl': token?.token_name?.length! > 6 },
                     )}>
@@ -150,11 +150,12 @@ const TokenInfo = ({ userRole }: IOverview) => {
               key={index}
               className={classNames('self-stretch flex items-center justify-between gap-2 text-primary-250', { 'pb-4 border-b border-b-primary-50': index !== secondaryInfo.length - 1 })}>
               <span className="text-primary-700 text-[14px] leading-[24px]">{text}</span>
+
               {loading ? (
                 <div className="animate-pulse h-6 w-20 rounded-base bg-primary-50" />
               ) : (
                 <>
-                  {typeof value === 'string' && <span className="text-primary-650 text-base font-medium">{value}</span>}
+                  {typeof value === 'string' && <span className="text-primary-650 text-base font-medium font-Clash-Display">{value}</span>}
                   {typeof value !== 'string' && value}
                 </>
               )}

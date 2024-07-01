@@ -15,7 +15,7 @@ const SkeletonRows = ({ variant }: SkeletonRowsProps) => {
   };
 
   return (
-    <tbody className="bg-white divide-y divide-gray-200 text-sm font-medium">
+    <tbody className="divide-y divide-gray-200 text-sm font-medium">
       {rows.map((_, rowIndex) => (
         <tr key={rowIndex} className="animate-pulse">
           {Array.from({ length: columns[variant] }).map((_, colIndex) => (

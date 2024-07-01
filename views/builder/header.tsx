@@ -18,13 +18,14 @@ const Header = ({ externalLink, hideCoustomize, shouldHideCustomize, publish, pu
       type: 'mobile' as DisplayType,
     },
   ];
+
   const actions = [
     { actionText: 'Save', onClick: save, active: saveActive },
     { actionText: 'Publish', onClick: publish, active: publishActive },
   ];
 
   return (
-    <header className="fixed w-screen h-16 z-30 flex justify-between items-center px-5 md:px-8 border-b border-b-primary-50 bg-white">
+    <header className="fixed w-screen h-16 z-30 flex justify-between items-center px-5 md:px-8 border-b border-b-primary-50 bg-primary-3300 font-Clash-Display">
       <div className="flex items-center justify-center gap-4">
         <LBClickAnimation onClick={hideCoustomize} className="p-2 border border-primary-1950 shadow-table-cta bg-white rounded-lg flex, items-center justify-center">
           <AnimatePresence mode="popLayout">
@@ -71,11 +72,12 @@ const Header = ({ externalLink, hideCoustomize, shouldHideCustomize, publish, pu
           <LBClickAnimation
             key={actionText}
             onClick={onClick}
-            className={classNames('px-4 py-2.5 shadow-table-cta rounded-lg flex items-center justify-center font-semibold transition-colors duration-300 ease-in-out', {
-              'border border-primary-1950 bg-white text-primary-2000': index === 0 && active,
-              'border border-primary-950 text-primary-2050 bg-white pointer-events-none': index === 0 && !active,
-              'border border-primary-2100 bg-primary-2100 text-white': index === 1 && active,
-              'border border-primary-950 text-primary-2050 bg-primary-2150 pointer-events-none': index === 1 && !active,
+            className={classNames('px-4 py-2.5 shadow-table-cta rounded-lg flex items-center justify-center font-medium transition-colors duration-300 ease-in-out border', {
+              'border-primary-1950 bg-white text-primary-2000': index === 0 && active,
+              'border-primary-2100 bg-primary-3350 text-white': index === 1 && active,
+              'border-primary-950 text-primary-2050 bg-white pointer-events-none': !active,
+              'bg-white': index === 0 && !active,
+              'bg-primary-2150': index === 1 && !active,
             })}>
             {actionText}
           </LBClickAnimation>

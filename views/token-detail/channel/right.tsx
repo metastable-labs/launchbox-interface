@@ -18,6 +18,7 @@ import { Holder } from '@/store/holder/types';
 
 const Header = () => {
   const { tokenState } = useSystemFunctions();
+  const { handleCopy, hasCopied } = useCopy();
 
   const { token } = tokenState;
   const channel = token?.socials?.warpcast?.channel;
@@ -27,81 +28,42 @@ const Header = () => {
 
   const channelImage = noChannel ? 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1717743095/crypto-icon-instance_ygqnhb.jpg' : channel?.image_url!;
 
-  return (
-    <div className="flex items-start gap-4">
-      <Image src={channelImage} alt="channel-logo" width={500} height={500} className="w-[50px] h-[50px] object-cover" />
+  const icons = [<CopyIcon key="copy" width={16} height={16} />, <CheckAltIcon key="check" width={16} height={16} />];
 
-      <div className="flex flex-col gap-4">
-        <div className="flex gap-4 items-center">
-          <h1 className="text-primary-650 font-medium break-words text-[30px] lg:text-[32px] leading-[28px]">{channel?.name || '- -'}</h1>
-          <LBBadge variant="warpcast" />
+  return (
+    <div className="flex items-start justify-between pb-[30px] border-b border-b-primary-50 flex-wrap gap-y-5">
+      <div className="flex items-start gap-4">
+        <Image src={channelImage} alt="channel-logo" width={500} height={500} className="w-10 h-10 md:w-[50px] md:h-[50px] object-cover" />
+
+        <div className="flex flex-col gap-4">
+          <div className="flex gap-4 items-center">
+            <h1 className="text-primary-650 font-medium break-words text-2xl lg:text-[32px] lg:leading-[28px] font-Clash-Display">{channel?.name || '- -'}</h1>
+            <LBBadge variant="warpcast" />
+          </div>
+
+          <p className="text-primary-700 text-[14px] leading-[21px] max-w-[313px]">{channel?.description || noChannelDescription}</p>
         </div>
-
-        <p className="text-primary-700 text-[14px] leading-[21px]">{channel?.description || noChannelDescription}</p>
       </div>
-    </div>
-  );
-};
 
-const Actions = ({ userRole }: { userRole: 'admin' | 'user' }) => {
-  const { tokenState, navigate } = useSystemFunctions();
-  const { handleCopy, hasCopied } = useCopy();
-
-  const { token } = tokenState;
-  const channel = token?.socials?.warpcast?.channel;
-
-  const actions = [
-    {
-      icons: [<CopyIcon key="copy" width={16} height={16} />, <CheckAltIcon key="check" width={16} height={16} />],
-      onClick: () => handleCopy(channel?.url || ''),
-      show: true,
-      hasCopied,
-    },
-    {
-      icon: <ConfigSiteIcon />,
-      onClick: () => navigate.push('/builder'),
-      show: userRole === 'admin',
-    },
-    {
-      icon: <WebIcon />,
-      onClick: () => window.open(token?.website_url, '_blank'),
-      show: userRole === 'user',
-    },
-    {
-      icon: <FarcasterIcon />,
-      onClick: () => window.open(token?.warpcast_channel_link, '_blank'),
-      show: userRole === 'user',
-    },
-  ];
-
-  return (
-    <div className="flex items-stretch gap-2 w-full pb-[30px] border-b border-b-primary-50">
-      {actions.map(({ icon, onClick, show, hasCopied, icons }, index) => (
+      <div className="flex items-center justify-center gap-2 h-[40px] justify-self-end">
         <LBClickAnimation
-          key={index}
-          className={classNames('w-full flex items-center justify-center px-3 py-2 bg-white border border-primary-1950 rounded-lg shadow-table-cta', {
-            hidden: !show,
-          })}
-          onClick={onClick}>
-          {icons && (
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={+hasCopied}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.1 }}
-                exit={{ opacity: 0 }}
-                className={classNames('', { 'pointer-events-none': hasCopied })}>
-                {icons[+hasCopied]}
-              </motion.div>
-            </AnimatePresence>
-          )}
-
-          {icon && icon}
+          className="h-full flex items-center justify-center px-3 py-2.5 bg-white border border-primary-1950 rounded-lg shadow-table-cta"
+          onClick={() => handleCopy(channel?.url || '')}>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={+hasCopied}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.1 }}
+              exit={{ opacity: 0 }}
+              className={classNames('', { 'pointer-events-none': hasCopied })}>
+              {icons[+hasCopied]}
+            </motion.div>
+          </AnimatePresence>
         </LBClickAnimation>
-      ))}
 
-      <LBShare fullWidth />
+        <LBShare />
+      </div>
     </div>
   );
 };
@@ -127,15 +89,15 @@ const Chart = () => {
   return (
     <div className="self-stretch flex flex-col gap-[30px]">
       <div className="self-stretch flex items-center justify-between flex-wrap gap-4">
-        <span className="text-primary-700 text-[14px] leading-[24px]">Channel growth</span>
+        <span className="text-primary-700 text-[14px] leading-[24px] font-Clash-Display">Channel growth</span>
 
         <div className="flex items-center justify-center gap-8">
           {periods.map(({ text, value }) => (
             <span
               onClick={() => setPeriod(value)}
               key={value}
-              className={classNames('text-sm flex items-center justify-center px-1.5 py-0.5 cursor-pointer transition-colors duration-300 font-Aeonik', {
-                'bg-primary-200 rounded-base text-primary-2000 font-medium': value === period,
+              className={classNames('text-sm flex items-center justify-center px-1.5 py-0.5 cursor-pointer transition-colors duration-300 font-Clash-Display', {
+                'bg-primary-200 rounded-[5px] text-primary-2000 font-medium': value === period,
                 'text-primary-700': value !== period,
                 'pointer-events-none': noChannel,
               })}>
@@ -170,7 +132,8 @@ const HolderBadge = ({ address, balance }: Holder) => {
       <p className="font-medium">
         <span className="text-primary-250 text-[14px] leading-[21px]">{textToShow}</span>{' '}
         <span className="text-[12px] leading-[150%] text-primary-850">
-          {holderAmount} = ${holderAmountInUSD}
+          {holderAmount} = <span className="font-Clash-Display">$</span>
+          {holderAmountInUSD}
         </span>
       </p>
     </div>
@@ -192,7 +155,6 @@ const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
   const total_tx_buy_count = token?.total_buy_count || 0;
   const total_tx_sell_count = token?.total_sell_count || 0;
   const total_tx_count = total_tx_buy_count + total_tx_sell_count;
-  const total_casts = castState.casts?.length || 0;
   const weekly_cast = castState.meta?.weekly_casts || 0;
   const social_capital = castState.meta?.social_capital || 0;
   const social_score = (social_capital / max_social_score) * max_star_rating;
@@ -213,8 +175,6 @@ const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
       <div className="w-full p-6 rounded-lg border border-primary-50 h-fit flex flex-col gap-6">
         <Header />
 
-        <Actions userRole={userRole} />
-
         <div className="self-stretch flex flex-col items-center gap-4">
           <div className="self-stretch flex flex-col gap-9 items-center pb-4 border-b border-b-primary-50">
             <Chart />
@@ -223,7 +183,7 @@ const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
               <span className="text-primary-700 text-[14px] leading-[24px]">Channel</span>
               <div className="flex items-center gap-1">
                 <SmallFarcasterIcon />
-                <a href={channel?.url} target="_blank" className="text-primary-650 leading-[20.8px] font-medium underline underline-offset-4">
+                <a href={channel?.url} target="_blank" className="text-primary-650 leading-[20.8px] font-medium underline underline-offset-4 font-Clash-Display">
                   {noChannel ? '-' : channel?.name}
                 </a>
               </div>
@@ -233,7 +193,7 @@ const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
           <div className={classNames('self-stretch flex items-center justify-between', { 'pb-4 border-b border-b-primary-50': noChannel })}>
             <span className="text-primary-700 text-[14px] leading-[24px]">Holders</span>
 
-            <span className="text-primary-650 leading-[20.8px] font-medium">{noChannel ? '-' : holderState.meta?.total_count!.toLocaleString()}</span>
+            <span className="text-primary-650 leading-[20.8px] font-medium font-Clash-Display">{noChannel ? '-' : holderState.meta?.total_count!.toLocaleString()}</span>
           </div>
 
           {!noChannel && (

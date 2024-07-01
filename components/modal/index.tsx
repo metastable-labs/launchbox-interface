@@ -33,7 +33,7 @@ const LBModal = ({ children, close, show, variant = 'primary', title, hasClose =
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className={classNames('relative flex justify-center items-center bg-white p-5 rounded-base', {
+            className={classNames('relative flex justify-center items-center bg-primary-3300 p-5 rounded-base', {
               'border border-primary-50': variant === 'primary',
             })}>
             <div>
@@ -43,7 +43,7 @@ const LBModal = ({ children, close, show, variant = 'primary', title, hasClose =
                     'justify-between': title,
                     'justify-end': !title,
                   })}>
-                  <h1 className="text-primary-150 text-lg md:text-[24px] md:leading-[37.2px]">{title}</h1>
+                  <h1 className="text-primary-150 text-lg md:text-[24px] md:leading-[37.2px] font-Clash-Display">{title}</h1>
 
                   {hasClose && (
                     <LBClickAnimation onClick={close}>

@@ -109,7 +109,7 @@ const HomeView = () => {
           <div className="w-full flex flex-wrap gap-8 items-center justify-between">
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-3">
-                <h1 className="text-primary-650 text-[32px] leading-[38px] font-medium">Tokens</h1>
+                <h1 className="text-primary-650 text-[32px] leading-[38px] font-medium font-Clash-Display">Tokens</h1>
                 <LBBadge variant="base" />
               </div>
               <p className="text-primary-700">Tokens launched will be updated here in realtime</p>

@@ -6,7 +6,7 @@ import { useAccount } from 'wagmi';
 
 import { LBButton, LBClickAnimation, LBContainer, LBError, LBLoader, LBTokenCard } from '@/components';
 import EmptyState from './empty';
-import { ExclaimIcon, PlusIconAlt } from '@/public/icons';
+import { PlusIconAlt, WalletAltIcon } from '@/public/icons';
 import useTokenActions from '@/store/token/actions';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import Skeleton from './skeleton';
@@ -77,7 +77,7 @@ const TokenView = () => {
     <LBContainer>
       <div className="pt-12 flex flex-col gap-[86px] lg:px-8 items-center pb-14">
         <div className="flex flex-col items-start gap-1 flex-1 self-stretch">
-          <h1 className="text-primary-650 text-[30px] leading-[38px] font-Biform">Token launch</h1>
+          <h1 className="text-primary-650 text-[30px] leading-[38px] font-Clash-Display font-bold">Token launch</h1>
           <p className="text-base text-primary-700">Launch tokens and grow your community fast</p>
         </div>
 
@@ -97,33 +97,34 @@ const TokenView = () => {
 
             {showNewCard && (
               <Link href={'/token/new'}>
-                <LBClickAnimation className="p-5 bg-white rounded-lg border border-primary-50 flex flex-col gap-2 h-[275px] justify-center items-center">
+                <LBClickAnimation className="p-5 bg-white rounded-lg border border-primary-50 flex flex-col gap-2 h-[170px] justify-center items-center">
                   <PlusIconAlt />
 
-                  <span className="text-primary-2050 text-base">Add new token</span>
+                  <span className="text-primary-250 text-base">Create new token</span>
                 </LBClickAnimation>
               </Link>
             )}
           </motion.div>
 
           {!isConnected && (
-            <motion.div
-              key="connect-wallet"
-              {...animateVariant}
-              className="py-20 flex items-center justify-center bg-white rounded-[5px] border border-primary-950 shadow-table-cta w-[343px] md:w-[448px]">
-              <div className="flex flex-col gap-3.5 items-center justify-center">
-                <div className="flex flex-col items-center justify-center gap-1">
-                  <div className="flex items-center justify-center bg-very-light-gray rounded-full border-t border-primary-900 p-4">
-                    <div className="flex items-center justify-center rounded-full border border-primary-50 bg-white p-[14px] shadow-fade-light">
-                      <ExclaimIcon />
+            <motion.div key="connect-wallet" {...animateVariant} className="p-6 flex items-center justify-center">
+              <div className="flex flex-col gap-5 items-center justify-center">
+                <div className="flex flex-col items-center justify-center gap-6">
+                  <div className="flex items-center justify-center bg-white-linear rounded-full border-t border-primary-1200 p-[17.45px]">
+                    <div className="flex items-center justify-center rounded-full border border-primary-3400 bg-primary-3350 p-[15.27px] shadow-basic">
+                      <WalletAltIcon />
                     </div>
                   </div>
 
-                  <h1 className="text-primary-400 text-[20px] leading-[30px] text-center">Connect wallet</h1>
-                  <span className="text-primary-700 text-[14px] leading-[24px] text-center">Please connect your wallet to continue</span>
+                  <div className="flex flex-col gap-2 items-center justify-center">
+                    <h1 className="text-primary-150 text-[20px] leading-[20px] text-center tracking-[-0.12px] font-medium font-Clash-Display">Connect wallet</h1>
+                    <span className="text-primary-750 text-base text-center">Please connect your wallet to continue</span>
+                  </div>
                 </div>
 
-                <LBButton text="Connect wallet" onClick={() => {}} variant="plain" />
+                <div className="w-40">
+                  <LBButton text="Connect wallet" onClick={() => {}} fullWidth />
+                </div>
               </div>
             </motion.div>
           )}

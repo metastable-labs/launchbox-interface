@@ -88,7 +88,7 @@ const NewTokenView = () => {
         <div className="w-full flex flex-col self-stretch items-center justify-center gap-6">
           <SecondaryHeader setStep={setStep} step={step} disabled={disableHeader} />
           <AnimatePresence mode="popLayout">
-            <motion.div key={step} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <motion.div key={step} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="min-w-[370px]">
               {steps[step]}
             </motion.div>
           </AnimatePresence>

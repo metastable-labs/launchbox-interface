@@ -22,7 +22,7 @@ const LBComment = (props: ILBComment) => {
         <Image src={dummyAvatar} alt={props?.createdBy?.profileName} width={500} height={500} className="rounded-full w-10 h-10 object-cover" />
         <div className="flex flex-col gap-0.5">
           <p className="flex items-end gap-1">
-            <span className="text-primary-650 text-[16px] leading-[22.4px] font-medium">{props?.createdBy?.profileName}</span>
+            <span className="text-primary-650 text-[16px] leading-[22.4px] font-medium font-Clash-Display">{props?.createdBy?.profileName}</span>
             <span className="text-primary-750 text-[14px] leading-[19.6px] font-normal">@{props?.createdBy?.profileName}</span>
           </p>
           <p className="text-[14px] leading-[21px] text-primary-700">{moment(props?.createdAt).fromNow()}</p>
@@ -33,7 +33,9 @@ const LBComment = (props: ILBComment) => {
 
       {props?.images?.length > 0 && (
         <div className={classNames('flex flex-col items-stretch', { 'gap-4': props?.images?.length > 1 })}>
-          {props?.images.map((image, index) => <Image key={`${props?.id}-image-${index}`} src={image} alt={`Image ${index + 1}`} width={1000} height={1000} className="object-cover w-full" />)}
+          {props?.images.map((image, index) => (
+            <Image key={`${props?.id}-image-${index}`} src={image} alt={`Image ${index + 1}`} width={1000} height={1000} className="object-cover w-full" />
+          ))}
         </div>
       )}
 

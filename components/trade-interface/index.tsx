@@ -54,6 +54,8 @@ const LBTradeInterface = ({ standAlone = true, token }: ILBTradeInterface) => {
   const tokenSymbol = tab === 'buy' ? 'ETH' : token?.token_symbol;
   const tokenLogo = tab === 'buy' ? <ETHIcon height={20} width={20} /> : <Image src={token?.token_logo_url || ''} alt="token" width={500} height={500} className="w-5 h-5 object-cover" />;
 
+  const buttonTitle = tab.charAt(0).toUpperCase() + tab.slice(1);
+
   const handleAmountChange: OnValueChange = ({ floatValue }) => {
     console.log(floatValue);
     setAmount(floatValue || 0);
@@ -116,13 +118,13 @@ const LBTradeInterface = ({ standAlone = true, token }: ILBTradeInterface) => {
 
   return (
     <>
-      <form onSubmit={onSubmit} className={classNames('h-fit flex flex-col gap-6', { 'p-6 rounded-base border border-primary-50 bg-white': standAlone, 'max-w-80 md:max-w-[343px]': !standAlone })}>
-        <div className="p-1 self-stretch flex gap-1 bg-primary-2700 rounded-xl">
+      <form onSubmit={onSubmit} className={classNames('h-fit flex flex-col gap-6', { 'p-6 rounded-base border border-primary-50': standAlone, 'max-w-80 md:max-w-[343px]': !standAlone })}>
+        <div className="p-1 self-stretch flex gap-1 bg-primary-2700 rounded-xl font-Clash-Display">
           {tabs.map((text) => (
             <div
               key={text}
               className={classNames(
-                'p-1 flex-1 flex items-center justify-center rounded-lg text-[15px] leading-[24px] tracking-[-0.075px] font-semibold cursor-pointer transition-colors duration-300 capitalize',
+                'p-1 flex-1 flex items-center justify-center rounded-lg text-[15px] leading-[24px] tracking-[-0.075px] font-medium cursor-pointer transition-colors duration-300 capitalize',
                 {
                   'text-primary-2800 rounded-lg bg-primary-2850 shadow-trade-tab': text === tab,
                   'text-primary-2750': text !== tab,
@@ -139,10 +141,10 @@ const LBTradeInterface = ({ standAlone = true, token }: ILBTradeInterface) => {
         </div>
 
         <div className="self-stretch flex flex-col gap-3.5">
-          <div className="p-4 self-stretch flex items-center justify-between bg-primary-2500 rounded-base border border-primary-1200">
+          <div className="p-4 self-stretch flex items-center justify-between rounded-[5px] border border-primary-1200">
             <NumericFormat
               value={amount}
-              className="bg-transparent outline-none text-primary-150 text-[24px] leading-[34.8px] max-w-[50%] font-medium"
+              className="bg-transparent outline-none text-primary-750 text-[24px] leading-[34.8px] max-w-[50%] font-medium font-Clash-Display"
               placeholder="Amount"
               thousandSeparator=","
               allowNegative={false}
@@ -180,7 +182,7 @@ const LBTradeInterface = ({ standAlone = true, token }: ILBTradeInterface) => {
             </div>
           )}
 
-          <LBButton loading={tokenState.loadingBuy} disabled={!amount || invalidAmount} variant="plainAlt" text={tab} type="submit" tradeType={tab} />
+          <LBButton loading={tokenState.loadingBuy} disabled={!amount || invalidAmount} text={buttonTitle} type="submit" color={tab === 'sell' ? 'secondary' : 'primary'} />
         </div>
       </form>
 

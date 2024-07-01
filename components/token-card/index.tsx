@@ -33,16 +33,18 @@ const LBTokenCard = (token: Token) => {
 
   return (
     <Link onClick={onClick} href={`/${token_address}`}>
-      <LBClickAnimation className="p-5 bg-white rounded-lg border border-primary-50 flex flex-col gap-4 w-full h-[275px]">
+      <LBClickAnimation className="p-5 bg-white rounded-lg border border-primary-50 flex flex-col gap-4 w-full h-[170px]">
         <div className="flex items-center justify-between self-stretch">
           <Image src={token_logo_url} alt={`${token_name} logo`} width={500} height={500} className="w-12 h-12 object-cover" />
           <SmallBaseIcon />
         </div>
 
         <div className="flex flex-col items-start gap-0.5">
-          <div className="flex items-center justify-center gap-1 text-primary-700 text-[20px] leading-[24px]">
-            {token_name} <span className="border-[0.5px] border-primary-50 rounded-lg bg-primary-800 px-2 text-primary-750 text-[12px] leading-[24px] font-medium">{token_symbol}</span>
+          <div className="flex items-center justify-center gap-1 font-medium">
+            <span className="font-Clash-Display text-primary-700 text-[20px] leading-[24px]">{token_name}</span>
+            <span className="border-[0.5px] border-primary-50 rounded-lg bg-primary-800 px-2 text-primary-750 text-[12px] leading-[24px]">{token_symbol}</span>
           </div>
+
           <p className="text-primary-850 text-[14px] leading-[24px]">Deployed {date}</p>
         </div>
       </LBClickAnimation>

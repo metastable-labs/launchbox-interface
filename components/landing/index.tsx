@@ -114,8 +114,8 @@ const LBLandingPageComponent = (props: ILBLandingPageComponent) => {
 
   return (
     <main
-      className={classNames('transition-all ease-in-out duration-500 relative', {
-        'rounded-xl border border-primary-50 shadow-preview-shadow': isBuilder,
+      className={classNames('transition-all ease-in-out duration-500 relative overflow-hidden', {
+        'rounded-xl border border-primary-50 shadow-preview-shadow bg-white': isBuilder,
         'w-full h-fit mb-10': isBuilder && isDesktop,
         'w-[375px] h-fit mb-10': isBuilder && isMobile,
       })}>

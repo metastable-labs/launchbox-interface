@@ -38,8 +38,8 @@ const FAQ = ({ faqDescription, faqTitle, faqs, handleChange, isActive, onClick }
 
         <div className="flex items-center justify-start">
           <LBClickAnimation onClick={handleNewQuestion} className="flex items-center justify-center gap-1">
-            <PlusAltIcon />
-            <span className="text-sm font-semibold text-primary-2300">Add Question</span>
+            <PlusAltIcon color="#018558" />
+            <span className="text-sm font-semibold text-primary-3350">Add Question</span>
           </LBClickAnimation>
         </div>
       </div>

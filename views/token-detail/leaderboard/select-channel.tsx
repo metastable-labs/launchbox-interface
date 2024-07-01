@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { LBButton, LBSelect } from '@/components';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
-import { FarcasterIcon, InfoIcon } from '@/public/icons';
+import { InfoIcon } from '@/public/icons';
 
 const schema = yup.object().shape({
   warpcastChannelId: yup.string().required('Warpcast channel is required'),
