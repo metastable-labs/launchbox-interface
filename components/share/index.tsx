@@ -31,10 +31,10 @@ const LBShare = ({ fullWidth }: ILBShare) => {
   ];
 
   return (
-    <div className={classNames('relative z-20', { 'w-full': fullWidth })}>
+    <div className={classNames('relative z-20 max-h-full', { 'w-full': fullWidth })}>
       <LBClickAnimation
         onClick={handleClick}
-        className="flex items-center justify-center gap-1 cursor-pointer px-3.5 py-2.5 bg-white border border-primary-1950 rounded-lg shadow-table-cta w-full relative z-20">
+        className="flex items-center justify-center gap-1 cursor-pointer p-2.5 bg-white border border-primary-1950 rounded-lg shadow-table-cta w-full relative z-20">
         <ShareIcon />
       </LBClickAnimation>
 
