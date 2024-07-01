@@ -4,11 +4,12 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useAccount } from 'wagmi';
 
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { LBButton, LBClickAnimation, LBContainer, LBError, LBLoader, LBTokenCard } from '@/components';
-import EmptyState from './empty';
 import { PlusIconAlt, WalletAltIcon } from '@/public/icons';
 import useTokenActions from '@/store/token/actions';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
+import EmptyState from './empty';
 import Skeleton from './skeleton';
 
 const animateVariant = {
@@ -20,6 +21,7 @@ const animateVariant = {
 const TokenView = () => {
   const { isConnected, address } = useAccount();
   const { getUserTokens } = useTokenActions();
+  const { openConnectModal } = useConnectModal();
   const { tokenState } = useSystemFunctions();
   const [shouldFetchMore, setShouldFetchMore] = useState(false);
   const [showErrorState, setShowErrorState] = useState(false);
@@ -28,6 +30,12 @@ const TokenView = () => {
   const showEmptyState = isConnected && !Boolean(userTokens?.length) && !userTokensLoading;
   const showShouldFetchMore = isConnected && (shouldFetchMore || userTokensLoading);
   const showNewCard = !showShouldFetchMore && Boolean(userTokens?.length);
+
+  const connectWallet = () => {
+    if (!openConnectModal) return;
+
+    openConnectModal();
+  };
 
   const fetchTokens = () => {
     setShowErrorState(false);
@@ -123,7 +131,7 @@ const TokenView = () => {
                 </div>
 
                 <div className="w-40">
-                  <LBButton text="Connect wallet" onClick={() => {}} fullWidth />
+                  <LBButton text="Connect wallet" onClick={connectWallet} fullWidth />
                 </div>
               </div>
             </motion.div>
