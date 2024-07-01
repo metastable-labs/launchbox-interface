@@ -16,5 +16,6 @@ interface ILBSelect {
   label?: string;
   isOptional?: boolean;
   textIcon?: ReactNode;
+  instruction?: string;
 }
 export type { IOption, ILBSelect };

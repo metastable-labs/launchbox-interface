@@ -194,7 +194,7 @@ const Row = ({ item, variant, index, tokenSymbol, cta, rowClick, items, setShoul
     <tr
       ref={rowRef}
       onClick={handleRowClick}
-      className={classNames('', { 'hover:bg-primary-200 cursor-pointer transition-colors duration-300': variant === 'tertiary', 'pointer-events-none': !Boolean(item.id) })}>
+      className={classNames('', { 'hover:bg-primary-3500 cursor-pointer transition-colors duration-300': variant === 'tertiary', 'pointer-events-none': !Boolean(item.id) })}>
       <td
         className={classNames('min-h-[71px] px-4 md:px-6 py-4', {
           'w-[83px]': variant === 'secondary',

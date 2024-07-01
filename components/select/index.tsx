@@ -8,7 +8,7 @@ import LBClickAnimation from '../click-animation';
 import LBModal from '../modal';
 import { SearchIcon, SecondarySelectIcon } from '@/public/icons';
 
-const LBSelect = ({ text, disabled, onClick, options, defaultId, label, isOptional, textIcon }: ILBSelect) => {
+const LBSelect = ({ text, defaultId, disabled, instruction, isOptional, label, onClick, options, textIcon }: ILBSelect) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [selectedOption, setSelectedOption] = useState<IOption>();
@@ -64,6 +64,7 @@ const LBSelect = ({ text, disabled, onClick, options, defaultId, label, isOption
           )}
           <SecondarySelectIcon />
         </LBClickAnimation>
+        {instruction && <span className="text-primary-250 text-xs">{instruction}</span>}
       </div>
 
       <LBModal show={isOpen} close={toggleOpen} title={text}>

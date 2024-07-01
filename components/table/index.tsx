@@ -21,9 +21,9 @@ const LBTable = ({ data, loading, variant = 'primary', tokenSymbol, cta, rowClic
   }
 
   return (
-    <div className="self-stretch overflow-x-auto rounded-xl border border-primary-950 flex flex-col justify-between bg-white shadow-table-cta">
+    <div className="self-stretch overflow-x-auto rounded-xl border border-primary-950 flex flex-col justify-between shadow-table-cta">
       <table className="md:min-w-full divide-y divide-primary-950">
-        <thead className="bg-primary-2250 text-primary-700 border-b border-primary-950">
+        <thead className="bg-white text-primary-700 border-b border-primary-950">
           <tr>
             {headers.map((header, index) => (
               <th
@@ -47,7 +47,7 @@ const LBTable = ({ data, loading, variant = 'primary', tokenSymbol, cta, rowClic
           </tr>
         </thead>
 
-        <tbody className="bg-white divide-y divide-gray-200 text-sm font-medium">
+        <tbody className="divide-y divide-gray-200 text-sm font-medium">
           {data.map((item, index) => (
             <Row
               items={data}
