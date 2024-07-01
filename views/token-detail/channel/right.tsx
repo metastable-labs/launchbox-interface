@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { CheckAltIcon, ConfigSiteIcon, CopyIcon, FarcasterIcon, SmallFarcasterIcon, WebIcon } from '@/public/icons';
+import { CheckAltIcon, CopyIcon, SmallFarcasterIcon } from '@/public/icons';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useCopy from '@/hooks/useCopy';
-import { generateData, holders, periods } from '../dummy';
+import { generateData, periods } from '../dummy';
 import { Period } from '../types';
 import { LBBadge, LBClickAnimation, LBShare } from '@/components';
 import classNames from 'classnames';
@@ -155,13 +155,17 @@ const Right = ({ userRole }: { userRole: 'admin' | 'user' }) => {
   const total_tx_buy_count = token?.total_buy_count || 0;
   const total_tx_sell_count = token?.total_sell_count || 0;
   const total_tx_count = total_tx_buy_count + total_tx_sell_count;
-  const weekly_cast = castState.meta?.weekly_casts || 0;
   const social_capital = castState.meta?.social_capital || 0;
   const social_score = (social_capital / max_social_score) * max_star_rating;
 
+  const weekly_cast = castState.meta?.weekly_casts || 0;
+  const weekly_casts_increased = castState.meta?.weekly_casts_increased;
+  const weekly_casts_change = castState.meta?.weekly_casts_percentage_change;
+  const realCastChange = weekly_casts_increased ? Math.abs(weekly_casts_change!) : -Math.abs(weekly_casts_change!);
+
   const info = [
     { title: 'Channel followers', text: channel?.follower_count?.toString(), activeFollowersPercentage: 13.3 },
-    { title: 'Weekly cast', text: weekly_cast.toLocaleString(), weeklyCastPercentage: 16.7 },
+    { title: 'Weekly cast', text: weekly_cast.toLocaleString(), weeklyCastPercentage: realCastChange },
     { title: 'Social score', text: social_capital.toLocaleString(), socialScore: social_score },
     { title: 'Price (USD)', text: `$${formatAmount(token?.price, 7)}`, priceChangePercentage: 6.7 },
     { title: 'Txns', txns: { numerator: total_tx_count, denominator: { numerator: total_tx_buy_count, denominator: total_tx_sell_count } } },
