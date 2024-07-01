@@ -55,7 +55,6 @@ import SVGIcon from './svg-icon.svg';
 import ETHIcon from './eth-icon';
 import ExchangeIcon from './exchange-icon.svg';
 import AlternatingArrowIcon from './alternating-arrow-icon.svg';
-import TokenIcon from './token-icon.svg';
 import QuestionIcon from './question-icon';
 import BuyAndSellIcon from './buy-and-sell-icon';
 import SearchAltIcon from './search-alt-icon.svg';
@@ -75,9 +74,11 @@ import ReplyIcon from './reply-icon.svg';
 import UserIcon from './user-icon.svg';
 import CoinIcon from './coin-icon.svg';
 import LinkIcon from './link-icon.svg';
-import WalletAltIcon from './wallet-alt-icon.svg';
+import WalletAltIcon from './wallet-alt-icon';
 import UserSettingIcon from './user-setting-icon';
 import TrendIcon from './trend-icon';
+import TokenIcon from './token-icon';
+import ExternalLinkAltIcon from './external-link-alt-icon';
 
 export {
   LaunchIcon,
@@ -160,4 +161,5 @@ export {
   WalletAltIcon,
   UserSettingIcon,
   TrendIcon,
+  ExternalLinkAltIcon,
 };
