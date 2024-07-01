@@ -70,6 +70,10 @@ const getOptions = (period: Period, data: { date: Date; value: number }[], varia
         ticks: {
           display: true,
           stepSize: stepSizeY,
+          font: {
+            size: 12,
+          },
+          color: 'rgba(111, 118, 126, 0.75)',
         },
         border: {
           display: false,
@@ -83,6 +87,11 @@ const getOptions = (period: Period, data: { date: Date; value: number }[], varia
         },
         ticks: {
           stepSize: stepSizeX,
+          font: {
+            size: 12,
+            family: variant === 'secondary' ? 'Clash-Display' : 'Aeonik',
+          },
+          color: 'rgba(111, 118, 126, 0.75)',
         },
         grid: {
           display: false,
@@ -111,7 +120,8 @@ const getOptions = (period: Period, data: { date: Date; value: number }[], varia
         bodyColor: '#868C98',
         bodyFont: {
           size: variant === 'secondary' ? 16 : 24,
-          weight: 'bold',
+          weight: 500,
+          family: 'Clash-Display',
         },
         cornerRadius: 12,
         displayColors: false,
@@ -154,14 +164,14 @@ const LineChart: React.FC<ILineChart> = ({ data, period, variant = 'primary' }) 
     datasets: [
       {
         data: data.map((d) => d.value),
-        borderColor: '#0C68E9',
+        borderColor: '#018558',
         borderWidth: 2,
         pointRadius: 0,
         pointHoverRadius: 6,
         pointHitRadius: 50,
         fill: true,
-        backgroundColor: 'rgba(156, 197, 255, 0.05)',
-        pointBackgroundColor: '#0C68E9',
+        backgroundColor: 'rgba(29, 166, 118, 0.07)',
+        pointBackgroundColor: '#018558',
         pointBorderColor: '#fff',
         pointBorderWidth: 4,
       },

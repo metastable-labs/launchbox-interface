@@ -35,7 +35,7 @@ const Leaderboard = () => {
             'w-full lg:w-2/5': hasLeaderboard,
           })}>
           <div className="flex flex-col gap-1 self-stretch lg:px-5">
-            <h1 className="text-[24px] leading-[38px] font-medium text-primary-650">Actions</h1>
+            <h1 className="text-[24px] leading-[38px] font-medium text-primary-650 font-Clash-Display">Actions</h1>
             <p className="text-primary-700">Create new actions and build incentives systems for your community</p>
           </div>
 
@@ -46,7 +46,7 @@ const Leaderboard = () => {
                   <Image src={image} width={500} height={500} alt={title} className="w-[34px] h-[34px] object-cover" />
 
                   <div className="flex flex-col gap-1">
-                    <h1 className="text-[16px] leading-[28px] font-medium text-primary-650">{title}</h1>
+                    <h1 className="text-[16px] leading-[28px] font-medium text-primary-650 font-Clash-Display">{title}</h1>
                     <p className="text-[14px] leading-[16px] text-primary-700">{description}</p>
                   </div>
                 </div>
@@ -83,7 +83,7 @@ const Leaderboard = () => {
                 </div>
               </div>
 
-              <h1 className="text-primary-400 text-[20px] leading-[30px] text-center">No leaderboards yet</h1>
+              <h1 className="text-primary-400 text-[20px] leading-[30px] text-center font-Clash-Display">No leaderboards yet</h1>
               <p className="text-primary-700 text-[14px] leading-[24px] text-center max-w-[275px]">you don’t have any leaderboard yet, configure a new action to create one.</p>
             </div>
           )}

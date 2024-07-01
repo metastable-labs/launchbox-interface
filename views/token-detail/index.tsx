@@ -121,7 +121,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
                   </>
                 ) : (
                   <>
-                    <h1 className="text-primary-650 text-[32px] leading-[28px] font-medium">{token?.token_name}</h1>
+                    <h1 className="text-primary-650 text-[32px] leading-[28px] font-medium font-Clash-Display">{token?.token_name}</h1>
 
                     <span className="text-primary-700 text-[14px] leading-[16px]">${token?.token_symbol}</span>
                   </>
@@ -156,7 +156,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
 
                   {icon && icon}
 
-                  <span className="text-primary-2000 text-sm font-semibold">{text}</span>
+                  <span className="text-primary-2000 text-sm font-semibold font-Clash-Display">{text}</span>
                 </LBClickAnimation>
               ))}
 

@@ -12,7 +12,7 @@ const ChangeIndicator: React.FC<ChangeIndicatorProps> = ({ change }) => {
 
   return (
     <div
-      className={classNames('flex items-center justify-center gap-1 text-[14px] leading-[24px] tracking-[-0.14px] font-semibold', {
+      className={classNames('flex items-center justify-center gap-1 text-[14px] leading-[24px] tracking-[-0.14px] font-medium', {
         'text-primary-2450': isPositive,
         'text-primary-1050': !isPositive,
       })}>

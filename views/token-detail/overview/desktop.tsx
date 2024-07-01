@@ -100,8 +100,8 @@ const DesktopView = ({
                 <span
                   onClick={() => setPeriod(value)}
                   key={value}
-                  className={classNames('text-sm flex items-center justify-center px-1.5 py-0.5 text-primary-2000 cursor-pointer transition-colors duration-300 font-Aeonik', {
-                    'bg-primary-200 rounded-base': value === period,
+                  className={classNames('text-sm flex items-center justify-center px-1.5 py-0.5 text-primary-2000 cursor-pointer transition-colors duration-300 font-Clash-Display font-medium', {
+                    'bg-primary-200 rounded-[5px]': value === period,
                   })}>
                   {text}
                 </span>
@@ -111,7 +111,7 @@ const DesktopView = ({
 
           <div className="px-6 flex flex-col gap-3 self-stretch font-Aeonik">
             <div className="flex flex-col self-stretch gap-2 items-start">
-              <div className="text-primary-150 text-[48px] leading-[56px] font-semibold tracking-[-1.44px]">
+              <div className="text-primary-150 text-[48px] leading-[56px] font-medium tracking-[-1.44px] font-Clash-Display">
                 $<span>{whole}</span>.<span className="text-primary-750">{decimal}</span>
               </div>
 
@@ -127,22 +127,22 @@ const DesktopView = ({
             )}
           </div>
 
-          <div className="flex flex-col justify-center gap-4 w-full p-4 flex-1">
-            <h1 className="text-primary-2900 text-[24px] leading-[36px] tracking-[-0.48px] font-medium">Market cap progress</h1>
+          <div className="flex flex-col justify-center gap-4 w-full flex-1 font-Clash-Display font-medium">
+            <h1 className="text-primary-2900 text-[24px] leading-[36px] tracking-[-0.48px]">Market cap progress</h1>
 
             <div className="flex items-center gap-2">
-              <span className="text-primary-650 text-[15px] font-medium">{formatAmount(bondingCurveProgress, 2)}%</span>
+              <span className="text-primary-650 text-[15px]">{formatAmount(bondingCurveProgress, 2)}%</span>
               <div className="w-full h-2 bg-primary-950 rounded">
-                <motion.div className="h-full bg-primary-1000 rounded" initial={{ width: 0 }} animate={{ width: `${bondingCurveProgress}%` }} />
+                <motion.div className="h-full bg-primary-3350 rounded" initial={{ width: 0 }} animate={{ width: `${bondingCurveProgress}%` }} />
               </div>
             </div>
           </div>
 
-          <p className="self-stretch flex-1 px-6 py-3 flex items-center rounded-xl bg-primary-300 text-[14px] leading-[24px] text-primary-2550">
+          <p className="self-stretch flex-1 px-6 py-3 flex items-center rounded-base bg-primary-3500 border border-primary-50 text-primary-3000">
             When the market cap reaches $100,000 all the liquidity from the Exchange Contract will be deposited into Aerodrome. Progression increases as the price goes up.
           </p>
 
-          <div className="sticky top-0 w-full bg-white z-10">
+          <div className="sticky top-0 w-full z-10">
             <ClickTabs tabTexts={tabTexts} tab={tab} setTab={setTab} />
           </div>
 

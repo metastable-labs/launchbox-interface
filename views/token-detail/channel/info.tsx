@@ -10,7 +10,11 @@ const Info = ({ text, title, activeFollowersPercentage, priceChangePercentage, s
     <div className={classNames('self-stretch flex items-center justify-between', { 'pb-4 border-b border-b-primary-50': hasBorder })}>
       <span className="text-primary-700 text-[14px] leading-[24px] ">{title}</span>
 
-      <div className={classNames('text-primary-650 text-[16px] leading-[20px] font-medium uppercase', { 'flex items-center gap-1.5': primary, 'flex items-center justify-center gap-2': socialScore })}>
+      <div
+        className={classNames('text-primary-650 text-[16px] leading-[20px] font-medium uppercase font-Clash-Display', {
+          'flex items-center gap-1.5': primary,
+          'flex items-center justify-center gap-2': socialScore,
+        })}>
         {!txns && noChannel ? '-' : text}
 
         {primary && (
