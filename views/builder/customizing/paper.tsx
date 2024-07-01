@@ -5,7 +5,7 @@ import { RightArrowIcon, RightCarretDarkIcon } from '@/public/icons';
 import { ICustomizingPaper } from './types';
 
 const CustomizingPaper = ({ icon, isActive, title, onClick }: ICustomizingPaper) => {
-  const icons = [<RightCarretDarkIcon width={24} height={24} color="#375DFB" key={1} />, icon];
+  const icons = [<RightCarretDarkIcon width={24} height={24} color="#018558" key={1} />, icon];
 
   return (
     <div
@@ -21,7 +21,7 @@ const CustomizingPaper = ({ icon, isActive, title, onClick }: ICustomizingPaper)
           </motion.div>
         </AnimatePresence>
 
-        <motion.span animate={{ color: isActive ? '#375DFB' : '#525866' }} className="text-[16px] leading-[20px] font-medium">
+        <motion.span animate={{ color: isActive ? '#018558' : '#525866' }} className="text-[16px] leading-[20px] font-medium">
           {title}
         </motion.span>
       </div>
