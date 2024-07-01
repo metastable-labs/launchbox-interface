@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 import { LBLandingPageComponent } from '@/components';
 import { ILBLandingPageComponent } from '@/components/landing/types';
@@ -55,6 +55,10 @@ export const defaultData: ILBLandingPageComponent = {
 
 const LandingView = () => {
   const [data] = useState<ILBLandingPageComponent>(defaultData);
+
+  useLayoutEffect(() => {
+    document.body.style.backgroundColor = 'white';
+  }, []);
 
   return <LBLandingPageComponent {...data} />;
 };
