@@ -4,10 +4,14 @@ import 'chartjs-adapter-date-fns';
 import crosshairPlugin from 'chartjs-plugin-crosshair';
 import moment from 'moment';
 import { ILineChart, LineChartVariant, Period } from './types';
+import useSystemFunctions from '@/hooks/useSystemFunctions';
+import { formatAmount } from '@/utils/helpers';
+
+type AnalyticsProp = { date: string; price: string; timestamp: number }[];
 
 ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, TimeScale, Filler, crosshairPlugin);
 
-const getOptions = (period: Period, data: { date: Date; value: number }[], variant?: LineChartVariant): any => {
+const getOptions = (period: Period, data: AnalyticsProp, variant?: LineChartVariant): any => {
   let unit: TimeUnit;
   let displayFormats: any;
   let stepSizeY: number;
@@ -134,8 +138,8 @@ const getOptions = (period: Period, data: { date: Date; value: number }[], varia
             return formattedDate.toUpperCase();
           },
           label: function (context: any) {
-            const value = (context.raw as number).toFixed(2);
-            return variant === 'secondary' ? `${Number(value).toLocaleString()} followers` : `$${value}`;
+            const value = (context.raw as number)?.toFixed(2);
+            return variant === 'secondary' ? `${Number(value)?.toLocaleString()} followers` : `$${value}`;
           },
         },
       },
@@ -150,20 +154,23 @@ const getOptions = (period: Period, data: { date: Date; value: number }[], varia
   };
 };
 
-const calculateStepSizeY = (data: { date: Date; value: number }[]): number => {
-  const minValue = Math.min(...data.map((d) => d.value));
-  const maxValue = Math.max(...data.map((d) => d.value));
+const calculateStepSizeY = (data: AnalyticsProp): number => {
+  const minValue = Math.min(...data.map((d) => formatAmount(d.price, 6)));
+  const maxValue = Math.max(...data.map((d) => formatAmount(d.price, 6)));
   const valueRange = maxValue - minValue;
   const stepSizeFactor = Math.pow(10, Math.floor(Math.log10(valueRange)) - 1);
   return Math.ceil(valueRange / 4 / stepSizeFactor) * stepSizeFactor;
 };
 
-const LineChart: React.FC<ILineChart> = ({ data, period, variant = 'primary' }) => {
+const LineChart: React.FC<ILineChart> = ({ period, variant = 'primary' }) => {
+  const { tokenState } = useSystemFunctions();
+  const { analytics } = tokenState;
+
   const chartData = {
-    labels: data.map((d) => d.date),
+    labels: analytics?.dataPoints?.map((d) => d.date),
     datasets: [
       {
-        data: data.map((d) => d.value),
+        data: analytics?.dataPoints?.map((d) => formatAmount(d.price, 7)),
         borderColor: '#018558',
         borderWidth: 2,
         pointRadius: 0,
@@ -177,6 +184,8 @@ const LineChart: React.FC<ILineChart> = ({ data, period, variant = 'primary' }) 
       },
     ],
   };
+
+  const data = analytics?.dataPoints || [{ date: '', price: '', timestamp: 0 }];
 
   const options = getOptions(period, data, variant);
 

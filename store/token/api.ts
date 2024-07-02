@@ -1,11 +1,12 @@
 import { axiosInstance } from '@/utils/axios';
-import { CoinPrice, Token, Tokens } from './types';
+import { Analytics, CoinPrice, Token, Tokens } from './types';
 
 type IToken = {
   fetchTokens: (query: string) => Promise<Tokens>;
   fetchToken: (id: string) => Promise<Token>;
   createToken: (data: FormData) => Promise<Token>;
   fetchCoinPrice: () => Promise<CoinPrice>;
+  fetchPriceAnalytics: (tokenId: string, period: '1h' | '24h' | '1w' | '1m') => Promise<Analytics>;
 };
 
 const token: IToken = {
@@ -34,6 +35,12 @@ const token: IToken = {
 
   fetchCoinPrice: async (): Promise<CoinPrice> => {
     const response = await axiosInstance.get(`launchbox/price`);
+
+    return response.data?.data;
+  },
+
+  fetchPriceAnalytics: async (tokenId: string, period: '1h' | '24h' | '1w' | '1m'): Promise<Analytics> => {
+    const response = await axiosInstance.get(`launchbox/tokens/${tokenId}/price-analytics?period=${period}`);
 
     return response.data?.data;
   },

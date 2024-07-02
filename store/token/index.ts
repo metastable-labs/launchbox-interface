@@ -1,7 +1,7 @@
 'use client';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { CoinPrice, Meta, Token } from './types';
+import { Analytics, CoinPrice, Meta, Token } from './types';
 
 export interface TokenState {
   tokens: Token[] | undefined;
@@ -12,8 +12,10 @@ export interface TokenState {
   userTokensLoading: boolean;
   loadingCreate: boolean;
   loadingBuy: boolean;
+  loadingAnalytics: boolean;
   userTokensMeta?: Meta;
   coinPrice?: CoinPrice;
+  analytics?: Analytics;
 }
 
 const initialState: TokenState = {
@@ -27,6 +29,8 @@ const initialState: TokenState = {
   loadingBuy: false,
   userTokensMeta: undefined,
   coinPrice: undefined,
+  analytics: undefined,
+  loadingAnalytics: true,
 };
 
 export const tokenReducer = createSlice({
@@ -47,6 +51,10 @@ export const tokenReducer = createSlice({
 
     setLoadingBuy: (state, action: PayloadAction<boolean>) => {
       state.loadingBuy = action.payload;
+    },
+
+    setLoadingAnalytics: (state, action: PayloadAction<boolean>) => {
+      state.loadingAnalytics = action.payload;
     },
 
     setExtraTokens: (state, action: PayloadAction<Token[] | undefined>) => {
@@ -108,10 +116,32 @@ export const tokenReducer = createSlice({
     setCoinPrice: (state, action: PayloadAction<CoinPrice>) => {
       state.coinPrice = { ...action.payload };
     },
+
+    setAnalytics: (state, action: PayloadAction<Analytics | undefined>) => {
+      if (action.payload) {
+        state.analytics = { ...action.payload };
+      } else {
+        state.analytics = undefined;
+      }
+    },
   },
 });
 
-export const { setExtraTokens, setExtraUserTokens, setLoading, setLoadingCreate, setMeta, setToken, setTokens, setUserTokens, setUserTokensLoading, setUserTokensMeta, setLoadingBuy, setCoinPrice } =
-  tokenReducer.actions;
+export const {
+  setExtraTokens,
+  setExtraUserTokens,
+  setLoading,
+  setLoadingCreate,
+  setMeta,
+  setToken,
+  setTokens,
+  setUserTokens,
+  setUserTokensLoading,
+  setUserTokensMeta,
+  setLoadingBuy,
+  setCoinPrice,
+  setAnalytics,
+  setLoadingAnalytics,
+} = tokenReducer.actions;
 
 export default tokenReducer.reducer;

@@ -64,4 +64,19 @@ type CoinPrice = {
   last_updated: string;
 };
 
-export type { Token, TokenData, Meta, Tokens, CoinPrice };
+type Analytics = {
+  averagePrice: string;
+  minPrice: string;
+  maxPrice: string;
+  priceAtStart: string;
+  priceAtEnd: string;
+  percentageChange: string;
+  isIncreased: boolean;
+  dataPoints: {
+    date: string;
+    timestamp: number;
+    price: string;
+  }[];
+};
+
+export type { Token, TokenData, Meta, Tokens, CoinPrice, Analytics };

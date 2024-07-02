@@ -11,7 +11,6 @@ type Period = '1h' | '24h' | '1w' | '1m';
 
 type LineChartVariant = 'primary' | 'secondary';
 interface ILineChart {
-  data: { date: Date; value: number }[];
   period: Period;
   variant?: LineChartVariant;
 }
