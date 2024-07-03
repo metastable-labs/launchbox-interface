@@ -9,7 +9,7 @@ import { generateData, holders, periods } from '../dummy';
 import { Period } from '../types';
 import { LBBadge, LBClickAnimation, LBShare } from '@/components';
 import classNames from 'classnames';
-import LineChart from '../line-chart';
+import AreaChart from '../area-chart';
 import Info from './info';
 import { formatAmount, formatNumber } from '@/utils/helpers';
 
@@ -107,8 +107,8 @@ const Chart = () => {
         </div>
       </div>
 
-      <div className={classNames('w-full flex items-center justify-center min-h-[180px]', { 'pointer-events-none': noChannel })}>
-        <LineChart period={period} data={growthData} variant="secondary" />
+      <div className={classNames('w-full flex items-center justify-center h-[180px]', { 'pointer-events-none': noChannel })}>
+        <AreaChart period={period} variant="secondary" />
       </div>
     </div>
   );

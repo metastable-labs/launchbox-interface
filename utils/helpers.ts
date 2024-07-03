@@ -51,3 +51,95 @@ export const formatNumber = (num: number): string => {
   }
   return num?.toString();
 };
+
+export function convertToSubscript(number: number): string {
+  const subscriptMap: { [key: string]: string } = {
+    '0': '₀',
+    '1': '₁',
+    '2': '₂',
+    '3': '₃',
+    '4': '₄',
+    '5': '₅',
+    '6': '₆',
+    '7': '₇',
+    '8': '₈',
+    '9': '₉',
+  };
+
+  return String(number)
+    .split('')
+    .map((digit) => subscriptMap[digit])
+    .join('');
+}
+
+export function formatPrice(number: number) {
+  let numberString = number.toFixed(20);
+  numberString = numberString.replace(/0+$/, '');
+
+  const significantIndex = numberString.split('').findIndex((char) => char !== '0' && char !== '.');
+  const leadingZerosCount = significantIndex - numberString.indexOf('.') - 1;
+
+  if (number < 1) {
+    if (leadingZerosCount >= 5) {
+      const subscript = convertToSubscript(leadingZerosCount);
+      const [wholePart, decimalPart] = numberString.split('.');
+      let significantDecimal = decimalPart.slice(leadingZerosCount);
+
+      if (significantDecimal.length > 3) {
+        significantDecimal = Math.round(parseFloat(`0.${significantDecimal}`) * 1000).toString();
+      }
+
+      const formattedDecimal = `0${subscript}${significantDecimal}`;
+
+      return {
+        whole: wholePart,
+        decimal: formattedDecimal,
+        value: `${wholePart}.${formattedDecimal}`,
+      };
+    }
+
+    if (leadingZerosCount < 5 && leadingZerosCount > 0) {
+      const [wholePart, decimalPart] = numberString.split('.');
+      const leadingZeros = decimalPart.slice(0, leadingZerosCount);
+      let significantDecimal = decimalPart.slice(leadingZerosCount);
+
+      if (significantDecimal.length > 3) {
+        significantDecimal = Math.round(parseFloat(`0.${significantDecimal}`) * 1000).toString();
+      }
+
+      const formattedDecimal = `${leadingZeros}${significantDecimal}`;
+
+      return {
+        whole: wholePart,
+        decimal: formattedDecimal,
+        value: `${wholePart}.${formattedDecimal}`,
+      };
+    }
+
+    if (leadingZerosCount <= 0) {
+      const [wholePart, decimalPart] = numberString.split('.');
+      let significantDecimal = decimalPart.slice(0, 7).replace(/0+$/, '');
+
+      return {
+        whole: wholePart,
+        decimal: significantDecimal,
+        value: `${wholePart}.${significantDecimal}`,
+      };
+    }
+  } else {
+    const [wholePart, decimalPart] = numberString.split('.');
+    let significantDecimal = (decimalPart || '0').slice(0, 2).padEnd(2, '0');
+
+    return {
+      whole: wholePart,
+      decimal: significantDecimal,
+      value: `${wholePart}.${significantDecimal}`,
+    };
+  }
+
+  return {
+    whole: '0',
+    decimal: '00',
+    value: `0.00`,
+  };
+}

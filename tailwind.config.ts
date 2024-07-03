@@ -89,6 +89,7 @@ const config: Config = {
           3400: '#CBF5E5',
           3450: '#03825A',
           3500: '#FEFDEA',
+          3550: '#EFEFEF',
         },
         grey: {
           50: '#717184',
@@ -108,6 +109,7 @@ const config: Config = {
         'preview-distribution-card-shadow': '0px 0.665px 1.33px 0px rgba(27, 28, 29, 0.04)',
         'trade-tab': '0px 2px 4px -4px rgba(0, 0, 0, 0.15);',
         basic: '0px 2.182px 4.364px 0px rgba(27, 28, 29, 0.04)',
+        tooltip: '0px -1px 1px 0px rgba(0, 0, 0, 0.04) inset, 0px 2px 0px 0px rgba(255, 255, 255, 0.25) inset, 0px 4px 8px -4px rgba(0, 0, 0, 0.25)',
       },
       borderRadius: {
         base: '10px',
