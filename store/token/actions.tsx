@@ -25,6 +25,10 @@ import {
   setCoinPrice,
   setLoadingAnalytics,
   setAnalytics,
+  setOneDayAnalytics,
+  setOneHourAnalytics,
+  setOneMonthAnalytics,
+  setOneWeekAnalytics,
 } from '.';
 import { CallbackProps } from '..';
 import api from './api';
@@ -176,14 +180,77 @@ const useTokenActions = () => {
     }
   };
 
-  const getAnalytics = async (tokenId: string, period: '1h' | '24h' | '1w' | '1m', callback?: CallbackProps) => {
+  const getOneHourAnalytics = async (tokenId: string, callback?: CallbackProps) => {
     try {
-      dispatch(setLoadingAnalytics(true));
-      const response = await api.fetchPriceAnalytics(tokenId, period);
+      const response = await api.fetchPriceAnalytics(tokenId, '1h');
 
-      dispatch(setAnalytics(response));
+      dispatch(setOneHourAnalytics(response));
 
       return callback?.onSuccess?.(response);
+    } catch (error: any) {
+      callback?.onError?.(error);
+    }
+  };
+
+  const getOneDayAnalytics = async (tokenId: string, callback?: CallbackProps) => {
+    try {
+      const response = await api.fetchPriceAnalytics(tokenId, '24h');
+
+      dispatch(setOneDayAnalytics(response));
+
+      return callback?.onSuccess?.(response);
+    } catch (error: any) {
+      callback?.onError?.(error);
+    }
+  };
+
+  const getOneWeekAnalytics = async (tokenId: string, callback?: CallbackProps) => {
+    try {
+      const response = await api.fetchPriceAnalytics(tokenId, '1w');
+
+      dispatch(setOneWeekAnalytics(response));
+
+      return callback?.onSuccess?.(response);
+    } catch (error: any) {
+      callback?.onError?.(error);
+    }
+  };
+
+  const getOneMonthAnalytics = async (tokenId: string, callback?: CallbackProps) => {
+    try {
+      const response = await api.fetchPriceAnalytics(tokenId, '1m');
+
+      dispatch(setOneMonthAnalytics(response));
+
+      return callback?.onSuccess?.(response);
+    } catch (error: any) {
+      callback?.onError?.(error);
+    }
+  };
+
+  const getAnalytics = async (tokenId: string, period: '1h' | '24h' | '1w' | '1m', callback?: CallbackProps) => {
+    const _actions = {
+      '1h': getOneHourAnalytics,
+      '24h': getOneDayAnalytics,
+      '1w': getOneWeekAnalytics,
+      '1m': getOneMonthAnalytics,
+    };
+
+    try {
+      if (tokenState.analytics) {
+        return _actions[period](tokenId, callback);
+      } else {
+        dispatch(setLoadingAnalytics(true));
+
+        const response = await api.fetchPriceAnalytics(tokenId, '1w');
+        dispatch(setAnalytics(response));
+        dispatch(setLoadingAnalytics(false));
+        getOneHourAnalytics(tokenId);
+        getOneDayAnalytics(tokenId);
+        getOneMonthAnalytics(tokenId);
+
+        return callback?.onSuccess?.(response);
+      }
     } catch (error: any) {
       callback?.onError?.(error);
     } finally {

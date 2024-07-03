@@ -16,6 +16,10 @@ export interface TokenState {
   userTokensMeta?: Meta;
   coinPrice?: CoinPrice;
   analytics?: Analytics;
+  oneHourAnalytics?: Analytics;
+  oneDayAnalytics?: Analytics;
+  oneWeekAnalytics?: Analytics;
+  oneMonthAnalytics?: Analytics;
 }
 
 const initialState: TokenState = {
@@ -30,6 +34,10 @@ const initialState: TokenState = {
   userTokensMeta: undefined,
   coinPrice: undefined,
   analytics: undefined,
+  oneHourAnalytics: undefined,
+  oneDayAnalytics: undefined,
+  oneWeekAnalytics: undefined,
+  oneMonthAnalytics: undefined,
   loadingAnalytics: true,
 };
 
@@ -124,24 +132,60 @@ export const tokenReducer = createSlice({
         state.analytics = undefined;
       }
     },
+
+    setOneHourAnalytics: (state, action: PayloadAction<Analytics | undefined>) => {
+      if (action.payload) {
+        state.oneHourAnalytics = { ...action.payload };
+      } else {
+        state.oneHourAnalytics = undefined;
+      }
+    },
+
+    setOneDayAnalytics: (state, action: PayloadAction<Analytics | undefined>) => {
+      if (action.payload) {
+        state.oneDayAnalytics = { ...action.payload };
+      } else {
+        state.oneDayAnalytics = undefined;
+      }
+    },
+
+    setOneWeekAnalytics: (state, action: PayloadAction<Analytics | undefined>) => {
+      if (action.payload) {
+        state.oneWeekAnalytics = { ...action.payload };
+      } else {
+        state.oneWeekAnalytics = undefined;
+      }
+    },
+
+    setOneMonthAnalytics: (state, action: PayloadAction<Analytics | undefined>) => {
+      if (action.payload) {
+        state.oneMonthAnalytics = { ...action.payload };
+      } else {
+        state.oneMonthAnalytics = undefined;
+      }
+    },
   },
 });
 
 export const {
+  setAnalytics,
+  setCoinPrice,
   setExtraTokens,
   setExtraUserTokens,
   setLoading,
+  setLoadingAnalytics,
+  setLoadingBuy,
   setLoadingCreate,
   setMeta,
+  setOneDayAnalytics,
+  setOneHourAnalytics,
+  setOneMonthAnalytics,
+  setOneWeekAnalytics,
   setToken,
   setTokens,
   setUserTokens,
   setUserTokensLoading,
   setUserTokensMeta,
-  setLoadingBuy,
-  setCoinPrice,
-  setAnalytics,
-  setLoadingAnalytics,
 } = tokenReducer.actions;
 
 export default tokenReducer.reducer;
