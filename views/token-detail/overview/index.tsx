@@ -41,7 +41,7 @@ const Overview = ({ userRole }: IOverview) => {
     if (!tokenState.token) return;
 
     const states = {
-      '1h': tokenState.oneWeekAnalytics,
+      '1h': tokenState.oneHourAnalytics,
       '24h': tokenState.oneDayAnalytics,
       '1w': tokenState.oneWeekAnalytics,
       '1m': tokenState.oneMonthAnalytics,
@@ -49,7 +49,6 @@ const Overview = ({ userRole }: IOverview) => {
 
     dispatch(setAnalytics(states[period]));
 
-    // setLiquidityData(generateData(period));
     getAnalytics(tokenState.token?.id, period);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [period]);
