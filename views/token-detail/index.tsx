@@ -23,7 +23,7 @@ import Channel from './channel';
 const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: string }) => {
   const { address } = useAccount();
   const { tokenState, navigate } = useSystemFunctions();
-  const { getToken } = useTokenActions();
+  const { getToken, getAnalytics } = useTokenActions();
   const { getTokenTransactions } = useTransactionActions();
   const { getTokenHolders } = useHolderActions();
   const { getChannelCasts } = useCastActions();
@@ -76,6 +76,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
       return;
     }
 
+    getAnalytics(token.id, '1w');
     getTokenHolders('take=15');
     getChannelCasts('take=15');
     // eslint-disable-next-line react-hooks/exhaustive-deps

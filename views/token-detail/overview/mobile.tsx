@@ -7,7 +7,7 @@ import { LBTable, LBTradeInterface } from '@/components';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import TokenInfo from './token-info';
 import ChangeIndicator from './change-indicator';
-import LineChart from '../line-chart';
+import AreaChart from '../area-chart';
 import ClickTabs from '../tabs';
 import { IView } from './types';
 import { formatAmount, formatCurrency } from '@/utils/helpers';
@@ -115,7 +115,7 @@ const MobileView = ({
       </div>
 
       <div className="w-full flex items-center justify-center h-[295px] relative">
-        <LineChart period={period} data={liquidityData} />
+        <AreaChart period={period} />
 
         {noLiquidityData && (
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center text-primary-250 text-[20px] leading-[32px] tracking-[-0.2px] font-semibold">No price data.</div>
@@ -164,13 +164,13 @@ const MobileView = ({
         </motion.div>
       </AnimatePresence>
 
-      <div className="fixed bottom-0 left-0 w-screen h-fit flex items-center justify-between px-[34px] py-4 bg-primary-200">
+      <div className="fixed bottom-0 left-0 w-screen h-fit flex items-center justify-between px-[34px] py-4 bg-primary-3300">
         {mobileTabs.map((tab, index) => (
           <div
             onClick={() => setMobileTab(tab)}
             key={index}
             className={classNames('py-2.5 px-3.5 flex items-center justify-center text-sm capitalize transition-colors relative', {
-              'text-primary-2300': tab === mobileTab,
+              'text-primary-3350': tab === mobileTab,
               'text-primary-700': tab !== mobileTab,
             })}>
             {tab}
@@ -181,7 +181,7 @@ const MobileView = ({
                 animate={{ width: '100%', opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="h-[3px] bg-primary-1000 absolute bottom-0 left-0"
+                className="h-[3px] bg-primary-3350 absolute bottom-0 left-0"
               />
             )}
           </div>

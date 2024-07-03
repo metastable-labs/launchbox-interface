@@ -8,15 +8,17 @@ import { IOverview } from './types';
 import useTransactionActions from '@/store/transaction/actions';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useHolderActions from '@/store/holder/actions';
+import useTokenActions from '@/store/token/actions';
 
 const tabTexts = ['transactions', 'holders'];
 
 const Overview = ({ userRole }: IOverview) => {
   const { getTokenTransactions } = useTransactionActions();
   const { getTokenHolders } = useHolderActions();
-  const { transactionState, holderState } = useSystemFunctions();
+  const { transactionState, holderState, tokenState } = useSystemFunctions();
+  const { getAnalytics } = useTokenActions();
 
-  const [period, setPeriod] = useState<Period>('1m');
+  const [period, setPeriod] = useState<Period>('1w');
   const [liquidityData, setLiquidityData] = useState(generateData(period));
   const [shouldFetchMoreTransactions, setShouldFetchMoreTransactions] = useState(false);
   const [shouldFetchMoreHolders, setShouldFetchMoreHolders] = useState(false);
@@ -35,8 +37,11 @@ const Overview = ({ userRole }: IOverview) => {
   };
 
   useEffect(() => {
-    setLiquidityData(generateData(period));
-  }, [period]);
+    if (!tokenState.token) return;
+
+    // setLiquidityData(generateData(period));
+    getAnalytics(tokenState.token?.id, period);
+  }, [tokenState.token, period]);
 
   useEffect(() => {
     if (!shouldFetchMoreTransactions) return;

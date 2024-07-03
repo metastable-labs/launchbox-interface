@@ -5,13 +5,27 @@ import { toast } from 'react-toastify';
 import { useChainId, useAccount } from 'wagmi';
 import { readContract } from '@wagmi/core';
 
-import { mode } from 'wagmi/chains';
 import { trim } from 'viem';
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useContract from '@/hooks/useContract';
 import { networks } from '@/config/rainbow/config';
-import { setLoading, setLoadingCreate, setToken, setTokens, setMeta, setExtraTokens, setExtraUserTokens, setUserTokens, setUserTokensLoading, setUserTokensMeta, setLoadingBuy, setCoinPrice } from '.';
+import {
+  setLoading,
+  setLoadingCreate,
+  setToken,
+  setTokens,
+  setMeta,
+  setExtraTokens,
+  setExtraUserTokens,
+  setUserTokens,
+  setUserTokensLoading,
+  setUserTokensMeta,
+  setLoadingBuy,
+  setCoinPrice,
+  setLoadingAnalytics,
+  setAnalytics,
+} from '.';
 import { CallbackProps } from '..';
 import api from './api';
 import { TokenData } from './types';
@@ -159,6 +173,21 @@ const useTokenActions = () => {
       return Number(value);
     } catch (error: any) {
       console.log(error);
+    }
+  };
+
+  const getAnalytics = async (tokenId: string, period: '1h' | '24h' | '1w' | '1m', callback?: CallbackProps) => {
+    try {
+      dispatch(setLoadingAnalytics(true));
+      const response = await api.fetchPriceAnalytics(tokenId, period);
+
+      dispatch(setAnalytics(response));
+
+      return callback?.onSuccess?.(response);
+    } catch (error: any) {
+      callback?.onError?.(error);
+    } finally {
+      dispatch(setLoadingAnalytics(false));
     }
   };
 
@@ -314,6 +343,7 @@ const useTokenActions = () => {
     calculateBuyTokenAmount,
     sellTokens,
     getCoinPrice,
+    getAnalytics,
   };
 };
 

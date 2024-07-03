@@ -9,11 +9,10 @@ interface IClickTabs {
 
 type Period = '1h' | '24h' | '1w' | '1m';
 
-type LineChartVariant = 'primary' | 'secondary';
-interface ILineChart {
-  data: { date: Date; value: number }[];
+type AreaChartVariant = 'primary' | 'secondary';
+interface IAreaChart {
   period: Period;
-  variant?: LineChartVariant;
+  variant?: AreaChartVariant;
 }
 
-export type { Tabs, SecondaryTabs, IClickTabs, Period, LineChartVariant, ILineChart };
+export type { Tabs, SecondaryTabs, IClickTabs, Period, AreaChartVariant, IAreaChart };
