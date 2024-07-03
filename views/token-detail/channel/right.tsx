@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
+import classNames from 'classnames';
 
 import { CheckAltIcon, CopyIcon, SmallFarcasterIcon } from '@/public/icons';
+import { formatAmount, formatNumber } from '@/utils/helpers';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useCopy from '@/hooks/useCopy';
+import useTruncateText from '@/hooks/useTruncateText';
+import { LBBadge, LBClickAnimation, LBShare } from '@/components';
+import { Holder } from '@/store/holder/types';
+import useCastActions from '@/store/casts/actions';
 import { generateData, periods } from '../dummy';
 import { Period } from '../types';
-import { LBBadge, LBClickAnimation, LBShare } from '@/components';
-import classNames from 'classnames';
 import AreaChart from '../area-chart';
 import Info from './info';
-import { formatAmount, formatNumber } from '@/utils/helpers';
-
-import useTruncateText from '@/hooks/useTruncateText';
-import { Holder } from '@/store/holder/types';
 
 const Header = () => {
   const { tokenState } = useSystemFunctions();
@@ -70,6 +70,7 @@ const Header = () => {
 
 const Chart = () => {
   const { tokenState } = useSystemFunctions();
+  const { getChannelCastAnalytics } = useCastActions();
 
   const [period, setPeriod] = useState<Period>('1w');
   const [growthData, setGrowthData] = useState(generateData(period, true));
@@ -79,11 +80,12 @@ const Chart = () => {
   const noChannel = !Boolean(Object.keys(token?.socials.warpcast.channel || {}).length);
 
   useEffect(() => {
-    if (!noChannel) {
-      return setGrowthData(generateData(period, true));
+    if (noChannel) {
+      return setGrowthData([]);
     }
 
-    return setGrowthData([]);
+    getChannelCastAnalytics(`period=${period}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [period, noChannel]);
 
   return (

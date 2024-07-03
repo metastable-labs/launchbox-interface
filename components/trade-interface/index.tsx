@@ -57,7 +57,6 @@ const LBTradeInterface = ({ standAlone = true, token }: ILBTradeInterface) => {
   const buttonTitle = tab.charAt(0).toUpperCase() + tab.slice(1);
 
   const handleAmountChange: OnValueChange = ({ floatValue }) => {
-    console.log(floatValue);
     setAmount(floatValue || 0);
   };
 
