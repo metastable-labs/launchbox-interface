@@ -77,7 +77,9 @@ const AreaChartComponent: React.FC<IAreaChart> = ({ variant = 'primary', period 
     );
   };
 
-  if (loadingAnalytics || loadingCastAnalytics) {
+  const loading = (loadingAnalytics && !tokenState.analytics) || (loadingCastAnalytics && !castState.castAnalytics);
+
+  if (loading) {
     return (
       <div className="w-full h-full flex items-center justify-center">
         <LoadingStroke />
