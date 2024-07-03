@@ -36,6 +36,8 @@ type CastMeta = {
   totalCount: number;
   social_capital: number;
   weekly_casts: number;
+  weekly_casts_increased: boolean;
+  weekly_casts_percentage_change: number;
 };
 
 export type { Cast, CastMeta, CastResponse };

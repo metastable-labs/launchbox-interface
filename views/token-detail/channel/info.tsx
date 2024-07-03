@@ -5,7 +5,8 @@ import { IInfo } from './types';
 
 const Info = ({ text, title, activeFollowersPercentage, priceChangePercentage, socialScore, txns, weeklyCastPercentage, hasBorder, noChannel }: IInfo) => {
   const primary = activeFollowersPercentage || weeklyCastPercentage || priceChangePercentage;
-  const isPositive = priceChangePercentage && priceChangePercentage > 0;
+  const isPositive = (priceChangePercentage && priceChangePercentage > 0) || (weeklyCastPercentage && weeklyCastPercentage > 0);
+
   return (
     <div className={classNames('self-stretch flex items-center justify-between', { 'pb-4 border-b border-b-primary-50': hasBorder })}>
       <span className="text-primary-700 text-[14px] leading-[24px] ">{title}</span>
@@ -21,14 +22,14 @@ const Info = ({ text, title, activeFollowersPercentage, priceChangePercentage, s
           <span
             className={classNames('text-[12px] leading-[20px] lowercase', {
               'text-primary-750': activeFollowersPercentage,
-              'text-primary-450': weeklyCastPercentage || (priceChangePercentage && isPositive),
-              'text-primary-1050': priceChangePercentage && !isPositive,
+              'text-primary-450': (weeklyCastPercentage || priceChangePercentage) && isPositive,
+              'text-primary-1050': (priceChangePercentage || weeklyCastPercentage) && !isPositive,
             })}>
             {noChannel ? (
               '-'
             ) : (
               <>
-                {isPositive && '+'}
+                {isPositive && priceChangePercentage && '+'}
                 {primary}%{activeFollowersPercentage && ' active'}
               </>
             )}
