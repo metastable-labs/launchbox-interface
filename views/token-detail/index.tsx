@@ -26,7 +26,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
   const { getToken, getAnalytics } = useTokenActions();
   const { getTokenTransactions } = useTransactionActions();
   const { getTokenHolders } = useHolderActions();
-  const { getChannelCasts } = useCastActions();
+  const { getChannelCasts, getChannelCastAnalytics } = useCastActions();
   const { handleCopy, hasCopied } = useCopy();
 
   const [tab, setTab] = useState<Tabs>('overview');
@@ -77,6 +77,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
     }
 
     getAnalytics(token.id, '1w');
+    getChannelCastAnalytics('period=1w');
     getTokenHolders('take=15');
     getChannelCasts('take=15');
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -40,4 +40,13 @@ type CastMeta = {
   weekly_casts_percentage_change: number;
 };
 
-export type { Cast, CastMeta, CastResponse };
+type CastAnalytics = {
+  percentageChange: number;
+  isIncreased: boolean;
+  dataPoints: {
+    date: string;
+    castsCount: number;
+  }[];
+};
+
+export type { Cast, CastMeta, CastResponse, CastAnalytics };

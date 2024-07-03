@@ -33,42 +33,53 @@ const LoadingStroke = () => (
   </svg>
 );
 
-const CustomTooltip: React.FC<TooltipProps<ValueType, NameType>> = ({ active, payload, label }) => {
-  if (!active || !payload || payload.length === 0) {
-    return null;
+const AreaChartComponent: React.FC<IAreaChart> = ({ variant = 'primary', period = '1w' }) => {
+  const { tokenState, castState } = useSystemFunctions();
+  const { analytics, loadingAnalytics } = tokenState;
+  const { castAnalytics, loadingCastAnalytics } = castState;
+
+  let data = analytics?.dataPoints.map((item) => ({ date: item.date, value: item.price, timestamp: item.timestamp }));
+
+  if (variant === 'secondary') {
+    data = castAnalytics?.dataPoints?.map((item) => ({ date: item.date, value: item.castsCount.toString(), timestamp: moment(item.date).valueOf() }));
   }
 
-  const value = Number(payload[0].value || 0);
-  const { whole, decimal } = formatPrice(value);
+  const CustomTooltip: React.FC<TooltipProps<ValueType, NameType>> = ({ active, payload, label }) => {
+    if (!active || !payload || payload.length === 0) {
+      return null;
+    }
 
-  const parsedDate = moment.unix(Number(label));
+    const value = Number(payload[0].value || 0);
+    const { whole, decimal } = formatPrice(value);
 
-  const day = parsedDate.format('M/D/YY');
-  const time = parsedDate.format('h:mma');
+    const parsedDate = variant === 'primary' ? moment.unix(Number(label)) : moment(label);
 
-  return (
-    <div className="flex flex-col items-start gap-0.5 bg-primary-2850 border border-primary-3550 p-5 rounded-xl shadow-tooltip">
-      <div className="w-full flex items-center justify-between gap-10 text-xs text-primary-2750 font-Aeonik font-medium uppercase">
-        <span>{day}</span>
-        <span>{time}</span>
-      </div>
+    const day = parsedDate.format('M/D/YY');
+    const time = parsedDate.format('h:mma');
 
-      <p className="font-Clash-Display text-2xl tracking-[-0.72px] font-medium">
-        $<span>{whole}</span>.<span className="text-primary-750">{decimal}</span>
-      </p>
-    </div>
-  );
-};
-
-const AreaChartComponent: React.FC<IAreaChart> = ({ variant = 'primary', period = '1w' }) => {
-  const { tokenState } = useSystemFunctions();
-  const { analytics, loadingAnalytics } = tokenState;
-
-  const data = analytics?.dataPoints.map((item) => ({ date: item.date, value: item.price, timestamp: item.timestamp }));
-
-  if (loadingAnalytics) {
     return (
-      <div className="absolute inset-5 flex items-center justify-center z-50">
+      <div className="flex flex-col items-start gap-0.5 bg-primary-2850 border border-primary-3550 p-5 rounded-xl shadow-tooltip">
+        <div className="w-full flex items-center justify-between gap-10 text-xs text-primary-2750 font-Aeonik font-medium uppercase">
+          <span>{day}</span>
+          <span>{time}</span>
+        </div>
+
+        <p className="font-Clash-Display text-2xl tracking-[-0.72px] font-medium">
+          {variant === 'primary' && (
+            <>
+              $<span>{whole}</span>.<span className="text-primary-750">{decimal}</span>
+            </>
+          )}
+
+          {variant === 'secondary' && <span>{value} cast(s)</span>}
+        </p>
+      </div>
+    );
+  };
+
+  if (loadingAnalytics || loadingCastAnalytics) {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
         <LoadingStroke />
       </div>
     );

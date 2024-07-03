@@ -2,7 +2,7 @@
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import api from './api';
-import { setCasts, setLoading, setMeta } from '.';
+import { setCasts, setLoading, setMeta, setCastAnalytics, setLoadingCastAnalytics } from '.';
 import { CallbackProps } from '..';
 
 const useCastActions = () => {
@@ -20,11 +20,6 @@ const useCastActions = () => {
 
       dispatch(setCasts(data));
 
-      // if (meta.skip === 0) {
-      // } else {
-      //   dispatch(setExtraCasts(data));
-      // }
-
       callback?.onSuccess?.();
     } catch (error: any) {
       callback?.onError?.(error);
@@ -33,8 +28,27 @@ const useCastActions = () => {
     }
   };
 
+  const getChannelCastAnalytics = async (query: string, callback?: CallbackProps) => {
+    try {
+      if (!tokenState.token?.id) return;
+
+      dispatch(setLoadingCastAnalytics(true));
+
+      const data = await api.fetchChannelCastAnalytics(tokenState.token?.id, query);
+
+      dispatch(setCastAnalytics(data));
+
+      callback?.onSuccess?.();
+    } catch (error: any) {
+      callback?.onError?.(error);
+    } finally {
+      dispatch(setLoadingCastAnalytics(false));
+    }
+  };
+
   return {
     getChannelCasts,
+    getChannelCastAnalytics,
   };
 };
 

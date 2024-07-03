@@ -1,8 +1,9 @@
 import { axiosInstance } from '@/utils/axios';
-import { CastResponse } from './types';
+import { CastAnalytics, CastResponse } from './types';
 
 type ICast = {
   fetchChannelCasts: (id: string, query?: string) => Promise<CastResponse>;
+  fetchChannelCastAnalytics: (id: string, query?: string) => Promise<CastAnalytics>;
 };
 
 const cast: ICast = {
@@ -10,6 +11,12 @@ const cast: ICast = {
     const response = await axiosInstance.get(`launchbox/tokens/${id}/casts?${query}`);
 
     return response.data;
+  },
+
+  fetchChannelCastAnalytics: async (id: string, query?: string): Promise<CastAnalytics> => {
+    const response = await axiosInstance.get(`launchbox/tokens/${id}/channel-analytics?${query}`);
+
+    return response?.data?.data;
   },
 };
 
