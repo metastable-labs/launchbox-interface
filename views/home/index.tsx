@@ -8,7 +8,7 @@ import { SearchAltIcon } from '@/public/icons';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useTokenActions from '@/store/token/actions';
 import { Token } from '@/store/token/types';
-import { setToken } from '@/store/token';
+import { resetAnalytics, setToken } from '@/store/token';
 import EmptyState from '../token/empty';
 import { setMeta as setTransactionsMeta, setTransactions } from '@/store/transaction';
 import { setMeta as setHoldersMeta, setHolders } from '@/store/holder';
@@ -62,6 +62,7 @@ const HomeView = () => {
     dispatch(setTransactionsMeta(undefined));
     dispatch(setHolders(undefined));
     dispatch(setHoldersMeta(undefined));
+    dispatch(resetAnalytics());
     navigate.push(`/${id}`);
   };
 
