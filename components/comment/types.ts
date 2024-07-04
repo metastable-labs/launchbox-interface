@@ -7,6 +7,7 @@ interface ILBComment {
   createdBy: {
     profileName: string;
     userAddress: Address;
+    profileImage: string;
   };
   comment: string;
   images: string[];

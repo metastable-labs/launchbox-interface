@@ -3,8 +3,10 @@ import classNames from 'classnames';
 
 import { LBClickAnimation } from '@/components';
 import { BackIcon, CloseAltIcon, DesktopIcon, ExternalLinkIcon, PhoneIcon } from '@/public/icons';
+import useSystemFunctions from '@/hooks/useSystemFunctions';
 
 const Header = ({ externalLink, hideCoustomize, shouldHideCustomize, publish, publishActive, save, saveActive, setDisplay, displayType }: HeaderProps) => {
+  const { builderState } = useSystemFunctions();
   const icons = [<CloseAltIcon key={1} />, <BackIcon key={0} />];
   const displays = [
     {
@@ -78,6 +80,7 @@ const Header = ({ externalLink, hideCoustomize, shouldHideCustomize, publish, pu
               'border-primary-950 text-primary-2050 bg-white pointer-events-none': !active,
               'bg-white': index === 0 && !active,
               'bg-primary-2150': index === 1 && !active,
+              'animate-pulse pointer-events-none': index === 1 && builderState.updateLoading,
             })}>
             {actionText}
           </LBClickAnimation>

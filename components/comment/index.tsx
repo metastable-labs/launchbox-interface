@@ -19,7 +19,7 @@ const LBComment = (props: ILBComment) => {
   return (
     <div className="self-stretch p-6 rounded-lg border border-primary-50 h-fit flex flex-col items-stretch gap-6 bg-pr">
       <div className="self-stretch flex items-center gap-4 bg-pr">
-        <Image src={dummyAvatar} alt={props?.createdBy?.profileName} width={500} height={500} className="rounded-full w-10 h-10 object-cover" />
+        <Image src={props.createdBy.profileImage || dummyAvatar} alt={props?.createdBy?.profileName} width={500} height={500} className="rounded-full w-10 h-10 object-cover" />
         <div className="flex flex-col gap-0.5">
           <p className="flex items-end gap-1">
             <span className="text-primary-650 text-[16px] leading-[22.4px] font-medium font-Clash-Display">{props?.createdBy?.profileName}</span>

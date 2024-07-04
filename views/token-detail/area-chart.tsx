@@ -77,7 +77,7 @@ const AreaChartComponent: React.FC<IAreaChart> = ({ variant = 'primary', period 
     );
   };
 
-  const loading = (loadingAnalytics && !tokenState.analytics) || (loadingCastAnalytics && !castState.castAnalytics);
+  const loading = (loadingAnalytics && !tokenState.analytics) || loadingCastAnalytics;
 
   if (loading) {
     return (

@@ -17,7 +17,7 @@ import WalletModal from './modals/wallet';
 import NetworkModal from './modals/network';
 import useAuthActions from '@/store/auth/actions';
 
-const absolutePaths = ['/token', '/faq', '/builder', '/landing'];
+const absolutePaths = ['/token', '/faq', '/landing'];
 
 const LBNavigation = () => {
   const { address } = useAccount();
@@ -100,7 +100,9 @@ const LBNavigation = () => {
     setMenuOpen(false);
   }, [pathname]);
 
-  if (pathname === '/builder' || pathname === '/leaderboard' || pathname === '/landing') return;
+  const isDynamicBuilderPath = /^\/[a-zA-Z0-9-]+\/builder$/.test(pathname);
+
+  if (isDynamicBuilderPath || pathname === '/leaderboard' || pathname === '/landing') return null;
 
   return (
     <>

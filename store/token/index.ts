@@ -164,6 +164,14 @@ export const tokenReducer = createSlice({
         state.oneMonthAnalytics = undefined;
       }
     },
+
+    resetAnalytics: (state) => {
+      state.analytics = undefined;
+      state.oneHourAnalytics = undefined;
+      state.oneDayAnalytics = undefined;
+      state.oneWeekAnalytics = undefined;
+      state.oneMonthAnalytics = undefined;
+    },
   },
 });
 
@@ -186,6 +194,7 @@ export const {
   setUserTokens,
   setUserTokensLoading,
   setUserTokensMeta,
+  resetAnalytics,
 } = tokenReducer.actions;
 
 export default tokenReducer.reducer;

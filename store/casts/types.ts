@@ -16,6 +16,7 @@ type Cast = {
   castedBy: {
     profileName: string;
     userAddress: Address;
+    profileImage: string;
   };
   channel: {
     name: string;

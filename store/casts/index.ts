@@ -62,9 +62,13 @@ export const castReducer = createSlice({
         state.castAnalytics = undefined;
       }
     },
+
+    resetCastAnalytics: (state) => {
+      state.castAnalytics = undefined;
+    },
   },
 });
 
-export const { setCastAnalytics, setCasts, setExtraCasts, setLoading, setLoadingCastAnalytics, setMeta } = castReducer.actions;
+export const { setCastAnalytics, setCasts, setExtraCasts, setLoading, setLoadingCastAnalytics, setMeta, resetCastAnalytics } = castReducer.actions;
 
 export default castReducer.reducer;

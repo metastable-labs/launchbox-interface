@@ -53,7 +53,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
     {
       text: 'Configure site',
       icon: <ConfigSiteIcon />,
-      onClick: () => navigate.push('/builder'),
+      onClick: () => navigate.push(`/${token?.id}/builder`),
       show: userRole === 'admin',
     },
     {

@@ -9,10 +9,12 @@ import { CustomizeChange, ILBLandingPageComponent } from '@/components/landing/t
 import Header from './header';
 import { defaultData } from '../landing';
 import CustomizingInterface from './customizing';
+import useBuilderActions from '@/store/builder/actions';
 
 const externalLink = '#';
 
-const BuilderView = () => {
+const BuilderView = ({ tokenId }: { tokenId: string }) => {
+  const { updateBuilderData } = useBuilderActions();
   const [cookies, setCookie] = useCookies(['buildData']);
   const [buildData, setBuildData] = useState<ILBLandingPageComponent>(defaultData);
   const [displayType, setDisplayType] = useState<DisplayType>('desktop');
@@ -24,7 +26,11 @@ const BuilderView = () => {
   const [publishActive, setPublishActive] = useState(false);
 
   const hideCoustomize = () => setShouldHideCustomize((prev) => !prev);
-  const publish = () => setPublishActive(false);
+  const publish = () => {
+    const data = { ...buildData, logoFile, heroImageFile, aboutImageFile };
+    updateBuilderData(tokenId, data, { onSuccess: () => setPublishActive(false) });
+  };
+
   const save = () => {
     setCookie('buildData', buildData, { path: '/', maxAge: 604800 });
     setSaveActive(false);
