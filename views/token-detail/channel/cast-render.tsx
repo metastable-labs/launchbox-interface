@@ -17,6 +17,7 @@ const CastRender = () => {
     createdBy: {
       profileName: cast.castedBy.profileName,
       userAddress: cast.castedBy.userAddress,
+      profileImage: cast.castedBy.profileImage,
     },
     comment: cast.text,
     images: [],
