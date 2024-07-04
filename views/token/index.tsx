@@ -126,13 +126,13 @@ const TokenView = () => {
                   </div>
 
                   <div className="flex flex-col gap-2 items-center justify-center">
-                    <h1 className="text-primary-150 text-[20px] leading-[20px] text-center tracking-[-0.12px] font-medium font-Clash-Display">Connect wallet</h1>
+                    <h1 className="text-primary-150 text-[20px] leading-[20px] text-center tracking-[-0.12px] font-medium font-Clash-Display">Login / Sign up</h1>
                     <span className="text-primary-750 text-base text-center">Please connect your wallet to continue</span>
                   </div>
                 </div>
 
                 <div className="w-40">
-                  <LBButton text="Connect wallet" onClick={connectWallet} fullWidth />
+                  <LBButton text="Login / Sign up" onClick={connectWallet} fullWidth />
                 </div>
               </div>
             </motion.div>
