@@ -82,7 +82,7 @@ const LBNavigation = () => {
       disabled: true,
     },
     {
-      text: authenticated ? address : 'Connect wallet',
+      text: authenticated ? address : 'Login / Sign up',
       variant: 'wallet',
       isVisibile: true,
       onClick: () => {
