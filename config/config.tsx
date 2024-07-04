@@ -1,5 +1,3 @@
-import '@rainbow-me/rainbowkit/styles.css';
-
 import { ReactNode } from 'react';
 import { base, optimism, mode } from 'wagmi/chains';
 

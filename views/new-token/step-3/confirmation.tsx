@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 import { IConfirmation } from '../types';
 import { LBButton } from '@/components';
-import { networks } from '@/config/rainbow/config';
+import { networks } from '@/config/config';
 
 const Confirmation = ({ tokenData, handleTokenDeployment }: IConfirmation) => {
   const chainId = useChainId();

@@ -1,5 +1,6 @@
 'use client';
 import { useAccount } from 'wagmi';
+import { usePrivy } from '@privy-io/react-auth';
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import api from './api';
@@ -9,10 +10,11 @@ import { CallbackProps } from '..';
 const useSocialActions = () => {
   const { dispatch } = useSystemFunctions();
   const { address } = useAccount();
+  const { authenticated } = usePrivy();
 
   const getFarcasterChannels = async (callback?: CallbackProps) => {
     try {
-      if (!address) return;
+      if (!address || !authenticated) return;
       dispatch(setLoading(true));
 
       const channels = await api.fetchFarcasterChannels(address);

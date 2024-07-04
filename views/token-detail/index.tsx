@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import classNames from 'classnames';
 import { useAccount } from 'wagmi';
+import { usePrivy } from '@privy-io/react-auth';
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useCopy from '@/hooks/useCopy';
@@ -22,6 +23,7 @@ import Channel from './channel';
 
 const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: string }) => {
   const { address } = useAccount();
+  const { authenticated } = usePrivy();
   const { tokenState, navigate } = useSystemFunctions();
   const { getToken, getAnalytics } = useTokenActions();
   const { getTokenTransactions } = useTransactionActions();
@@ -93,13 +95,13 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
   }, [coinPrice, token]);
 
   useEffect(() => {
-    if (!address || !token) return;
+    if (!address || !token || !authenticated) return setUserRole('user');
 
     if (address === token?.chain?.deployer_address) {
       setUserRole('admin');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address, token]);
+  }, [address, token, authenticated]);
 
   return (
     <div className={classNames('pt-12 flex flex-col gap-9 px-5 items-stretch relative overflow-y-scroll', { 'pb-14': tab === 'overview' || tab === 'channel', 'pb-72': tab === 'leaderboard' })}>

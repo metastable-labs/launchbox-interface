@@ -1,22 +1,18 @@
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { useChainId, useAccount } from 'wagmi';
+import Image from 'next/image';
+import { usePrivy } from '@privy-io/react-auth';
 
 import useTruncateText from '@/hooks/useTruncateText';
+import { SelectIcon, SelectSecondaryIcon, WalletIcon } from '@/public/icons';
 import LBClickAnimation from '../click-animation';
-import { SelectIcon, VerifiedIcon, SelectSecondaryIcon, WalletIcon } from '@/public/icons';
 import { NavActionProps } from './types';
-import { networks } from '@/config/rainbow/config';
-import Image from 'next/image';
 
 const NavAction = ({ text, onClick, variant = 'network', isVisibile, disabled }: NavActionProps) => {
   const { truncatedText } = useTruncateText(text || '', 4, 4);
-  const chainId = useChainId();
-  const { isConnected } = useAccount();
+  const { authenticated } = usePrivy();
 
   const [icon, setIcon] = useState<JSX.Element>();
-
-  const connectedNetwork = networks.find((network) => network.chainId === chainId);
 
   const handleIcon = () => {
     if (variant !== 'wallet') return;
@@ -49,18 +45,18 @@ const NavAction = ({ text, onClick, variant = 'network', isVisibile, disabled }:
                 className={classNames('tracking-[-0.084px] text-sm font-medium text-primary-150', {
                   'hidden lg:block': variant !== 'wallet',
                 })}>
-                {variant === 'account' || !isConnected ? text : truncatedText}
+                {variant === 'account' || !authenticated ? text : truncatedText}
               </span>
             )}
           </div>
         </div>
 
-        {isConnected && variant === 'network' && (
+        {authenticated && variant === 'network' && (
           <div className="absolute right-[3px] bottom-[5px] flex items-center justify-center bg-primary-300 rounded-full border-[0.171px] border-primary-350">
             <SelectSecondaryIcon />
           </div>
         )}
-        {isConnected && variant !== 'network' && <SelectIcon />}
+        {authenticated && variant !== 'network' && <SelectIcon />}
       </div>
     </LBClickAnimation>
   );

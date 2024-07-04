@@ -1,18 +1,19 @@
 'use client';
 import { ReactNode, useEffect } from 'react';
-import { CookiesProvider } from 'react-cookie';
+import { CookiesProvider, useCookies } from 'react-cookie';
 import { Provider as ReduxProvider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
-import RainbowProvider from '@/config/rainbow/rainbowkit';
 import useConnect from '@/hooks/useConnect';
 import { LBNavigation } from '@/components';
 import { store } from '@/store';
 import useSocialActions from '@/store/social/actions';
 import { useAccount } from 'wagmi';
+import { usePrivy } from '@privy-io/react-auth';
 
 import 'react-toastify/dist/ReactToastify.css';
 import useTokenActions from '@/store/token/actions';
+import { setTokenHeader } from '@/utils/axios';
 
 const cookieOptions = {
   path: '/',
@@ -22,11 +23,9 @@ const cookieOptions = {
 const App = ({ children }: { children: ReactNode }) => {
   return (
     <CookiesProvider defaultSetOptions={cookieOptions}>
-      <RainbowProvider>
-        <ReduxProvider store={store}>
-          <Wrapper>{children}</Wrapper>
-        </ReduxProvider>
-      </RainbowProvider>
+      <ReduxProvider store={store}>
+        <Wrapper>{children}</Wrapper>
+      </ReduxProvider>
     </CookiesProvider>
   );
 };
@@ -36,11 +35,21 @@ const Wrapper = ({ children }: { children: ReactNode }) => {
   const { address } = useAccount();
   const { getFarcasterChannels } = useSocialActions();
   const { getCoinPrice } = useTokenActions();
+  const { authenticated } = usePrivy();
+
+  const [cookies] = useCookies(['authtoken']);
+
+  useEffect(() => {
+    if (!cookies || !cookies.authtoken) return;
+
+    setTokenHeader(cookies.authtoken);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cookies]);
 
   useEffect(() => {
     getFarcasterChannels();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address]);
+  }, [address, authenticated]);
 
   useEffect(() => {
     getCoinPrice();

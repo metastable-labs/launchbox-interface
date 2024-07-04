@@ -1,23 +1,24 @@
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useChainId, useAccount, useSwitchChain } from 'wagmi';
-import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { useChainId, useSwitchChain } from 'wagmi';
 import { base } from 'wagmi/chains';
+import { usePrivy } from '@privy-io/react-auth';
 
 import { StepProps } from '../types';
 import { LBButton, LBLoaderAlt } from '@/components';
 import { InfoIcon, SuccessIcon } from '@/public/icons';
 import Confirmation from './confirmation';
-import { networks } from '@/config/rainbow/config';
+import { networks } from '@/config/config';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useTokenActions from '@/store/token/actions';
 import Link from 'next/link';
 import { getTokenLink } from '@/utils/helpers';
+import useAuthActions from '@/store/auth/actions';
 
 const Step3 = ({ tokenData, setDisableHeader }: StepProps) => {
-  const { isConnected } = useAccount();
-  const { openConnectModal } = useConnectModal();
+  const { authenticateUser } = useAuthActions();
+  const { ready, authenticated } = usePrivy();
   const chainId = useChainId();
   const { switchChain } = useSwitchChain();
 
@@ -40,8 +41,8 @@ const Step3 = ({ tokenData, setDisableHeader }: StepProps) => {
   const handleTokenDeployment = () => {
     setDisableHeader?.(true);
 
-    if (!isConnected && openConnectModal) {
-      return openConnectModal();
+    if (!authenticated && ready) {
+      return authenticateUser();
     }
 
     const tokenNetwork = networks.find((network) => network.chainId === chainId);

@@ -1,5 +1,3 @@
-'use client';
-
 import { HomeView } from '@/views';
 
 const Home = () => <HomeView />;

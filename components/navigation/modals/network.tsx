@@ -1,7 +1,7 @@
 import { useChainId, useSwitchChain } from 'wagmi';
 import classNames from 'classnames';
 
-import { networks } from '@/config/rainbow/config';
+import { networks } from '@/config/config';
 
 const NetworkModal = ({ close }: { close: () => void }) => {
   const chainId = useChainId();

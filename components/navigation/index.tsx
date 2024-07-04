@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import classNames from 'classnames';
 import { useAccount } from 'wagmi';
-import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { usePrivy } from '@privy-io/react-auth';
 
 import Left from './left';
 import Right from './right';
@@ -15,12 +15,14 @@ import LBModal from '../modal';
 import { ModalType } from './modals/types';
 import WalletModal from './modals/wallet';
 import NetworkModal from './modals/network';
+import useAuthActions from '@/store/auth/actions';
 
 const absolutePaths = ['/token', '/faq', '/builder', '/landing'];
 
 const LBNavigation = () => {
-  const { address, isConnected } = useAccount();
-  const { openConnectModal } = useConnectModal();
+  const { address } = useAccount();
+  const { authenticateUser } = useAuthActions();
+  const { ready, authenticated } = usePrivy();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalType, setModalType] = useState<ModalType>();
@@ -66,8 +68,8 @@ const LBNavigation = () => {
   const closeModal = () => setModalType(undefined);
 
   const handleModal = (type: ModalType) => {
-    if (type === 'wallet' && !isConnected && openConnectModal) {
-      return openConnectModal();
+    if (type === 'wallet' && ready && !authenticated) {
+      return authenticateUser();
     }
     setModalType(type);
   };
@@ -75,18 +77,18 @@ const LBNavigation = () => {
   const actionItems: INavActions = [
     {
       variant: 'network',
-      isVisibile: isConnected,
+      isVisibile: authenticated,
       onClick: () => handleModal('network'),
       disabled: true,
     },
     {
-      text: address || 'Connect wallet',
+      text: authenticated ? address : 'Connect wallet',
       variant: 'wallet',
       isVisibile: true,
       onClick: () => {
         setMenuOpen(false);
-        if (!isConnected && openConnectModal) {
-          return openConnectModal();
+        if (!authenticated && ready) {
+          return authenticateUser();
         }
 
         return handleModal('wallet');

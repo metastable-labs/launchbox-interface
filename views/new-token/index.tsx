@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { usePrivy } from '@privy-io/react-auth';
 
 import { LBContainer } from '@/components';
 import Step1 from './step-1';
@@ -35,6 +36,7 @@ const ensureHttps = (url: string): string => {
 const NewTokenView = () => {
   const { socialState } = useSystemFunctions();
   const { address } = useAccount();
+  const { authenticated } = usePrivy();
   const { getFarcasterChannels } = useSocialActions();
   const [step, setStep] = useState(0);
   const [newTokenData, setNewTokenData] = useState<NewTokenData>();
@@ -78,7 +80,7 @@ const NewTokenView = () => {
   useEffect(() => {
     getFarcasterChannels();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address]);
+  }, [address, authenticated]);
 
   return (
     <LBContainer>

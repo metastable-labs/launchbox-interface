@@ -3,14 +3,15 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useAccount } from 'wagmi';
+import { usePrivy } from '@privy-io/react-auth';
 
-import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { LBButton, LBClickAnimation, LBContainer, LBError, LBLoader, LBTokenCard } from '@/components';
 import { PlusIconAlt, WalletAltIcon } from '@/public/icons';
 import useTokenActions from '@/store/token/actions';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import EmptyState from './empty';
 import Skeleton from './skeleton';
+import useAuthActions from '@/store/auth/actions';
 
 const animateVariant = {
   initial: { opacity: 0 },
@@ -19,22 +20,24 @@ const animateVariant = {
 };
 
 const TokenView = () => {
-  const { isConnected, address } = useAccount();
+  const { address } = useAccount();
+  const { ready, authenticated } = usePrivy();
+
+  const { authenticateUser } = useAuthActions();
   const { getUserTokens } = useTokenActions();
-  const { openConnectModal } = useConnectModal();
   const { tokenState } = useSystemFunctions();
   const [shouldFetchMore, setShouldFetchMore] = useState(false);
   const [showErrorState, setShowErrorState] = useState(false);
 
   const { userTokens, userTokensLoading, userTokensMeta } = tokenState;
-  const showEmptyState = isConnected && !Boolean(userTokens?.length) && !userTokensLoading;
-  const showShouldFetchMore = isConnected && (shouldFetchMore || userTokensLoading);
+  const showEmptyState = authenticated && !Boolean(userTokens?.length) && !userTokensLoading;
+  const showShouldFetchMore = authenticated && (shouldFetchMore || userTokensLoading);
   const showNewCard = !showShouldFetchMore && Boolean(userTokens?.length);
 
   const connectWallet = () => {
-    if (!openConnectModal) return;
+    if (!ready) return;
 
-    openConnectModal();
+    authenticateUser();
   };
 
   const fetchTokens = () => {
@@ -43,11 +46,11 @@ const TokenView = () => {
   };
 
   useEffect(() => {
-    if (!address) return;
+    if (!address || !authenticated) return;
 
     fetchTokens();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address]);
+  }, [address, authenticated]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -97,13 +100,11 @@ const TokenView = () => {
           )}
 
           <motion.div {...animateVariant} key="userTokens-list" className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 items-center justify-start gap-6 flex-1 self-stretch">
-            {userTokens?.map((token) => (
-              <LBTokenCard key={token?.id} {...token} />
-            ))}
+            {authenticated && userTokens?.map((token) => <LBTokenCard key={token?.id} {...token} />)}
 
             {showShouldFetchMore && <Skeleton />}
 
-            {showNewCard && (
+            {authenticated && showNewCard && (
               <Link href={'/token/new'}>
                 <LBClickAnimation className="p-5 bg-white rounded-lg border border-primary-50 flex flex-col gap-2 h-[170px] justify-center items-center">
                   <PlusIconAlt />
@@ -114,7 +115,7 @@ const TokenView = () => {
             )}
           </motion.div>
 
-          {!isConnected && (
+          {!authenticated && (
             <motion.div key="connect-wallet" {...animateVariant} className="p-6 flex items-center justify-center">
               <div className="flex flex-col gap-5 items-center justify-center">
                 <div className="flex flex-col items-center justify-center gap-6">

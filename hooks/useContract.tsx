@@ -1,12 +1,9 @@
-import { useWaitForTransactionReceipt, useWriteContract, useChainId, useContractWrite } from 'wagmi';
-import { writeContract as writeCoreContract } from '@wagmi/core';
-
+import { useCallback, useEffect, useState } from 'react';
+import { useWaitForTransactionReceipt, useWriteContract, useChainId } from 'wagmi';
 import { Address } from 'viem';
 import { getTransactionReceipt } from '@wagmi/core';
-import { wagmiConfig } from '@/config/rainbow/rainbowkit';
-import { networks } from '@/config/rainbow/config';
-import { useCallback, useEffect, useState } from 'react';
-import { writeContract } from 'viem/actions';
+import { wagmiConfig } from '@/config/privy-provider';
+import { networks } from '@/config/config';
 
 const useDeploy = () => {
   const chainId: any = useChainId();
@@ -66,13 +63,6 @@ const useBuyToken = () => {
 
   const buyToken = async (tokenAddress: Address, tokenAmount: number) => {
     try {
-      // await simulateContract(wagmiConfig, {
-      //   abi: exchangeAbi,
-      //   address: tokenAddress,
-      //   functionName: 'buyTokens',
-      //   args: [],
-      // });
-
       writeContract({
         address: tokenAddress,
         abi: exchangeAbi,
