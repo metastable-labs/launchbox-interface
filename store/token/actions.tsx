@@ -9,7 +9,7 @@ import { trim } from 'viem';
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useContract from '@/hooks/useContract';
-import { networks } from '@/config/rainbow/config';
+import { networks } from '@/config/config';
 import {
   setLoading,
   setLoadingCreate,
@@ -33,8 +33,8 @@ import {
 import { CallbackProps } from '..';
 import api from './api';
 import { TokenData } from './types';
-import { wagmiConfig } from '@/config/rainbow/rainbowkit';
-import LaunchBoxExchange from '@/config/rainbow/abis/LaunchBoxExchange.json';
+import { wagmiConfig } from '@/config/privy-provider';
+import LaunchBoxExchange from '@/config/abis/LaunchBoxExchange.json';
 
 const useTokenActions = () => {
   const { dispatch, tokenState } = useSystemFunctions();

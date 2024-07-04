@@ -2,19 +2,20 @@ import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
 import { NumericFormat, OnValueChange } from 'react-number-format';
 import { getBalance } from '@wagmi/core';
 import { formatEther } from 'viem';
+import { usePrivy } from '@privy-io/react-auth';
 
 import { LBButton, LBClickAnimation } from '@/components';
 import useTokenActions from '@/store/token/actions';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import { ETHIcon, InfoIcon } from '@/public/icons';
-import { wagmiConfig } from '@/config/rainbow/rainbowkit';
+import { wagmiConfig } from '@/config/privy-provider';
 import { formatAmount } from '@/utils/helpers';
 import { ILBTradeInterface } from './types';
+import useAuthActions from '@/store/auth/actions';
 
 const tabs = ['buy', 'sell'];
 
@@ -24,8 +25,9 @@ function truncateToDecimals(num: number) {
 }
 
 const LBTradeInterface = ({ standAlone = true, token }: ILBTradeInterface) => {
-  const { openConnectModal } = useConnectModal();
-  const { isConnected, address } = useAccount();
+  const { authenticateUser } = useAuthActions();
+  const { ready, authenticated } = usePrivy();
+  const { address } = useAccount();
   const { buyTokens, calculateSellTokenAmount, calculateBuyTokenAmount, sellTokens } = useTokenActions();
   const { tokenState } = useSystemFunctions();
 
@@ -37,7 +39,7 @@ const LBTradeInterface = ({ standAlone = true, token }: ILBTradeInterface) => {
 
   const balance = tab === 'buy' ? ethBalance : tokenBalance;
 
-  const invalidAmount = (tab === 'buy' && Number(amount) > ethBalance) || (tab === 'sell' && Number(amount) > tokenBalance);
+  const invalidAmount = !authenticated ? false : (tab === 'buy' && Number(amount) > ethBalance) || (tab === 'sell' && Number(amount) > tokenBalance);
 
   const balancePartitions = [
     { text: '10%', onClick: () => setAmount(truncateToDecimals(balance * 0.1)) },
@@ -86,7 +88,7 @@ const LBTradeInterface = ({ standAlone = true, token }: ILBTradeInterface) => {
 
     if (!amount || !token?.id) return;
 
-    if (!isConnected && !address && openConnectModal) return openConnectModal();
+    if (!authenticated && ready) return authenticateUser();
     if (tab === 'buy') {
       return buyTokens(token?.exchange_address, amount);
     }
@@ -109,11 +111,11 @@ const LBTradeInterface = ({ standAlone = true, token }: ILBTradeInterface) => {
   }, [amount]);
 
   useEffect(() => {
-    if (!address) return;
+    if (!address || !authenticated) return;
 
     handleGetBalance();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address]);
+  }, [address, authenticated]);
 
   return (
     <>

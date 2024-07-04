@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import Image from 'next/image';
 import { useAccount } from 'wagmi';
+import { usePrivy } from '@privy-io/react-auth';
 
 import { ExclaimIcon, TimerIcon } from '@/public/icons';
 import { LBClickAnimation, LBLeaderboard } from '@/components';
@@ -10,6 +11,7 @@ import Configuration from './configuration';
 
 const Leaderboard = () => {
   const { address } = useAccount();
+  const { authenticated } = usePrivy();
   const { getFarcasterChannels } = useSocialActions();
   const [hasLeaderboard, setHasLeaderboard] = useState(true);
   const [showConfiguration, setShowConfiguration] = useState(false);
@@ -25,7 +27,7 @@ const Leaderboard = () => {
   useEffect(() => {
     getFarcasterChannels();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address]);
+  }, [address, authenticated]);
   return (
     <>
       <div className={classNames('flex flex-col lg:flex-row gap-6 lg:gap-3.5 pb-10', {})}>

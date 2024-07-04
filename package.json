@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.4.2",
-    "@rainbow-me/rainbowkit": "^2.1.2",
+    "@privy-io/react-auth": "^1.73.2",
+    "@privy-io/wagmi": "^0.2.11",
     "@reduxjs/toolkit": "^2.2.5",
     "@tanstack/react-query": "^5.44.0",
     "axios": "^1.7.2",

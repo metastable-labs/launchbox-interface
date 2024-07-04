@@ -8,7 +8,6 @@ import { CallbackProps } from '..';
 
 const useHolderActions = () => {
   const { dispatch, tokenState } = useSystemFunctions();
-  const { address } = useAccount();
 
   const getTokenHolders = async (query: string, callback?: CallbackProps) => {
     try {
