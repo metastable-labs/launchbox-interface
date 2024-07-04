@@ -52,10 +52,10 @@ const useAuthActions = () => {
   };
 
   useEffect(() => {
-    if (!authenticated) return;
+    if (!authenticated || cookies.authtoken) return;
 
     _loginUser();
-  }, [authenticated]);
+  }, [authenticated, cookies]);
 
   return {
     authenticateUser,
