@@ -6,6 +6,7 @@ import socialReducer from './social';
 import transactionReducer from './transaction';
 import holderReducer from './holder';
 import castReducer from './casts';
+import builderReducer from './builder';
 
 export interface CallbackProps {
   onSuccess?: Function;
@@ -19,6 +20,7 @@ export const store = configureStore({
     transaction: transactionReducer,
     holder: holderReducer,
     cast: castReducer,
+    builder: builderReducer,
   },
 });
 

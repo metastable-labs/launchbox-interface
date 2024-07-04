@@ -20,6 +20,7 @@ const useSystemFunctions = () => {
   const transactionState = useAppSelector((state) => state.transaction);
   const holderState = useAppSelector((state) => state.holder);
   const castState = useAppSelector((state) => state.cast);
+  const builderState = useAppSelector((state) => state.builder);
 
   return {
     navigate,
@@ -32,6 +33,7 @@ const useSystemFunctions = () => {
     transactionState,
     holderState,
     castState,
+    builderState,
   };
 };
 
