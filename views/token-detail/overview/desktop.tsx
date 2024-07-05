@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import classNames from 'classnames';
+import { base } from 'viem/chains';
 
 import { SecondaryTabs } from '../types';
 import { LBTable, LBTradeInterface } from '@/components';
@@ -10,7 +11,7 @@ import AreaChart from '../area-chart';
 import ClickTabs from '../tabs';
 import { IView } from './types';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
-import { formatAmount, formatCurrency } from '@/utils/helpers';
+import { formatAmount, formatCurrency, getTokenLink } from '@/utils/helpers';
 
 const DesktopView = ({
   liquidityData,
@@ -45,6 +46,7 @@ const DesktopView = ({
     tokenAmount: Number(tx.token_value),
     createdAt: tx.created_at,
     transactionType: tx.type,
+    transaction_hash: tx.transaction_hash,
   }));
 
   const holdersData = holderState.holders?.map((holder) => ({
@@ -55,6 +57,12 @@ const DesktopView = ({
 
   const showShouldFetchMoreTransactions = shouldFetchMoreTransactions || (transactionState.loading && !transactionState.transactions);
   const showShouldFetchMoreHolders = shouldFetchMoreHolders || (holderState.loading && !holderState.holders);
+
+  const rowClick = (id: string) => {
+    const { url } = getTokenLink(base.id, id);
+
+    if (url) window.open(url, '_blank');
+  };
 
   const tabs = [
     <LBTable
@@ -67,6 +75,7 @@ const DesktopView = ({
       total={transactionState.meta?.total_count}
       setShouldFetchMore={setShouldFetchMoreTransactions}
       shouldFetchMore={showShouldFetchMoreTransactions}
+      rowClick={rowClick}
     />,
     <LBTable
       data={holdersData || []}
@@ -96,12 +105,13 @@ const DesktopView = ({
         <div className={classNames('w-full self-stretch flex flex-col items-stretch gap-6 rounded-lg border border-primary-50 p-6')}>
           <div className="flex items-center justify-end self-stretch">
             <div className="flex items-center justify-center gap-8 px-3.5 py-2.5 rounded border border-primary-1950 shadow-table-cta bg-white">
-              {periods.map(({ text, value }) => (
+              {periods.map(({ text, value, loading }) => (
                 <span
                   onClick={() => setPeriod(value)}
                   key={value}
                   className={classNames('text-sm flex items-center justify-center px-1.5 py-0.5 text-primary-2000 cursor-pointer transition-colors duration-300 font-Clash-Display font-medium', {
                     'bg-primary-200 rounded-[5px]': value === period,
+                    'pointer-events-none animate-pulse': loading,
                   })}>
                   {text}
                 </span>

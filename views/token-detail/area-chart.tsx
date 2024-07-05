@@ -89,7 +89,7 @@ const AreaChartComponent: React.FC<IAreaChart> = ({ variant = 'primary', period 
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <AreaChart data={data?.map((d) => ({ ...d, value: parseFloat(d.value) }))}>
+      <AreaChart key={period} data={data?.map((d) => ({ ...d, value: parseFloat(d.value) }))}>
         <defs>
           <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="rgba(1, 133, 88, 0.13)" />
@@ -100,7 +100,7 @@ const AreaChartComponent: React.FC<IAreaChart> = ({ variant = 'primary', period 
         {variant === 'primary' && <YAxis tick={{ fontSize: 12, fill: 'rgba(111, 118, 126, 0.75)' }} axisLine={false} tickLine={false} orientation="right" mirror tickFormatter={formatYAxisTick} />}
         <CartesianGrid stroke="#F6F8FA" vertical={false} />
         <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#EFEFEF', strokeWidth: 3 }} labelFormatter={(label) => label} />
-        <Area type="monotone" dataKey="value" stroke="#018558" fill="url(#colorValue)" strokeWidth={2} clipPath="none" activeDot={{ r: 6.5, stroke: '#fff', strokeWidth: 3 }} />
+        <Area key={period} type="monotone" dataKey="value" stroke="#018558" fill="url(#colorValue)" strokeWidth={2} clipPath="none" activeDot={{ r: 6.5, stroke: '#fff', strokeWidth: 3 }} />
       </AreaChart>
     </ResponsiveContainer>
   );

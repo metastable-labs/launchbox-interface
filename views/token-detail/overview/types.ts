@@ -42,6 +42,7 @@ interface IView extends IOverview {
   periods: {
     text: string;
     value: Period;
+    loading?: boolean;
   }[];
   shouldFetchMoreTransactions: boolean;
   setShouldFetchMoreTransactions: Dispatch<SetStateAction<boolean>>;

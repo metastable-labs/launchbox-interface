@@ -13,21 +13,26 @@ const ChangeIndicator: React.FC<ChangeIndicatorProps> = ({ change }) => {
   const { analytics } = tokenState;
 
   const price_increased = analytics?.isIncreased;
-  const price_change = analytics?.percentageChange;
+  const price_change = Number(analytics?.percentageChange || 0);
 
-  const realCastChange = price_increased ? Math.abs(Number(price_change || 0)) : -Math.abs(Number(price_change || 0)!);
-  const isPositive = realCastChange > 0;
+  const isNeutral = price_change === 0 && price_increased === false;
+  const isPositive = price_change > 0;
+  const realCastChange = isNeutral ? 0 : price_increased ? Math.abs(price_change) : -Math.abs(price_change);
+
+  const loading = !analytics;
 
   return (
     <div
       className={classNames('flex items-center justify-center gap-1 text-[14px] leading-[24px] tracking-[-0.14px] font-medium', {
-        'text-primary-2450': isPositive,
-        'text-primary-1050': !isPositive,
+        'text-primary-2450': isPositive && !loading,
+        'text-primary-1050': !isPositive && !loading && !isNeutral,
+        'text-primary-50 animate-pulse': loading,
+        'text-neutral-500': isNeutral && !loading,
       })}>
-      <motion.div animate={{ rotate: isPositive ? 0 : 180 }}>
-        <ChangeIndicatorIcon color={isPositive ? '#32AE60' : '#DF1C41'} />
+      <motion.div animate={{ rotate: isPositive || isNeutral ? 0 : 180 }}>
+        <ChangeIndicatorIcon color={loading ? '#e2e4e9' : isNeutral ? '#A0A0A0' : isPositive ? '#32AE60' : '#DF1C41'} />
       </motion.div>
-      {realCastChange}%
+      {loading ? '--' : realCastChange}%
     </div>
   );
 };
