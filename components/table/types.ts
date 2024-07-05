@@ -32,6 +32,7 @@ interface TableItem {
   volume?: number;
   transactionType?: 'buy' | 'sell';
   points?: number;
+  transaction_hash?: Address;
 }
 
 interface IAddress {
