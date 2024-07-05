@@ -5,7 +5,7 @@ import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useHolderActions from '@/store/holder/actions';
 import useTokenActions from '@/store/token/actions';
 import { setAnalytics } from '@/store/token';
-import { generateData, periods } from '../dummy';
+import { generateData } from '../dummy';
 import { Period } from '../types';
 import DesktopView from './desktop';
 import MobileView from './mobile';
@@ -24,6 +24,13 @@ const Overview = ({ userRole }: IOverview) => {
   const [shouldFetchMoreTransactions, setShouldFetchMoreTransactions] = useState(false);
   const [shouldFetchMoreHolders, setShouldFetchMoreHolders] = useState(false);
 
+  const periods = [
+    { text: '1H', value: '1h' as Period, loading: !tokenState.oneHourAnalytics },
+    { text: '24H', value: '24h' as Period, loading: !tokenState.oneDayAnalytics },
+    { text: '1W', value: '1w' as Period, loading: !tokenState.oneWeekAnalytics },
+    { text: '1M', value: '1m' as Period, loading: !tokenState.oneMonthAnalytics },
+  ];
+
   const props = {
     tabTexts,
     liquidityData,
@@ -37,7 +44,7 @@ const Overview = ({ userRole }: IOverview) => {
     setShouldFetchMoreHolders,
   };
 
-  useEffect(() => {
+  const handleData = async () => {
     if (!tokenState.token) return;
 
     const states = {
@@ -47,9 +54,15 @@ const Overview = ({ userRole }: IOverview) => {
       '1m': tokenState.oneMonthAnalytics,
     };
 
-    dispatch(setAnalytics(states[period]));
+    console.log('states', states[period]);
+
+    await dispatch(setAnalytics(states[period]));
 
     getAnalytics(tokenState.token?.id, period);
+  };
+
+  useEffect(() => {
+    handleData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [period]);
 

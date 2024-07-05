@@ -11,12 +11,11 @@ import useSystemFunctions from '@/hooks/useSystemFunctions';
 import { formatAmount, formatNumber } from '@/utils/helpers';
 
 const TokenInfo = ({ userRole }: IOverview) => {
-  const { navigate, tokenState, transactionState, holderState } = useSystemFunctions();
+  const { navigate, tokenState, holderState } = useSystemFunctions();
   const { handleCopy, hasCopied } = useCopy();
   const { isDesktop } = useScreenDetect();
 
   const { token, loading: tokenLoading } = tokenState;
-  const { loading: transactionsLoading } = transactionState;
   const { meta: holdersMeta, loading: holdersLoading } = holderState;
 
   const total_buy_count = token?.total_buy_count || 0;
@@ -52,7 +51,7 @@ const TokenInfo = ({ userRole }: IOverview) => {
   ];
 
   const secondaryInfo = [
-    { text: 'Market cap', value: formatNumber(marketCap.numerator || 0) },
+    { text: 'Market cap', value: formatNumber(marketCap.numerator || 0), loading: tokenLoading || !token },
     {
       text: 'Txns',
       value: (
@@ -65,11 +64,11 @@ const TokenInfo = ({ userRole }: IOverview) => {
           <span>)</span>
         </div>
       ),
-      loading: transactionsLoading,
+      loading: tokenLoading || !token,
     },
     { text: 'Total supply', value: `${token?.token_total_supply?.toLocaleString()} ${token?.token_symbol}`, loading: tokenLoading || !token },
     { text: 'Holders', value: holdersMeta?.total_count?.toLocaleString(), loading: holdersLoading },
-    { text: 'Volume', value: `$${formatNumber(volume)}` },
+    { text: 'Volume', value: `$${formatNumber(volume)}`, loading: tokenLoading || !token },
   ];
 
   const show = (userRole === 'admin' && !isDesktop) || userRole === 'user';

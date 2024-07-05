@@ -1,11 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Address, decodeEventLog, formatEther } from 'viem';
+import { Address, decodeEventLog, formatEther, trim, parseEther } from 'viem';
 import { toast } from 'react-toastify';
 import { useChainId, useAccount } from 'wagmi';
 import { readContract } from '@wagmi/core';
-
-import { trim } from 'viem';
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useContract from '@/hooks/useContract';
@@ -184,9 +182,17 @@ const useTokenActions = () => {
     try {
       const response = await api.fetchPriceAnalytics(tokenId, '1h');
 
-      dispatch(setOneHourAnalytics(response));
+      const formattedResponse = {
+        ...response,
+        dataPoints: response.dataPoints.map((dataPoint) => ({
+          ...dataPoint,
+          price: formatEther(parseEther(dataPoint.price)),
+        })),
+      };
 
-      return callback?.onSuccess?.(response);
+      dispatch(setOneHourAnalytics(formattedResponse));
+
+      return callback?.onSuccess?.(formattedResponse);
     } catch (error: any) {
       callback?.onError?.(error);
     }
@@ -196,9 +202,17 @@ const useTokenActions = () => {
     try {
       const response = await api.fetchPriceAnalytics(tokenId, '24h');
 
-      dispatch(setOneDayAnalytics(response));
+      const formattedResponse = {
+        ...response,
+        dataPoints: response.dataPoints.map((dataPoint) => ({
+          ...dataPoint,
+          price: formatEther(parseEther(dataPoint.price)),
+        })),
+      };
 
-      return callback?.onSuccess?.(response);
+      dispatch(setOneDayAnalytics(formattedResponse));
+
+      return callback?.onSuccess?.(formattedResponse);
     } catch (error: any) {
       callback?.onError?.(error);
     }
@@ -208,9 +222,17 @@ const useTokenActions = () => {
     try {
       const response = await api.fetchPriceAnalytics(tokenId, '1w');
 
-      dispatch(setOneWeekAnalytics(response));
+      const formattedResponse = {
+        ...response,
+        dataPoints: response.dataPoints.map((dataPoint) => ({
+          ...dataPoint,
+          price: formatEther(parseEther(dataPoint.price)),
+        })),
+      };
 
-      return callback?.onSuccess?.(response);
+      dispatch(setOneWeekAnalytics(formattedResponse));
+
+      return callback?.onSuccess?.(formattedResponse);
     } catch (error: any) {
       callback?.onError?.(error);
     }
@@ -220,9 +242,17 @@ const useTokenActions = () => {
     try {
       const response = await api.fetchPriceAnalytics(tokenId, '1m');
 
-      dispatch(setOneMonthAnalytics(response));
+      const formattedResponse = {
+        ...response,
+        dataPoints: response.dataPoints.map((dataPoint) => ({
+          ...dataPoint,
+          price: formatEther(parseEther(dataPoint.price)),
+        })),
+      };
 
-      return callback?.onSuccess?.(response);
+      dispatch(setOneMonthAnalytics(formattedResponse));
+
+      return callback?.onSuccess?.(formattedResponse);
     } catch (error: any) {
       callback?.onError?.(error);
     }
@@ -243,13 +273,23 @@ const useTokenActions = () => {
         dispatch(setLoadingAnalytics(true));
 
         const response = await api.fetchPriceAnalytics(tokenId, '1w');
-        dispatch(setAnalytics(response));
-        dispatch(setLoadingAnalytics(false));
-        getOneHourAnalytics(tokenId);
-        getOneDayAnalytics(tokenId);
-        getOneMonthAnalytics(tokenId);
 
-        return callback?.onSuccess?.(response);
+        const formattedResponse = {
+          ...response,
+          dataPoints: response.dataPoints.map((dataPoint) => ({
+            ...dataPoint,
+            price: formatEther(parseEther(dataPoint.price)),
+          })),
+        };
+
+        dispatch(setAnalytics(formattedResponse));
+        dispatch(setOneWeekAnalytics(formattedResponse));
+
+        await getOneHourAnalytics(tokenId);
+        await getOneDayAnalytics(tokenId);
+        await getOneMonthAnalytics(tokenId);
+
+        return callback?.onSuccess?.(formattedResponse);
       }
     } catch (error: any) {
       callback?.onError?.(error);
