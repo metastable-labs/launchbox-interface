@@ -79,6 +79,7 @@ import UserSettingIcon from './user-setting-icon';
 import TrendIcon from './trend-icon';
 import TokenIcon from './token-icon';
 import ExternalLinkAltIcon from './external-link-alt-icon';
+import TelegramIcon from './telegram-icon';
 
 export {
   LaunchIcon,
@@ -162,4 +163,5 @@ export {
   UserSettingIcon,
   TrendIcon,
   ExternalLinkAltIcon,
+  TelegramIcon,
 };

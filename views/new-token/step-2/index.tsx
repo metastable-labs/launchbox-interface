@@ -13,13 +13,6 @@ const Step2 = ({ file, register, setFile, tokenSymbol, createTokenPage, setCreat
   let buttonText = 'Review';
   if (tokenSymbol) buttonText = `Deploy $${tokenSymbol} token`;
 
-  const handleFile = (e: any) => {
-    const file = e.target?.files?.[0];
-    if (file) setFile?.(file);
-  };
-
-  const deleteFile = () => setFile?.(null);
-
   const warpcastChannels = socialState?.farcasterChannels?.map((channel) => ({
     text: channel.name,
     value: channel.name,
@@ -27,8 +20,36 @@ const Step2 = ({ file, register, setFile, tokenSymbol, createTokenPage, setCreat
     id: channel.channel_id,
   }));
 
+  const inputs = [
+    {
+      name: 'tokenWebsiteURL',
+      register: register?.('tokenWebsiteURL'),
+      type: 'text',
+      label: 'Website URL',
+    },
+    {
+      name: 'tokenTelegramURL',
+      register: register?.('tokenTelegramURL'),
+      type: 'text',
+      label: 'Telegram URL',
+    },
+    {
+      name: 'tokenTwitterURL',
+      register: register?.('tokenTwitterURL'),
+      type: 'text',
+      label: 'Twitter URL',
+    },
+  ];
+
+  const handleFile = (e: any) => {
+    const file = e.target?.files?.[0];
+    if (file) setFile?.(file);
+  };
+
+  const deleteFile = () => setFile?.(null);
+
   return (
-    <div className="flex flex-col items-center justify-center gap-6 rounded-base border border-primary-1200 bg-white p-6 max-w-[370px]">
+    <div className="flex flex-col items-center justify-center gap-4 rounded-base border border-primary-1200 bg-white p-6 max-w-[370px]">
       <LBFileInput handleFileChange={handleFile} name="token-logo" label="Upload logo" show={!file} />
 
       <LBFileSample file={file} deleteFile={deleteFile} />
@@ -46,7 +67,9 @@ const Step2 = ({ file, register, setFile, tokenSymbol, createTokenPage, setCreat
         />
       )}
 
-      <LBInput name="tokenWebsiteURL" register={register?.('tokenWebsiteURL')} placeholder="..." type="text" label="Website URL" instruction="Link to your token's website" isOptional />
+      {inputs.map((input, index) => (
+        <LBInput key={index} {...input} isOptional />
+      ))}
 
       <LBSwitch
         onClick={() => setCreateTokenPage?.((prev) => !prev)}
@@ -55,7 +78,9 @@ const Step2 = ({ file, register, setFile, tokenSymbol, createTokenPage, setCreat
         title="Create token page"
       />
 
-      <LBButton text={buttonText} fullWidth disabled={disbleButton} type="submit" />
+      <div className="self-stretch flex justify-stretch mt-2">
+        <LBButton text={buttonText} fullWidth disabled={disbleButton} type="submit" />
+      </div>
     </div>
   );
 };

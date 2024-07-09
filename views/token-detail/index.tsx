@@ -32,7 +32,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
   const { handleCopy, hasCopied } = useCopy();
 
   const [tab, setTab] = useState<Tabs>('overview');
-  const [userRole, setUserRole] = useState<'admin' | 'user'>('user');
+  const [userRole, setUserRole] = useState<'admin' | 'user'>('admin');
 
   const { token, coinPrice } = tokenState;
 
@@ -48,25 +48,11 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
       onClick: () => {
         handleCopy(token?.token_address!);
       },
-      show: true,
     },
     {
       text: 'Configure site',
       icon: <ConfigSiteIcon />,
       onClick: () => navigate.push(`/${token?.id}/builder`),
-      show: userRole === 'admin',
-    },
-    {
-      text: 'Website',
-      icon: <WebIcon />,
-      onClick: () => window.open(token?.website_url, '_blank'),
-      show: userRole === 'user',
-    },
-    {
-      text: 'Farcaster',
-      icon: <Image src="/icons/farcaster-icon.svg" alt="farcaster" width={200} height={200} className="w-5 h-5 object-cover" />,
-      onClick: () => window.open(token?.warpcast_channel_link, '_blank'),
-      show: userRole === 'user',
     },
   ];
 
@@ -95,7 +81,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
   }, [coinPrice, token]);
 
   useEffect(() => {
-    if (!address || !token || !authenticated) return setUserRole('user');
+    // if (!address || !token || !authenticated) return setUserRole('user');
 
     if (address === token?.chain?.deployer_address) {
       setUserRole('admin');
@@ -136,11 +122,10 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
             </div>
 
             <div className="flex items-center justify-center gap-2">
-              {actions.map(({ icon, onClick, text, show, icons }, index) => (
+              {actions.map(({ icon, onClick, text, icons }, index) => (
                 <LBClickAnimation
                   key={index}
                   className={classNames('flex items-center justify-center gap-1 cursor-pointer px-3.5 py-2.5 bg-white border border-primary-1950 rounded-lg shadow-table-cta', {
-                    hidden: !show,
                     'pointer-events-none': !token,
                   })}
                   onClick={onClick}>
@@ -160,7 +145,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
 
                   {icon && icon}
 
-                  <span className="text-primary-2000 text-sm font-semibold font-Clash-Display">{text}</span>
+                  <span className="text-primary-2000 text-sm font-medium font-Clash-Display">{text}</span>
                 </LBClickAnimation>
               ))}
 

@@ -44,7 +44,7 @@ const LBSelect = ({ text, defaultId, disabled, instruction, isOptional, label, o
       <div className="flex flex-col w-full items-start gap-1 text-sm">
         <span className={classNames('text-primary-150 font-medium', { 'flex items-center justify-center gap-1': isOptional })}>
           {label}
-          {isOptional && <span className="text-primary-1000"> (optional)</span>}
+          {isOptional && <span className="text-primary-3600"> (optional)</span>}
         </span>
         <LBClickAnimation
           onClick={toggleOpen}

@@ -78,18 +78,8 @@ const Footer = ({ footerLinks, isBuilder, isDesktop, isMobile, logoURL }: IFoote
           </div>
         </div>
 
-        <div
-          className={classNames('flex items-center self-stretch', {
-            'justify-center': !isBuilder || (isBuilder && isMobile),
-            'justify-between': isBuilder && isDesktop,
-          })}>
+        <div className="flex items-center self-stretch justify-center">
           <PoweredBy isBuilder={isBuilder} isDesktop={isDesktop} isMobile={isMobile} />
-
-          {isBuilder && isDesktop && (
-            <LBClickAnimation>
-              <TwitterIcon />
-            </LBClickAnimation>
-          )}
         </div>
       </div>
     </footer>
