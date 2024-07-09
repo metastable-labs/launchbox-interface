@@ -22,6 +22,8 @@ const schema = yup.object().shape({
   tokenSymbol: yup.string().required('Token Symbol is required'),
   tokenSupply: yup.string().required('Token Supply is Required'),
   tokenWebsiteURL: yup.string(),
+  tokenTelegramURL: yup.string(),
+  tokenTwitterURL: yup.string(),
   warpcastChannelId: yup.string(),
 });
 

@@ -34,7 +34,7 @@ const Confirmation = ({ tokenData, handleTokenDeployment }: IConfirmation) => {
 
   return (
     <div className="min-w-full flex flex-col gap-6">
-      <h1 className="text-primary-150 text-lg md:text-[24px] md:leading-[37.2px]">Confirmation</h1>
+      <h1 className="text-primary-150 text-lg md:text-[24px] md:leading-[37.2px] font-Clash-Display font-medium">Confirmation</h1>
 
       <p className="text-center text-base text-primary-750 max-w-[365px]">
         Upon confirmation, <span className="font-medium text-primary-250">${tokenData?.tokenSymbol}</span> contract will be deployed on selected network
@@ -46,7 +46,7 @@ const Confirmation = ({ tokenData, handleTokenDeployment }: IConfirmation) => {
             <span>{title}</span>
 
             <div
-              className={classNames('', {
+              className={classNames('font-Clash-Display', {
                 'flex items-center justify-center gap-1': icon,
               })}>
               {icon && icon}
@@ -62,7 +62,7 @@ const Confirmation = ({ tokenData, handleTokenDeployment }: IConfirmation) => {
             <div className="self-stretch flex items-center gap-4 bg-white rounded-lg border border-primary-50 p-2.5">
               <Image src={tokenData.farcasterChannel?.image_url} alt="logo" width={500} height={500} className="w-[50px] h-[50px] object-cover" />
               <div className="flex flex-col gap-1">
-                <span className="text-[16px] leading-[28px] text-primary-650 font-medium">{tokenData.farcasterChannel?.name}</span>
+                <span className="text-[16px] leading-[28px] text-primary-650 font-medium font-Clash-Display">{tokenData.farcasterChannel?.name}</span>
                 <span className="text-[14px] leading-[16px] text-primary-700">{tokenData?.farcasterChannel?.follower_count} followers</span>
               </div>
             </div>

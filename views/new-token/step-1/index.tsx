@@ -23,7 +23,7 @@ const Step1 = ({ setStep, watch, errors, register, setValue }: StepProps) => {
     {
       name: 'tokenSymbol',
       register: register?.('tokenSymbol'),
-      placeholder: 'Token Symbol',
+      placeholder: 'Token symbol',
       error: errors?.tokenSymbol,
       type: 'text',
       label: 'Token Symbol',
@@ -55,7 +55,7 @@ const Step1 = ({ setStep, watch, errors, register, setValue }: StepProps) => {
         placeholder="1,000,000"
         error={errors?.tokenSupply}
         type="text"
-        label="Total Supply"
+        label="Supply"
         instruction="Maximum number of tokens to be minted"
       />
 

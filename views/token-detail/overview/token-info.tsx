@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import useCopy from '@/hooks/useCopy';
-import { CheckAltIcon, ConfigSiteIcon, CopyIcon, WebIcon } from '@/public/icons';
+import { CheckAltIcon, ConfigSiteIcon, CopyIcon, LinkIcon, SmallFarcasterIcon, TelegramIcon, WebIcon, XIcon } from '@/public/icons';
 import { LBBadge, LBClickAnimation, LBShare } from '@/components';
 import { IOverview } from './types';
 import useScreenDetect from '@/hooks/useScreenDetect';
@@ -28,27 +28,20 @@ const TokenInfo = ({ userRole }: IOverview) => {
 
   const actions = [
     {
-      icons: [<CopyIcon key="copy" width={16} height={16} />, <CheckAltIcon key="check" width={16} height={16} />],
-      onClick: () => handleCopy(token?.token_address!),
-      show: true,
-      hasCopied,
+      icon: <LinkIcon />,
+      href: token?.website_url || 'some-url',
     },
     {
-      icon: <ConfigSiteIcon />,
-      onClick: () => navigate.push('/builder'),
-      show: userRole === 'admin',
+      icon: <XIcon width={20} height={20} color="#0A0D14" />,
+      href: token?.twitter_url || 'some-url',
     },
     {
-      icon: <WebIcon />,
-      onClick: () => window.open(token?.website_url, '_blank'),
-      show: userRole === 'user',
-    },
-    {
-      icon: <Image src="/icons/farcaster-icon.svg" alt="farcaster" width={200} height={200} className="w-5 h-5 object-cover" />,
-      onClick: () => window.open(token?.warpcast_channel_link, '_blank'),
-      show: userRole === 'user',
+      icon: <TelegramIcon />,
+      href: token?.telegram_url || 'some-url',
     },
   ];
+
+  const noChannel = !Boolean(Object.keys(token?.socials.warpcast.channel || {}).length);
 
   const secondaryInfo = [
     { text: 'Market cap', value: formatNumber(marketCap.numerator || 0), loading: tokenLoading || !token },
@@ -112,38 +105,56 @@ const TokenInfo = ({ userRole }: IOverview) => {
           </div>
 
           <div className="flex items-stretch gap-2 w-full pb-[30px] border-b border-b-primary-50">
-            {actions.map(({ icon, onClick, show, hasCopied, icons }, index) => (
-              <LBClickAnimation
-                key={index}
-                className={classNames('w-full flex items-center justify-center px-3 py-2 bg-white border border-primary-1950 rounded-lg shadow-table-cta', {
-                  hidden: !show,
-                })}
-                onClick={onClick}>
-                {icons && (
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.div
-                      key={+hasCopied}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.1 }}
-                      exit={{ opacity: 0 }}
-                      className={classNames('', { 'pointer-events-none': hasCopied })}>
-                      {icons[+hasCopied]}
-                    </motion.div>
-                  </AnimatePresence>
-                )}
-
-                {icon && icon}
+            {actions.map(({ href, icon }, index) => (
+              <LBClickAnimation key={index} className="w-1/5 flex items-center justify-center px-3 py-2 bg-white border border-primary-1950 rounded-lg shadow-table-cta">
+                <motion.a whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }} href={href} target="_blank">
+                  {icon && icon}
+                </motion.a>
               </LBClickAnimation>
             ))}
 
-            <LBShare />
+            <LBShare className="w-1/5" />
+
+            <LBClickAnimation
+              className="w-1/5 flex items-center justify-center px-3 py-2 bg-white border border-primary-1950 rounded-lg shadow-table-cta"
+              onClick={() => handleCopy(token?.token_address!)}>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div key={+hasCopied} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.1 }} exit={{ opacity: 0 }}>
+                  {hasCopied ? <CheckAltIcon width={16} height={16} /> : <CopyIcon width={16} height={16} />}
+                </motion.div>
+              </AnimatePresence>
+            </LBClickAnimation>
           </div>
         </>
       )}
 
       <div className="self-stretch flex flex-col gap-9 items-stretch">
         <div className="flex flex-col items-center gap-4">
+          <div className="self-stretch flex items-center justify-between pb-4 border-b border-b-primary-50">
+            <span className="text-primary-700 text-[14px] leading-[24px]">Channel</span>
+
+            <div className="flex items-center gap-1">
+              {!tokenLoading && (
+                <>
+                  <SmallFarcasterIcon />
+                  <a
+                    href={token?.socials?.warpcast?.channel?.url}
+                    target="_blank"
+                    className="text-primary-650 text-[16px] leading-[20.8px] font-medium underline underline-offset-4 font-Clash-Display">
+                    {noChannel ? '-' : token?.socials?.warpcast?.channel?.name}
+                  </a>
+                </>
+              )}
+
+              {tokenLoading && (
+                <>
+                  <div className="animate-pulse w-4 h-4 rounded-full bg-primary-50" />
+                  <div className="animate-pulse h-6 w-20 rounded-base bg-primary-50" />
+                </>
+              )}
+            </div>
+          </div>
+
           {secondaryInfo.map(({ text, value, loading }, index) => (
             <div
               key={index}
