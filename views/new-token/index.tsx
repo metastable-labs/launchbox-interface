@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { usePrivy } from '@privy-io/react-auth';
+import { base } from 'wagmi/chains';
+import { toast } from 'react-toastify';
 
 import { LBContainer } from '@/components';
 import Step1 from './step-1';
@@ -37,7 +39,7 @@ const ensureHttps = (url: string): string => {
 
 const NewTokenView = () => {
   const { socialState } = useSystemFunctions();
-  const { address } = useAccount();
+  const { address, chainId } = useAccount();
   const { authenticated } = usePrivy();
   const { getFarcasterChannels } = useSocialActions();
   const [step, setStep] = useState(0);
@@ -64,6 +66,12 @@ const NewTokenView = () => {
   ];
 
   const onSubmit = (data: FormProp) => {
+    if (chainId !== base.id) {
+      return toast('Please switch your connected network to Base. Open your wallet to approve!', {
+        type: 'warning',
+      });
+    }
+
     const farcasterChannel = socialState?.farcasterChannels?.find((channel) => channel.channel_id === data?.warpcastChannelId);
 
     const formData = {
