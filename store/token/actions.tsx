@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Address, decodeEventLog, formatEther, trim, parseEther } from 'viem';
+import { Address, decodeEventLog, formatEther, trim } from 'viem';
 import { toast } from 'react-toastify';
 import { useChainId, useAccount } from 'wagmi';
 import { readContract } from '@wagmi/core';
@@ -36,9 +36,9 @@ import LaunchBoxExchange from '@/config/abis/LaunchBoxExchange.json';
 
 const useTokenActions = () => {
   const { dispatch, tokenState } = useSystemFunctions();
-  const { deployToken, isDeployPending, isDeployConfirmed, getDeployTransactionData } = useContract.useDeploy();
+  const { deployToken, isDeployPending, isDeployConfirmed, getDeployTransactionData, deployHash } = useContract.useDeploy();
   const { buyToken, isBuyPending, isBuyConfirmed, getBuyTransactionData, buyError } = useContract.useBuyToken();
-  const { approveAndSell, isSellPending, getSellTransactionData, error, isApprovePending, isSellConfirmed, isApproveLoading, isSellLoading } = useContract.useSellToken();
+  const { approveAndSell, isSellPending, getSellTransactionData, error, isApprovePending, isSellConfirmed } = useContract.useSellToken();
   const chainId = useChainId();
   const { address } = useAccount();
 
@@ -353,6 +353,7 @@ const useTokenActions = () => {
 
       getTokens('take=50');
     } catch (e) {
+      console.log('MY ERRORRRR', e);
       //
     } finally {
       dispatch(setLoadingCreate(false));
@@ -395,7 +396,7 @@ const useTokenActions = () => {
   useEffect(() => {
     _submitData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDeployPending, isDeployConfirmed, tokenState.loadingCreate]);
+  }, [isDeployPending, isDeployConfirmed]);
 
   useEffect(() => {
     if (!isBuyConfirmed || isBuyPending) return;
