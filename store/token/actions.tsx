@@ -186,7 +186,7 @@ const useTokenActions = () => {
         ...response,
         dataPoints: response.dataPoints.map((dataPoint) => ({
           ...dataPoint,
-          price: formatEther(parseEther(dataPoint.price)),
+          price: dataPoint.price,
         })),
       };
 
@@ -206,7 +206,7 @@ const useTokenActions = () => {
         ...response,
         dataPoints: response.dataPoints.map((dataPoint) => ({
           ...dataPoint,
-          price: formatEther(parseEther(dataPoint.price)),
+          price: dataPoint.price,
         })),
       };
 
@@ -226,7 +226,7 @@ const useTokenActions = () => {
         ...response,
         dataPoints: response.dataPoints.map((dataPoint) => ({
           ...dataPoint,
-          price: formatEther(parseEther(dataPoint.price)),
+          price: dataPoint.price,
         })),
       };
 
@@ -246,7 +246,7 @@ const useTokenActions = () => {
         ...response,
         dataPoints: response.dataPoints.map((dataPoint) => ({
           ...dataPoint,
-          price: formatEther(parseEther(dataPoint.price)),
+          price: dataPoint.price,
         })),
       };
 
@@ -278,7 +278,7 @@ const useTokenActions = () => {
           ...response,
           dataPoints: response.dataPoints.map((dataPoint) => ({
             ...dataPoint,
-            price: formatEther(parseEther(dataPoint.price)),
+            price: dataPoint.price,
           })),
         };
 
