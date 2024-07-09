@@ -15,7 +15,7 @@ const LBInput = ({ name, className, disabled, error, instruction, isOptional, is
           <span
             className={classNames('font-normal', {
               'text-primary-1050': isRequired,
-              'text-primary-1000': isOptional,
+              'text-primary-3600': isOptional,
             })}>{`(${isRequired ? 'required' : 'optional'})`}</span>
         )}
       </label>

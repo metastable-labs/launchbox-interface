@@ -7,7 +7,7 @@ import useCopy from '@/hooks/useCopy';
 import LBClickAnimation from '../click-animation';
 import LBBackdrop from '../backdrop';
 
-const LBShare = ({ fullWidth }: ILBShare) => {
+const LBShare = ({ className }: ILBShare) => {
   const [isOpen, setIsOpen] = useState(false);
   const { handleCopy, hasCopied } = useCopy();
 
@@ -31,7 +31,7 @@ const LBShare = ({ fullWidth }: ILBShare) => {
   ];
 
   return (
-    <div className={classNames('relative z-20 max-h-full', { 'w-full': fullWidth })}>
+    <div className={`relative z-20 max-h-full ${className}`}>
       <LBClickAnimation
         onClick={handleClick}
         className="flex items-center justify-center gap-1 cursor-pointer p-2.5 bg-white border border-primary-1950 rounded-lg shadow-table-cta w-full relative z-20">

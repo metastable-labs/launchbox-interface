@@ -24,7 +24,7 @@ const Step3 = ({ tokenData, setDisableHeader }: StepProps) => {
 
   const { tokenState } = useSystemFunctions();
   const { createToken } = useTokenActions();
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(0);
   const [deployStep, setDeployStep] = useState(0);
 
   const { loading, token } = tokenState;
@@ -138,7 +138,7 @@ const Step3 = ({ tokenData, setDisableHeader }: StepProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="mt-6 bg-primary-3500 py-[20.512px] px-[25.64px] flex items-center justify-between rounded-base max-w-[370px]">
+            className="mt-6 bg-primary-3500 border border-primary-50 py-[20.512px] px-[25.64px] flex items-center justify-between rounded-base max-w-[370px]">
             <div className="flex items-center justify-center p-3">
               <InfoIcon width={24} height={24} color="#6E330C" />
             </div>

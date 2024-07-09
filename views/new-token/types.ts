@@ -7,6 +7,8 @@ interface FormProp {
   tokenSymbol: string;
   tokenSupply: string;
   tokenWebsiteURL?: string;
+  tokenTelegramURL?: string;
+  tokenTwitterURL?: string;
   warpcastChannelId?: string;
 }
 
