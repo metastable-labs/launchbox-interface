@@ -1,18 +1,18 @@
 import { useEffect } from 'react';
-import { useAccount, useSwitchChain, useChainId } from 'wagmi';
+import { useAccount } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { usePrivy } from '@privy-io/react-auth';
+import { switchChain } from '@wagmi/core';
+import { wagmiConfig } from '@/config/privy-provider';
 
 const useConnect = () => {
-  const { connector } = useAccount();
-  const chainId = useChainId();
-  const { switchChain } = useSwitchChain();
+  const { connector, chainId } = useAccount();
   const { ready, authenticated } = usePrivy();
 
-  const listener = () => {
+  const listener = async () => {
     if (chainId && authenticated && ready) {
       if (chainId !== base.id) {
-        return switchChain && switchChain({ chainId: base.id });
+        await switchChain(wagmiConfig, { chainId: base.id });
       }
     }
   };
