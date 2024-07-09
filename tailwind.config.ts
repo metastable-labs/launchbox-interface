@@ -90,6 +90,7 @@ const config: Config = {
           3450: '#03825A',
           3500: '#FEFDEA',
           3550: '#EFEFEF',
+          3600: '#F17B2C',
         },
         grey: {
           50: '#717184',

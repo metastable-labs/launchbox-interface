@@ -165,7 +165,7 @@ const TokenInfo = ({ userRole }: IOverview) => {
                 <div className="animate-pulse h-6 w-20 rounded-base bg-primary-50" />
               ) : (
                 <>
-                  {typeof value === 'string' && <span className="text-primary-650 text-base font-medium font-Clash-Display">{value}</span>}
+                  {typeof value === 'string' && <span className="text-primary-650 text-base font-medium font-Clash-Display uppercase">{value}</span>}
                   {typeof value !== 'string' && value}
                 </>
               )}

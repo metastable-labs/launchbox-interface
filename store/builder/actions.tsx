@@ -28,13 +28,13 @@ const useBuilderActions = () => {
         data.append('hero_section', JSON.stringify({ title: buildData.heroTitle, description: buildData.heroDescription }));
       }
 
-      // if (buildData.aboutImageFile) {
-      //   data.append('about', buildData.aboutImageFile as File);
-      // }
+      if (buildData.aboutImageFile) {
+        data.append('about', buildData.aboutImageFile as File);
+      }
 
-      // if (buildData.aboutDescription || buildData.aboutTitle) {
-      //   data.append('about_section', JSON.stringify({ title: buildData.aboutTitle, description: buildData.aboutDescription }));
-      // }
+      if (buildData.aboutDescription || buildData.aboutTitle) {
+        data.append('about_section', JSON.stringify({ title: buildData.aboutTitle, description: buildData.aboutDescription }));
+      }
 
       if (buildData.primaryColor || buildData.secondaryColor) {
         data.append('appearance', JSON.stringify({ primary_color: buildData.primaryColor, secondary_color: buildData.secondaryColor }));

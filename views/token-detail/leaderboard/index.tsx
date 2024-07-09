@@ -17,9 +17,10 @@ const Leaderboard = () => {
   const [showConfiguration, setShowConfiguration] = useState(false);
 
   const actions = [
-    { image: '/images/farcaster.png', title: 'Farcaster', description: 'Social', onClick: () => setShowConfiguration(true) },
-    { image: '/images/spotify.png', title: 'Spotify', description: 'Music', comingSoon: true },
-    { image: '/images/liquidity.png', title: 'Liquidity', description: 'Action', comingSoon: true },
+    { image: '/images/farcaster.png', title: 'Farcaster', secondaryTitle: 'Channel', description: 'Social', onClick: () => setShowConfiguration(true) },
+    { image: '/images/nft.png', title: 'NFT holders', description: 'Action', onClick: () => setShowConfiguration(true) },
+    { image: '/images/audius.png', title: 'Audius', description: 'Music', comingSoon: true },
+    { image: '/images/liquidity.png', title: 'Liquidity', secondaryTitle: 'Provision', description: 'Action', comingSoon: true },
   ];
 
   const actionText = hasLeaderboard ? 'Edit' : 'Configure';

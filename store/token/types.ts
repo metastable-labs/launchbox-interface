@@ -12,6 +12,8 @@ type Token = {
   create_token_page: boolean;
   warpcast_channel_link: string;
   website_url: string;
+  twitter_url: string;
+  telegram_url: string;
   chain: {
     id: number;
     name: 'optimism' | 'base' | 'mode';
