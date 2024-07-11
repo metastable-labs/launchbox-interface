@@ -36,7 +36,7 @@ const LBSwitch = ({ instruction, onClick, switched, title, hasBorder = true }: I
         <span className="text-primary-150 text-sm font-medium tracking-[-0.084px]">{title}</span>
       </div>
 
-      <p className="text-xs text-primary-250 max-w-[322px]">{instruction}</p>
+      <p className="text-xs text-primary-250 max-w-[322px] py-0.5">{instruction}</p>
     </div>
   );
 };

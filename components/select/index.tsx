@@ -48,7 +48,7 @@ const LBSelect = ({ text, defaultId, disabled, instruction, isOptional, label, o
         </span>
         <LBClickAnimation
           onClick={toggleOpen}
-          className={classNames('flex justify-between items-center gap-2 cursor-pointer py-2.5 px-3 bg-white rounded-[5px] text-center text-primary-250 w-full border border-primary-50', {
+          className={classNames('flex justify-between items-center gap-2 cursor-pointer py-2.5 px-3 bg-white rounded-base text-center text-primary-250 w-full border border-primary-50', {
             'pointer-events-none': disabled,
           })}>
           {!selectedOption && (
@@ -59,7 +59,7 @@ const LBSelect = ({ text, defaultId, disabled, instruction, isOptional, label, o
           {selectedOption && (
             <div className="flex items-center gap-2">
               {selectedOption.icon}
-              <span className="whitespace-nowrap">{selectedOption.text}</span>
+              <span className="whitespace-nowrap capitalize">{selectedOption.text}</span>
             </div>
           )}
           <SecondarySelectIcon />
