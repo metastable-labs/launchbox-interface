@@ -6,10 +6,10 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { LBButton, LBModal, LBInput, LBSwitch } from '@/components';
+import { LBButton, LBInput, LBSwitch } from '@/components';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import { ExclaimIcon } from '@/public/icons';
-import SelectChannel from './select-channel';
+import SelectChannel from '../select-channel';
 
 const schema = yup.object().shape({
   points: yup.string().required('Points is required'),
@@ -35,7 +35,7 @@ const EmptyState = ({ close }: { close: () => void }) => (
   </div>
 );
 
-const Configuration = ({ close, show }: IConfiguration) => {
+const FarcasterConfiguration = ({ close }: { close: () => void }) => {
   const [cast, setCast] = useState(false);
   const { socialState, tokenState } = useSystemFunctions();
   const { token } = tokenState;
@@ -54,13 +54,13 @@ const Configuration = ({ close, show }: IConfiguration) => {
   const channel = token?.socials?.warpcast?.channel;
   const hasChannel = Boolean(Object.keys(token?.socials.warpcast.channel || {}).length);
 
-  const hasHeader = Boolean(socialState?.farcasterChannels?.length);
-  const title = Boolean(channel) ? 'Configure action' : 'Select a channel';
+  const hasHeader = !Boolean(socialState?.farcasterChannels?.length);
 
   const points = watch?.('points');
 
   const onSubmit = (data: ConfigurationFormProps) => {
     const points = Number(data.points.replace(/[^0-9]/g, ''));
+    console.log(points);
     close();
   };
 
@@ -73,9 +73,8 @@ const Configuration = ({ close, show }: IConfiguration) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [points]);
-
   return (
-    <LBModal show={show} close={close} variant="primary" hasHeader={hasHeader} title={title}>
+    <>
       {hasChannel && (
         <form onSubmit={handleSubmit(onSubmit)} className="w-80 md:w-[400px] flex flex-col gap-6">
           <div className="self-stretch flex flex-col justify-center items-stretch gap-4">
@@ -96,8 +95,8 @@ const Configuration = ({ close, show }: IConfiguration) => {
             <div className="self-stretch flex flex-col gap-3">
               <h4 className="text-primary-150 text-sm tracking-[-0.084px] font-medium">Actions</h4>
 
-              <motion.div animate={{ height: cast ? 'fit-content' : '57px' }} className={classNames('self-stretch pb-4 border-b border-b-primary-50', { 'flex flex-col gap-4': cast })}>
-                <LBSwitch instruction="Members with top cast actions on the channel get points for casting" onClick={() => setCast((prev) => !prev)} switched={cast} title="Cast" hasBorder={false} />
+              <motion.div animate={{ height: cast ? 'fit-content' : '76px' }} className={classNames('self-stretch pb-4 border-b border-b-primary-50', { 'flex flex-col gap-4': cast })}>
+                <LBSwitch instruction="Members with top cast actions on the channel get points for casting" onClick={() => setCast((prev) => !prev)} switched={cast} title="Casts" hasBorder={false} />
 
                 <AnimatePresence>
                   {cast && (
@@ -117,8 +116,8 @@ const Configuration = ({ close, show }: IConfiguration) => {
       {!hasChannel && hasHeader && <SelectChannel />}
 
       {!hasHeader && <EmptyState close={close} />}
-    </LBModal>
+    </>
   );
 };
 
-export default Configuration;
+export default FarcasterConfiguration;

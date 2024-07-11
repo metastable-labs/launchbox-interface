@@ -43,7 +43,7 @@ const LBModal = ({ children, close, show, variant = 'primary', title, hasClose =
                     'justify-between': title,
                     'justify-end': !title,
                   })}>
-                  <h1 className="text-primary-150 text-lg md:text-[24px] md:leading-[37.2px] font-Clash-Display">{title}</h1>
+                  <h1 className="text-primary-150 text-lg md:text-[24px] md:leading-[37.2px] font-Clash-Display font-medium">{title}</h1>
 
                   {hasClose && (
                     <LBClickAnimation onClick={close}>

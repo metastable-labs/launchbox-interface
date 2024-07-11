@@ -90,9 +90,9 @@ const DesktopView = ({
   ];
 
   return (
-    <div className="flex justify-between gap-3.5 sticky top-0">
+    <div className="flex justify-between gap-3.5 sticky top-0 max-h-screen overflow-auto">
       {userRole === 'user' && (
-        <div className="w-1/4 p-6 rounded-lg border border-primary-50 h-fit">
+        <div className="w-1/4 p-6 rounded-lg border border-primary-50 h-fit sticky top-0">
           <TokenInfo userRole={userRole} />
         </div>
       )}
@@ -152,7 +152,7 @@ const DesktopView = ({
             When the market cap reaches $100,000 all the liquidity from the Exchange Contract will be deposited into Aerodrome. Progression increases as the price goes up.
           </p>
 
-          <div className="sticky top-0 w-full z-10">
+          <div className="sticky top-0 w-full z-10 bg-white">
             <ClickTabs tabTexts={tabTexts} tab={tab} setTab={setTab} />
           </div>
 
@@ -164,7 +164,7 @@ const DesktopView = ({
         </div>
       </div>
 
-      <div className={classNames('w-1/4 ', { 'flex flex-col gap-8 items-stretch': userRole === 'admin' })}>
+      <div className={classNames('w-1/4 sticky top-0', { 'flex flex-col gap-8 items-stretch': userRole === 'admin' })}>
         <LBTradeInterface token={token} />
 
         {userRole === 'admin' && (

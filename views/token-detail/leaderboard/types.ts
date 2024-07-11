@@ -1,6 +1,9 @@
+type ConfigurationVariant = 'farcaster' | 'nft';
+
 interface IConfiguration {
   show: boolean;
   close: () => void;
+  variant?: ConfigurationVariant;
 }
 
 interface SelectChannelFormProps {

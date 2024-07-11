@@ -13,12 +13,12 @@ const Leaderboard = () => {
   const { address } = useAccount();
   const { authenticated } = usePrivy();
   const { getFarcasterChannels } = useSocialActions();
-  const [hasLeaderboard, setHasLeaderboard] = useState(true);
-  const [showConfiguration, setShowConfiguration] = useState(false);
+  const [hasLeaderboard, setHasLeaderboard] = useState(false);
+  const [showConfiguration, setShowConfiguration] = useState<ConfigurationVariant>();
 
   const actions = [
-    { image: '/images/farcaster.png', title: 'Farcaster', secondaryTitle: 'Channel', description: 'Social', onClick: () => setShowConfiguration(true) },
-    { image: '/images/nft.png', title: 'NFT holders', description: 'Action', onClick: () => setShowConfiguration(true) },
+    { image: '/images/farcaster.png', title: 'Farcaster', secondaryTitle: 'Channel', description: 'Social', onClick: () => setShowConfiguration('farcaster') },
+    { image: '/images/nft.png', title: 'NFT holders', description: 'Action', onClick: () => setShowConfiguration('nft') },
     { image: '/images/audius.png', title: 'Audius', description: 'Music', comingSoon: true },
     { image: '/images/liquidity.png', title: 'Liquidity', secondaryTitle: 'Provision', description: 'Action', comingSoon: true },
   ];
@@ -33,23 +33,26 @@ const Leaderboard = () => {
     <>
       <div className={classNames('flex flex-col lg:flex-row gap-6 lg:gap-3.5 pb-10', {})}>
         <div
-          className={classNames('p-6 rounded-lg border border-primary-50 h-fit flex flex-col gap-9', {
+          className={classNames('lg:p-6 lg:rounded-lg lg:border lg:border-primary-50 h-fit flex flex-col gap-9', {
             'w-full lg:w-1/2': !hasLeaderboard,
             'w-full lg:w-2/5': hasLeaderboard,
           })}>
-          <div className="flex flex-col gap-1 self-stretch lg:px-5">
+          <div className="hidden lg:flex flex-col gap-1 self-stretch lg:px-5">
             <h1 className="text-[24px] leading-[38px] font-medium text-primary-650 font-Clash-Display">Actions</h1>
             <p className="text-primary-700">Create new actions and build incentives systems for your community</p>
           </div>
 
           <div className="self-stretch flex flex-col">
-            {actions.map(({ comingSoon, description, image, title, onClick }, index) => (
-              <div className="p-3 lg:p-6 self-stretch flex items-center justify-between gap-2 flex-wrap rounded-[3px] border-[0.3px] border-primary-200" key={index}>
-                <div className="flex items-center gap-2 md:gap-4">
+            {actions.map(({ comingSoon, description, image, title, secondaryTitle, onClick }, index) => (
+              <div className="p-6 self-stretch flex items-center justify-between gap-2 flex-wrap rounded-[3px] border-[0.3px] border-primary-200" key={index}>
+                <div className="flex items-center gap-4">
                   <Image src={image} width={500} height={500} alt={title} className="w-[34px] h-[34px] object-cover" />
 
                   <div className="flex flex-col gap-1">
-                    <h1 className="text-[16px] leading-[28px] font-medium text-primary-650 font-Clash-Display">{title}</h1>
+                    <h1 className="text-[16px] leading-[28px] font-medium text-primary-650 font-Clash-Display">
+                      {title}
+                      {secondaryTitle && <span className="hidden sm:inline"> {secondaryTitle}</span>}
+                    </h1>
                     <p className="text-[14px] leading-[16px] text-primary-700">{description}</p>
                   </div>
                 </div>
@@ -74,7 +77,7 @@ const Leaderboard = () => {
         </div>
 
         <div
-          className={classNames('p-6 rounded-lg border border-primary-50', {
+          className={classNames('mt-10 lg:mt-0 lg:p-6 lg:rounded-lg lg:border lg:border-primary-50', {
             'w-full lg:w-1/2 flex items-center justify-center min-h-full': !hasLeaderboard,
             'w-full lg:w-3/5': hasLeaderboard,
           })}>
@@ -95,7 +98,7 @@ const Leaderboard = () => {
         </div>
       </div>
 
-      <Configuration close={() => setShowConfiguration(false)} show={showConfiguration} />
+      <Configuration close={() => setShowConfiguration(undefined)} show={Boolean(showConfiguration)} variant={showConfiguration} />
     </>
   );
 };
