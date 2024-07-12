@@ -103,30 +103,30 @@ const TokenInfo = ({ userRole }: IOverview) => {
               <LBBadge variant="base" />
             </div>
           </div>
-
-          <div className="flex items-stretch gap-2 w-full pb-[30px] border-b border-b-primary-50">
-            {actions.map(({ href, icon }, index) => (
-              <LBClickAnimation key={index} className="w-1/5 flex items-center justify-center px-3 py-2 bg-white border border-primary-1950 rounded-lg shadow-table-cta">
-                <motion.a whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }} href={href} target="_blank">
-                  {icon && icon}
-                </motion.a>
-              </LBClickAnimation>
-            ))}
-
-            <LBShare className="w-1/5" />
-
-            <LBClickAnimation
-              className="w-1/5 flex items-center justify-center px-3 py-2 bg-white border border-primary-1950 rounded-lg shadow-table-cta"
-              onClick={() => handleCopy(token?.token_address!)}>
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div key={+hasCopied} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.1 }} exit={{ opacity: 0 }}>
-                  {hasCopied ? <CheckAltIcon width={16} height={16} /> : <CopyIcon width={16} height={16} />}
-                </motion.div>
-              </AnimatePresence>
-            </LBClickAnimation>
-          </div>
         </>
       )}
+
+      <div className="flex items-stretch gap-2 w-full pb-[30px] border-b border-b-primary-50">
+        {actions.map(({ href, icon }, index) => (
+          <LBClickAnimation key={index} className="w-1/5 flex items-center justify-center px-3 py-2 bg-white border border-primary-1950 rounded-lg shadow-table-cta">
+            <motion.a whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }} href={href} target="_blank">
+              {icon && icon}
+            </motion.a>
+          </LBClickAnimation>
+        ))}
+
+        <LBShare className="w-1/5" />
+
+        <LBClickAnimation
+          className="w-1/5 flex items-center justify-center px-3 py-2 bg-white border border-primary-1950 rounded-lg shadow-table-cta"
+          onClick={() => handleCopy(token?.token_address!)}>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div key={+hasCopied} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.1 }} exit={{ opacity: 0 }}>
+              {hasCopied ? <CheckAltIcon width={16} height={16} /> : <CopyIcon width={16} height={16} />}
+            </motion.div>
+          </AnimatePresence>
+        </LBClickAnimation>
+      </div>
 
       <div className="self-stretch flex flex-col gap-9 items-stretch">
         <div className="flex flex-col items-center gap-4">
