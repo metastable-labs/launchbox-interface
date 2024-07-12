@@ -7,6 +7,7 @@ import transactionReducer from './transaction';
 import holderReducer from './holder';
 import castReducer from './casts';
 import builderReducer from './builder';
+import incentiveReducer from './incentive';
 
 export interface CallbackProps {
   onSuccess?: Function;
@@ -21,6 +22,7 @@ export const store = configureStore({
     holder: holderReducer,
     cast: castReducer,
     builder: builderReducer,
+    incentive: incentiveReducer,
   },
 });
 

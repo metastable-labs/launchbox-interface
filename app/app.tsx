@@ -14,6 +14,7 @@ import { usePrivy } from '@privy-io/react-auth';
 import 'react-toastify/dist/ReactToastify.css';
 import useTokenActions from '@/store/token/actions';
 import { setTokenHeader } from '@/utils/axios';
+import useIncentiveActions from '@/store/incentive/actions';
 
 const cookieOptions = {
   path: '/',
@@ -36,6 +37,7 @@ const Wrapper = ({ children }: { children: ReactNode }) => {
   const { getFarcasterChannels } = useSocialActions();
   const { getCoinPrice } = useTokenActions();
   const { authenticated } = usePrivy();
+  const { getIncentiveChannels } = useIncentiveActions();
 
   const [cookies] = useCookies(['authtoken']);
 
@@ -53,6 +55,7 @@ const Wrapper = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     getCoinPrice();
+    getIncentiveChannels();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

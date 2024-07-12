@@ -21,6 +21,7 @@ const useSystemFunctions = () => {
   const holderState = useAppSelector((state) => state.holder);
   const castState = useAppSelector((state) => state.cast);
   const builderState = useAppSelector((state) => state.builder);
+  const incentiveState = useAppSelector((state) => state.incentive);
 
   return {
     navigate,
@@ -34,6 +35,7 @@ const useSystemFunctions = () => {
     holderState,
     castState,
     builderState,
+    incentiveState,
   };
 };
 
