@@ -8,17 +8,28 @@ import { ExclaimIcon, TimerIcon } from '@/public/icons';
 import { LBClickAnimation, LBLeaderboard } from '@/components';
 import useSocialActions from '@/store/social/actions';
 import Configuration from './configuration';
+import useSystemFunctions from '@/hooks/useSystemFunctions';
 
 const Leaderboard = () => {
   const { address } = useAccount();
+  const {
+    incentiveState: { incentiveChannels },
+  } = useSystemFunctions();
   const { authenticated } = usePrivy();
   const { getFarcasterChannels } = useSocialActions();
   const [hasLeaderboard, setHasLeaderboard] = useState(false);
-  const [showConfiguration, setShowConfiguration] = useState<ConfigurationVariant>();
+  const [showConfiguration, setShowConfiguration] = useState<string>();
 
-  const actions = [
-    { image: '/images/farcaster.png', title: 'Farcaster', secondaryTitle: 'Channel', description: 'Social', onClick: () => setShowConfiguration('farcaster') },
-    { image: '/images/nft.png', title: 'NFT holders', description: 'Action', onClick: () => setShowConfiguration('nft') },
+  const incentiveActions: Action[] =
+    incentiveChannels?.map(({ slug, name, info }) => ({
+      image: `/images/${slug}.png`,
+      title: name,
+      description: info,
+      onClick: () => setShowConfiguration(slug),
+    })) || [];
+
+  const actions: Action[] = [
+    ...incentiveActions,
     { image: '/images/audius.png', title: 'Audius', description: 'Music', comingSoon: true },
     { image: '/images/liquidity.png', title: 'Liquidity', secondaryTitle: 'Provision', description: 'Action', comingSoon: true },
   ];

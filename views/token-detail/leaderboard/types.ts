@@ -1,9 +1,7 @@
-type ConfigurationVariant = 'farcaster' | 'nft';
-
 interface IConfiguration {
   show: boolean;
   close: () => void;
-  variant?: ConfigurationVariant;
+  variant?: string;
 }
 
 interface SelectChannelFormProps {
@@ -13,3 +11,12 @@ interface SelectChannelFormProps {
 interface ConfigurationFormProps {
   points: string;
 }
+
+type Action = {
+  image: string;
+  title: string;
+  description: string;
+  onClick?: () => void;
+  comingSoon?: boolean;
+  secondaryTitle?: string;
+};
