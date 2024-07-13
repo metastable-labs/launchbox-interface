@@ -8,20 +8,22 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { LBButton, LBInput, LBSwitch, LBSelect } from '@/components';
 import { networks } from '@/config/config';
+import useSystemFunctions from '@/hooks/useSystemFunctions';
+import useIncentiveActions from '@/store/incentive/actions';
 
 interface FormProps extends ConfigurationFormProps {
-  chainId: string;
   contractAddress: string;
 }
 
 const schema = yup.object().shape({
-  chainId: yup.string().required('Chain ID is required'),
   contractAddress: yup.string().required('Contract address is required'),
   points: yup.string().required('Points is required'),
 });
 
 const NFTConfiguration = ({ close }: { close: () => void }) => {
   const [holders, setHolders] = useState(false);
+  const { incentiveState } = useSystemFunctions();
+  const { activateIncentive } = useIncentiveActions();
   const {
     handleSubmit,
     register,
@@ -37,10 +39,24 @@ const NFTConfiguration = ({ close }: { close: () => void }) => {
 
   const points = watch?.('points');
 
-  const onSubmit = (data: FormProps) => {
+  const onSubmit = async (data: FormProps) => {
+    const nftChannel = incentiveState.incentiveChannels?.find((channel) => channel.slug === 'nft');
+    const nftOwnAction = nftChannel?.actions?.find((action) => action.slug === 'nft_own');
     const points = Number(data.points.replace(/[^0-9]/g, ''));
-    console.log({ ...data, points });
-    close();
+
+    const payload: ActivateIncentiveProps = {
+      actions: [
+        {
+          id: nftOwnAction?.id!,
+          points,
+          metadata: {
+            contract: data.contractAddress,
+          },
+        },
+      ],
+    };
+
+    await activateIncentive(payload, { onSuccess: close });
   };
 
   useEffect(() => {

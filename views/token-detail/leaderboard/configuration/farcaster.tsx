@@ -10,9 +10,11 @@ import { LBButton, LBInput, LBSwitch } from '@/components';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import { ExclaimIcon } from '@/public/icons';
 import SelectChannel from '../select-channel';
+import useIncentiveActions from '@/store/incentive/actions';
 
 const schema = yup.object().shape({
-  points: yup.string().required('Points is required'),
+  castPoints: yup.string().required('cast points is required'),
+  followPoints: yup.string().required('follow points is required'),
 });
 
 const EmptyState = ({ close }: { close: () => void }) => (
@@ -37,7 +39,9 @@ const EmptyState = ({ close }: { close: () => void }) => (
 
 const FarcasterConfiguration = ({ close }: { close: () => void }) => {
   const [cast, setCast] = useState(false);
-  const { socialState, tokenState } = useSystemFunctions();
+  const [follow, setFollow] = useState(false);
+  const { socialState, tokenState, incentiveState } = useSystemFunctions();
+  const { activateIncentive } = useIncentiveActions();
   const { token } = tokenState;
 
   const {
@@ -46,7 +50,7 @@ const FarcasterConfiguration = ({ close }: { close: () => void }) => {
     watch,
     setValue,
     formState: { errors },
-  } = useForm<ConfigurationFormProps>({
+  } = useForm<FarcasterConfigurationProps>({
     mode: 'onSubmit',
     resolver: yupResolver(schema),
   });
@@ -56,23 +60,54 @@ const FarcasterConfiguration = ({ close }: { close: () => void }) => {
 
   const hasHeader = !Boolean(socialState?.farcasterChannels?.length);
 
-  const points = watch?.('points');
+  const castPoints = watch?.('castPoints');
+  const followPoints = watch?.('followPoints');
 
-  const onSubmit = (data: ConfigurationFormProps) => {
-    const points = Number(data.points.replace(/[^0-9]/g, ''));
-    console.log(points);
-    close();
+  const onSubmit = async (data: FarcasterConfigurationProps) => {
+    const farcasterChannel = incentiveState.incentiveChannels?.find((channel) => channel.slug === 'farcaster');
+    const castAction = farcasterChannel?.actions?.find((action) => action.slug === 'channel_cast');
+    const followAction = farcasterChannel?.actions?.find((action) => action.slug === 'channel_follow');
+    const castPoints = Number(data.castPoints.replace(/[^0-9]/g, ''));
+    const followPoints = Number(data.followPoints.replace(/[^0-9]/g, ''));
+
+    const payload: ActivateIncentiveProps = {
+      actions: [
+        {
+          id: castAction?.id!,
+          points: castPoints,
+          metadata: {
+            channel: channel?.channel_id,
+          },
+        },
+        {
+          id: followAction?.id!,
+          points: followPoints,
+          metadata: {
+            channel: channel?.channel_id,
+          },
+        },
+      ],
+    };
+
+    await activateIncentive(payload, { onSuccess: close });
   };
 
   useEffect(() => {
-    if (points) {
-      const formatedTokenSupply = points?.replace(/[^0-9]/g, '');
+    if (castPoints) {
+      const formatedTokenSupply = castPoints?.replace(/[^0-9]/g, '');
       const numberTokenSupply = Number(formatedTokenSupply);
       const thousandSeparator = numberTokenSupply.toLocaleString();
-      setValue?.('points', thousandSeparator);
+      setValue?.('castPoints', thousandSeparator);
+    }
+
+    if (followPoints) {
+      const formatedTokenSupply = followPoints?.replace(/[^0-9]/g, '');
+      const numberTokenSupply = Number(formatedTokenSupply);
+      const thousandSeparator = numberTokenSupply.toLocaleString();
+      setValue?.('followPoints', thousandSeparator);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [points]);
+  }, [castPoints, followPoints]);
   return (
     <>
       {hasChannel && (
@@ -101,7 +136,25 @@ const FarcasterConfiguration = ({ close }: { close: () => void }) => {
                 <AnimatePresence>
                   {cast && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col gap-4">
-                      <LBInput name="points" register={register?.('points')} placeholder="250 points" error={errors?.points} type="text" label="Set points for this action" />
+                      <LBInput name="castPoints" register={register?.('castPoints')} placeholder="250 points" error={errors?.castPoints} type="text" label="Set points for this action" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+
+              <motion.div animate={{ height: follow ? 'fit-content' : '76px' }} className={classNames('self-stretch pb-4 border-b border-b-primary-50', { 'flex flex-col gap-4': follow })}>
+                <LBSwitch
+                  instruction="Members with top follow actions on the channel get points for following"
+                  onClick={() => setFollow((prev) => !prev)}
+                  switched={follow}
+                  title="Follows"
+                  hasBorder={false}
+                />
+
+                <AnimatePresence>
+                  {follow && (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col gap-4">
+                      <LBInput name="followPoints" register={register?.('followPoints')} placeholder="250 points" error={errors?.followPoints} type="text" label="Set points for this action" />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -109,7 +162,7 @@ const FarcasterConfiguration = ({ close }: { close: () => void }) => {
             </div>
           </div>
 
-          <LBButton text="Create" fullWidth type="submit" disabled={!cast} />
+          <LBButton text="Create" fullWidth type="submit" disabled={!cast || !follow} />
         </form>
       )}
 

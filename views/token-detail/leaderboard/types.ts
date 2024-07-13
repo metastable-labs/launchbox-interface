@@ -12,6 +12,11 @@ interface ConfigurationFormProps {
   points: string;
 }
 
+interface FarcasterConfigurationProps {
+  castPoints: string;
+  followPoints: string;
+}
+
 type Action = {
   image: string;
   title: string;
@@ -19,4 +24,5 @@ type Action = {
   onClick?: () => void;
   comingSoon?: boolean;
   secondaryTitle?: string;
+  loading?: boolean;
 };
