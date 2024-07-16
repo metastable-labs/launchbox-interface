@@ -2,13 +2,13 @@
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import api from './api';
-import { setActivateIncentiveLoading, setDeleteIncentiveLoading, setIncentiveChannels, setIncentiveChannelsLoading } from '.';
+import { setActivateIncentiveLoading, setDeleteIncentiveLoading, setIncentiveChannels, setIncentiveChannelsLoading, setTokenIncentives, setTokenIncentivesLoading } from '.';
 import { CallbackProps } from '..';
 
 const useIncentiveActions = () => {
   const { dispatch, tokenState } = useSystemFunctions();
 
-  const getIncentiveChannels = async (callback?: CallbackProps) => {
+  const getSystemIncentiveChannels = async (callback?: CallbackProps) => {
     try {
       dispatch(setIncentiveChannelsLoading(true));
 
@@ -21,6 +21,24 @@ const useIncentiveActions = () => {
       callback?.onError?.(error);
     } finally {
       dispatch(setIncentiveChannelsLoading(false));
+    }
+  };
+
+  const getTokenIncentives = async (callback?: CallbackProps) => {
+    try {
+      if (!tokenState.token) return;
+
+      dispatch(setTokenIncentivesLoading(true));
+
+      const data = await api.fetchTokenIncentives(tokenState.token.id);
+
+      dispatch(setTokenIncentives(data));
+
+      callback?.onSuccess?.();
+    } catch (error: any) {
+      callback?.onError?.(error);
+    } finally {
+      dispatch(setTokenIncentivesLoading(false));
     }
   };
 
@@ -55,9 +73,10 @@ const useIncentiveActions = () => {
   };
 
   return {
-    getIncentiveChannels,
+    getSystemIncentiveChannels,
     activateIncentive,
     deleteIncentive,
+    getTokenIncentives,
   };
 };
 

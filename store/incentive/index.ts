@@ -3,17 +3,20 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 export interface IncentiveState {
-  incentiveChannels?: GetSystemIncentiveChannels[];
+  systemIncentiveChannels?: GetSystemIncentiveChannels[];
+  tokenIncentives?: GetTokenIncentives;
   incentiveChannelsLoading: boolean;
   activateIncentiveLoading: boolean;
   deleteIncentiveLoading: boolean;
+  tokenIncentivesLoading: boolean;
 }
 
 const initialState: IncentiveState = {
-  incentiveChannels: undefined,
+  systemIncentiveChannels: undefined,
   incentiveChannelsLoading: true,
   activateIncentiveLoading: false,
   deleteIncentiveLoading: false,
+  tokenIncentivesLoading: false,
 };
 
 export const incentiveReducer = createSlice({
@@ -22,9 +25,17 @@ export const incentiveReducer = createSlice({
   reducers: {
     setIncentiveChannels: (state, action: PayloadAction<GetSystemIncentiveChannels[] | undefined>) => {
       if (action.payload) {
-        state.incentiveChannels = [...action.payload];
+        state.systemIncentiveChannels = [...action.payload];
       } else {
-        state.incentiveChannels = undefined;
+        state.systemIncentiveChannels = undefined;
+      }
+    },
+
+    setTokenIncentives: (state, action: PayloadAction<GetTokenIncentives | undefined>) => {
+      if (action.payload) {
+        state.tokenIncentives = { ...action.payload };
+      } else {
+        state.tokenIncentives = undefined;
       }
     },
 
@@ -39,9 +50,13 @@ export const incentiveReducer = createSlice({
     setDeleteIncentiveLoading: (state, action: PayloadAction<boolean>) => {
       state.deleteIncentiveLoading = action.payload;
     },
+
+    setTokenIncentivesLoading: (state, action: PayloadAction<boolean>) => {
+      state.tokenIncentivesLoading = action.payload;
+    },
   },
 });
 
-export const { setActivateIncentiveLoading, setDeleteIncentiveLoading, setIncentiveChannels, setIncentiveChannelsLoading } = incentiveReducer.actions;
+export const { setActivateIncentiveLoading, setDeleteIncentiveLoading, setIncentiveChannels, setIncentiveChannelsLoading, setTokenIncentivesLoading, setTokenIncentives } = incentiveReducer.actions;
 
 export default incentiveReducer.reducer;

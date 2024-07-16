@@ -20,12 +20,14 @@ import Leaderboard from './leaderboard';
 import { Tabs } from './types';
 import ClickTabs from './tabs';
 import Channel from './channel';
+import useIncentiveActions from '@/store/incentive/actions';
 
 const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: string }) => {
   const { address } = useAccount();
   const { authenticated } = usePrivy();
   const { tokenState, navigate } = useSystemFunctions();
   const { getToken, getAnalytics } = useTokenActions();
+  const { getTokenIncentives } = useIncentiveActions();
   const { getTokenTransactions } = useTransactionActions();
   const { getTokenHolders } = useHolderActions();
   const { getChannelCasts, getChannelCastAnalytics } = useCastActions();
@@ -68,6 +70,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
     getChannelCastAnalytics('period=1w');
     getTokenHolders('take=15');
     getChannelCasts('take=15');
+    getTokenIncentives();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokenAddressURL, token]);
 

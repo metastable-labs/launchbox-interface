@@ -64,7 +64,7 @@ const FarcasterConfiguration = ({ close }: { close: () => void }) => {
   const followPoints = watch?.('followPoints');
 
   const onSubmit = async (data: FarcasterConfigurationProps) => {
-    const farcasterChannel = incentiveState.incentiveChannels?.find((channel) => channel.slug === 'farcaster');
+    const farcasterChannel = incentiveState.systemIncentiveChannels?.find((channel) => channel.slug === 'farcaster');
     const castAction = farcasterChannel?.actions?.find((action) => action.slug === 'channel_cast');
     const followAction = farcasterChannel?.actions?.find((action) => action.slug === 'channel_follow');
     const castPoints = Number(data.castPoints.replace(/[^0-9]/g, ''));

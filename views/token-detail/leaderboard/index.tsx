@@ -13,15 +13,15 @@ import useSystemFunctions from '@/hooks/useSystemFunctions';
 const Leaderboard = () => {
   const { address } = useAccount();
   const {
-    incentiveState: { incentiveChannels },
+    incentiveState: { systemIncentiveChannels },
   } = useSystemFunctions();
   const { authenticated } = usePrivy();
   const { getFarcasterChannels } = useSocialActions();
-  const [hasLeaderboard, setHasLeaderboard] = useState(false);
+  const [hasLeaderboard, setHasLeaderboard] = useState(true);
   const [showConfiguration, setShowConfiguration] = useState<string>();
 
   const incentiveActions: Action[] =
-    incentiveChannels?.map(({ slug, name, info }) => ({
+    systemIncentiveChannels?.map(({ slug, name, info }) => ({
       image: `/images/${slug}.png`,
       title: name,
       description: info,
@@ -56,7 +56,7 @@ const Leaderboard = () => {
           <div className="self-stretch flex flex-col">
             {actions.map(({ comingSoon, description, image, title, secondaryTitle, onClick }, index) => (
               <div className="p-6 self-stretch flex items-center justify-between gap-2 flex-wrap rounded-[3px] border-[0.3px] border-primary-200" key={index}>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 xl:max-w-[70%]">
                   <Image src={image} width={500} height={500} alt={title} className="w-[34px] h-[34px] object-cover" />
 
                   <div className="flex flex-col gap-1">

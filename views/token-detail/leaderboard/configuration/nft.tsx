@@ -40,7 +40,7 @@ const NFTConfiguration = ({ close }: { close: () => void }) => {
   const points = watch?.('points');
 
   const onSubmit = async (data: FormProps) => {
-    const nftChannel = incentiveState.incentiveChannels?.find((channel) => channel.slug === 'nft');
+    const nftChannel = incentiveState.systemIncentiveChannels?.find((channel) => channel.slug === 'nft');
     const nftOwnAction = nftChannel?.actions?.find((action) => action.slug === 'nft_own');
     const points = Number(data.points.replace(/[^0-9]/g, ''));
 
@@ -101,7 +101,7 @@ const NFTConfiguration = ({ close }: { close: () => void }) => {
         </div>
       </div>
 
-      <LBButton text="Create" fullWidth type="submit" disabled={!holders} />
+      <LBButton loading={incentiveState.activateIncentiveLoading} text="Create" fullWidth type="submit" disabled={!holders || incentiveState.activateIncentiveLoading} />
     </form>
   );
 };

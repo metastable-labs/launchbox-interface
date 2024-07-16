@@ -61,3 +61,38 @@ type GetSystemIncentiveChannels = {
   slug: string;
   actions: IncentiveAction[];
 };
+
+interface TokenIncentiveAction {
+  id: string;
+  name: string;
+  info: string;
+  slug: string;
+  actions: {
+    id: string;
+    name: string;
+    description: string;
+    slug: string;
+    points: number;
+    metadata: {
+      contract: string;
+    };
+  }[];
+}
+
+interface Participants {
+  id: string;
+  leaderboard_id: string;
+  farcaster_username: string;
+  associated_address: string;
+  completed_actions: string[];
+}
+
+type GetTokenIncentives = {
+  id: string;
+  token_id: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+  incentives: TokenIncentiveAction[];
+  participants: Participants[];
+};
