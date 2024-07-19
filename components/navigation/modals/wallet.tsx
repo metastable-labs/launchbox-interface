@@ -1,6 +1,7 @@
 'use client';
 import { AnimatePresence, motion } from 'framer-motion';
 import classNames from 'classnames';
+import { useCookies } from 'react-cookie';
 
 import { useAccount } from 'wagmi';
 import { usePrivy } from '@privy-io/react-auth';
@@ -14,6 +15,7 @@ const WalletModal = ({ close }: { close: () => void }) => {
   const { address } = useAccount();
   const { handleCopy, hasCopied } = useCopy();
   const { truncatedText } = useTruncateText((address as string) || '', 6, 6);
+  const [cookies, setCookie] = useCookies(['authtoken']);
 
   const icons = [<CopyIcon key="copy" />, <CheckAltIcon key="check" width={20} height={20} />];
 
@@ -21,6 +23,7 @@ const WalletModal = ({ close }: { close: () => void }) => {
     if (authenticated && !ready) return;
 
     await logout();
+    setCookie('authtoken', null);
     close();
   };
 
