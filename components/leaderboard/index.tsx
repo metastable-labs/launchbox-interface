@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import classNames from 'classnames';
 import Image from 'next/image';
@@ -9,6 +9,7 @@ import LBTable from '../table';
 import { leaderboardData } from '@/views/token-detail/dummy';
 import { formatNumber } from '@/utils/helpers';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
+import useCopy from '@/hooks/useCopy';
 
 const dummyUser: ILBLeaderboardUser = {
   name: 'Choco',
@@ -21,8 +22,11 @@ const LBLeaderboard = ({ variant = 'private' }: ILBLeaderboard) => {
   const {
     incentiveState: { tokenIncentives },
   } = useSystemFunctions();
+
   const [user, setUser] = useState<ILBLeaderboardUser>();
   const [showCheckScore, setShowCheckScore] = useState(true);
+  const { handleCopy } = useCopy();
+  const [fullURL, setFullURL] = useState('');
 
   const numberOfParticipants = tokenIncentives?.participants?.length || 0;
 
@@ -53,7 +57,7 @@ const LBLeaderboard = ({ variant = 'private' }: ILBLeaderboard) => {
           icon: <LinkIcon />,
           text: 'Public link',
           secondaryText: undefined,
-          onClick: () => {},
+          onClick: () => handleCopy(`${fullURL}/leaderboard`),
         },
         {
           icon: <CopyIcon />,
@@ -65,12 +69,20 @@ const LBLeaderboard = ({ variant = 'private' }: ILBLeaderboard) => {
     },
   ];
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const currentURL = window.location.href;
+      setFullURL(currentURL);
+    }
+  }, [window]);
+
   const handleFindUser = () => setUser(dummyUser);
 
   return (
     <div
-      className={classNames('self-stretch flex-1 flex flex-col gap-3.5 md:gap-6 relative min-h-full overflow-auto', {
-        'p-6 rounded-lg border border-primary-50 mx-5 min-h-[80vh] mb-10': variant === 'public',
+      className={classNames('self-stretch flex-1 flex flex-col gap-3.5 md:gap-6 relative', {
+        'p-6 rounded-lg border border-primary-50 mx-5 mb-10 max-h-[80vh]': variant === 'public',
+        'min-h-full overflow-auto': variant !== 'public',
       })}>
       <h1 className="text-primary-650 text-[24px] leading-[38px] font-medium font-Clash-Display">Leaderboard</h1>
 
@@ -97,7 +109,7 @@ const LBLeaderboard = ({ variant = 'private' }: ILBLeaderboard) => {
         ))}
       </div>
 
-      <div className={classNames('overflow-auto pb-20', { 'max-h-[50vh]': variant === 'private', 'max-h-[470px]': variant === 'public' })}>
+      <div className={classNames('pb-20 overflow-auto', { 'max-h-[50vh] ': variant === 'private', 'max-h-[80%]': variant === 'public' })}>
         <LBTable data={leaderboardData} variant="secondaryAlt" />
       </div>
 

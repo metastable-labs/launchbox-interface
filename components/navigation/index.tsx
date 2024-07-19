@@ -102,7 +102,7 @@ const LBNavigation = () => {
 
   const isDynamicBuilderPath = /^\/[a-zA-Z0-9-]+\/builder$/.test(pathname);
 
-  if (isDynamicBuilderPath || pathname === '/leaderboard' || pathname === '/landing') return null;
+  if (isDynamicBuilderPath || pathname.includes('/leaderboard') || pathname === '/landing') return null;
 
   return (
     <>
