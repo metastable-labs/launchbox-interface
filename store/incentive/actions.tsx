@@ -1,14 +1,33 @@
 'use client';
 
 import { toast } from 'react-toastify';
+import { useAccount } from 'wagmi';
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import api from './api';
-import { setActivateIncentiveLoading, setDeleteIncentiveLoading, setIncentiveChannels, setIncentiveChannelsLoading, setTokenIncentives, setTokenIncentivesLoading } from '.';
+import {
+  setActivateIncentiveLoading,
+  setDeleteIncentiveLoading,
+  setIncentiveChannels,
+  setIncentiveChannelsLoading,
+  setTokenIncentives,
+  setTokenIncentivesLoading,
+  setAllLeaderboard,
+  setAllLeaderboardLoading,
+  setRankPosition,
+  setRankPositionLoading,
+  setAllLeaderboardMeta,
+} from '.';
 import { CallbackProps } from '..';
+import { ActivateIncentiveProps, DeleteIncentiveProps } from './types';
 
 const useIncentiveActions = () => {
-  const { dispatch, tokenState } = useSystemFunctions();
+  const {
+    dispatch,
+    tokenState,
+    incentiveState: { allLeaderboardMeta },
+  } = useSystemFunctions();
+  const { address } = useAccount();
 
   const getSystemIncentiveChannels = async (callback?: CallbackProps) => {
     try {
@@ -77,11 +96,53 @@ const useIncentiveActions = () => {
     }
   };
 
+  const getAllLeaderboard = async (query: string, callback?: CallbackProps) => {
+    try {
+      if (!tokenState.token?.id) return;
+      dispatch(setAllLeaderboardLoading(true));
+
+      const data = await api.fetchAllLeaderboard(tokenState.token?.id, query);
+
+      dispatch(setAllLeaderboardMeta({ total: data.total }));
+
+      if (allLeaderboardMeta?.page === 1) {
+        dispatch(setAllLeaderboard(data));
+      } else {
+        dispatch(setAllLeaderboard(data));
+      }
+
+      callback?.onSuccess?.();
+    } catch (error: any) {
+      callback?.onError?.(error);
+    } finally {
+      dispatch(setAllLeaderboardLoading(false));
+    }
+  };
+
+  const getRankPosition = async (callback?: CallbackProps) => {
+    try {
+      if (!tokenState.token?.id || !address) return;
+      dispatch(setRankPositionLoading(true));
+
+      const data = await api.fetchRankPostion(tokenState.token?.id, address);
+
+      dispatch(setRankPosition(data));
+
+      callback?.onSuccess?.();
+    } catch (error: any) {
+      callback?.onError?.(error);
+    } finally {
+      dispatch(setRankPositionLoading(false));
+    }
+  };
+
   return {
     getSystemIncentiveChannels,
     activateIncentive,
     deleteIncentive,
     getTokenIncentives,
+    getAllLeaderboard,
+    getRankPosition,
   };
 };
 

@@ -2,31 +2,35 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import classNames from 'classnames';
 import Image from 'next/image';
+import { useAccount } from 'wagmi';
 
 import { CopyIcon, UserIcon, CoinIcon, LinkIcon, RoundedCloseIcon } from '@/public/icons';
-import LBClickAnimation from '../click-animation';
-import LBTable from '../table';
-import { leaderboardData } from '@/views/token-detail/dummy';
 import { formatNumber } from '@/utils/helpers';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useCopy from '@/hooks/useCopy';
-
-const dummyUser: ILBLeaderboardUser = {
-  name: 'Choco',
-  avatar: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723895/Avatar_khczwg.jpg',
-  type: 'farcaster',
-  position: 1,
-};
+import useIncentiveActions from '@/store/incentive/actions';
+import { setAllLeaderboardMeta } from '@/store/incentive';
+import LBClickAnimation from '../click-animation';
+import LBTable from '../table';
+import { TableItem } from '../table/types';
+import useTruncateText from '@/hooks/useTruncateText';
 
 const LBLeaderboard = ({ variant = 'private' }: ILBLeaderboard) => {
-  const {
-    incentiveState: { tokenIncentives },
-  } = useSystemFunctions();
-
+  const [shouldFetchMoreRankings, setShouldFetchMoreRankings] = useState(false);
   const [user, setUser] = useState<ILBLeaderboardUser>();
   const [showCheckScore, setShowCheckScore] = useState(true);
   const { handleCopy } = useCopy();
   const [fullURL, setFullURL] = useState('');
+
+  const { address } = useAccount();
+  const {
+    incentiveState: { tokenIncentives, allLeaderboardMeta, allLeaderboardLoading, allLeaderboard, rankPosition },
+    dispatch,
+  } = useSystemFunctions();
+  const { truncate } = useTruncateText();
+  const { getAllLeaderboard } = useIncentiveActions();
+
+  const showShouldFetchMoreRankings = shouldFetchMoreRankings || (allLeaderboardLoading && !allLeaderboard?.ranking);
 
   const numberOfParticipants = tokenIncentives?.participants?.length || 0;
 
@@ -69,6 +73,24 @@ const LBLeaderboard = ({ variant = 'private' }: ILBLeaderboard) => {
     },
   ];
 
+  const leaderboard: TableItem[] = allLeaderboard?.ranking?.map(({ address, farcaster_username, points }) => ({
+    name: farcaster_username || truncate(address),
+    walletAvatarURL: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723895/Avatar_khczwg.jpg',
+    points,
+    userType: farcaster_username ? 'farcaster' : 'wallet',
+  }))!;
+
+  const handleFindUser = () => {
+    const obj: ILBLeaderboardUser = {
+      name: truncate(address!) || 'Choco',
+      avatar: 'https://res.cloudinary.com/dxnd4k222/image/upload/fl_preserve_transparency/v1718723895/Avatar_khczwg.jpg',
+      type: 'wallet',
+      position: rankPosition?.rank!,
+    };
+
+    setUser(obj);
+  };
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const currentURL = window.location.href;
@@ -76,7 +98,18 @@ const LBLeaderboard = ({ variant = 'private' }: ILBLeaderboard) => {
     }
   }, [window]);
 
-  const handleFindUser = () => setUser(dummyUser);
+  useEffect(() => {
+    if (!shouldFetchMoreRankings) return;
+
+    const page = allLeaderboardMeta?.page! + 1;
+    const limit = allLeaderboardMeta?.limit!;
+
+    dispatch(setAllLeaderboardMeta({ page }));
+
+    getAllLeaderboard(`page=${page}&limit=${limit}`, { onSuccess: () => setShouldFetchMoreRankings(false) });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldFetchMoreRankings]);
 
   return (
     <div
@@ -110,11 +143,18 @@ const LBLeaderboard = ({ variant = 'private' }: ILBLeaderboard) => {
       </div>
 
       <div className={classNames('pb-20 overflow-auto', { 'max-h-[50vh] ': variant === 'private', 'max-h-[80%]': variant === 'public' })}>
-        <LBTable data={leaderboardData} variant="secondaryAlt" />
+        <LBTable
+          data={leaderboard || []}
+          variant="secondaryAlt"
+          take={allLeaderboardMeta?.limit}
+          total={allLeaderboardMeta?.total}
+          setShouldFetchMore={setShouldFetchMoreRankings}
+          shouldFetchMore={showShouldFetchMoreRankings}
+        />
       </div>
 
       <AnimatePresence>
-        {showCheckScore && (
+        {showCheckScore && Boolean(leaderboard?.length) && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="min-w-full absolute bottom-0 left-0 px-[53px] pb-[30px] flex items-center justify-center">
             <div className={classNames('w-full px-3.5 py-2.5 rounded-lg border border-primary-1950 md:flex items-center justify-center md:justify-between bg-white shadow-landing-nav', { '': !user })}>
               <span className="hidden md:block px-4 py-2.5 rounded-lg border border-primary-1950 shadow-table-cta">#{user ? user.position : '??'}</span>

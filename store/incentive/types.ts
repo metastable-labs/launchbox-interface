@@ -1,3 +1,5 @@
+import { Address } from 'viem';
+
 type Metadata = {
   contract?: string;
   channel?: string;
@@ -95,4 +97,34 @@ type GetTokenIncentives = {
   updated_at: string;
   incentives: TokenIncentiveAction[];
   participants: Participants[];
+};
+
+type Ranking = {
+  points: number;
+  address: Address;
+  farcaster_username: string;
+};
+
+type AllLeaderboard = {
+  ranking: Ranking[];
+  total: number;
+};
+
+type AllLeaderboardMeta = {
+  total?: number;
+  page?: number;
+  limit?: number;
+};
+
+export type {
+  Incentive,
+  ActivateIncentiveProps,
+  DeleteIncentiveProps,
+  ActivateIncentiveResponse,
+  GetRankPosition,
+  GetSystemIncentiveChannels,
+  GetTokenIncentives,
+  Ranking,
+  AllLeaderboard,
+  AllLeaderboardMeta,
 };

@@ -75,7 +75,7 @@ const LeaderboardEntity = ({ name, type, wallet, walletAvatarURL }: ILeaderboard
   return (
     <div className="flex items-center gap-1 py-1 pl-1 pr-2 justify-center bg-primary-200 rounded-full max-w-fit">
       <Image src={imageToShow || ''} alt="avatar" width={500} height={500} className="w-4 h-4 object-cover rounded-full" />
-      <span className="text-primary-250 text-[14px] leading-[21px] font-medium">{textToShow}</span>
+      <span className="text-primary-250 text-[14px] leading-[21px] font-medium">{textToShow || '-'}</span>
     </div>
   );
 };

@@ -27,14 +27,14 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
   const { authenticated } = usePrivy();
   const { tokenState, navigate } = useSystemFunctions();
   const { getToken, getAnalytics } = useTokenActions();
-  const { getTokenIncentives } = useIncentiveActions();
+  const { getTokenIncentives, getAllLeaderboard } = useIncentiveActions();
   const { getTokenTransactions } = useTransactionActions();
   const { getTokenHolders } = useHolderActions();
   const { getChannelCasts, getChannelCastAnalytics } = useCastActions();
   const { handleCopy, hasCopied } = useCopy();
 
   const [tab, setTab] = useState<Tabs>('overview');
-  const [userRole, setUserRole] = useState<'admin' | 'user'>('user');
+  const [userRole, setUserRole] = useState<'admin' | 'user'>('admin');
 
   const { token, coinPrice } = tokenState;
 
@@ -71,6 +71,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
     getTokenHolders('take=15');
     getChannelCasts('take=15');
     getTokenIncentives();
+    getAllLeaderboard(`page=1&limit=20`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokenAddressURL, token]);
 
@@ -84,7 +85,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
   }, [coinPrice, token]);
 
   useEffect(() => {
-    if (!address || !token || !authenticated) return setUserRole('user');
+    // if (!address || !token || !authenticated) return setUserRole('user');
 
     if (address === token?.chain?.deployer_address) {
       setUserRole('admin');

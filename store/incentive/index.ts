@@ -1,6 +1,7 @@
 'use client';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { AllLeaderboard, AllLeaderboardMeta, GetRankPosition, GetSystemIncentiveChannels, GetTokenIncentives } from './types';
 
 export interface IncentiveState {
   systemIncentiveChannels?: GetSystemIncentiveChannels[];
@@ -9,6 +10,11 @@ export interface IncentiveState {
   activateIncentiveLoading: boolean;
   deleteIncentiveLoading: boolean;
   tokenIncentivesLoading: boolean;
+  allLeaderboard?: AllLeaderboard;
+  allLeaderboardMeta: AllLeaderboardMeta;
+  allLeaderboardLoading: boolean;
+  rankPosition?: GetRankPosition;
+  rankPositionLoading: boolean;
 }
 
 const initialState: IncentiveState = {
@@ -17,6 +23,14 @@ const initialState: IncentiveState = {
   activateIncentiveLoading: false,
   deleteIncentiveLoading: false,
   tokenIncentivesLoading: false,
+  allLeaderboard: undefined,
+  allLeaderboardMeta: {
+    limit: 20,
+    page: 1,
+  },
+  allLeaderboardLoading: true,
+  rankPosition: undefined,
+  rankPositionLoading: false,
 };
 
 export const incentiveReducer = createSlice({
@@ -54,9 +68,64 @@ export const incentiveReducer = createSlice({
     setTokenIncentivesLoading: (state, action: PayloadAction<boolean>) => {
       state.tokenIncentivesLoading = action.payload;
     },
+
+    setAllLeaderboard: (state, action: PayloadAction<AllLeaderboard | undefined>) => {
+      if (action.payload) {
+        state.allLeaderboard = { ...action.payload };
+      } else {
+        state.allLeaderboard = undefined;
+      }
+    },
+
+    setExtraAllLeaderboard: (state, action: PayloadAction<AllLeaderboard | undefined>) => {
+      if (action.payload) {
+        const currentRanking = state.allLeaderboard?.ranking || [];
+        state.allLeaderboard = {
+          ...action.payload,
+          ranking: [...currentRanking, ...action.payload.ranking],
+        };
+      } else {
+        state.allLeaderboard = undefined;
+      }
+    },
+
+    setAllLeaderboardMeta: (state, action: PayloadAction<AllLeaderboardMeta>) => {
+      if (action.payload) {
+        state.allLeaderboardMeta = { ...state.allLeaderboardMeta, ...action.payload };
+      }
+    },
+
+    setAllLeaderboardLoading: (state, action: PayloadAction<boolean>) => {
+      state.allLeaderboardLoading = action.payload;
+    },
+
+    setRankPosition: (state, action: PayloadAction<GetRankPosition | undefined>) => {
+      if (action.payload) {
+        state.rankPosition = { ...action.payload };
+      } else {
+        state.rankPosition = undefined;
+      }
+    },
+
+    setRankPositionLoading: (state, action: PayloadAction<boolean>) => {
+      state.rankPositionLoading = action.payload;
+    },
   },
 });
 
-export const { setActivateIncentiveLoading, setDeleteIncentiveLoading, setIncentiveChannels, setIncentiveChannelsLoading, setTokenIncentivesLoading, setTokenIncentives } = incentiveReducer.actions;
+export const {
+  setActivateIncentiveLoading,
+  setDeleteIncentiveLoading,
+  setIncentiveChannels,
+  setIncentiveChannelsLoading,
+  setTokenIncentivesLoading,
+  setTokenIncentives,
+  setAllLeaderboard,
+  setExtraAllLeaderboard,
+  setAllLeaderboardLoading,
+  setAllLeaderboardMeta,
+  setRankPosition,
+  setRankPositionLoading,
+} = incentiveReducer.actions;
 
 export default incentiveReducer.reducer;
