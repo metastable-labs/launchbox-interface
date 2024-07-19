@@ -27,7 +27,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
   const { authenticated } = usePrivy();
   const { tokenState, navigate } = useSystemFunctions();
   const { getToken, getAnalytics } = useTokenActions();
-  const { getTokenIncentives } = useIncentiveActions();
+  const { getTokenIncentives, getAllLeaderboard } = useIncentiveActions();
   const { getTokenTransactions } = useTransactionActions();
   const { getTokenHolders } = useHolderActions();
   const { getChannelCasts, getChannelCastAnalytics } = useCastActions();
@@ -71,6 +71,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
     getTokenHolders('take=15');
     getChannelCasts('take=15');
     getTokenIncentives();
+    getAllLeaderboard(`page=1&limit=20`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokenAddressURL, token]);
 
@@ -84,7 +85,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
   }, [coinPrice, token]);
 
   useEffect(() => {
-    if (!address || !token || !authenticated) return setUserRole('user');
+    // if (!address || !token || !authenticated) return setUserRole('user');
 
     if (address === token?.chain?.deployer_address) {
       setUserRole('admin');

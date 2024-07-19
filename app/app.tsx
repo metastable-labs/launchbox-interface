@@ -37,7 +37,7 @@ const Wrapper = ({ children }: { children: ReactNode }) => {
   const { getFarcasterChannels } = useSocialActions();
   const { getCoinPrice } = useTokenActions();
   const { authenticated } = usePrivy();
-  const { getSystemIncentiveChannels } = useIncentiveActions();
+  const { getSystemIncentiveChannels, getRankPosition } = useIncentiveActions();
 
   const [cookies] = useCookies(['authtoken']);
 
@@ -56,6 +56,7 @@ const Wrapper = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     getCoinPrice();
     getSystemIncentiveChannels();
+    getRankPosition();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

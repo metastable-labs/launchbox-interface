@@ -28,7 +28,7 @@ const initialState: IncentiveState = {
     limit: 20,
     page: 1,
   },
-  allLeaderboardLoading: false,
+  allLeaderboardLoading: true,
   rankPosition: undefined,
   rankPositionLoading: false,
 };
