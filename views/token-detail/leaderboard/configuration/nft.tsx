@@ -10,6 +10,7 @@ import { LBButton, LBInput, LBSwitch, LBSelect } from '@/components';
 import { networks } from '@/config/config';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useIncentiveActions from '@/store/incentive/actions';
+import { ActivateIncentiveProps } from '@/store/incentive/types';
 
 interface FormProps extends ConfigurationFormProps {
   contractAddress: string;

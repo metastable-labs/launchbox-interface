@@ -11,6 +11,7 @@ import useSystemFunctions from '@/hooks/useSystemFunctions';
 import { ExclaimIcon } from '@/public/icons';
 import SelectChannel from '../select-channel';
 import useIncentiveActions from '@/store/incentive/actions';
+import { ActivateIncentiveProps } from '@/store/incentive/types';
 
 const schema = yup.object().shape({
   castPoints: yup.string().required('cast points is required'),
