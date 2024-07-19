@@ -112,8 +112,8 @@ type AllLeaderboard = {
 
 type AllLeaderboardMeta = {
   total?: number;
-  take?: number;
-  skip?: number;
+  page?: number;
+  limit?: number;
 };
 
 export type {

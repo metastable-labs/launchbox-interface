@@ -11,7 +11,7 @@ export interface IncentiveState {
   deleteIncentiveLoading: boolean;
   tokenIncentivesLoading: boolean;
   allLeaderboard?: AllLeaderboard;
-  allLeaderboardMeta?: AllLeaderboardMeta;
+  allLeaderboardMeta: AllLeaderboardMeta;
   allLeaderboardLoading: boolean;
   rankPosition?: GetRankPosition;
   rankPositionLoading: boolean;
@@ -25,7 +25,8 @@ const initialState: IncentiveState = {
   tokenIncentivesLoading: false,
   allLeaderboard: undefined,
   allLeaderboardMeta: {
-    take: 20,
+    limit: 20,
+    page: 1,
   },
   allLeaderboardLoading: false,
   rankPosition: undefined,
@@ -88,11 +89,9 @@ export const incentiveReducer = createSlice({
       }
     },
 
-    setAllLeaderboardMeta: (state, action: PayloadAction<AllLeaderboardMeta | undefined>) => {
+    setAllLeaderboardMeta: (state, action: PayloadAction<AllLeaderboardMeta>) => {
       if (action.payload) {
-        state.allLeaderboardMeta = { ...action.payload };
-      } else {
-        state.allLeaderboardMeta = undefined;
+        state.allLeaderboardMeta = { ...state.allLeaderboardMeta, ...action.payload };
       }
     },
 

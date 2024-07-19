@@ -22,7 +22,11 @@ import { CallbackProps } from '..';
 import { ActivateIncentiveProps, DeleteIncentiveProps } from './types';
 
 const useIncentiveActions = () => {
-  const { dispatch, tokenState, incentiveState } = useSystemFunctions();
+  const {
+    dispatch,
+    tokenState,
+    incentiveState: { allLeaderboardMeta },
+  } = useSystemFunctions();
   const { address } = useAccount();
 
   const getSystemIncentiveChannels = async (callback?: CallbackProps) => {
@@ -101,7 +105,7 @@ const useIncentiveActions = () => {
 
       dispatch(setAllLeaderboardMeta({ total: data.total }));
 
-      if (incentiveState.allLeaderboardMeta?.skip === 0) {
+      if (allLeaderboardMeta?.page === 1) {
         dispatch(setAllLeaderboard(data));
       } else {
         dispatch(setAllLeaderboard(data));
