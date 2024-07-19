@@ -13,12 +13,15 @@ import useSystemFunctions from '@/hooks/useSystemFunctions';
 const Leaderboard = () => {
   const { address } = useAccount();
   const {
-    incentiveState: { systemIncentiveChannels },
+    incentiveState: { systemIncentiveChannels, tokenIncentives },
   } = useSystemFunctions();
   const { authenticated } = usePrivy();
   const { getFarcasterChannels } = useSocialActions();
   const [hasLeaderboard, setHasLeaderboard] = useState(true);
   const [showConfiguration, setShowConfiguration] = useState<string>();
+
+  const nftConfigured = tokenIncentives?.incentives?.find((item) => item.name === 'NFT');
+  const farcasterConfigured = tokenIncentives?.incentives?.find((item) => item.name === 'FARCASTER');
 
   const incentiveActions: Action[] =
     systemIncentiveChannels?.map(({ slug, name, info }) => ({
@@ -26,6 +29,7 @@ const Leaderboard = () => {
       title: name,
       description: info,
       onClick: () => setShowConfiguration(slug),
+      actionText: name === 'NFT' && nftConfigured ? 'Edit' : name === 'FARCASTER' && farcasterConfigured ? 'Edit' : 'Configure',
     })) || [];
 
   const actions: Action[] = [
@@ -33,8 +37,6 @@ const Leaderboard = () => {
     { image: '/images/audius.png', title: 'Audius', description: 'Music', comingSoon: true },
     { image: '/images/liquidity.png', title: 'Liquidity', secondaryTitle: 'Provision', description: 'Action', comingSoon: true },
   ];
-
-  const actionText = hasLeaderboard ? 'Edit' : 'Configure';
 
   useEffect(() => {
     getFarcasterChannels();
@@ -54,7 +56,7 @@ const Leaderboard = () => {
           </div>
 
           <div className="self-stretch flex flex-col">
-            {actions.map(({ comingSoon, description, image, title, secondaryTitle, onClick }, index) => (
+            {actions.map(({ comingSoon, description, image, title, secondaryTitle, onClick, actionText }, index) => (
               <div className="p-6 self-stretch flex items-center justify-between gap-2 flex-wrap rounded-[3px] border-[0.3px] border-primary-200" key={index}>
                 <div className="flex items-center gap-4 xl:max-w-[70%]">
                   <Image src={image} width={500} height={500} alt={title} className="w-[34px] h-[34px] object-cover" />

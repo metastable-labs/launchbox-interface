@@ -25,4 +25,5 @@ type Action = {
   comingSoon?: boolean;
   secondaryTitle?: string;
   loading?: boolean;
+  actionText?: string;
 };

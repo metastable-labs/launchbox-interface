@@ -8,6 +8,7 @@ import LBClickAnimation from '../click-animation';
 import LBTable from '../table';
 import { leaderboardData } from '@/views/token-detail/dummy';
 import { formatNumber } from '@/utils/helpers';
+import useSystemFunctions from '@/hooks/useSystemFunctions';
 
 const dummyUser: ILBLeaderboardUser = {
   name: 'Choco',
@@ -17,8 +18,13 @@ const dummyUser: ILBLeaderboardUser = {
 };
 
 const LBLeaderboard = ({ variant = 'private' }: ILBLeaderboard) => {
+  const {
+    incentiveState: { tokenIncentives },
+  } = useSystemFunctions();
   const [user, setUser] = useState<ILBLeaderboardUser>();
   const [showCheckScore, setShowCheckScore] = useState(true);
+
+  const numberOfParticipants = tokenIncentives?.participants?.length || 0;
 
   const actions = [
     {
@@ -27,7 +33,7 @@ const LBLeaderboard = ({ variant = 'private' }: ILBLeaderboard) => {
       items: [
         {
           icon: <UserIcon />,
-          text: `${(40_678).toLocaleString()}`,
+          text: `${numberOfParticipants.toLocaleString()}`,
           secondaryText: 'Participants',
           onClick: undefined,
         },

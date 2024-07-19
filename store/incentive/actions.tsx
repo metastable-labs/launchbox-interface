@@ -1,5 +1,7 @@
 'use client';
 
+import { toast } from 'react-toastify';
+
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import api from './api';
 import { setActivateIncentiveLoading, setDeleteIncentiveLoading, setIncentiveChannels, setIncentiveChannelsLoading, setTokenIncentives, setTokenIncentivesLoading } from '.';
@@ -51,6 +53,9 @@ const useIncentiveActions = () => {
 
       callback?.onSuccess?.();
     } catch (error: any) {
+      toast(error?.response?.data?.message || 'Failed to activate', {
+        type: 'error',
+      });
       callback?.onError?.(error);
     } finally {
       dispatch(setActivateIncentiveLoading(false));
