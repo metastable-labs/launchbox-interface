@@ -97,7 +97,7 @@ const AreaChartComponent: React.FC<IAreaChart> = ({ variant = 'primary', period 
           </linearGradient>
         </defs>
         <XAxis dataKey="timestamp" tick={{ fill: 'rgba(111, 118, 126, 0.75)', fontSize: 12 }} axisLine={false} tickLine={false} tickFormatter={(tick) => formatXAxis(tick, period)} />
-        {variant === 'primary' && <YAxis tick={{ fontSize: 12, fill: 'rgba(111, 118, 126, 0.75)' }} axisLine={false} tickLine={false} orientation="right" mirror tickFormatter={formatYAxisTick} />}
+        {variant === 'primary' && <YAxis tick={{ fontSize: 12, fill: 'rgba(111, 118, 126, 0.75)' }} axisLine={false} tickLine={false} orientation="right" tickFormatter={formatYAxisTick} />}
         <CartesianGrid stroke="#F6F8FA" vertical={false} />
         <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#EFEFEF', strokeWidth: 3 }} labelFormatter={(label) => label} />
         <Area key={period} type="monotone" dataKey="value" stroke="#018558" fill="url(#colorValue)" strokeWidth={2} clipPath="none" activeDot={{ r: 6.5, stroke: '#fff', strokeWidth: 3 }} />
