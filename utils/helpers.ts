@@ -52,23 +52,28 @@ export const formatNumber = (num: number): string => {
   return num?.toString();
 };
 
-export function convertToSubscript(number: number): string {
-  const subscriptMap: { [key: string]: string } = {
-    '0': '₀',
-    '1': '₁',
-    '2': '₂',
-    '3': '₃',
-    '4': '₄',
-    '5': '₅',
-    '6': '₆',
-    '7': '₇',
-    '8': '₈',
-    '9': '₉',
+export function convertToScript(number: number, type: 'super' | 'sub' = 'super'): string {
+  const scriptMap: {
+    [key: string]: {
+      super: string;
+      sub: string;
+    };
+  } = {
+    '0': { super: '⁰', sub: '₀' },
+    '1': { super: '¹', sub: '₁' },
+    '2': { super: '²', sub: '₂' },
+    '3': { super: '³', sub: '₃' },
+    '4': { super: '⁴', sub: '₄' },
+    '5': { super: '⁵', sub: '₅' },
+    '6': { super: '⁶', sub: '₆' },
+    '7': { super: '⁷', sub: '₇' },
+    '8': { super: '⁸', sub: '₈' },
+    '9': { super: '⁹', sub: '₉' },
   };
 
   return String(number)
     .split('')
-    .map((digit) => subscriptMap[digit])
+    .map((digit) => scriptMap[digit][type])
     .join('');
 }
 
@@ -81,7 +86,7 @@ export function formatPrice(number: number) {
 
   if (number < 1) {
     if (leadingZerosCount >= 5) {
-      const subscript = convertToSubscript(leadingZerosCount);
+      const subscript = convertToScript(leadingZerosCount);
       const [wholePart, decimalPart] = numberString.split('.');
       let significantDecimal = decimalPart.slice(leadingZerosCount);
 
