@@ -2,6 +2,7 @@ interface IConfiguration {
   show: boolean;
   close: () => void;
   variant?: string;
+  isEdit?: boolean;
 }
 
 interface SelectChannelFormProps {

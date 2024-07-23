@@ -5,16 +5,19 @@ import useSystemFunctions from '@/hooks/useSystemFunctions';
 import FarcasterConfiguration from './farcaster';
 import NFTConfiguration from './nft';
 
-const Configuration = ({ close, show, variant = 'farcaster' }: IConfiguration) => {
+const Configuration = ({ close, show, variant = 'farcaster', isEdit = false }: IConfiguration) => {
   const { socialState, tokenState } = useSystemFunctions();
   const { token } = tokenState;
 
   const channel = token?.socials?.warpcast?.channel;
 
   const hasHeader = !Boolean(socialState?.farcasterChannels?.length);
-  const title = Boolean(channel) ? 'Configure action' : 'Select a channel';
 
-  const items = [<FarcasterConfiguration close={close} key="farcaster" />, <NFTConfiguration close={close} key="nft" />];
+  let title = 'Configure action';
+  if (variant === 'farcaster' && !Boolean(channel)) title = 'Select a channel';
+  if (isEdit) title = 'Edit action';
+
+  const items = [<FarcasterConfiguration close={close} key="farcaster" isEdit={isEdit} />, <NFTConfiguration close={close} key="nft" isEdit={isEdit} />];
 
   return (
     <LBModal show={show} close={close} variant="primary" hasHeader={hasHeader} title={title}>

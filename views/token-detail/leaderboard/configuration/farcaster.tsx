@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { LBButton, LBInput, LBSwitch } from '@/components';
+import { LBButton, LBClickAnimation, LBInput, LBSwitch } from '@/components';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import { ExclaimIcon } from '@/public/icons';
 import SelectChannel from '../select-channel';
@@ -38,11 +38,11 @@ const EmptyState = ({ close }: { close: () => void }) => (
   </div>
 );
 
-const FarcasterConfiguration = ({ close }: { close: () => void }) => {
+const FarcasterConfiguration = ({ close, isEdit }: { close: () => void; isEdit?: boolean }) => {
   const [cast, setCast] = useState(false);
   const [follow, setFollow] = useState(false);
   const { socialState, tokenState, incentiveState } = useSystemFunctions();
-  const { activateIncentive } = useIncentiveActions();
+  const { activateIncentive, deleteIncentive } = useIncentiveActions();
   const { token } = tokenState;
 
   const {
@@ -63,6 +63,8 @@ const FarcasterConfiguration = ({ close }: { close: () => void }) => {
 
   const castPoints = watch?.('castPoints');
   const followPoints = watch?.('followPoints');
+
+  const buttonText = isEdit ? 'Save' : 'Create';
 
   const onSubmit = async (data: FarcasterConfigurationProps) => {
     const farcasterChannel = incentiveState.systemIncentiveChannels?.find((channel) => channel.slug === 'farcaster');
@@ -91,6 +93,13 @@ const FarcasterConfiguration = ({ close }: { close: () => void }) => {
     };
 
     await activateIncentive(payload, { onSuccess: close });
+  };
+
+  const onDelete = async () => {
+    const farcasterChannel = incentiveState.systemIncentiveChannels?.find((channel) => channel.slug === 'farcaster');
+    const castAction = farcasterChannel?.actions?.find((action) => action.slug === 'channel_cast');
+
+    await deleteIncentive({ action_id: castAction?.id! }, { onSuccess: () => close() });
   };
 
   useEffect(() => {
@@ -163,7 +172,13 @@ const FarcasterConfiguration = ({ close }: { close: () => void }) => {
             </div>
           </div>
 
-          <LBButton text="Create" fullWidth type="submit" disabled={!cast || !follow} />
+          <LBButton loading={incentiveState.activateIncentiveLoading} text={buttonText} fullWidth type="submit" disabled={!cast || !follow || incentiveState.activateIncentiveLoading} />
+
+          {isEdit && (
+            <LBClickAnimation className="self-stretch flex items-center justify-center" onClick={onDelete}>
+              <span className="text-primary-1050 text-center text-sm tracking-[-0.084px] font-Clash-Display font-semibold">Delete action</span>
+            </LBClickAnimation>
+          )}
         </form>
       )}
 
