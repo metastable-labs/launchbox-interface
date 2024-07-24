@@ -11,7 +11,7 @@ import ChangeIndicator from './change-indicator';
 import AreaChart from '../area-chart';
 import ClickTabs from '../tabs';
 import { IView } from './types';
-import { formatAmount, formatCurrency, getTokenLink } from '@/utils/helpers';
+import { appearAnimation, formatAmount, formatCurrency, getTokenLink } from '@/utils/helpers';
 
 type MobileTabs = 'info' | 'chart+txns' | 'buy/sell';
 const mobileTabs: MobileTabs[] = ['info', 'chart+txns', 'buy/sell'];
@@ -32,7 +32,7 @@ const MobileView = ({
 
   const [tab, setTab] = useState<SecondaryTabs>('transactions');
   const [mobileTab, setMobileTab] = useState<MobileTabs>('info');
-  const { token } = tokenState;
+  const { token, loading } = tokenState;
 
   const change = -12.34;
 
@@ -116,9 +116,15 @@ const MobileView = ({
 
       <div className="px-6 flex flex-col gap-3 self-stretch">
         <div className="flex flex-col self-stretch gap-2 items-start">
-          <div className="text-primary-150 text-[30px] leading-[150%] font-semibold tracking-[-0.9px] font-Clash-Display">
-            $<span>{whole}</span>.<span className="text-primary-750">{decimal}</span>
-          </div>
+          <AnimatePresence mode="popLayout">
+            {loading ? (
+              <motion.div {...appearAnimation} key="loader" className="w-[200px] h-[50px] bg-primary-200 rounded-[3px]" />
+            ) : (
+              <motion.div {...appearAnimation} key="price" className="text-primary-150 text-[30px] leading-[150%] font-medium tracking-[-0.9px] font-Clash-Display">
+                $<span>{whole}</span>.<span className="text-primary-750">{decimal}</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           <ChangeIndicator change={change} />
         </div>

@@ -148,3 +148,9 @@ export function formatPrice(number: number) {
     value: `0.00`,
   };
 }
+
+export const appearAnimation = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+};
