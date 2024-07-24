@@ -80,6 +80,7 @@ import TrendIcon from './trend-icon';
 import TokenIcon from './token-icon';
 import ExternalLinkAltIcon from './external-link-alt-icon';
 import TelegramIcon from './telegram-icon';
+import PlayIcon from './play-icon';
 
 export {
   LaunchIcon,
@@ -164,4 +165,5 @@ export {
   TrendIcon,
   ExternalLinkAltIcon,
   TelegramIcon,
+  PlayIcon,
 };
