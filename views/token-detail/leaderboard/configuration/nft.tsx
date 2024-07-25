@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { LBButton, LBInput, LBSwitch, LBSelect } from '@/components';
+import { LBButton, LBInput, LBSwitch, LBSelect, LBClickAnimation } from '@/components';
 import { networks } from '@/config/config';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useIncentiveActions from '@/store/incentive/actions';
@@ -21,10 +21,10 @@ const schema = yup.object().shape({
   points: yup.string().required('Points is required'),
 });
 
-const NFTConfiguration = ({ close }: { close: () => void }) => {
+const NFTConfiguration = ({ close, isEdit }: { close: () => void; isEdit?: boolean }) => {
   const [holders, setHolders] = useState(false);
   const { incentiveState } = useSystemFunctions();
-  const { activateIncentive } = useIncentiveActions();
+  const { activateIncentive, deleteIncentive } = useIncentiveActions();
   const {
     handleSubmit,
     register,
@@ -39,6 +39,8 @@ const NFTConfiguration = ({ close }: { close: () => void }) => {
   const chainOptions = networks.map(({ variant, chainId, icon }) => ({ text: variant as string, value: `${chainId}`, icon: icon, id: `${chainId}` }));
 
   const points = watch?.('points');
+
+  const buttonText = isEdit ? 'Save' : 'Create';
 
   const onSubmit = async (data: FormProps) => {
     const nftChannel = incentiveState.systemIncentiveChannels?.find((channel) => channel.slug === 'nft');
@@ -58,6 +60,13 @@ const NFTConfiguration = ({ close }: { close: () => void }) => {
     };
 
     await activateIncentive(payload, { onSuccess: close });
+  };
+
+  const onDelete = async () => {
+    const farcasterChannel = incentiveState.systemIncentiveChannels?.find((channel) => channel.slug === 'farcaster');
+    const castAction = farcasterChannel?.actions?.find((action) => action.slug === 'channel_cast');
+
+    await deleteIncentive({ action_id: castAction?.id! }, { onSuccess: () => close() });
   };
 
   useEffect(() => {
@@ -102,7 +111,13 @@ const NFTConfiguration = ({ close }: { close: () => void }) => {
         </div>
       </div>
 
-      <LBButton loading={incentiveState.activateIncentiveLoading} text="Create" fullWidth type="submit" disabled={!holders || incentiveState.activateIncentiveLoading} />
+      <LBButton loading={incentiveState.activateIncentiveLoading} text={buttonText} fullWidth type="submit" disabled={!holders || incentiveState.activateIncentiveLoading} />
+
+      {isEdit && (
+        <LBClickAnimation className="self-stretch flex items-center justify-center" onClick={onDelete}>
+          <span className="text-primary-1050 text-center text-sm tracking-[-0.084px] font-Clash-Display font-semibold">Delete action</span>
+        </LBClickAnimation>
+      )}
     </form>
   );
 };

@@ -17,7 +17,7 @@ const Leaderboard = () => {
   } = useSystemFunctions();
   const { authenticated } = usePrivy();
   const { getFarcasterChannels } = useSocialActions();
-  const [hasLeaderboard, setHasLeaderboard] = useState(true);
+  const [hasLeaderboard, setHasLeaderboard] = useState(false);
   const [showConfiguration, setShowConfiguration] = useState<string>();
 
   const nftConfigured = tokenIncentives?.incentives?.find((item) => item.name === 'NFT');
@@ -38,10 +38,16 @@ const Leaderboard = () => {
     { image: '/images/liquidity.png', title: 'Liquidity', secondaryTitle: 'Provision', description: 'Action', comingSoon: true },
   ];
 
+  const isEdit = (showConfiguration === 'nft' && Boolean(nftConfigured)) || (showConfiguration === 'farcaster' && Boolean(farcasterConfigured));
+
   useEffect(() => {
     getFarcasterChannels();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, authenticated]);
+
+  useEffect(() => {
+    if (nftConfigured || farcasterConfigured) setHasLeaderboard(true);
+  }, [nftConfigured, farcasterConfigured]);
   return (
     <>
       <div className={classNames('flex flex-col lg:flex-row gap-6 lg:gap-3.5 pb-10', {})}>
@@ -111,7 +117,7 @@ const Leaderboard = () => {
         </div>
       </div>
 
-      <Configuration close={() => setShowConfiguration(undefined)} show={Boolean(showConfiguration)} variant={showConfiguration} />
+      <Configuration close={() => setShowConfiguration(undefined)} show={Boolean(showConfiguration)} variant={showConfiguration} isEdit={isEdit} />
     </>
   );
 };

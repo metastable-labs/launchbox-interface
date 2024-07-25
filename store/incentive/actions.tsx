@@ -88,6 +88,9 @@ const useIncentiveActions = () => {
 
       await api.deleteIncentive(tokenState.token?.id, data);
 
+      toast('Incentive deleted successfully', {
+        type: 'success',
+      });
       callback?.onSuccess?.();
     } catch (error: any) {
       callback?.onError?.(error);
