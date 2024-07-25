@@ -1,4 +1,5 @@
 'use client';
+import { toast } from 'react-toastify';
 
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import api from './api';
@@ -74,8 +75,18 @@ const useBuilderActions = () => {
 
       const response = await api.updateBuilderData(data, tokenId);
 
+      toast('Successfully Published', {
+        type: 'info',
+        className: 'w-fit',
+      });
+
       callback?.onSuccess?.(response);
     } catch (error: any) {
+      console.log(error);
+      toast(error.response.data.message || 'Something went wrong. Try again later!', {
+        type: 'error',
+        className: 'w-fit',
+      });
       callback?.onError?.(error);
     } finally {
       dispatch(setUpdateLoading(false));

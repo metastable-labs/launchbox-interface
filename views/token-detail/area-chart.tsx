@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import moment from 'moment';
+import Image from 'next/image';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ResponsiveContainer, AreaChart, XAxis, YAxis, CartesianGrid, Tooltip, TooltipProps, Area } from 'recharts';
 import { ValueType, NameType } from 'recharts/types/component/DefaultTooltipContent';
 
@@ -79,16 +81,8 @@ const AreaChartComponent: React.FC<IAreaChart> = ({ variant = 'primary', period 
 
   const loading = (loadingAnalytics && !tokenState.analytics) || loadingCastAnalytics;
 
-  if (loading) {
-    return (
-      <div className="w-full h-full flex items-center justify-center">
-        <LoadingStroke />
-      </div>
-    );
-  }
-
-  return (
-    <ResponsiveContainer width="100%" height="100%">
+  const items = [
+    <ResponsiveContainer key="chart" width="100%" height="100%">
       <AreaChart key={period} data={data?.map((d) => ({ ...d, value: parseFloat(d.value) }))}>
         <defs>
           <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
@@ -97,12 +91,22 @@ const AreaChartComponent: React.FC<IAreaChart> = ({ variant = 'primary', period 
           </linearGradient>
         </defs>
         <XAxis dataKey="timestamp" tick={{ fill: 'rgba(111, 118, 126, 0.75)', fontSize: 12 }} axisLine={false} tickLine={false} tickFormatter={(tick) => formatXAxis(tick, period)} />
-        {variant === 'primary' && <YAxis tick={{ fontSize: 12, fill: 'rgba(111, 118, 126, 0.75)' }} axisLine={false} tickLine={false} orientation="right" mirror tickFormatter={formatYAxisTick} />}
+        {variant === 'primary' && <YAxis tick={{ fontSize: 12, fill: 'rgba(111, 118, 126, 0.75)' }} axisLine={false} tickLine={false} orientation="right" tickFormatter={formatYAxisTick} />}
         <CartesianGrid stroke="#F6F8FA" vertical={false} />
         <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#EFEFEF', strokeWidth: 3 }} labelFormatter={(label) => label} />
         <Area key={period} type="monotone" dataKey="value" stroke="#018558" fill="url(#colorValue)" strokeWidth={2} clipPath="none" activeDot={{ r: 6.5, stroke: '#fff', strokeWidth: 3 }} />
       </AreaChart>
-    </ResponsiveContainer>
+    </ResponsiveContainer>,
+
+    <Image key="loader" src="/images/chart-loader.png" quality={100} width={200} height={200} alt="Loading chart" className="animate-pulse w-full h-full" />,
+  ];
+
+  return (
+    <AnimatePresence mode="popLayout">
+      <motion.div key={loading ? 'loader' : 'chart'} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }} className="w-full h-full">
+        {items[+loading]}
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

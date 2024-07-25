@@ -53,6 +53,7 @@ const BuilderView = ({ tokenId }: { tokenId: string }) => {
     saveActive,
     setDisplay: setDisplayType,
     displayType,
+    tokenId,
   };
 
   const customisingInterfaceData = {

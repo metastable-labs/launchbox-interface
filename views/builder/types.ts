@@ -10,4 +10,5 @@ interface HeaderProps {
   publish: () => void;
   publishActive: boolean;
   externalLink: string;
+  tokenId: string;
 }

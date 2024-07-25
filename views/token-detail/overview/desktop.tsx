@@ -11,7 +11,7 @@ import AreaChart from '../area-chart';
 import ClickTabs from '../tabs';
 import { IView } from './types';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
-import { formatAmount, formatCurrency, getTokenLink } from '@/utils/helpers';
+import { appearAnimation, formatAmount, formatCurrency, getTokenLink } from '@/utils/helpers';
 
 const DesktopView = ({
   liquidityData,
@@ -29,7 +29,7 @@ const DesktopView = ({
 
   const [tab, setTab] = useState<SecondaryTabs>('transactions');
 
-  const { token } = tokenState;
+  const { token, loading } = tokenState;
   const change = 12.34;
 
   const { whole, decimal } = formatCurrency(token?.price, 7);
@@ -121,9 +121,15 @@ const DesktopView = ({
 
           <div className="px-6 flex flex-col gap-3 self-stretch font-Aeonik">
             <div className="flex flex-col self-stretch gap-2 items-start">
-              <div className="text-primary-150 text-[48px] leading-[56px] font-medium tracking-[-1.44px] font-Clash-Display">
-                $<span>{whole}</span>.<span className="text-primary-750">{decimal}</span>
-              </div>
+              <AnimatePresence mode="popLayout">
+                {loading ? (
+                  <motion.div {...appearAnimation} key="loader" className="w-[200px] h-[50px] bg-primary-200 rounded-[3px]" />
+                ) : (
+                  <motion.div {...appearAnimation} key="price" className="text-primary-150 text-[48px] leading-[56px] font-medium tracking-[-1.44px] font-Clash-Display">
+                    $<span>{whole}</span>.<span className="text-primary-750">{decimal}</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               <ChangeIndicator change={change} />
             </div>

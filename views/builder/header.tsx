@@ -1,12 +1,16 @@
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import classNames from 'classnames';
+import { debounce } from 'lodash';
 
 import { LBClickAnimation } from '@/components';
-import { BackIcon, CloseAltIcon, DesktopIcon, ExternalLinkIcon, PhoneIcon } from '@/public/icons';
+import { BackIcon, CloseAltIcon, DesktopIcon, ExternalLinkIcon, PhoneIcon, PlayIcon } from '@/public/icons';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 
-const Header = ({ externalLink, hideCoustomize, shouldHideCustomize, publish, publishActive, save, saveActive, setDisplay, displayType }: HeaderProps) => {
-  const { builderState } = useSystemFunctions();
+const Header = ({ externalLink, hideCoustomize, shouldHideCustomize, publish, publishActive, save, saveActive, setDisplay, displayType, tokenId }: HeaderProps) => {
+  const { builderState, navigate } = useSystemFunctions();
+  const [debouncedHideCustomize, setDebouncedHideCustomize] = useState(() => debounce(hideCoustomize, 300));
+
   const icons = [<CloseAltIcon key={1} />, <BackIcon key={0} />];
   const displays = [
     {
@@ -26,10 +30,31 @@ const Header = ({ externalLink, hideCoustomize, shouldHideCustomize, publish, pu
     { actionText: 'Publish', onClick: publish, active: publishActive },
   ];
 
+  const handleBack = () => {
+    if (shouldHideCustomize) {
+      return debouncedHideCustomize();
+    }
+
+    if (window.history.length > 1) {
+      navigate.back();
+    } else {
+      navigate.push(`/${tokenId}`);
+    }
+  };
+
+  useEffect(() => {
+    const debounced = debounce(hideCoustomize, 200);
+    setDebouncedHideCustomize(() => debounced);
+
+    return () => {
+      debounced.cancel();
+    };
+  }, [hideCoustomize]);
+
   return (
     <header className="fixed w-screen h-16 z-30 flex justify-between items-center px-5 md:px-8 border-b border-b-primary-50 bg-primary-3300 font-Clash-Display">
       <div className="flex items-center justify-center gap-4">
-        <LBClickAnimation onClick={hideCoustomize} className="p-2 border border-primary-1950 shadow-table-cta bg-white rounded-lg flex, items-center justify-center">
+        <LBClickAnimation onClick={handleBack} className="p-2 border border-primary-1950 shadow-table-cta bg-white rounded-lg flex, items-center justify-center">
           <AnimatePresence mode="popLayout">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} key={shouldHideCustomize ? 0 : 1}>
               {icons[shouldHideCustomize ? 0 : 1]}
@@ -37,7 +62,7 @@ const Header = ({ externalLink, hideCoustomize, shouldHideCustomize, publish, pu
           </AnimatePresence>
         </LBClickAnimation>
 
-        <AnimatePresence mode="popLayout">
+        <AnimatePresence mode="wait">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -64,6 +89,15 @@ const Header = ({ externalLink, hideCoustomize, shouldHideCustomize, publish, pu
       </div>
 
       <div className="flex items-center justify-center gap-2">
+        <LBClickAnimation
+          onClick={debouncedHideCustomize}
+          className={classNames('p-3 border border-primary-1950 shadow-table-cta rounded-lg flex, items-center justify-center', {
+            'bg-primary-50': shouldHideCustomize,
+            'bg-white': !shouldHideCustomize,
+          })}>
+          <PlayIcon />
+        </LBClickAnimation>
+
         <a href={externalLink} target="_blank">
           <LBClickAnimation className="p-3 border border-primary-1950 shadow-table-cta bg-white rounded-lg flex, items-center justify-center">
             <ExternalLinkIcon color="#0A0D14" />
