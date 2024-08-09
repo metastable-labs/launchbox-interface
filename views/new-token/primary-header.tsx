@@ -4,7 +4,7 @@ import { LBClickAnimation } from '@/components';
 import { HomeIcon, RightCarretLightIcon } from '@/public/icons';
 
 const PrimaryHeader = () => (
-  <div className="pb-5 self-stretch items-center border-b border-primary-950 font-Clash-Display">
+  <div className="pb-5 self-stretch items-center border-b border-primary-950 font-Clash-Display sticky top-0 bg-[#fffef7]">
     <div className="w-full flex justify-start items-center gap-3 text-primary-700 text-sm font-medium">
       <Link href={'/'}>
         <LBClickAnimation>

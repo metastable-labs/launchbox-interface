@@ -28,10 +28,10 @@ const SwitchIcon = ({ switched, onClick }: ISwitchIcon) => {
   );
 };
 
-const LBSwitch = ({ instruction, onClick, switched, title, hasBorder = true }: ILBSwitch) => {
+const LBSwitch = ({ instruction, onClick, switched, title, hasBorder = true, disabled }: ILBSwitch) => {
   return (
     <div className={classNames('self-stretch flex flex-col items-start justify-center gap-1', { 'px-6 -mx-6 pb-3 border-b border-b-primary-50': hasBorder })}>
-      <div className="flex items-center justify-center gap-2">
+      <div className={classNames('flex items-center justify-center gap-2', { 'pointer-events-none opacity-50': disabled })}>
         <SwitchIcon switched={switched} onClick={onClick} />
         <span className="text-primary-150 text-sm font-medium tracking-[-0.084px]">{title}</span>
       </div>

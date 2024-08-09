@@ -20,6 +20,7 @@ export interface TokenState {
   oneDayAnalytics?: Analytics;
   oneWeekAnalytics?: Analytics;
   oneMonthAnalytics?: Analytics;
+  slugVerificationLoading?: boolean;
 }
 
 const initialState: TokenState = {
@@ -39,6 +40,7 @@ const initialState: TokenState = {
   oneWeekAnalytics: undefined,
   oneMonthAnalytics: undefined,
   loadingAnalytics: true,
+  slugVerificationLoading: false,
 };
 
 export const tokenReducer = createSlice({
@@ -172,6 +174,10 @@ export const tokenReducer = createSlice({
       state.oneWeekAnalytics = undefined;
       state.oneMonthAnalytics = undefined;
     },
+
+    setSlugVerificationLoading: (state, action: PayloadAction<boolean>) => {
+      state.slugVerificationLoading = action.payload;
+    },
   },
 });
 
@@ -195,6 +201,7 @@ export const {
   setUserTokensLoading,
   setUserTokensMeta,
   resetAnalytics,
+  setSlugVerificationLoading,
 } = tokenReducer.actions;
 
 export default tokenReducer.reducer;

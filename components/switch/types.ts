@@ -9,4 +9,5 @@ interface ILBSwitch {
   title: string;
   instruction: string;
   hasBorder?: boolean;
+  disabled?: boolean;
 }

@@ -62,11 +62,11 @@ const Tokenomics = ({ tokenDistributions, tokenSymbol, tokenTotalSupply, isBuild
   const colors = ['#CAC2FF', '#C2EFFF', '#FBEDB1'];
 
   const data = {
-    labels: tokenDistributions.map((d) => d.title),
+    labels: tokenDistributions?.map((d) => d.title),
     datasets: [
       {
         label: `${tokenSymbol} Distribution`,
-        data: tokenDistributions.map((d) => d.percentage),
+        data: tokenDistributions?.map((d) => d.percentage),
         backgroundColor: ['#CAC2FF', '#C2EFFF', '#FBEDB1'],
         hoverBackgroundColor: colors,
         borderWidth: 6,
@@ -124,7 +124,7 @@ const Tokenomics = ({ tokenDistributions, tokenSymbol, tokenTotalSupply, isBuild
                 'text-[17.839px] leading-[26.758px] lg:text-[24px] lg:leading-[36px]': !isBuilder,
                 'text-[15.033px] leading-[22.55px]': isBuilder && isParentDesktop,
               })}>
-              {tokenSymbol} {tokenTotalSupply.toLocaleString()}
+              {tokenSymbol} {tokenTotalSupply?.toLocaleString()}
             </span>
           </div>
         </div>
@@ -142,7 +142,7 @@ const Tokenomics = ({ tokenDistributions, tokenSymbol, tokenTotalSupply, isBuild
             'flex items-stretch justify-start gap-[6.65px] flex-wrap max-w-[259px]': isBuilder && isParentDesktop,
             'flex flex-col items-stretch gap-[10.62px] w-full': isBuilder && isParentMobile,
           })}>
-          {tokenDistributions.map(({ percentage, title }, index) => (
+          {tokenDistributions?.map(({ percentage, title }, index) => (
             <DistributionCard color={colors[index]} key={index} percentage={percentage} title={title} isBuilder={isBuilder} isDesktop={isParentDesktop} isMobile={isParentMobile} />
           ))}
         </div>

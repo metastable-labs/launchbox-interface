@@ -1,6 +1,46 @@
 import { Address } from 'viem';
 import { FarcaterChannel } from '../social/types';
 
+type WebsiteBuilder = {
+  hero_section: {
+    title: string;
+    description: string;
+    image_url: string;
+  };
+  about_section: {
+    title: string;
+    description: string;
+    image_url: string;
+  };
+  appearance: {
+    primary_color: string;
+    secondary_color: string;
+  };
+  navigation: {
+    buy_url: string;
+    logo_url: string;
+  };
+  tokenomics: {
+    'Launchbox fee': string;
+    'Community Incentives': string;
+    'Fair Launch': string;
+  };
+  faq: {
+    title: string;
+    description: string;
+    questions: {
+      title: string;
+      answer: string;
+    }[];
+  };
+  footer: {
+    twitter_url: string;
+    farcaster_url: string;
+    telegram_url: string;
+    chain_explorer_url: string;
+  };
+};
+
 type Token = {
   id: string;
   token_name: string;
@@ -10,6 +50,7 @@ type Token = {
   token_total_supply: number;
   token_logo_url: string;
   create_token_page: boolean;
+  create_token_page_slug: string;
   warpcast_channel_link: string;
   website_url: string;
   twitter_url: string;
@@ -26,6 +67,7 @@ type Token = {
     };
   };
   is_active: boolean;
+  website_builder: WebsiteBuilder;
   created_at: string;
   updated_at: string;
   market_cap: number;
@@ -45,6 +87,9 @@ type TokenData = {
   warpcast_channel_link?: string;
   website_url?: string;
   socials?: FarcaterChannel;
+  twitter_url?: string;
+  telegram_url?: string;
+  create_token_page_slug?: string;
 };
 
 type Meta = {

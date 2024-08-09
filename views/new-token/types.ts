@@ -10,6 +10,7 @@ interface FormProp {
   tokenTelegramURL?: string;
   tokenTwitterURL?: string;
   warpcastChannelId?: string;
+  tokenPageName?: string;
 }
 
 interface StepProps {
@@ -63,6 +64,9 @@ type NewTokenData = {
   tokenSupply: number;
   tokenWebsiteURL?: string | undefined;
   farcasterChannel?: FarcaterChannel;
+  tokenTelegramURL?: string | undefined;
+  tokenTwitterURL?: string | undefined;
+  tokenPageName?: string | undefined;
 };
 
 export type { StepProps, FormProp, ISwitchIcon, ISwitch, IConfirmation, IFirstBuyModal, NewTokenData };
