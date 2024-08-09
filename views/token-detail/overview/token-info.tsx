@@ -29,7 +29,7 @@ const TokenInfo = ({ userRole }: IOverview) => {
   const actions = [
     {
       icon: <LinkIcon />,
-      href: token?.website_url || 'some-url',
+      href: token?.website_url || `/landing/${token?.create_token_page_slug}`,
     },
     {
       icon: <XIcon width={20} height={20} color="#0A0D14" />,

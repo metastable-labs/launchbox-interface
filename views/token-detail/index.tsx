@@ -34,7 +34,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
   const { handleCopy, hasCopied } = useCopy();
 
   const [tab, setTab] = useState<Tabs>('overview');
-  const [userRole, setUserRole] = useState<'admin' | 'user'>('admin');
+  const [userRole, setUserRole] = useState<'admin' | 'user'>('user');
 
   const { token, coinPrice } = tokenState;
 
@@ -85,7 +85,7 @@ const TokenDetailsView = ({ tokenAddress: tokenAddressURL }: { tokenAddress: str
   }, [coinPrice, token]);
 
   useEffect(() => {
-    // if (!address || !token || !authenticated) return setUserRole('user');
+    if (!address || !token || !authenticated) return setUserRole('user');
 
     if (address === token?.chain?.deployer_address) {
       setUserRole('admin');
