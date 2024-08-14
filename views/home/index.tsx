@@ -1,10 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { debounce } from 'lodash';
+import { AnimatePresence } from 'framer-motion';
 
 import { LBBadge, LBContainer, LBError, LBModal, LBTable, LBTradeInterface } from '@/components';
-import { SearchAltIcon } from '@/public/icons';
 import useSystemFunctions from '@/hooks/useSystemFunctions';
 import useTokenActions from '@/store/token/actions';
 import { Token } from '@/store/token/types';
@@ -14,12 +12,12 @@ import { setMeta as setTransactionsMeta, setTransactions } from '@/store/transac
 import { setMeta as setHoldersMeta, setHolders } from '@/store/holder';
 import { formatAmount } from '@/utils/helpers';
 import { resetCastAnalytics } from '@/store/casts';
+import SearchComponent from './search';
 
 const HomeView = () => {
   const { navigate, tokenState, dispatch } = useSystemFunctions();
   const { getTokens } = useTokenActions();
 
-  const [searchTerm, setSearchTerm] = useState('');
   const [activeToken, setActiveToken] = useState<Token>();
   const [shouldFetchMore, setShouldFetchMore] = useState(false);
   const [showErrorState, setShowErrorState] = useState(false);
@@ -40,16 +38,7 @@ const HomeView = () => {
     wallet: token.token_address,
   }));
 
-  const debouncedSetSearchTerm = debounce((term) => {
-    setSearchTerm(term);
-  }, 300);
-
   const showShouldFetchMore = tokens && tokens.length > 0 ? false : shouldFetchMore || (loading && !tokens);
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    debouncedSetSearchTerm(value);
-  };
 
   const cta = (id: string) => {
     const token = tokens?.find((token) => token.id === id);
@@ -74,11 +63,6 @@ const HomeView = () => {
     setShowErrorState(false);
     getTokens('take=20', { onError: () => setShowErrorState(true) });
   };
-
-  useEffect(() => {
-    // getTokens(`take=50&search=${searchTerm}`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setSearchTerm]);
 
   useEffect(() => {
     if (!shouldFetchMore) return;
@@ -118,23 +102,7 @@ const HomeView = () => {
               <p className="text-primary-700">Tokens launched will be updated here in realtime</p>
             </div>
 
-            <AnimatePresence>
-              {Boolean(tableData?.length) && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="flex items-center justify-center gap-2 min-w-80 px-3 py-2 rounded-lg border border-primary-1950 bg-white shadow-table-cta">
-                  <SearchAltIcon />
-                  <input
-                    type="text"
-                    placeholder="Search by token or contract..."
-                    className="w-full text-primary-2200 text-[14px] leading-[24px] bg-transparent outline-none"
-                    onChange={handleSearchChange}
-                  />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <AnimatePresence>{Boolean(tableData?.length) && <SearchComponent />}</AnimatePresence>
           </div>
         </LBContainer>
       </div>

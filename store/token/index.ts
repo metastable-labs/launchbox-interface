@@ -20,6 +20,8 @@ export interface TokenState {
   oneDayAnalytics?: Analytics;
   oneWeekAnalytics?: Analytics;
   oneMonthAnalytics?: Analytics;
+  searchedTokens: Token[] | undefined;
+  searchLoading: boolean;
 }
 
 const initialState: TokenState = {
@@ -39,6 +41,8 @@ const initialState: TokenState = {
   oneWeekAnalytics: undefined,
   oneMonthAnalytics: undefined,
   loadingAnalytics: true,
+  searchedTokens: undefined,
+  searchLoading: false,
 };
 
 export const tokenReducer = createSlice({
@@ -172,6 +176,18 @@ export const tokenReducer = createSlice({
       state.oneWeekAnalytics = undefined;
       state.oneMonthAnalytics = undefined;
     },
+
+    setSearchLoading: (state, action: PayloadAction<boolean>) => {
+      state.searchLoading = action.payload;
+    },
+
+    setSearchedTokens: (state, action: PayloadAction<Token[] | undefined>) => {
+      if (action.payload) {
+        state.searchedTokens = [...action.payload];
+      } else {
+        state.searchedTokens = undefined;
+      }
+    },
   },
 });
 
@@ -195,6 +211,8 @@ export const {
   setUserTokensLoading,
   setUserTokensMeta,
   resetAnalytics,
+  setSearchLoading,
+  setSearchedTokens,
 } = tokenReducer.actions;
 
 export default tokenReducer.reducer;

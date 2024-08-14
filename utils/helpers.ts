@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const getTokenLink = (id: number, hash?: string): { title: string; url: string } => {
   if (!hash) return { title: '', url: '' };
 
@@ -153,4 +155,21 @@ export const appearAnimation = {
   initial: { opacity: 0 },
   animate: { opacity: 1 },
   exit: { opacity: 0 },
+};
+
+export const formatDateDifference = (date: string) => {
+  const startDate = moment(date);
+  const endDate = moment();
+
+  const years = endDate.diff(startDate, 'years');
+  startDate.add(years, 'years');
+
+  const months = endDate.diff(startDate, 'months');
+  startDate.add(months, 'months');
+
+  const days = endDate.diff(startDate, 'days');
+
+  const formattedString = `${years ? years + 'y ' : ''}${months ? months + 'mo ' : ''}${days ? days + 'd' : ''}`.trim();
+
+  return formattedString || '0d';
 };
