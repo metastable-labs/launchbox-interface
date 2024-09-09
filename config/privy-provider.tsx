@@ -26,7 +26,7 @@ const queryClient = new QueryClient();
 
 const Provider = ({ children }: { children: ReactNode }) => {
   return (
-    <PrivyProvider appId="clxxhoovx0c2i12zi4i7rzmx4" config={privyConfig}>
+    <PrivyProvider appId="clzqsbb0e01ftbfl2tj0jey3u" config={privyConfig}>
       <QueryClientProvider client={queryClient}>
         <WagmiProvider config={wagmiConfig} reconnectOnMount={false}>
           {children}
