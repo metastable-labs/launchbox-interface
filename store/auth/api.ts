@@ -21,7 +21,7 @@ type IAuth = {
 const auth: IAuth = {
   login: async (token: string): Promise<Response> => {
     const response = await axios.post(
-      `https://api.supermigrate.xyz/v1/launchbox/auth`,
+      `https://api.supermigrate.xyz/v1/shared/auth`,
       {},
       {
         headers: {
