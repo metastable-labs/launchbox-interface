@@ -27,6 +27,7 @@ const schema = yup.object().shape({
   tokenTelegramURL: yup.string(),
   tokenTwitterURL: yup.string(),
   warpcastChannelId: yup.string(),
+  tokenPageName: yup.string(),
 });
 
 const ensureHttps = (url: string): string => {
@@ -42,6 +43,7 @@ const NewTokenView = () => {
   const { address, chainId } = useAccount();
   const { authenticated } = usePrivy();
   const { getFarcasterChannels } = useSocialActions();
+
   const [step, setStep] = useState(0);
   const [newTokenData, setNewTokenData] = useState<NewTokenData>();
   const [createTokenPage, setCreateTokenPage] = useState(false);
@@ -53,6 +55,7 @@ const NewTokenView = () => {
     handleSubmit,
     setValue,
     formState: { errors },
+    setFocus,
     watch,
   } = useForm<FormProp>({
     mode: 'onSubmit',
@@ -72,6 +75,13 @@ const NewTokenView = () => {
       });
     }
 
+    if (createTokenPage && data.tokenPageName && !/^[a-zA-Z0-9_]+$/.test(data.tokenPageName)) {
+      toast('Token Page Name must be one word or words separated by underscores.', {
+        type: 'error',
+      });
+      return setFocus('tokenPageName');
+    }
+
     const farcasterChannel = socialState?.farcasterChannels?.find((channel) => channel.channel_id === data?.warpcastChannelId);
 
     const formData = {
@@ -81,6 +91,9 @@ const NewTokenView = () => {
       tokenLogo: file,
       tokenWebsiteURL: ensureHttps(data.tokenWebsiteURL!) || undefined,
       farcasterChannel,
+      tokenTelegramURL: ensureHttps(data.tokenTelegramURL!) || undefined,
+      tokenTwitterURL: ensureHttps(data.tokenTwitterURL!) || undefined,
+      tokenPageName: data.tokenPageName || undefined,
     };
     setNewTokenData?.(formData);
 

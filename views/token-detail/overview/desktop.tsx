@@ -90,9 +90,9 @@ const DesktopView = ({
   ];
 
   return (
-    <div className="flex justify-between gap-3.5 sticky top-0 max-h-screen overflow-auto">
+    <div className="flex justify-between gap-3.5 sticky top-0">
       {userRole === 'user' && (
-        <div className="w-1/4 p-6 rounded-lg border border-primary-50 h-fit sticky top-0">
+        <div className="w-1/4 p-6 rounded-lg border border-primary-50 h-fit">
           <TokenInfo userRole={userRole} />
         </div>
       )}
@@ -170,7 +170,7 @@ const DesktopView = ({
         </div>
       </div>
 
-      <div className={classNames('w-1/4 sticky top-0', { 'flex flex-col gap-8 items-stretch': userRole === 'admin' })}>
+      <div className={classNames('w-1/4', { 'flex flex-col gap-8 items-stretch': userRole === 'admin' })}>
         <LBTradeInterface token={token} />
 
         {userRole === 'admin' && (

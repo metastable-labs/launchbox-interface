@@ -27,6 +27,7 @@ import {
   setOneHourAnalytics,
   setOneMonthAnalytics,
   setOneWeekAnalytics,
+  setSlugVerificationLoading,
 } from '.';
 import { CallbackProps } from '..';
 import api from './api';
@@ -107,6 +108,19 @@ const useTokenActions = () => {
       callback?.onError?.(error);
     } finally {
       dispatch(setLoading(false));
+    }
+  };
+
+  const verifyTokenSlug = async (slug: string, callback?: CallbackProps) => {
+    try {
+      dispatch(setSlugVerificationLoading(true));
+      const token = await api.fetchToken(slug);
+
+      return callback?.onSuccess?.(token);
+    } catch (error: any) {
+      return callback?.onError?.(error);
+    } finally {
+      dispatch(setSlugVerificationLoading(false));
     }
   };
 
@@ -337,6 +351,18 @@ const useTokenActions = () => {
         formData.append('socials', channel);
       }
 
+      if (deployData?.twitter_url) {
+        formData.append('twitter_url', deployData?.twitter_url!);
+      }
+
+      if (deployData?.telegram_url) {
+        formData.append('telegram_url', deployData?.telegram_url!);
+      }
+
+      if (deployData?.create_token_page_slug) {
+        formData.append('create_token_page_slug', deployData?.create_token_page_slug!);
+      }
+
       let chain = {
         id: chainId,
         name: 'base',
@@ -452,6 +478,7 @@ const useTokenActions = () => {
     sellTokens,
     getCoinPrice,
     getAnalytics,
+    verifyTokenSlug,
   };
 };
 

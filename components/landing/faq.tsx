@@ -105,7 +105,7 @@ const FAQ = ({ faqDescription, faqTitle, faqs, isBuilder, isDesktop, isMobile }:
             '': isBuilder && isDesktop,
             '': isBuilder && isMobile,
           })}>
-          {faqs.map((faq, index) => (
+          {faqs?.map((faq, index) => (
             <Faq key={index} {...faq} current={current === index} onClick={() => setCurrent(index)} isBuilder={isBuilder} isDesktop={isDesktop} isMobile={isMobile} />
           ))}
         </div>

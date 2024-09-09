@@ -60,6 +60,7 @@ const Step3 = ({ tokenData, setDisableHeader }: StepProps) => {
         logo: tokenData?.tokenLogo!,
         website_url: tokenData?.tokenWebsiteURL!,
         socials: tokenData?.farcasterChannel,
+        create_token_page_slug: tokenData?.tokenPageName!,
       },
       {
         onError: () => {
