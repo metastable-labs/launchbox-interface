@@ -27,6 +27,8 @@ import {
   setOneHourAnalytics,
   setOneMonthAnalytics,
   setOneWeekAnalytics,
+  setSearchLoading,
+  setSearchedTokens,
 } from '.';
 import { CallbackProps } from '..';
 import api from './api';
@@ -393,6 +395,20 @@ const useTokenActions = () => {
     }
   };
 
+  const getSearchedTokens = async (query: string, callback?: CallbackProps) => {
+    try {
+      dispatch(setSearchLoading(true));
+      const { tokens } = await api.fetchTokens(query);
+
+      dispatch(setSearchedTokens(tokens));
+      return callback?.onSuccess?.(tokens);
+    } catch (error: any) {
+      callback?.onError?.(error);
+    } finally {
+      dispatch(setSearchLoading(false));
+    }
+  };
+
   useEffect(() => {
     _submitData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -452,6 +468,7 @@ const useTokenActions = () => {
     sellTokens,
     getCoinPrice,
     getAnalytics,
+    getSearchedTokens,
   };
 };
 
